@@ -1,0 +1,12 @@
+thead{
+    background-color: #212529;
+    color: white;
+}
+
+.dataTables_wrapper{
+    background-color: white;
+    margin-bottom: 1px;
+    width: 80%;
+    margin-top: 2rem;
+    margin-right: 0px !important;
+}
