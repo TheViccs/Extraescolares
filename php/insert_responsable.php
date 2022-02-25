@@ -1,11 +1,11 @@
 <?php
 include('conexion.php');
 
-$id = $_POST['id'];
+$clave = $_POST['clave'];
 $nombre = $_POST['nombre'];
 $correo = $_POST['correo'];
 
-$sql=("CALL insert_responsable('".$id."','".$nombre."','".$correo."')");
+$sql=("CALL sp_insert_responsable('".$clave."','".$nombre."','".$correo."')");
 $result = mysqli_query($conn,$sql);
 if($result){
     echo "1";

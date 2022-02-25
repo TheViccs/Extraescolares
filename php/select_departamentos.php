@@ -1,7 +1,7 @@
 <?php
 
 include('conexion.php');
-$sql=("CALL select_departamentos()");
+$sql=("CALL sp_select_departamentos()");
 $result = mysqli_query($conn,$sql);
 if($result){
     $emparray = array();

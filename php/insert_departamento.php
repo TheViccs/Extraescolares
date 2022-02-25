@@ -1,12 +1,12 @@
 <?php
 include('conexion.php');
 
-$id = $_POST['id'];
+$clave = $_POST['clave'];
 $nombre = $_POST['nombre'];
 $ubicacion = $_POST['ubicacion'];
 $extension = $_POST['extension'];
 
-$sql=("CALL insert_departamento('".$id."','".$nombre."','".$ubicacion."','".$extension."')");
+$sql=("CALL sp_insert_departamento('".$clave."','".$nombre."','".$ubicacion."','".$extension."')");
 $result = mysqli_query($conn,$sql);
 if($result){
     echo "1";

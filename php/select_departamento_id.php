@@ -1,9 +1,9 @@
 <?php
 include('conexion.php');
 
-$id_departamento = $_POST['id_departamento'];
+$id_d = $_POST['id_departamento'];
 
-$sql=("CALL select_departamento_id(".$id_departamento.")");
+$sql=("CALL sp_select_departamento_id(".$id_d.")");
 $result = mysqli_query($conn,$sql);
 if($result){
     $emparray = array();
