@@ -1,0 +1,39 @@
+
+
+#formulario_responsable{
+    height: 180px;
+    width: 400px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    
+
+    
+}
+
+#id_responsable{
+    height: 50px;
+    width: 400px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+}
+#nombre_responsable{
+    height: 50px;
+    width: 400px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+
+}
+
+#email_responsable{
+    height: 50px;
+    width: 400px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+}

@@ -99,7 +99,7 @@ $('#tabla-departamentos').DataTable({
 
 //SELECT DE DEPARTAMENTOS
 function select_departamentos(){
-    $.ajax({
+   $.ajax({
         type: "GET",
         url: "./php/select_departamentos.php",                           
         success: function(res){    
