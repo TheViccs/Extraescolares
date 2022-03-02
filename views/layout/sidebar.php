@@ -8,18 +8,24 @@
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
                 <a href="http://localhost/extraescolares/views/modules/admin/departamentos.php" class="nav-link text-white" aria-current="page">
-                    Gestionar departamentos
+                    Gestionar Departamentos
                 </a>
             </li>
             <li class="nav-item">
                 <a href="http://localhost/extraescolares/views/modules/admin/programas.php" class="nav-link text-white" aria-current="page">
-                    Gestionar programas
+                    Gestionar Programas
                 </a>
             </li>
             <li class="nav-item">
                 <a href="http://localhost/extraescolares/views/modules/admin/periodos.php" class="nav-link text-white" aria-current="page">
-                    Gestionar periodos
+                    Gestionar Periodos
                 </a>
+            </li>
+            <li class="nav-item">
+                <a href="http://localhost/extraescolares/views/modules/admin/responsables.php" class="nav-link text-white" aria-current="page">
+                    Gestionar Responsables de Programas 
+                </a>
+
             </li>
         </ul>
     </div>

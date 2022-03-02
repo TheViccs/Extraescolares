@@ -233,6 +233,7 @@ function borrar_departamento(){
             if(res==="1"){
                 mostrar_alerta(1);
             }else{
+                console.log(res)
                 mostrar_alerta(3)
             }
         }
