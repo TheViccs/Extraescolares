@@ -1,47 +1,47 @@
 //FUNCIONES PARA PERIODOS
 //FUNCION PARA QUE SE AGREGUE VALOR EN EL NOMBRE DEL PERIODO
-$("#input-inicio-actividades").change(function(){
-    let mes_inicio_actividades = moment($("#input-inicio-actividades").val()).lang("es").format('ll');
+$("#input_inicio_actividades").change(function(){
+    let mes_inicio_actividades = moment($("#input_inicio_actividades").val()).lang("es").format('ll');
     let punto = mes_inicio_actividades.indexOf('.');
     let abr_inicio = mes_inicio_actividades.substring(punto-3,punto);
     abr_inicio = abr_inicio.charAt(0).toUpperCase()+abr_inicio.slice(1);
-    if($("#input-nombre-periodo").val().length <=3){
-        $("#input-nombre-periodo").val(abr_inicio);
+    if($("#input_nombre_periodo").val().length <=3){
+        $("#input_nombre_periodo").val(abr_inicio);
     }else{
-        valoranterior = $("#input-nombre-periodo").val();
-        $("#input-nombre-periodo").val(abr_inicio+valoranterior.substring(3,12));
+        valoranterior = $("#input_nombre_periodo").val();
+        $("#input_nombre_periodo").val(abr_inicio+valoranterior.substring(3,12));
     }
     
 });
 
 //FUNCION PARA QUE SE AGREGUE VALOR EN EL NOMBRE DEL PERIODO
-$("#input-fin-actividades").change(function(){
-    valoranterior = $("#input-nombre-periodo").val();
+$("#input_fin_actividades").change(function(){
+    valoranterior = $("#input_nombre_periodo").val();
     if(valoranterior.length <12){
-        let mes_fin_actividades = moment($("#input-fin-actividades").val()).lang("es").format('ll');
+        let mes_fin_actividades = moment($("#input_fin_actividades").val()).lang("es").format('ll');
         punto = mes_fin_actividades.indexOf('.');
         let abr_fin = mes_fin_actividades.substring(punto-3,punto);
         abr_fin = abr_fin.charAt(0).toUpperCase()+abr_fin.slice(1);
-        let anio = moment($("#input-inicio-actividades").val()).format('YYYY');
-        $("#input-nombre-periodo").val(valoranterior+"-"+abr_fin+" "+anio);
+        let anio = moment($("#input_inicio_actividades").val()).format('YYYY');
+        $("#input_nombre_periodo").val(valoranterior+"-"+abr_fin+" "+anio);
     }else{
-        valoranterior = $("#input-nombre-periodo").val().substring(0,3);
-        let mes_fin_actividades = moment($("#input-fin-actividades").val()).lang("es").format('ll');
+        valoranterior = $("#input_nombre_periodo").val().substring(0,3);
+        let mes_fin_actividades = moment($("#input_fin_actividades").val()).lang("es").format('ll');
         punto = mes_fin_actividades.indexOf('.');
         let abr_fin = mes_fin_actividades.substring(punto-3,punto);
         abr_fin = abr_fin.charAt(0).toUpperCase()+abr_fin.slice(1);
-        let anio = moment($("#input-inicio-actividades").val()).format('YYYY');
-        $("#input-nombre-periodo").val(valoranterior+"-"+abr_fin+" "+anio);
+        let anio = moment($("#input_inicio_actividades").val()).format('YYYY');
+        $("#input_nombre_periodo").val(valoranterior+"-"+abr_fin+" "+anio);
     }
 });
 
 //INSERT DE PERIODO
 function insert_periodo(){
-    let nombre = $("#input-nombre-periodo").val();
-    let fecha_i_a = $("#input-inicio-actividades").val();
-    let fecha_f_a = $("#input-fin-actividades").val();
-    let fecha_i_i = $("#input-inicio-inscripciones").val();
-    let fecha_f_i = $("#input-fin-inscripciones").val();
+    let nombre = $("#input_nombre_periodo").val();
+    let fecha_i_a = $("#input_inicio_actividades").val();
+    let fecha_f_a = $("#input_fin_actividades").val();
+    let fecha_i_i = $("#input_inicio_inscripciones").val();
+    let fecha_f_i = $("#input_fin_inscripciones").val();
     if(nombre.length !== 0 && fecha_i_a.length !== 0 && fecha_f_a.length !== 0 && fecha_i_i.length !== 0 && fecha_f_i.length !== 0){
         $.ajax({
             type: "POST",
@@ -61,6 +61,15 @@ function insert_periodo(){
     }   
 }
 
+//BORRAR DATOS DE LOS INPUT DE PERIODO
+function borrar_datos_input_periodo(){
+    $("#input_nombre_periodo").val("");
+    $("#input_inicio_actividades").val("");
+    $("#input_fin_actividades").val("");
+    $("#input_inicio_inscripciones").val("");
+    $("#input_fin_inscripciones").val("");
+}
+
 //SELECT DE PERIODO
 function select_periodo(){
     $.ajax({
@@ -69,20 +78,15 @@ function select_periodo(){
         success: function(res){    
             let periodo = JSON.parse(res)[0];  
             if(moment(periodo.fecha_fin_actividades)>moment()){
-                $("#input-nombre-periodo").val(periodo.nombre);
-                $("#input-inicio-actividades").val(periodo.fecha_inicio_actividades);
-                $("#input-fin-actividades").val(periodo.fecha_fin_actividades);
-                $("#input-inicio-inscripciones").val(periodo.fecha_inicio_inscripciones);
-                $("#input-fin-inscripciones").val(periodo.fecha_fin_inscripciones);
+                $("#input_nombre_periodo").val(periodo.nombre);
+                $("#input_inicio_actividades").val(periodo.fecha_inicio_actividades);
+                $("#input_fin_actividades").val(periodo.fecha_fin_actividades);
+                $("#input_inicio_inscripciones").val(periodo.fecha_inicio_inscripciones);
+                $("#input_fin_inscripciones").val(periodo.fecha_fin_inscripciones);
             }else{
-                $("#input-nombre-periodo").val("");
-                $("#input-inicio-actividades").val("");
-                $("#input-fin-actividades").val("");
-                $("#input-inicio-inscripciones").val("");
-                $("#input-fin-inscripciones").val("");
+                borrar_datos_input_periodo();
             }
         }
     });
 }
-
 select_periodo();

@@ -21,7 +21,7 @@
         <?php include "../../../views/layout/header.php" ?>
 
         <!-- CONTENT -->
-        <div class="box w-70 d-flex flex-column align-items-center bg-white" style="width: 100% !important;">
+        <div class="d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height: calc(100% - 112px) !important; overflow-y:auto;">
             
             <!-- ALERTAS -->
             <?php include "../../../views/layout/alertas.php" ?>

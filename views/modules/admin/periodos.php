@@ -21,7 +21,7 @@
         <?php include "../../../views/layout/header.php" ?>
 
         <!-- CONTENT -->
-        <div class="box h-100 w-70 d-flex flex-column align-items-center bg-white" style="width: 100% !important;">
+        <div class="box d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height:calc(100% - 112px) !important; overflow-y:auto;">
             
             <!-- ALERTAS -->
             <?php include "../../../views/layout/alertas.php" ?>
@@ -32,77 +32,45 @@
             <!-- FORMULARIO -->
             <div class="content-form mb-4 p-3 d-flex flex-column align-items-center" style="width: 90% !important;">
                 <div class="d-flex justify-content-evenly" style="width: 100% !important;">
-                    <input id="input_id_departamento" type="text" hidden/>
+                    <input id="input_id_periodo" type="text" hidden/>
                     <div class="d-flex justify-content-between" style="width: 45% !important;">
                         <label class="text-center" style="width: 50% !important;">Fecha inicio de actividades</label>
-                        <input id="input-inicio-actividades" type="date" style="width: 50% !important;" required>
+                        <input id="input_inicio_actividades" type="date" style="width: 50% !important;" required>
                     </div>
                     <div class="d-flex justify-content-between" style="width: 45% !important;">
                         <label class="text-center" style="width: 50% !important;">Fecha fin de actividades</label>
-                        <input id="input-fin-actividades" type="date" style="width: 50% !important;" required>
+                        <input id="input_fin_actividades" type="date" style="width: 50% !important;" required>
                     </div>
                 </div>
                 <br>
                 <div class="d-flex justify-content-evenly" style="width: 100% !important;">
                     <div class="d-flex justify-content-between" style="width: 45% !important;">
                         <label class="text-center" style="width: 50% !important;">Fecha inicio de inscripciones</label>
-                        <input id="input-inicio-inscripciones" type="date" style="width: 50% !important;" required>
+                        <input id="input_inicio_inscripciones" type="date" style="width: 50% !important;" required>
                     </div>
                     <div class="d-flex justify-content-between" style="width: 45% !important;">
                         <label class="text-center" style="width: 50% !important;">Fecha fin de inscripciones</label>
-                        <input id="input-fin-inscripciones" type="date" style="width: 50% !important;" required>
+                        <input id="input_fin_inscripciones" type="date" style="width: 50% !important;" required>
                     </div>
                 </div> 
                 <br>
                 <div class="d-flex justify-content-center" style="width: 50% !important;">
                     <label class="text-center" style="width: 50% !important;">Nombre del periodo</label>
-                    <input id="input-nombre-periodo" type="text" style="width: 50% !important;" disabled required>
+                    <input id="input_nombre_periodo" type="text" style="width: 50% !important;" disabled required>
                 </div>                
             </div>
             
             <!-- BOTONES GUARDAR Y CANCELAR -->
             <div class="d-flex justify-content-evenly" style="width: 50% !important;">
                 <button class="btn btn-success" onclick="insert_periodo()">Guardar</button>
-                <button class="btn btn-danger" onclick="">Cancelar</button>
+                <button class="btn btn-danger" onclick="borrar_datos_input_periodo()">Cancelar</button>
             </div>
-            
-            <!-- TABLA -->
-            <div class="content-table d-flex justify-content-center mb-3" style="width: 90% !important;">
-                <table id="tabla-departamentos">
-                    
-                </table>
-            </div>
+
         </div>
 
         <!-- FOOTER -->
         <?php include "../../../views/layout/footer.php" ?>
 
-    </div>
-
-    <!-- MODAL BORRAR DEPARTAMENTO -->
-    <div class="modal fade" id="modal-departamento" tabindex="-1" aria-labelledby="modal-departamento-label" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal-departamento-label">Borrar departamento</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <div class="w-100">
-                        <h3>Seguro que quiere borrar el departamento?</h1>
-                        <p id="p_clave_departamento"></p>
-                        <p id="p_nombre_departamento"></p>
-                        <p id="p_ubicacion_departamento"></p>
-                        <p id="p_extension_departamento"></p>
-                        <input id="input_id_departamento_borrar" type="text" hidden/>
-                    </div>        
-                </div>
-                <div class="modal-footer d-flex justify-content-evenly">
-                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger" onclick="borrar_departamento()">Borrar</button>
-                </div>
-            </div>
-        </div>
     </div>
     <script src="../../../js/periodos.js"></script>
 </body>

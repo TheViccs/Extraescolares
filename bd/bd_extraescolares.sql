@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-03-2022 a las 01:59:17
+-- Tiempo de generación: 25-02-2022 a las 20:17:10
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -32,11 +32,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_departamento` (IN `d_id_d
 	DELETE FROM departamento WHERE id_departamento=d_id_departamento;
 END$$
 
-DROP PROCEDURE IF EXISTS `sp_delete_responsable`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_responsable` (IN `r_id_responsable` INT)  BEGIN
-	DELETE FROM responsable WHERE id_responsable=r_id_responsable;
-END$$
-
 DROP PROCEDURE IF EXISTS `sp_insert_departamento`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_departamento` (IN `d_clave` VARCHAR(10), IN `d_nombre` VARCHAR(150), IN `d_ubicacion` VARCHAR(150), IN `d_extension` VARCHAR(12))  BEGIN
 	INSERT INTO departamento(clave, nombre, ubicacion, extension) VALUES (d_clave,d_nombre,d_ubicacion,d_extension) ON DUPLICATE KEY UPDATE nombre=d_nombre, ubicacion=d_ubicacion, extension=d_extension;
@@ -52,19 +47,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_departamento_responsable`
 			INSERT INTO departamento_responsable(id_departamento,id_responsable,fecha_inicio) VALUES (d_id,r_id,NOW());
 		END IF;         		
     	END IF;
-END$$
-
-DROP PROCEDURE IF EXISTS `sp_insert_periodo`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_periodo` (IN `p_nombre` VARCHAR(12), IN `p_fecha_i_a` DATE, IN `p_fecha_f_a` DATE, IN `p_fecha_i_i` DATE, IN `p_fecha_f_i` DATE)  BEGIN
-	IF 0 = (SELECT COUNT(*) FROM periodo) THEN
-    	INSERT INTO periodo (nombre, fecha_inicio_actividades, fecha_fin_actividades, fecha_inicio_inscripciones, fecha_fin_inscripciones) VALUES (p_nombre, p_fecha_i_a, p_fecha_f_a, p_fecha_i_i, p_fecha_f_i);
-    ELSE
-    	IF(CURDATE() > (SELECT fecha_fin_actividades FROM periodo ORDER BY id_periodo DESC LIMIT 1)) THEN
-        	INSERT INTO periodo (nombre, fecha_inicio_actividades, fecha_fin_actividades, fecha_inicio_inscripciones, fecha_fin_inscripciones) VALUES (p_nombre, p_fecha_i_a, p_fecha_f_a, p_fecha_i_i, p_fecha_f_i);
-        ELSE
-        	UPDATE periodo SET nombre=p_nombre, fecha_inicio_actividades=p_fecha_i_a, fecha_fin_actividades=p_fecha_f_a, fecha_inicio_inscripciones=p_fecha_i_i, fecha_fin_inscripciones=p_fecha_f_i WHERE fecha_fin_actividades > CURDATE();
-        END IF;
-    END IF;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_responsable`$$
@@ -85,11 +67,6 @@ END$$
 DROP PROCEDURE IF EXISTS `sp_select_departamento_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_departamento_id` (IN `d_id_departamento` INT)  BEGIN
 	SELECT departamento.id_departamento, departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension, departamento_responsable.id_responsable FROM departamento LEFT JOIN departamento_responsable ON departamento.id_departamento = departamento_responsable.id_departamento WHERE departamento.id_departamento=d_id_departamento AND departamento_responsable.fecha_fin IS NULL;
-END$$
-
-DROP PROCEDURE IF EXISTS `sp_select_periodo`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_periodo` ()  BEGIN
-	SELECT * FROM periodo ORDER BY id_periodo DESC LIMIT 1;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_responsables`$$
@@ -196,13 +173,6 @@ CREATE TABLE `periodo` (
   `fecha_fin_inscripciones` date NOT NULL
 ) ;
 
---
--- Volcado de datos para la tabla `periodo`
---
-
-INSERT INTO `periodo` (`id_periodo`, `nombre`, `fecha_inicio_actividades`, `fecha_fin_actividades`, `fecha_inicio_inscripciones`, `fecha_fin_inscripciones`) VALUES
-(3, 'Mar-Mar 2022', '2022-03-01', '2022-03-02', '2022-03-01', '2022-03-02');
-
 -- --------------------------------------------------------
 
 --
@@ -296,7 +266,7 @@ ALTER TABLE `responsable`
 -- AUTO_INCREMENT de la tabla `departamento`
 --
 ALTER TABLE `departamento`
-  MODIFY `id_departamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id_departamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT de la tabla `periodo`

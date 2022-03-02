@@ -7,12 +7,12 @@
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
-                <a href="http://localhost/extraescolares/views/modules/admin/departamentos.php" class="nav-link white active" aria-current="page">
+                <a href="http://localhost/extraescolares/views/modules/admin/departamentos.php" class="nav-link text-white" aria-current="page">
                     Gestionar departamentos
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link text-white" aria-current="page">
+                <a href="http://localhost/extraescolares/views/modules/admin/programas.php" class="nav-link text-white" aria-current="page">
                     Gestionar programas
                 </a>
             </li>
