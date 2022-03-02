@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-03-2022 a las 01:59:17
+-- Tiempo de generación: 02-03-2022 a las 18:38:46
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -84,12 +84,17 @@ END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_departamento_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_departamento_id` (IN `d_id_departamento` INT)  BEGIN
-	SELECT departamento.id_departamento, departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension, departamento_responsable.id_responsable FROM departamento LEFT JOIN departamento_responsable ON departamento.id_departamento = departamento_responsable.id_departamento WHERE departamento.id_departamento=d_id_departamento AND departamento_responsable.fecha_fin IS NULL;
+	SELECT departamento.id_departamento, departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension, departamento_responsable.id_responsable, responsable.nombre AS nombre_responsable FROM departamento LEFT JOIN departamento_responsable ON departamento.id_departamento = departamento_responsable.id_departamento JOIN responsable ON responsable.id_responsable=departamento_responsable.id_responsable WHERE departamento.id_departamento=d_id_departamento AND departamento_responsable.fecha_fin IS NULL;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_periodo`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_periodo` ()  BEGIN
 	SELECT * FROM periodo ORDER BY id_periodo DESC LIMIT 1;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_programas`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_programas` ()  BEGIN
+	SELECT * FROM programa;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_responsables`$$
@@ -121,8 +126,6 @@ CREATE TABLE `departamento` (
 INSERT INTO `departamento` (`id_departamento`, `clave`, `nombre`, `ubicacion`, `extension`) VALUES
 (1, 'DEPSIS1', 'SISTEMAS', 'EDIFICIO SISTEMAS', '3121481633'),
 (2, 'DEPAMB1', 'AMBIENTAL', 'EDIFICIO AMBIENTAL', '3121481633'),
-(3, 'DEPIND', 'INDUTRIAL', 'EDIFICIO INDUSTRIAL', '3121481633'),
-(4, 'DEPMEC', 'MECATRONICA', 'EDIFICIO MECATRONICA', '3121481633'),
 (61, 'DEPGEST1', 'GESTION', 'EDIFICIO GESTION', '3121481633'),
 (67, 'DEPADM', 'ADMINISTRACION', 'EDIFICIO ADMINISTRACION', '3121481633'),
 (70, 'DEPELE', 'ELECTRONICA', 'EDIFICIO ELECTRONICA', '3121481633');
@@ -172,13 +175,13 @@ INSERT INTO `departamento_responsable` (`id_departamento`, `id_responsable`, `fe
 (1, 2, '2022-02-25', '2022-02-25'),
 (1, 1, '2022-02-25', NULL),
 (2, 3, '2022-02-25', NULL),
-(3, 2, '2022-02-25', NULL),
 (61, 4, '2022-02-25', '2022-02-25'),
 (67, 6, '2022-02-25', '2022-02-25'),
 (61, 5, '2022-02-25', NULL),
-(67, 5, '2022-02-25', NULL),
+(67, 5, '2022-02-25', '2022-03-02'),
 (70, 7, '2022-02-25', '2022-02-25'),
-(70, 1, '2022-02-25', NULL);
+(70, 1, '2022-02-25', NULL),
+(67, 1, '2022-03-02', NULL);
 
 -- --------------------------------------------------------
 
@@ -216,6 +219,15 @@ CREATE TABLE `programa` (
   `descripcion` varchar(150) DEFAULT NULL,
   `observaciones` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `programa`
+--
+
+INSERT INTO `programa` (`id_programa`, `nombre`, `descripcion`, `observaciones`) VALUES
+(1, 'Deportivo', NULL, NULL),
+(2, 'Cultural', NULL, NULL),
+(3, 'Cívico', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -266,8 +278,8 @@ ALTER TABLE `departamento_programa`
 -- Indices de la tabla `departamento_responsable`
 --
 ALTER TABLE `departamento_responsable`
-  ADD KEY `id_departamento` (`id_departamento`),
-  ADD KEY `id_responsable` (`id_responsable`);
+  ADD KEY `id_responsable` (`id_responsable`),
+  ADD KEY `departamento_responsable_ibfk_1` (`id_departamento`);
 
 --
 -- Indices de la tabla `periodo`
@@ -296,7 +308,7 @@ ALTER TABLE `responsable`
 -- AUTO_INCREMENT de la tabla `departamento`
 --
 ALTER TABLE `departamento`
-  MODIFY `id_departamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id_departamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT de la tabla `periodo`
@@ -308,7 +320,7 @@ ALTER TABLE `periodo`
 -- AUTO_INCREMENT de la tabla `programa`
 --
 ALTER TABLE `programa`
-  MODIFY `id_programa` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_programa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `responsable`
@@ -331,7 +343,7 @@ ALTER TABLE `departamento_programa`
 -- Filtros para la tabla `departamento_responsable`
 --
 ALTER TABLE `departamento_responsable`
-  ADD CONSTRAINT `departamento_responsable_ibfk_1` FOREIGN KEY (`id_departamento`) REFERENCES `departamento` (`id_departamento`),
+  ADD CONSTRAINT `departamento_responsable_ibfk_1` FOREIGN KEY (`id_departamento`) REFERENCES `departamento` (`id_departamento`) ON DELETE CASCADE,
   ADD CONSTRAINT `departamento_responsable_ibfk_2` FOREIGN KEY (`id_responsable`) REFERENCES `responsable` (`id_responsable`);
 COMMIT;
 

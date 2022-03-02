@@ -34,17 +34,17 @@ function insert_responsable(){
                 if(res==="1"){
                     select_responsables();  
                     borrar_datos_input_responsable(); 
-                    $("#modal-responsable").modal("hide");
+                    $("#modal_responsable").modal("hide");
                     mostrar_alerta(1);
                 }else{
-                    $("#modal-responsable").modal("hide");
+                    $("#modal_responsable").modal("hide");
                     mostrar_alerta(3);
                 }
                                 
             }
         });
     }else{
-        $("#modal-responsable").modal("hide");
+        $("#modal_responsable").modal("hide");
         mostrar_alerta(2);
     }
 }
@@ -60,7 +60,7 @@ function borrar_datos_input_responsable(){
 
 //FUNCIONES PARA DEPARTAMENTOS
 //CREACION DE DATATABLE PARA DEPARTAMENTOS
-$('#tabla-departamentos').DataTable({
+$('#tabla_departamentos').DataTable({
     pageLength: 20,
     caseInsen: false,
     columns: [
@@ -69,10 +69,11 @@ $('#tabla-departamentos').DataTable({
         {data: "ubicacion", title: 'Ubicación'},
         {data: "extension", title: 'Extensión'},
         {data: "botoneditar", title: 'Editar'},
-        {data: "botonborrar", title: 'Borrar'}
+        {data: "botonborrar", title: 'Borrar'},
+        {data: "botonimprimir", title: 'Imprimir'}
     ],
     "columnDefs": [
-        { "orderable": false, "targets": [4,5] },
+        { "orderable": false, "targets": [4,5,6] },
     ],
     lengthChange: false,
     language: {
@@ -112,12 +113,13 @@ select_departamentos();
 
 //AGREGA DEPARTAMENTOS A DATATABLE
 function agregar_departamentos_tabla(departamentos){
-    let tabla = $("#tabla-departamentos").DataTable();
+    let tabla = $("#tabla_departamentos").DataTable();
     tabla.rows().remove().draw();
     for(let departamento of departamentos){
-        tabla.row.add({"clave":departamento.clave,"nombre":departamento.nombre,"ubicacion":departamento.ubicacion,"extension":departamento.extension,"botoneditar":"<button id='botoneditardepartamento"+departamento.id_departamento+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrardepartamento"+departamento.id_departamento+"' class='btn btn-danger'>Borrar</button>"}).draw();
+        tabla.row.add({"clave":departamento.clave,"nombre":departamento.nombre,"ubicacion":departamento.ubicacion,"extension":departamento.extension,"botoneditar":"<button id='botoneditardepartamento"+departamento.id_departamento+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrardepartamento"+departamento.id_departamento+"' class='btn btn-danger'>Borrar</button>","botonimprimir":"<button id='botonimprimirdepartamento"+departamento.id_departamento+"' class='btn btn-dark'>Imprimir</button>"}).draw();
         $("#botoneditardepartamento"+departamento.id_departamento).on( "click", function(){select_departamento_id(departamento.id_departamento)});
         $("#botonborrardepartamento"+departamento.id_departamento).on( "click", function(){mostrar_modal_borrar_departamento(departamento.id_departamento, departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension)});
+        $("#botonimprimirdepartamento"+departamento.id_departamento).on( "click", function(){generar_pdf(departamento.id_departamento)});
     }
 }
 
@@ -141,7 +143,7 @@ function select_departamento_id(id_departamento){
 
 //MOSTRAR MODAL BORRAR DEPARTAMENTO
 function mostrar_modal_borrar_departamento(id_departamento, clave, nombre, ubicacion, extension){
-    $("#modal-departamento").modal("show");
+    $("#modal_departamento").modal("show");
     $("#p_clave_departamento").text("Clave: "+clave);
     $("#p_nombre_departamento").text("Nombre: "+nombre);
     $("#p_ubicacion_departamento").text("Ubicación: "+ubicacion);
@@ -229,12 +231,33 @@ function borrar_departamento(){
         data: {"id_departamento": id_departamento} ,                         
         success: function(res){
             select_departamentos();
-            $("#modal-departamento").modal("hide");   
+            $("#modal_departamento").modal("hide");   
             if(res==="1"){
                 mostrar_alerta(1);
             }else{
+                console.log(res);
                 mostrar_alerta(3)
             }
         }
     });
 }
+
+function generar_pdf(id_departamento){
+    $.ajax({
+        type: "POST",
+        data: {"id_departamento": id_departamento},
+        url: path+"select_departamento_id.php",                           
+        success: function(res){   
+            let departamento = JSON.parse(res)[0];           
+            let pdf = new jsPDF();
+            let columns = [["Clave", "Nombre", "Ubicación", "Extensión","Responsable"]];
+            let data = [[departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension, departamento.nombre_responsable]];
+            pdf.autoTable({
+                head: columns,
+                body: data,
+            })
+            pdf.save('table.pdf');          
+        }
+    });
+}
+

@@ -76,8 +76,8 @@ function select_periodo(){
         type: "GET",
         url: path+"select_periodo.php",                           
         success: function(res){    
-            let periodo = JSON.parse(res)[0];  
-            if(moment(periodo.fecha_fin_actividades)>moment()){
+            let periodo = JSON.parse(res)[0]; 
+            if(moment(periodo.fecha_fin_actividades).add(1,"days")>=moment()){
                 $("#input_nombre_periodo").val(periodo.nombre);
                 $("#input_inicio_actividades").val(periodo.fecha_inicio_actividades);
                 $("#input_fin_actividades").val(periodo.fecha_fin_actividades);

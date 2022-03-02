@@ -32,16 +32,17 @@
             <!-- FORMULARIO -->
             <div class="content-form mb-4 p-3 d-flex flex-column align-items-center" style="width: 90% !important;">
                 <div class="d-flex justify-content-evenly" style="width: 100% !important;">
-                    <input id="input_id_departamento" type="text" hidden/>
+                    <input id="input_id_programa" type="text" hidden/>
                     <div class="d-flex justify-content-between" style="width: 45% !important;">
                         <label class="text-center" style="width: 50% !important;">Nombre</label>
                         <input id="input_nombre_programa" style="width: 50% !important;" type="text" required/>
                     </div>
                     <div class="d-flex justify-content-evenly" style="width: 45% !important;">
                         <label class="text-center" style="width: 45% !important;">Departamento</label>
-                        <input id="input_select_departamentos" type="text" list="select_responsables" style="width: 38% !important;"/>
-                        <datalist id="select_departamentos" style="width: 45% !important;">
-                        </datalist>
+                        <select name="" id="" multiple>
+                            <option>Sistemas</option>
+                            <option>Industrial</option>
+                        </select>
                         <button class="btn btn-dark p-0" style="height: 28px; width: 28px;" data-bs-toggle="modal" data-bs-target="#modal-responsable">+</button>
                     </div>
                 </div>
@@ -67,7 +68,7 @@
             
             <!-- TABLA -->
             <div class="content-table d-flex justify-content-center mb-3" style="width: 90% !important;">
-                <table id="tabla-programas">
+                <table id="tabla_programas">
                     
                 </table>
             </div>
@@ -75,7 +76,7 @@
 
         <!-- FOOTER -->
         <?php include "../../../views/layout/footer.php" ?>
-
+        <script src="../../../js/programas.js"></script>
     </div>
 </body>
 </html>
