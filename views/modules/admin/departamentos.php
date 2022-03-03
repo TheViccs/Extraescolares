@@ -59,19 +59,19 @@
                     <input id="input_select_responsables" type="text" list="select_responsables"/>
                     <datalist id="select_responsables" style="width: 45% !important;">
                     </datalist>
-                    <button class="btn btn-dark p-0" style="height: 28px; width: 28px;" data-bs-toggle="modal" data-bs-target="#modal-responsable">+</button>
+                    <button class="btn btn-dark p-0" style="height: 28px; width: 28px;" data-bs-toggle="modal" data-bs-target="#modal_responsable">+</button>
                 </div>                
             </div>
             
             <!-- BOTONES GUARDAR Y CANCELAR -->
             <div class="d-flex justify-content-evenly" style="width: 50% !important;">
-                <button class="btn btn-success" onclick="insert_departamento()">Guardar</button>
+                <button id="boton_insert_update_departamento" class="btn btn-success" onclick="insert_departamento()">Guardar</button>
                 <button class="btn btn-danger" onclick="borrar_datos_input_departamento()">Cancelar</button>
             </div>
             
             <!-- TABLA -->
             <div class="content-table d-flex justify-content-center mb-3" style="width: 90% !important;">
-                <table id="tabla-departamentos">
+                <table id="tabla_departamentos">
                     
                 </table>
             </div>
@@ -83,11 +83,11 @@
     </div>
 
     <!-- MODAL INSERTAR RESPONSABLE DE DEPARTAMENTO-->
-    <div class="modal fade" id="modal-responsable" tabindex="-1" aria-labelledby="modal-responsable-label" aria-hidden="true">
+    <div class="modal fade" id="modal_responsable" tabindex="-1" aria-labelledby="modal_responsable_label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal-responsable-label">Agregar responsable de departamento</h5>
+                    <h5 class="modal-title" id="modal_responsable_label">Agregar responsable de departamento</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
@@ -117,11 +117,11 @@
     </div>
 
     <!-- MODAL BORRAR DEPARTAMENTO -->
-    <div class="modal fade" id="modal-departamento" tabindex="-1" aria-labelledby="modal-departamento-label" aria-hidden="true">
+    <div class="modal fade" id="modal_departamento" tabindex="-1" aria-labelledby="modal_departamento_label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal-departamento-label">Borrar departamento</h5>
+                    <h5 class="modal-title" id="modal_departamento_label">Borrar departamento</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">

@@ -16,7 +16,7 @@ select_responsables();
 function agregar_responsables_select(responsables){
     $("#select_responsables").html("");
     for(let responsable of responsables){
-        $("#select_responsables").append("<option data-id='"+responsable.id_responsable+"' value='"+responsable.nombre+"'></option>");
+        $("#select_responsables").append("<option id="+responsable.id_responsable+" value='"+responsable.nombre+"'></option>");
     }
 }
 
@@ -34,17 +34,17 @@ function insert_responsable(){
                 if(res==="1"){
                     select_responsables();  
                     borrar_datos_input_responsable(); 
-                    $("#modal-responsable").modal("hide");
+                    $("#modal_responsable").modal("hide");
                     mostrar_alerta(1);
                 }else{
-                    $("#modal-responsable").modal("hide");
+                    $("#modal_responsable").modal("hide");
                     mostrar_alerta(3);
                 }
                                 
             }
         });
     }else{
-        $("#modal-responsable").modal("hide");
+        $("#modal_responsable").modal("hide");
         mostrar_alerta(2);
     }
 }
@@ -60,7 +60,7 @@ function borrar_datos_input_responsable(){
 
 //FUNCIONES PARA DEPARTAMENTOS
 //CREACION DE DATATABLE PARA DEPARTAMENTOS
-$('#tabla-departamentos').DataTable({
+$('#tabla_departamentos').DataTable({
     pageLength: 20,
     caseInsen: false,
     columns: [
@@ -69,10 +69,11 @@ $('#tabla-departamentos').DataTable({
         {data: "ubicacion", title: 'Ubicación'},
         {data: "extension", title: 'Extensión'},
         {data: "botoneditar", title: 'Editar'},
-        {data: "botonborrar", title: 'Borrar'}
+        {data: "botonborrar", title: 'Borrar'},
+        {data: "botonimprimir", title: 'Imprimir'}
     ],
     "columnDefs": [
-        { "orderable": false, "targets": [4,5] },
+        { "orderable": false, "targets": [4,5,6] },
     ],
     lengthChange: false,
     language: {
@@ -112,12 +113,13 @@ select_departamentos();
 
 //AGREGA DEPARTAMENTOS A DATATABLE
 function agregar_departamentos_tabla(departamentos){
-    let tabla = $("#tabla-departamentos").DataTable();
+    let tabla = $("#tabla_departamentos").DataTable();
     tabla.rows().remove().draw();
     for(let departamento of departamentos){
-        tabla.row.add({"clave":departamento.clave,"nombre":departamento.nombre,"ubicacion":departamento.ubicacion,"extension":departamento.extension,"botoneditar":"<button id='botoneditardepartamento"+departamento.id_departamento+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrardepartamento"+departamento.id_departamento+"' class='btn btn-danger'>Borrar</button>"}).draw();
+        tabla.row.add({"clave":departamento.clave,"nombre":departamento.nombre,"ubicacion":departamento.ubicacion,"extension":departamento.extension,"botoneditar":"<button id='botoneditardepartamento"+departamento.id_departamento+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrardepartamento"+departamento.id_departamento+"' class='btn btn-danger'>Borrar</button>","botonimprimir":"<button id='botonimprimirdepartamento"+departamento.id_departamento+"' class='btn btn-dark'>Imprimir</button>"}).draw();
         $("#botoneditardepartamento"+departamento.id_departamento).on( "click", function(){select_departamento_id(departamento.id_departamento)});
         $("#botonborrardepartamento"+departamento.id_departamento).on( "click", function(){mostrar_modal_borrar_departamento(departamento.id_departamento, departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension)});
+        $("#botonimprimirdepartamento"+departamento.id_departamento).on( "click", function(){generar_pdf(departamento.id_departamento)});
     }
 }
 
@@ -134,14 +136,72 @@ function select_departamento_id(id_departamento){
             $("#input_nombre_departamento").val(departamento.nombre);
             $("#input_ubicacion_departamento").val(departamento.ubicacion);
             $("#input_extension_departamento").val(departamento.extension);
-            $("#input_select_responsables").val($("#select_responsables option[data-id='" +departamento.id_responsable+"']").attr("value"));
+            $("#input_select_responsables").val($("#select_responsables option[id=" +departamento.id_responsable+"]").attr("value"));
+            $("#boton_insert_update_departamento").attr("onclick","update_departamento()");
+        }
+    });
+}
+
+//UPDATE DE DEPARTAMENTO
+function update_departamento(){
+    let id_departamento = $("#input_id_departamento").val();
+    let clave = $("#input_clave_departamento").val();
+    let nombre = $("#input_nombre_departamento").val();
+    let ubicacion = $("#input_ubicacion_departamento").val();
+    let extension = $("#input_extension_departamento").val();
+    if(id_departamento.length !== 0 && clave.length !== 0 && nombre.length !== 0 && ubicacion.length !== 0 && extension.length !== 0){
+        let val = $("#input_select_responsables").val(); 
+        let id_responsable = $("#select_responsables option[value='"+val+"']").attr("id");
+        if(id_responsable!==undefined){
+            update_departamento_responsable(id_departamento,clave,nombre,ubicacion,extension,id_responsable);
+        }else{
+            update_only_departamento(id_departamento,clave,nombre,ubicacion,extension);
+        }
+    }else{
+        mostrar_alerta(2);
+    } 
+    borrar_datos_input_departamento();
+}
+
+//UPDATE A DEPARTAMENTO Y A DEPARTAMENTO-RESPONSABLE
+function update_departamento_responsable(id_departamento,clave,nombre,ubicacion,extension,id_responsable){
+    $.ajax({
+        type: "POST",
+        url: path+"update_departamento_responsable.php",  
+        data: {"id_departamento":id_departamento,"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension, "id_responsable": id_responsable} ,                         
+        success: function(res){ 
+            select_departamentos(); 
+            if(res==="1"){
+                mostrar_alerta(1);
+                borrar_datos_input_departamento();
+            }else{
+                mostrar_alerta(3);
+            }
+        }
+    });
+}
+
+//UPDATE A DEPARTAMENTO
+function update_only_departamento(id_departamento,clave,nombre,ubicacion,extension){
+    $.ajax({
+        type: "POST",
+        url: path+"update_departamento.php",  
+        data: {"id_departamento":id_departamento,"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension} ,                         
+        success: function(res){ 
+            select_departamentos(); 
+            if(res==="1"){
+                mostrar_alerta(1);
+                borrar_datos_input_departamento();
+            }else{
+                mostrar_alerta(3);
+            }
         }
     });
 }
 
 //MOSTRAR MODAL BORRAR DEPARTAMENTO
 function mostrar_modal_borrar_departamento(id_departamento, clave, nombre, ubicacion, extension){
-    $("#modal-departamento").modal("show");
+    $("#modal_departamento").modal("show");
     $("#p_clave_departamento").text("Clave: "+clave);
     $("#p_nombre_departamento").text("Nombre: "+nombre);
     $("#p_ubicacion_departamento").text("Ubicación: "+ubicacion);
@@ -156,59 +216,53 @@ function insert_departamento(){
     let ubicacion = $("#input_ubicacion_departamento").val();
     let extension = $("#input_extension_departamento").val();
     if(clave.length !== 0 && nombre.length !== 0 && ubicacion.length !== 0 && extension.length !== 0){
-        $.ajax({
-            type: "POST",
-            url: path+"insert_departamento.php",  
-            data: {"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension} ,                         
-            success: function(res){  
-                select_departamentos();
-                if(res==="1"){
-                    let val = $("#input_select_responsables").val(); 
-                    let id_responsable = $("#select_responsables option[value='"+val+"']").attr("data-id");
-                    if(id_responsable!==undefined){
-                        select_departamento_clave(clave,id_responsable);
-                    }else{
-                        mostrar_alerta(1);
-                    }
-                }else{
-                    mostrar_alerta(3);
-                }           
-            }
-        });
+        let val = $("#input_select_responsables").val(); 
+        let id_responsable = $("#select_responsables option[value='"+val+"']").attr("id");
+        if(id_responsable!==undefined){
+            insert_departamento_responsable(clave, nombre, ubicacion, extension, id_responsable);
+        }else{
+            insert_only_departamento(clave, nombre, ubicacion, extension);
+        }
     }else{
         mostrar_alerta(2);
     }   
 }
 
-//SELECT DEPARTAMENTO POR CLAVE
-function select_departamento_clave(clave,id_responsable){
+//INSERT EN DEPARTAMENTO
+function insert_only_departamento(clave, nombre, ubicacion, extension){
     $.ajax({
         type: "POST",
-        data: {"clave": clave},
-        url: path+"select_departamento_clave.php",                           
-        success: function(res){    
-            let departamento = JSON.parse(res)[0];
-            insert_departamento_responsable(departamento.id_departamento,id_responsable);
+        url: path+"insert_departamento.php",  
+        data: {"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension} ,                         
+        success: function(res){  
+            select_departamentos();
+            if(res==="1"){
+                mostrar_alerta(1);
+                borrar_datos_input_departamento();
+            }else{
+                mostrar_alerta(3);
+            }           
         }
-    }); 
+    });
 }
 
-//INSERTAR DATOS EN DEPARTAMENTO-RESPONSABLE
-function insert_departamento_responsable(id_departamento,id_responsable){
-        $.ajax({
-            type: "POST",
-            url: path+"insert_departamento_responsable.php",  
-            data: {"id_departamento": id_departamento,"id_responsable": id_responsable} ,                         
-            success: function(res){  
-                if(res==="1"){
-                    mostrar_alerta(1);
-                    borrar_datos_input_departamento();
-                }else{
-                    mostrar_alerta(3);
-                }
+
+//INSERT EN DEPARTAMENTO Y EN DEPARTAMENTO-RESPONSABLE
+function insert_departamento_responsable(clave, nombre, ubicacion, extension, id_responsable){
+    $.ajax({
+        type: "POST",
+        url: path+"insert_departamento_responsable.php",  
+        data: {"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension, "id_responsable": id_responsable} ,                         
+        success: function(res){ 
+            select_departamentos(); 
+            if(res==="1"){
+                mostrar_alerta(1);
+                borrar_datos_input_departamento();
+            }else{
+                mostrar_alerta(3);
             }
-        });
-    
+        }
+    });
 }
 
 //BORRAR DATOS DE LOS INPUT DEPARTAMENTO
@@ -218,6 +272,7 @@ function borrar_datos_input_departamento(){
     $("#input_ubicacion_departamento").val("");
     $("#input_extension_departamento").val("");
     $("#input_select_responsables").val("");
+    $("#boton_insert_update_departamento").attr("onclick","insert_departamento()");
 }
 
 //BORRAR DEPARTAMENTO
@@ -229,13 +284,33 @@ function borrar_departamento(){
         data: {"id_departamento": id_departamento} ,                         
         success: function(res){
             select_departamentos();
-            $("#modal-departamento").modal("hide");   
+            $("#modal_departamento").modal("hide");   
             if(res==="1"){
                 mostrar_alerta(1);
             }else{
-                console.log(res)
                 mostrar_alerta(3)
             }
         }
     });
 }
+
+//IMPRIMIR PDF DEPARTAMENTO
+function generar_pdf(id_departamento){
+    $.ajax({
+        type: "POST",
+        data: {"id_departamento": id_departamento},
+        url: path+"select_departamento_id.php",                           
+        success: function(res){   
+            let departamento = JSON.parse(res)[0];           
+            let pdf = new jsPDF();
+            let columns = [["Clave", "Nombre", "Ubicación", "Extensión","Responsable"]];
+            let data = [[departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension, departamento.nombre_responsable]];
+            pdf.autoTable({
+                head: columns,
+                body: data,
+            })
+            pdf.save('table.pdf');          
+        }
+    });
+}
+

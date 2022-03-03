@@ -11,3 +11,16 @@ thead{
     margin-right: 0px !important;
 }
 
+.contenido{
+    background-color: black;
+    width: 500px;
+    height: 500px;
+}
+
+.ms-container{
+    width: 100% !important;
+}
+
+.ms-list{
+    border-color: rgb(118, 118, 118) !important;
+}
