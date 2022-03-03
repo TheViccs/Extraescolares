@@ -11,4 +11,5 @@
 <script src="../../../lib/jspdf/dist/jspdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.22/jspdf.plugin.autotable.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.22/jspdf.plugin.autotable.min.js"></script>
+<link href="../../../lib/multiselect/css/multi-select.css" media="screen" rel="stylesheet" type="text/css">
 <link href="../../../css/index.css" rel="stylesheet">

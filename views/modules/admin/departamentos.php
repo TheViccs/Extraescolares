@@ -65,7 +65,7 @@
             
             <!-- BOTONES GUARDAR Y CANCELAR -->
             <div class="d-flex justify-content-evenly" style="width: 50% !important;">
-                <button class="btn btn-success" onclick="insert_departamento()">Guardar</button>
+                <button id="boton_insert_update_departamento" class="btn btn-success" onclick="insert_departamento()">Guardar</button>
                 <button class="btn btn-danger" onclick="borrar_datos_input_departamento()">Cancelar</button>
             </div>
             

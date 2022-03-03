@@ -37,32 +37,35 @@
                         <label class="text-center" style="width: 50% !important;">Nombre</label>
                         <input id="input_nombre_programa" style="width: 50% !important;" type="text" required/>
                     </div>
-                    <div class="d-flex justify-content-evenly" style="width: 45% !important;">
-                        <label class="text-center" style="width: 45% !important;">Departamento</label>
-                        <select name="" id="" multiple>
-                            <option>Sistemas</option>
-                            <option>Industrial</option>
-                        </select>
-                        <button class="btn btn-dark p-0" style="height: 28px; width: 28px;" data-bs-toggle="modal" data-bs-target="#modal-responsable">+</button>
-                    </div>
-                </div>
-                <br>
-                <div class="d-flex justify-content-evenly" style="width: 100% !important;">
                     <div class="d-flex justify-content-between" style="width: 45% !important;">
                         <label class="text-center" style="width: 50% !important;">Descripción</label>
                         <textarea id="input_descripcion_programa" style="width: 50% !important;" type="text" required></textarea>
                     </div>
+                </div>
+                <br>
+                <div class="d-flex justify-content-evenly" style="width: 100% !important;">          
                     <div class="d-flex justify-content-between" style="width: 45% !important;">
                         <label class="text-center" style="width: 50% !important;">Observaciones</label>
                         <textarea id="input_observaciones_programa" style="width: 50% !important;" type="text" required></textarea>
                     </div>
-                </div>  
-                <br>                              
+                    <div class="d-flex justify-content-between" style="width: 45% !important;">
+                        
+                    </div>
+                </div>
+                <br>
+                <div class="d-flex justify-content-end" style="width: 100% !important;">          
+                    <div class="d-flex flex-column" style="width: 74% !important;">
+                        <label class="text-center" style="width: 100% !important;">Departamentos</label>
+                        <br>
+                        <select multiple="multiple" id="select_programas">
+                        </select>
+                    </div>
+                </div>                                                 
             </div>
             
             <!-- BOTONES GUARDAR Y CANCELAR -->
             <div class="d-flex justify-content-evenly" style="width: 50% !important;">
-                <button class="btn btn-success" onclick="">Guardar</button>
+                <button class="btn btn-success" onclick="insert_programa()">Guardar</button>
                 <button class="btn btn-danger" onclick="">Cancelar</button>
             </div>
             
@@ -75,8 +78,34 @@
         </div>
 
         <!-- FOOTER -->
-        <?php include "../../../views/layout/footer.php" ?>
-        <script src="../../../js/programas.js"></script>
+        <?php include "../../../views/layout/footer.php" ?>       
     </div>
+
+    <!-- MODAL BORRAR PROGRAMA -->
+    <div class="modal fade" id="modal_programa" tabindex="-1" aria-labelledby="modal_programa_label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_programa_label">Borrar programa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="w-100">
+                        <h3>Seguro que quiere borrar el programa?</h1>
+                        <p id="p_nombre_programa"></p>
+                        <p id="p_descripcion_programa"></p>
+                        <input id="input_id_programa_borrar" type="text" hidden/>
+                    </div>        
+                </div>
+                <div class="modal-footer d-flex justify-content-evenly">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" onclick="">Borrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../../lib/multiselect/js/jquery.multi-select.js"></script>
+    <script src="../../../js/programas.js"></script> 
 </body>
 </html>

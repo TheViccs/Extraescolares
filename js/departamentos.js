@@ -16,7 +16,7 @@ select_responsables();
 function agregar_responsables_select(responsables){
     $("#select_responsables").html("");
     for(let responsable of responsables){
-        $("#select_responsables").append("<option data-id='"+responsable.id_responsable+"' value='"+responsable.nombre+"'></option>");
+        $("#select_responsables").append("<option id="+responsable.id_responsable+" value='"+responsable.nombre+"'></option>");
     }
 }
 
@@ -136,7 +136,65 @@ function select_departamento_id(id_departamento){
             $("#input_nombre_departamento").val(departamento.nombre);
             $("#input_ubicacion_departamento").val(departamento.ubicacion);
             $("#input_extension_departamento").val(departamento.extension);
-            $("#input_select_responsables").val($("#select_responsables option[data-id='" +departamento.id_responsable+"']").attr("value"));
+            $("#input_select_responsables").val($("#select_responsables option[id=" +departamento.id_responsable+"]").attr("value"));
+            $("#boton_insert_update_departamento").attr("onclick","update_departamento()");
+        }
+    });
+}
+
+//UPDATE DE DEPARTAMENTO
+function update_departamento(){
+    let id_departamento = $("#input_id_departamento").val();
+    let clave = $("#input_clave_departamento").val();
+    let nombre = $("#input_nombre_departamento").val();
+    let ubicacion = $("#input_ubicacion_departamento").val();
+    let extension = $("#input_extension_departamento").val();
+    if(id_departamento.length !== 0 && clave.length !== 0 && nombre.length !== 0 && ubicacion.length !== 0 && extension.length !== 0){
+        let val = $("#input_select_responsables").val(); 
+        let id_responsable = $("#select_responsables option[value='"+val+"']").attr("id");
+        if(id_responsable!==undefined){
+            update_departamento_responsable(id_departamento,clave,nombre,ubicacion,extension,id_responsable);
+        }else{
+            update_only_departamento(id_departamento,clave,nombre,ubicacion,extension);
+        }
+    }else{
+        mostrar_alerta(2);
+    } 
+    borrar_datos_input_departamento();
+}
+
+//UPDATE A DEPARTAMENTO Y A DEPARTAMENTO-RESPONSABLE
+function update_departamento_responsable(id_departamento,clave,nombre,ubicacion,extension,id_responsable){
+    $.ajax({
+        type: "POST",
+        url: path+"update_departamento_responsable.php",  
+        data: {"id_departamento":id_departamento,"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension, "id_responsable": id_responsable} ,                         
+        success: function(res){ 
+            select_departamentos(); 
+            if(res==="1"){
+                mostrar_alerta(1);
+                borrar_datos_input_departamento();
+            }else{
+                mostrar_alerta(3);
+            }
+        }
+    });
+}
+
+//UPDATE A DEPARTAMENTO
+function update_only_departamento(id_departamento,clave,nombre,ubicacion,extension){
+    $.ajax({
+        type: "POST",
+        url: path+"update_departamento.php",  
+        data: {"id_departamento":id_departamento,"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension} ,                         
+        success: function(res){ 
+            select_departamentos(); 
+            if(res==="1"){
+                mostrar_alerta(1);
+                borrar_datos_input_departamento();
+            }else{
+                mostrar_alerta(3);
+            }
         }
     });
 }
@@ -158,59 +216,53 @@ function insert_departamento(){
     let ubicacion = $("#input_ubicacion_departamento").val();
     let extension = $("#input_extension_departamento").val();
     if(clave.length !== 0 && nombre.length !== 0 && ubicacion.length !== 0 && extension.length !== 0){
-        $.ajax({
-            type: "POST",
-            url: path+"insert_departamento.php",  
-            data: {"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension} ,                         
-            success: function(res){  
-                select_departamentos();
-                if(res==="1"){
-                    let val = $("#input_select_responsables").val(); 
-                    let id_responsable = $("#select_responsables option[value='"+val+"']").attr("data-id");
-                    if(id_responsable!==undefined){
-                        select_departamento_clave(clave,id_responsable);
-                    }else{
-                        mostrar_alerta(1);
-                    }
-                }else{
-                    mostrar_alerta(3);
-                }           
-            }
-        });
+        let val = $("#input_select_responsables").val(); 
+        let id_responsable = $("#select_responsables option[value='"+val+"']").attr("id");
+        if(id_responsable!==undefined){
+            insert_departamento_responsable(clave, nombre, ubicacion, extension, id_responsable);
+        }else{
+            insert_only_departamento(clave, nombre, ubicacion, extension);
+        }
     }else{
         mostrar_alerta(2);
     }   
 }
 
-//SELECT DEPARTAMENTO POR CLAVE
-function select_departamento_clave(clave,id_responsable){
+//INSERT EN DEPARTAMENTO
+function insert_only_departamento(clave, nombre, ubicacion, extension){
     $.ajax({
         type: "POST",
-        data: {"clave": clave},
-        url: path+"select_departamento_clave.php",                           
-        success: function(res){    
-            let departamento = JSON.parse(res)[0];
-            insert_departamento_responsable(departamento.id_departamento,id_responsable);
+        url: path+"insert_departamento.php",  
+        data: {"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension} ,                         
+        success: function(res){  
+            select_departamentos();
+            if(res==="1"){
+                mostrar_alerta(1);
+                borrar_datos_input_departamento();
+            }else{
+                mostrar_alerta(3);
+            }           
         }
-    }); 
+    });
 }
 
-//INSERTAR DATOS EN DEPARTAMENTO-RESPONSABLE
-function insert_departamento_responsable(id_departamento,id_responsable){
-        $.ajax({
-            type: "POST",
-            url: path+"insert_departamento_responsable.php",  
-            data: {"id_departamento": id_departamento,"id_responsable": id_responsable} ,                         
-            success: function(res){  
-                if(res==="1"){
-                    mostrar_alerta(1);
-                    borrar_datos_input_departamento();
-                }else{
-                    mostrar_alerta(3);
-                }
+
+//INSERT EN DEPARTAMENTO Y EN DEPARTAMENTO-RESPONSABLE
+function insert_departamento_responsable(clave, nombre, ubicacion, extension, id_responsable){
+    $.ajax({
+        type: "POST",
+        url: path+"insert_departamento_responsable.php",  
+        data: {"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension, "id_responsable": id_responsable} ,                         
+        success: function(res){ 
+            select_departamentos(); 
+            if(res==="1"){
+                mostrar_alerta(1);
+                borrar_datos_input_departamento();
+            }else{
+                mostrar_alerta(3);
             }
-        });
-    
+        }
+    });
 }
 
 //BORRAR DATOS DE LOS INPUT DEPARTAMENTO
@@ -220,6 +272,7 @@ function borrar_datos_input_departamento(){
     $("#input_ubicacion_departamento").val("");
     $("#input_extension_departamento").val("");
     $("#input_select_responsables").val("");
+    $("#boton_insert_update_departamento").attr("onclick","insert_departamento()");
 }
 
 //BORRAR DEPARTAMENTO
@@ -235,17 +288,13 @@ function borrar_departamento(){
             if(res==="1"){
                 mostrar_alerta(1);
             }else{
-<<<<<<< HEAD
-                console.log(res);
-=======
-                console.log(res)
->>>>>>> d89cdd8e937cbd4179b4249d0cbe751ca31cdde1
                 mostrar_alerta(3)
             }
         }
     });
 }
 
+//IMPRIMIR PDF DEPARTAMENTO
 function generar_pdf(id_departamento){
     $.ajax({
         type: "POST",
