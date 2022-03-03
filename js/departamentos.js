@@ -235,7 +235,11 @@ function borrar_departamento(){
             if(res==="1"){
                 mostrar_alerta(1);
             }else{
+<<<<<<< HEAD
                 console.log(res);
+=======
+                console.log(res)
+>>>>>>> d89cdd8e937cbd4179b4249d0cbe751ca31cdde1
                 mostrar_alerta(3)
             }
         }
