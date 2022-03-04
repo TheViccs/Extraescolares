@@ -1,23 +1,16 @@
-#contenido{
-    
-    width: 500px;
-    height: 500px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 200px; 
-    
-    
+.container{
+    background-color: aqua;
+    height: 200px;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10%;
 }
+.btn{
+    
 
-#boton{
-    background-color: blue;
-    width: 50%;
-    height: 300px;
-
+    
 
 }
 
-#btn{
-    
-    margin-bottom: 50px;
-}

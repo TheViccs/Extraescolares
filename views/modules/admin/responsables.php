@@ -87,12 +87,15 @@
                 </div>
             </div>
         </div>
+        
     </div>
 
         <!-- FOOTER -->
         <?php include "../../../views/layout/footer.php" ?>
+        
 
     </div>
     <script src="../../../js/responsableDepartamento.js"></script>
 </body>
+
 </html>
