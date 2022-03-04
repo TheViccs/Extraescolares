@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-03-2022 a las 07:26:19
+-- Tiempo de generación: 04-03-2022 a las 02:29:43
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -30,6 +30,11 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_delete_departamento`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_departamento` (IN `d_id_departamento` INT)  BEGIN
 	DELETE FROM departamento WHERE id_departamento=d_id_departamento;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_delete_programa`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_programa` (IN `p_id_programa` INT)  BEGIN
+	DELETE FROM programa WHERE id_programa=p_id_programa;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_delete_responsable`$$
@@ -59,6 +64,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_periodo` (IN `p_nombre` V
         	UPDATE periodo SET nombre=p_nombre, fecha_inicio_actividades=p_fecha_i_a, fecha_fin_actividades=p_fecha_f_a, fecha_inicio_inscripciones=p_fecha_i_i, fecha_fin_inscripciones=p_fecha_f_i WHERE fecha_fin_actividades > CURDATE();
         END IF;
     END IF;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insert_programa`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_programa` (IN `p_nombre` VARCHAR(150), IN `p_descripcion` VARCHAR(150), IN `p_observaciones` VARCHAR(150))  BEGIN
+	INSERT INTO programa(nombre, descripcion, observaciones) VALUES (p_nombre,p_descripcion,p_observaciones) ON DUPLICATE KEY UPDATE nombre=p_nombre, descripcion=p_descripcion, observaciones=p_observaciones;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insert_programa_departamento`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_programa_departamento` (IN `d_id` INT)  BEGIN
+	INSERT INTO departamento_programa(id_programa,id_departamento) VALUES ((SELECT id_programa FROM programa ORDER BY id_programa DESC LIMIT 1),d_id);
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_responsable`$$
@@ -122,6 +137,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_departamento_responsable`
     END IF; 
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_update_programa`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_programa` (IN `p_id_programa` INT, IN `p_nombre` VARCHAR(150), IN `p_descripcion` VARCHAR(150), IN `p_observaciones` VARCHAR(150))  BEGIN
+	UPDATE programa SET nombre=p_nombre, descripcion=p_descripcion, observaciones=p_observaciones WHERE id_programa=p_id_programa;
+    DELETE FROM departamento_programa WHERE id_programa=p_id_programa;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_update_programa_departamento`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_programa_departamento` (IN `p_id_programa` INT, IN `d_id_departamento` INT)  BEGIN
+	INSERT INTO departamento_programa (id_programa,id_departamento) VALUES (p_id_programa,d_id_departamento);
+END$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -149,7 +175,8 @@ INSERT INTO `departamento` (`id_departamento`, `clave`, `nombre`, `ubicacion`, `
 (61, 'DEPGEST1', 'GESTION', 'EDIFICIO GESTION', '3121481633'),
 (67, 'DEPADM', 'ADMINISTRACION', 'EDIFICIO ADMINISTRACION', '3121481633'),
 (70, 'DEPELE', 'ELECTRONICA', 'EDIFICIO ELECTRONICA', '3121481633'),
-(75, 'DEPIND1', 'INDUSTRIAL', 'EDIFICIO INDUSTRIAL', '3121481633');
+(75, 'DEPIND1', 'INDUSTRIAL', 'EDIFICIO INDUSTRIAL', '3121481633'),
+(88, 'DEPARQ', 'ARQUITECTURA', 'EDIFICIO ARQUITECTURA', '3121481633');
 
 -- --------------------------------------------------------
 
@@ -169,8 +196,11 @@ CREATE TABLE `departamento_programa` (
 
 INSERT INTO `departamento_programa` (`id_departamento`, `id_programa`) VALUES
 (1, 1),
+(1, 4),
 (2, 1),
-(2, 2);
+(2, 2),
+(61, 2),
+(61, 4);
 
 -- --------------------------------------------------------
 
@@ -262,7 +292,8 @@ CREATE TABLE `programa` (
 INSERT INTO `programa` (`id_programa`, `nombre`, `descripcion`, `observaciones`) VALUES
 (1, 'Deportivo', NULL, NULL),
 (2, 'Cultural', NULL, NULL),
-(3, 'Cívico', NULL, NULL);
+(3, 'Cívico', NULL, NULL),
+(4, 'Académico', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -307,7 +338,7 @@ ALTER TABLE `departamento`
 --
 ALTER TABLE `departamento_programa`
   ADD UNIQUE KEY `departamento_programa` (`id_departamento`,`id_programa`) USING BTREE,
-  ADD KEY `id_programa` (`id_programa`);
+  ADD KEY `departamento_programa_ibfk_2` (`id_programa`);
 
 --
 -- Indices de la tabla `departamento_responsable`
@@ -344,7 +375,7 @@ ALTER TABLE `responsable`
 -- AUTO_INCREMENT de la tabla `departamento`
 --
 ALTER TABLE `departamento`
-  MODIFY `id_departamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `id_departamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT de la tabla `periodo`
@@ -356,7 +387,7 @@ ALTER TABLE `periodo`
 -- AUTO_INCREMENT de la tabla `programa`
 --
 ALTER TABLE `programa`
-  MODIFY `id_programa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_programa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `responsable`
@@ -373,7 +404,7 @@ ALTER TABLE `responsable`
 --
 ALTER TABLE `departamento_programa`
   ADD CONSTRAINT `departamento_programa_ibfk_1` FOREIGN KEY (`id_departamento`) REFERENCES `departamento` (`id_departamento`),
-  ADD CONSTRAINT `departamento_programa_ibfk_2` FOREIGN KEY (`id_programa`) REFERENCES `programa` (`id_programa`);
+  ADD CONSTRAINT `departamento_programa_ibfk_2` FOREIGN KEY (`id_programa`) REFERENCES `programa` (`id_programa`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `departamento_responsable`
