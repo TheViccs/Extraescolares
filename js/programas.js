@@ -83,6 +83,7 @@ function agregar_programas_tabla(programas){
         tabla.row.add({"nombre":programa.nombre,"descripcion":programa.descripcion,"observaciones":programa.observaciones,"botoneditar":"<button id='botoneditarprograma"+programa.id_programa+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrarprograma"+programa.id_programa+"' class='btn btn-danger'>Borrar</button>","botonimprimir":"<button id='botonimprimirprograma"+programa.id_programa+"' class='btn btn-dark'>Imprimir</button>"}).draw();
         $("#botoneditarprograma"+programa.id_programa).on( "click", function(){select_programa_id(programa.id_programa)});
         $("#botonborrarprograma"+programa.id_programa).on( "click", function(){mostrar_modal_borrar_programa(programa.id_programa, programa.nombre, programa.descripcion)});
+        $("#botonimprimirprograma"+programa.id_programa).on( "click", function(){generar_pdf(programa.id_programa)});
     }
 }
 
@@ -97,7 +98,7 @@ function select_programa_id(id_programa){
             let departamentos = JSON.parse(res).map(function(programa){
                 return programa.nombre_departamento;
             });
-            $("#input_id_programa").val(programa.id_programa);                
+            $("#input_id_programa").val(id_programa);                
             $("#input_nombre_programa").val(programa.nombre);
             $("#input_descripcion_programa").val(programa.descripcion);
             $("#input_observaciones_programa").val(programa.observaciones);
@@ -106,6 +107,61 @@ function select_programa_id(id_programa){
             }else{
                 $('#select_programas').multiSelect('deselect_all');
             }
+            $("#boton_insert_update_programa").attr("onclick","update_programa()");
+        }
+    });
+}
+
+//UPDATE PROGRAMA
+function update_programa(){
+    let id_programa = $("#input_id_programa").val();
+    let nombre = $("#input_nombre_programa").val();
+    let descripcion = $("#input_descripcion_programa").val();
+    let observaciones = $("#input_observaciones_programa").val();
+    if(id_programa.length !== 0 && nombre.length !== 0){
+        let departamentos = [].map.call($("#select_programas option:selected"),function(departamento){
+            return departamento.id;
+        })
+        if(departamentos.length===0){
+            update_only_programa(id_programa,nombre,descripcion,observaciones);
+        }else{
+            update_programa_departamento(id_programa,nombre,descripcion,observaciones,departamentos);
+        }
+    }else{
+        mostrar_alerta(2);
+    } 
+}
+
+//UPDATE A DEPARTAMENTO
+function update_only_programa(id_programa,nombre,descripcion,observaciones){
+    $.ajax({
+        type: "POST",
+        url: path+"update_programa.php",  
+        data: {"id_programa":id_programa, "nombre": nombre, "descripcion": descripcion, "observaciones": observaciones} ,                         
+        success: function(res){ 
+            console.log(res);
+            select_programas(); 
+            if(res==="1"){
+                mostrar_alerta(1);
+                borrar_datos_input_programa();
+            }else{
+                mostrar_alerta(3);
+            }
+        }
+    });
+}
+
+//UPDATE A PROGRAMA Y A PROGRAMA-DEPARTAMENTO
+function update_programa_departamento(id_programa,nombre,descripcion,observaciones,departamentos){
+    $.ajax({
+        type: "POST",
+        url: path+"update_programa_departamento.php",  
+        data: {"id_programa":id_programa,"nombre": nombre, "descripcion": descripcion, "observaciones": observaciones, "departamentos": departamentos.toString()} ,                         
+        success: function(res){ 
+            console.log(res);
+            select_programas(); 
+            mostrar_alerta(1);
+            borrar_datos_input_programa();
         }
     });
 }
@@ -130,30 +186,97 @@ function insert_programa(){
         let departamentos = [].map.call($("#select_programas option:selected"),function(departamento){
             return departamento.id;
         })
-        $.ajax({
-            type: "POST",
-            url: path+"insert_programa.php",  
-            data: {"nombre": nombre, "descripcion": descripcion, "observaciones": observaciones} ,                         
-            success: function(res){  
-                select_programas();
-                if(res==="1"){
-                    let departamentos = [].map.call($("#select_programas option:selected"),function(departamento){
-                        return departamento.id;
-                    })
-                    if(departamentos.length===0){
-                        /* 
-                            MODIFICAR ESTO
-                            select_departamento_clave(clave,id_responsable); 
-                        */
-                    }else{
-                        mostrar_alerta(1);
-                    }
-                }else{
-                    mostrar_alerta(3);
-                }           
-            }
-        });
+        if(departamentos.length===0){
+            insert_only_programa(nombre,descripcion,observaciones);
+        }else{
+            insert_programa_departamento(nombre, descripcion, observaciones, departamentos);
+        }
     }else{
         mostrar_alerta(2);
     }   
+}
+
+
+//INSERT A PROGRAMA
+function insert_only_programa(nombre,descripcion,observaciones){
+    $.ajax({
+        type: "POST",
+        url: path+"insert_programa.php",  
+        data: {"nombre": nombre, "descripcion": descripcion, "observaciones": observaciones} ,                         
+        success: function(res){ 
+            select_programas();
+            if(res==="1"){
+                mostrar_alerta(1);
+                borrar_datos_input_programa();
+            }else{
+                mostrar_alerta(3);
+            }           
+        }
+    });
+}
+
+//INSERT A PROGRAMA Y A DEPARTAMENTO PROGRAMA
+function insert_programa_departamento(nombre, descripcion, observaciones, departamentos){
+    $.ajax({
+        type: "POST",
+        url: path+"insert_programa_departamento.php",  
+        data: {"nombre": nombre, "descripcion": descripcion, "observaciones": observaciones, "departamentos": departamentos.toString()} ,                         
+        success: function(res){  
+            mostrar_alerta(1);
+            select_programas();
+            borrar_datos_input_programa();        
+        }
+    });
+}
+
+
+//BORRAR DATOS DE LOS INPUT DEPARTAMENTO
+function borrar_datos_input_programa(){
+    $("#input_nombre_programa").val("");
+    $("#input_descripcion_programa").val("");
+    $("#input_observaciones_programa").val("");
+    $('#select_programas').multiSelect('deselect_all');
+    $("#boton_insert_update_programa").attr("onclick","insert_programa()");
+}
+
+//BORRAR PROGRAMA
+function borrar_programa(){
+    let id_programa = $("#input_id_programa_borrar").val();
+    $.ajax({
+        type: "POST",
+        url: path+"delete_programa.php",  
+        data: {"id_programa": id_programa} ,                         
+        success: function(res){
+            select_programas();
+            $("#modal_programa").modal("hide");   
+            if(res==="1"){
+                mostrar_alerta(1);
+            }else{
+                mostrar_alerta(3)
+            }
+        }
+    });
+}
+
+//IMPRIMIR PDF PROGRAMA
+function generar_pdf(id_programa){
+    $.ajax({
+        type: "POST",
+        data: {"id_programa": id_programa},
+        url: path+"select_programa_id.php",                           
+        success: function(res){   
+            let programas = JSON.parse(res);
+            let data = []; 
+            programas.forEach(programa => {
+                data.push([programa.nombre, programa.descripcion, programa.observaciones, programa.nombre_departamento]);
+            });
+            let pdf = new jsPDF();
+            let columns = [["Nombre", "Descripción", "Observaciones","Departamentos"]];            
+            pdf.autoTable({
+                head: columns,
+                body: data,
+            })
+            pdf.save('table.pdf');          
+        }
+    });
 }

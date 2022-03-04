@@ -160,7 +160,6 @@ function update_departamento(){
     }else{
         mostrar_alerta(2);
     } 
-    borrar_datos_input_departamento();
 }
 
 //UPDATE A DEPARTAMENTO Y A DEPARTAMENTO-RESPONSABLE

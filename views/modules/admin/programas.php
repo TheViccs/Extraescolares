@@ -65,8 +65,8 @@
             
             <!-- BOTONES GUARDAR Y CANCELAR -->
             <div class="d-flex justify-content-evenly" style="width: 50% !important;">
-                <button class="btn btn-success" onclick="insert_programa()">Guardar</button>
-                <button class="btn btn-danger" onclick="">Cancelar</button>
+                <button id="boton_insert_update_programa" class="btn btn-success" onclick="insert_programa()">Guardar</button>
+                <button class="btn btn-danger" onclick="borrar_datos_input_programa()">Cancelar</button>
             </div>
             
             <!-- TABLA -->
@@ -99,7 +99,7 @@
                 </div>
                 <div class="modal-footer d-flex justify-content-evenly">
                     <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger" onclick="">Borrar</button>
+                    <button type="button" class="btn btn-danger" onclick="borrar_programa()">Borrar</button>
                 </div>
             </div>
         </div>
