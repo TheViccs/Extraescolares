@@ -27,15 +27,18 @@
             <?php include "../../../views/layout/alertas.php" ?>
 
             <!-- TITULO DE CONTENIDO -->
-            <h1 class="mb-4 mt-2 text-center w-100">Vista del Administrador</h1>
+            <h1 class="mb-4 mt-2 text-center w-100">SiGAC</h1>
+            <h1 class="mb-4 mt-2 text-center w-100">Sistema Gestor de Actividades Complemetarias</h1>
             
-            <!-- BODY 
-
-            <img src="../../assets/img/itcolima.svg"  width="400" height="300">-->
             
 
+            <img src="../../../assets/img/itcolima.svg"  width="400" height="300">
+            
+</div>
         <!-- FOOTER -->
+        
        <?php include "../../../views/layout/footer.php" ?> 
+</div>
     <script src="../../../js/departamentos.js"></script>
 </body>
 

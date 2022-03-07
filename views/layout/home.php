@@ -17,7 +17,7 @@
       <img  class="d-inline-block align-text-top">
       SiGAC
     </a>
-    <h2 style="color: white; text-align: center;">SELECCIONE EL TIPO DE USUARIO</h2>
+    <h2 style="color: white; text-align: center;">Quien eres?</h2>
   </div>
 </nav>
 
@@ -70,7 +70,7 @@
   <div class="footer h-20 w-100 bottom-0" style="position: absolute;">
     <nav class="navbar navbar-dark bg-dark h-100 d-flex justify-content-center">
         <div class="d-flex justify-content-center h-100" >
-            <a class="navbar-brand text-center" href="#">Tecnológico Nacional de Mexico Campus Colima</a>
+            <a class="navbar-brand text-center" href="#">Tecnológico Nacional de México Campus Colima</a>
         </div>
     </nav>
 </div>
