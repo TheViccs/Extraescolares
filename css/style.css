@@ -1,23 +1,37 @@
-#contenido{
+.container{
     
-    width: 500px;
-    height: 500px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 200px; 
+    height: 365px;
+    width: 300px;
     
+    border-radius: 10%;
+    background-color: whitesmoke;
+    margin-top: 5%;
+    border: 5px solid black;
     
 }
 
-#boton{
-    background-color: blue;
-    width: 50%;
-    height: 300px;
-
-
+body{
+    background-image: url('../assets/img/Tec-de-Colima.jpeg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
 }
 
-#btn{
+.btnAdmin{
+    margin-top: 20px;
     
-    margin-bottom: 50px;
+    height: 50px;
+    width: 260px;
+    display: flex;
+    justify-content: center;
 }
+
+.btnRP{
+    margin-top: 20px;
+    
+    height: 50px;
+    width: 260px;
+    display: flex;
+    justify-content: center;
+}
+

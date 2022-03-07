@@ -33,8 +33,12 @@
             <div class="content-form mb-4 p-3 d-flex flex-column align-items-center" style="width: 90% !important;">
                 <div id="formulario_responsable" >
                     <div id="id_responsable">
-                        <label style="padding-right: 50px;">Clave</label>
+                    <input id="input_id_responsable" type="text" hidden/>
+                        <div>
+                            <label style="padding-right: 50px;">Clave</label>
                         <input id="input_clave_responsable" type="text" placeholder="Clave" >
+
+                        </div>
                     </div>
 
                     <div id="nombre_responsable" style="margin-top: 10px; margin-bottom: 10px;">
@@ -87,12 +91,15 @@
                 </div>
             </div>
         </div>
+        
     </div>
 
         <!-- FOOTER -->
         <?php include "../../../views/layout/footer.php" ?>
+        
 
     </div>
     <script src="../../../js/responsableDepartamento.js"></script>
 </body>
+
 </html>
