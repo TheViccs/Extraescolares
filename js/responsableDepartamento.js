@@ -10,7 +10,7 @@ $('#tabla-responsables').DataTable({
         {data: "botonimprimir", title: 'Impirmir'}
     ],
     "columnDefs": [
-        { "orderable": false, "targets": [4,5] },
+        { "orderable": false, "targets": [3,4,5] },
     ],
     lengthChange: false,
     language: {
