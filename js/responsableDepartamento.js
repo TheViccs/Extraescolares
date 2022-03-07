@@ -54,9 +54,9 @@ function agregar_responsables_tabla(responsables){
     tabla.rows().remove().draw();
     for(let responsable of responsables){
         tabla.row.add({"clave":responsable.clave, "nombre":responsable.nombre, "correo":responsable.correo,"botoneditar":"<button id='botoneditarresponsable"+ responsable.id_responsable+"'class='btn btn-primary'> Editar </button>", "botonborrar": "<button id='botonborrarresponsable"+responsable.id_responsable+"'class='btn btn-danger' >Borrar</button>", "botonimprimir":"<button id='botonimprimir"+responsable.id_responsable+"' class= 'btn btn-dark'>Imprimir</button>"}).draw();
-     //  $("#botoneditarresponsable"+responsable.id_responsable).on( "click", function(){select_responsable_id(responsable.id_responsable)});
+     $("#botoneditarresponsable"+responsable.id_responsable).on( "click", function(){select_responsables_id(responsable.id_responsable)});
        $("#botonborrarresponsable"+responsable.id_responsable).on( "click", function(){mostrar_modal_borrar_responsable(responsable.id_responsable, responsable.clave, responsable.nombre, responsable.correo)});
-       $("#botonimprimir");
+       $("#botonimprimir"+responsable.id_responsable).on( "click", function(){generar_pdf(responsable.id_responsable)});
     }
 }
 
@@ -122,22 +122,42 @@ function borrar_responsable(){
     });
 }
 
-/*
+//IMPRIMIR PDF DEPARTAMENTO
+function generar_pdf(id_responsable){
+    $.ajax({
+        type: "POST",
+        data: {"id_responsable": id_responsable},
+        url: path+"select_responsable_id.php",                           
+        success: function(res){   
+            let responsable = JSON.parse(res)[0];           
+            let pdf = new jsPDF();
+            let columns = [["Clave","Nombre","Correo"]]; 
+            let data = [[responsable.clave_responsable, responsable.nombre, responsable.correo]];
+            pdf.autoTable({
+                head: columns,
+                body: data,
+            })
+            let blob = pdf.output("blob");
+            window.open(URL.createObjectURL(blob));          
+        }
+    });
+}
+
+
 //SELECT DE DEPARTAMENTO POR ID
 function select_responsables_id(id_responsable){
     $.ajax({
         type: "POST",
-        data: {"id_departamento": id_departamento},
-        url: path+"select_departamento_id.php",                           
+        data: {"id_responsable": id_responsable},
+        url: path+"select_responsable_id.php",                           
         success: function(res){    
-            let departamento = JSON.parse(res)[0];
-            $("#input_id_departamento").val(departamento.id_departamento);                
-            $("#input_clave_departamento").val(departamento.clave);
-            $("#input_nombre_departamento").val(departamento.nombre);
-            $("#input_ubicacion_departamento").val(departamento.ubicacion);
-            $("#input_extension_departamento").val(departamento.extension);
-            $("#input_select_responsables").val($("#select_responsables option[data-id='" +departamento.id_responsable+"']").attr("value"));
+            let responsable = JSON.parse(res)[0];
+            console.log(res);
+            //$("#input_id_responsable").val(responsable.id_responsable);                
+            $("#input_clave_responsable").val(responsable.clave_responsable);
+            $("#input_nombre_responsable").val(responsable.nombre);
+            $("#input_correo_responsable").val(responsable.correo);
         }
     });
-}*/
+}
 

@@ -309,7 +309,8 @@ function generar_pdf(id_departamento){
                 head: columns,
                 body: data,
             })
-            pdf.save('table.pdf');          
+            let blob = pdf.output("blob");
+            window.open(URL.createObjectURL(blob));         
         }
     });
 }
