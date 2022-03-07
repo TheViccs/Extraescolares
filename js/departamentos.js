@@ -304,12 +304,19 @@ function generar_pdf(id_departamento){
             let pdf = new jsPDF();
             let columns = [["Clave", "Nombre", "Ubicación", "Extensión","Responsable"]];
             let data = [[departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension, departamento.nombre_responsable]];
+            pdf.setProperties({
+                title: "Tabla Departamento "+departamento.nombre
+            });
+            let texto = "Departamento "+departamento.nombre;
+            let x = (pdf.internal.pageSize.width/2) - (pdf.getTextWidth(texto)/2)
+            pdf.text(texto,x,15);
             pdf.autoTable({
+                startY: 25,
                 head: columns,
                 body: data,
             })
             let blob = pdf.output("blob");
-            window.open(URL.createObjectURL(blob));         
+            window.open(URL.createObjectURL(blob));          
         }
     });
 }

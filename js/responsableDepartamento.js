@@ -133,7 +133,14 @@ function generar_pdf(id_responsable){
             let pdf = new jsPDF();
             let columns = [["Clave","Nombre","Correo"]]; 
             let data = [[responsable.clave_responsable, responsable.nombre, responsable.correo]];
+            pdf.setProperties({
+                title: "Tabla Responsable "+responsable.nombre
+            });
+            let texto = "Responsable "+responsable.nombre;
+            let x = (pdf.internal.pageSize.width/2) - (pdf.getTextWidth(texto)/2)
+            pdf.text(texto,x,15);
             pdf.autoTable({
+                startY: 25,
                 head: columns,
                 body: data,
             })

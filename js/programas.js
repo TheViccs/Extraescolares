@@ -272,12 +272,19 @@ function generar_pdf(id_programa){
             });
             let pdf = new jsPDF();
             let columns = [["Nombre", "Descripción", "Observaciones","Departamentos"]];            
+            pdf.setProperties({
+                title: "Tabla Programa "+programas[0].nombre
+            });
+            let texto = "Programa "+programas[0].nombre;
+            let x = (pdf.internal.pageSize.width/2) - (pdf.getTextWidth(texto)/2)
+            pdf.text(texto,x,15);
             pdf.autoTable({
+                startY: 25,
                 head: columns,
                 body: data,
             })
             let blob = pdf.output("blob");
-            window.open(URL.createObjectURL(blob));           
+            window.open(URL.createObjectURL(blob));          
         }
     });
 }
