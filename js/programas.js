@@ -266,10 +266,12 @@ function generar_pdf(id_programa){
         url: path+"select_programa_id.php",                           
         success: function(res){   
             let programas = JSON.parse(res);
+            let departamentos = [];
             let data = []; 
             programas.forEach(programa => {
-                data.push([programa.nombre, programa.descripcion, programa.observaciones, programa.nombre_departamento]);
+                departamentos.push(programa.nombre_departamento);
             });
+            data.push([programas[0].nombre, programas[0].descripcion, programas[0].observaciones, departamentos]);
             let pdf = new jsPDF();
             let columns = [["Nombre", "Descripción", "Observaciones","Departamentos"]];            
             pdf.setProperties({
