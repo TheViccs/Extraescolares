@@ -26,31 +26,27 @@
             <!-- ALERTAS -->
             <?php include "../../../views/layout/alertas.php" ?>
 
-                        
-            <!-- FORMULARIO -->
+            <!-- TITULO DE CONTENIDO -->            
             <h1 class="mb-4 mt-2 text-center w-100">Gestión de Responsables</h1>
             
+            <!-- FORMULARIO -->
             <div class="content-form mb-4 p-3 d-flex flex-column align-items-center" style="width: 90% !important;">
                 <div id="formulario_responsable" >
                     <div id="id_responsable">
-                    <input id="input_id_responsable" type="text" hidden/>
+                        <input id="input_id_responsable" type="text" hidden/>
                         <div>
                             <label style="padding-right: 50px;">Clave</label>
-                        <input id="input_clave_responsable" type="text" placeholder="Clave" >
-
+                            <input id="input_clave_responsable" type="text" placeholder="Clave" >
                         </div>
                     </div>
-
                     <div id="nombre_responsable" style="margin-top: 10px; margin-bottom: 10px;">
                         <label style="padding-right: 50px;">Nombre</label>
                         <input style="margin-left: -20px;" id="input_nombre_responsable" type="Nombre" placeholder="Nombre">
                     </div>
-
                     <div id="email_responsable">
                         <label style="padding-right: 50px; margin-bottom: 10px;">Email</label>
                         <input id="input_correo_responsable" type="email" placeholder="Email" >
-                    </div>
-                    
+                    </div>                   
                 </div>  
 
             <!-- BOTONES GUARDAR Y CANCELAR -->

@@ -43,17 +43,6 @@
                     </div>
                 </div>
                 <br>
-                <div class="d-flex justify-content-evenly" style="width: 100% !important;">
-                    <div class="d-flex justify-content-between" style="width: 45% !important;">
-                        <label class="text-center" style="width: 50% !important;">Fecha inicio de inscripciones</label>
-                        <input id="input_inicio_inscripciones" type="date" style="width: 50% !important;" required>
-                    </div>
-                    <div class="d-flex justify-content-between" style="width: 45% !important;">
-                        <label class="text-center" style="width: 50% !important;">Fecha fin de inscripciones</label>
-                        <input id="input_fin_inscripciones" type="date" style="width: 50% !important;" required>
-                    </div>
-                </div> 
-                <br>
                 <div class="d-flex justify-content-center" style="width: 50% !important;">
                     <label class="text-center" style="width: 50% !important;">Nombre del periodo</label>
                     <input id="input_nombre_periodo" type="text" style="width: 50% !important;" disabled required>

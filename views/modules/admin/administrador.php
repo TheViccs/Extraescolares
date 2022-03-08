@@ -35,6 +35,7 @@
             
 
         <!-- FOOTER -->
+        </div>
        <?php include "../../../views/layout/footer.php" ?> 
     <script src="../../../js/departamentos.js"></script>
 </body>

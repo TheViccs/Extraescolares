@@ -40,13 +40,11 @@ function insert_periodo(){
     let nombre = $("#input_nombre_periodo").val();
     let fecha_i_a = $("#input_inicio_actividades").val();
     let fecha_f_a = $("#input_fin_actividades").val();
-    let fecha_i_i = $("#input_inicio_inscripciones").val();
-    let fecha_f_i = $("#input_fin_inscripciones").val();
-    if(nombre.length !== 0 && fecha_i_a.length !== 0 && fecha_f_a.length !== 0 && fecha_i_i.length !== 0 && fecha_f_i.length !== 0){
+    if(nombre.length !== 0 && fecha_i_a.length !== 0 && fecha_f_a.length !== 0){
         $.ajax({
             type: "POST",
             url: path+"insert_periodo.php",  
-            data: {"nombre": nombre, "fecha_i_a": fecha_i_a, "fecha_f_a": fecha_f_a, "fecha_i_i": fecha_i_i, "fecha_f_i": fecha_f_i} ,                         
+            data: {"nombre": nombre, "fecha_i_a": fecha_i_a, "fecha_f_a": fecha_f_a} ,                         
             success: function(res){  
                 if(res==="1"){   
                     mostrar_alerta(1);
@@ -66,8 +64,6 @@ function borrar_datos_input_periodo(){
     $("#input_nombre_periodo").val("");
     $("#input_inicio_actividades").val("");
     $("#input_fin_actividades").val("");
-    $("#input_inicio_inscripciones").val("");
-    $("#input_fin_inscripciones").val("");
 }
 
 //SELECT DE PERIODO
@@ -75,16 +71,17 @@ function select_periodo(){
     $.ajax({
         type: "GET",
         url: path+"select_periodo.php",                           
-        success: function(res){    
-            let periodo = JSON.parse(res)[0]; 
-            if(moment(periodo.fecha_fin_actividades).add(1,"days")>=moment()){
-                $("#input_nombre_periodo").val(periodo.nombre);
-                $("#input_inicio_actividades").val(periodo.fecha_inicio_actividades);
-                $("#input_fin_actividades").val(periodo.fecha_fin_actividades);
-                $("#input_inicio_inscripciones").val(periodo.fecha_inicio_inscripciones);
-                $("#input_fin_inscripciones").val(periodo.fecha_fin_inscripciones);
-            }else{
-                borrar_datos_input_periodo();
+        success: function(res){ 
+            let periodo = JSON.parse(res);
+            if(periodo.length!==0){
+                periodo = periodo[0]; 
+                if(moment(periodo.fecha_fin_actividades).add(1,"days")>=moment()){
+                    $("#input_nombre_periodo").val(periodo.nombre);
+                    $("#input_inicio_actividades").val(periodo.fecha_inicio_actividades);
+                    $("#input_fin_actividades").val(periodo.fecha_fin_actividades);
+                }else{
+                    borrar_datos_input_periodo();
+                }
             }
         }
     });

@@ -1,6 +1,7 @@
 <?php
 include('conexion.php');
 
+$clave = $_POST['clave']; 
 $nombre = $_POST['nombre'];
 $descripcion = $_POST['descripcion'];
 $observaciones = $_POST['observaciones'];
@@ -9,7 +10,7 @@ $observaciones = !empty($observaciones) ? "'$observaciones'" : "NULL";
 $departamentos = $_POST['departamentos'];
 $array_departamentos = explode(',',$departamentos);
 
-$sql=("CALL sp_insert_programa('".$nombre."',$descripcion,$observaciones)");
+$sql=("CALL sp_insert_programa('".$clave."','".$nombre."',$descripcion,$observaciones)");
 $result = mysqli_query($conn,$sql);
 if($result){
     echo "1";
