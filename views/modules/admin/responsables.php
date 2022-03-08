@@ -92,7 +92,7 @@
         <?php include "../../../views/layout/footer.php" ?>
         
     </div>
-    <script src="../../../js/responsableDepartamento.js"></script>
+    <script src="../../../js/responsables.js"></script>
 </body>
 
 </html>
