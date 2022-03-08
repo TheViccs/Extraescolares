@@ -22,20 +22,23 @@
 
         <!-- CONTENT -->
         <div class="d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height: calc(100% - 112px) !important; overflow-y:auto;">
-            
-            <!-- ALERTAS -->
-            <?php include "../../../views/layout/alertas.php" ?>
-
-            <!-- TITULO DE CONTENIDO -->
-            <h1 class="mb-4 mt-2 text-center w-100">SiGAC</h1>
-            <h1 class="mb-4 mt-2 text-center w-100">Sistema Gestor de Actividades Complemetarias</h1>
-            
-            
-
-            <img src="../../../assets/img/itcolima.svg"  width="400" height="300">
-            
+            <div class="menu w-100 h-100 p-3">
+                <ul class="contenedor-menu w-90 h-100 text-center">
+                    <li>
+                        <a>Gestionar Periodos</a>
+                    </li>
+                    <li>
+                        <a>Gestionar Departamentos</a>
+                    </li>
+                    <li>
+                        <a>Gestionar Responsables</a>
+                    </li>
+                    <li>
+                        <a>Gestionar Programas</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-
         <!-- FOOTER -->
        <?php include "../../../views/layout/footer.php" ?>
         

@@ -24,3 +24,26 @@ thead{
 .ms-list{
     border-color: rgb(118, 118, 118) !important;
 }
+
+.contenedor-menu, .contenedor-menu li{
+    list-style: none !important;
+}
+
+.contenedor-menu li{
+    background-color: red;
+}
+
+.contenedor-menu li:hover{
+    background-color: orange;
+}
+
+.contenedor-menu{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-auto-rows:minmax(100px, 100px);
+    grid-gap: 10px;
+    grid-row: 20px;
+    padding: 0;
+    margin: 0;
+}
+
