@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-03-2022 a las 16:13:36
+-- Tiempo de generación: 10-03-2022 a las 16:18:01
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -121,6 +121,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_responsable_id` (IN `r_id
 	SELECT responsable.id_responsable, responsable.clave as clave_responsable, responsable.nombre, responsable.correo, departamento.id_departamento, departamento.nombre as nombre_departamento FROM responsable LEFT JOIN departamento_responsable ON responsable.id_responsable=departamento_responsable.id_responsable LEFT JOIN departamento ON departamento_responsable.id_departamento=departamento.id_departamento WHERE responsable.id_responsable=r_id_responsable;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_select_tipo_usuario`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_tipo_usuario` (IN `in_correo` VARCHAR(150))  BEGIN
+	IF (SELECT COUNT(*) FROM responsable WHERE responsable.correo=in_correo) <> 0 THEN
+		SELECT *,"responsable" as Tipo FROM responsable WHERE responsable.correo=in_correo;
+    ELSEIF (SELECT COUNT(*) FROM coordinador WHERE coordinador.correo=in_correo) <> 0 THEN
+    	SELECT *,"coordinador" as Tipo FROM coordinador WHERE coordinador.correo=in_correo;
+    END IF;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_update_departamento`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_departamento` (IN `d_id_departamento` INT, IN `d_clave` VARCHAR(10), IN `d_nombre` VARCHAR(150), IN `d_ubicacion` VARCHAR(150), IN `d_extension` VARCHAR(12))  BEGIN
 	UPDATE departamento SET clave=d_clave, nombre=d_nombre, ubicacion=d_ubicacion, extension=d_extension WHERE id_departamento=d_id_departamento;
@@ -169,7 +178,7 @@ CREATE TABLE `coordinador` (
   `apellido_p` varchar(150) NOT NULL,
   `apellido_m` varchar(150) NOT NULL,
   `correo` varchar(150) NOT NULL,
-  `foto` varchar(150) NOT NULL
+  `foto` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -192,9 +201,9 @@ CREATE TABLE `departamento` (
 --
 
 INSERT INTO `departamento` (`id_departamento`, `clave`, `nombre`, `ubicacion`, `extension`) VALUES
-(1, 'DSC', 'Departamento de Sistemas', 'Edificio R', '212'),
-(2, 'DIG', 'Departamento de Ingeniería Industrial', 'Edificio W', '232'),
-(3, 'DAE', 'Departamento de Actividades Extraescolares', 'Edificio 300', '108');
+(1, 'D', 'Dirección', ' ', '201'),
+(2, 'SPB', 'Subdirector de Planeación y Vinculación', ' ', '102'),
+(6, 'DAE', 'Departamento de Actividades Extraescolares', ' ', '108');
 
 -- --------------------------------------------------------
 
@@ -213,9 +222,9 @@ CREATE TABLE `departamento_programa` (
 --
 
 INSERT INTO `departamento_programa` (`id_departamento`, `id_programa`) VALUES
-(1, 1),
-(2, 1),
-(3, 2);
+(6, 2),
+(6, 5),
+(6, 6);
 
 -- --------------------------------------------------------
 
@@ -236,9 +245,9 @@ CREATE TABLE `departamento_responsable` (
 --
 
 INSERT INTO `departamento_responsable` (`id_departamento`, `id_responsable`, `fecha_inicio`, `fecha_fin`) VALUES
-(1, 1, '2022-03-07', NULL),
-(2, 3, '2022-03-07', NULL),
-(3, 4, '2022-03-07', NULL);
+(1, 1, '2022-03-09', NULL),
+(2, 4, '2022-03-09', NULL),
+(6, 5, '2022-03-09', NULL);
 
 -- --------------------------------------------------------
 
@@ -282,7 +291,9 @@ CREATE TABLE `programa` (
 
 INSERT INTO `programa` (`id_programa`, `clave`, `nombre`, `descripcion`, `observaciones`) VALUES
 (1, 'PFP', 'Formación profesional', NULL, NULL),
-(2, 'PAD', 'Actividades deportivas', NULL, NULL);
+(2, 'PAD', 'Programa de Actividades Deportivas', NULL, NULL),
+(5, 'PAC', 'Programa de Actividades Culturales', NULL, NULL),
+(6, 'PACIV', 'Programa de Actividades Cívicas', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -295,17 +306,18 @@ CREATE TABLE `responsable` (
   `id_responsable` int(11) NOT NULL,
   `clave` varchar(10) NOT NULL,
   `nombre` varchar(150) NOT NULL,
-  `correo` varchar(150) NOT NULL
+  `correo` varchar(150) NOT NULL,
+  `foto` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `responsable`
 --
 
-INSERT INTO `responsable` (`id_responsable`, `clave`, `nombre`, `correo`) VALUES
-(1, '098', 'Ma. Elena Martínez Duran', 'mmartinez@colima.tecnm.mx'),
-(3, '200', 'Francisco Tejeda', 'ftejeda@colima.tecnm.mx'),
-(4, '180', 'Ariel Lira Obaldo', 'alira@colima.tecnm.mx');
+INSERT INTO `responsable` (`id_responsable`, `clave`, `nombre`, `correo`, `foto`) VALUES
+(1, '1', 'Ana Rosa Braña Castillo', 'ana.braña', NULL),
+(4, '2', 'Pedro Itzvan Silva Medina', 'pedro.silva', NULL),
+(5, '190', 'Ariel Lira Obando', 'alira@colima.tecnm.mx', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -373,7 +385,7 @@ ALTER TABLE `coordinador`
 -- AUTO_INCREMENT de la tabla `departamento`
 --
 ALTER TABLE `departamento`
-  MODIFY `id_departamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_departamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `periodo`
@@ -385,13 +397,13 @@ ALTER TABLE `periodo`
 -- AUTO_INCREMENT de la tabla `programa`
 --
 ALTER TABLE `programa`
-  MODIFY `id_programa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_programa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `responsable`
 --
 ALTER TABLE `responsable`
-  MODIFY `id_responsable` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_responsable` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restricciones para tablas volcadas
