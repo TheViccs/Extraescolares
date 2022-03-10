@@ -43,6 +43,14 @@
                         <label style="padding-right: 50px;">Nombre</label>
                         <input style="margin-left: -20px;" id="input_nombre_responsable" type="Nombre" placeholder="Nombre">
                     </div>
+                    <div id="apellido_p_responsable" style="margin-top: 10px; margin-bottom: 10px;">
+                        <label style="padding-right: 50px;">Apellido Paterno</label>
+                        <input style="margin-left: -20px;" id="input_apellido_p_responsable" type="ApellidoP" placeholder="Apellido Paterno">
+                    </div>
+                    <div id="apellido_m_responsable" style="margin-top: 10px; margin-bottom: 10px;">
+                        <label style="padding-right: 50px;">Apellido Materno</label>
+                        <input style="margin-left: -20px;" id="input_apellido_m_responsable" type="ApellidoM" placeholder="Apellido Materno">
+                    </div>
                     <div id="email_responsable">
                         <label style="padding-right: 50px; margin-bottom: 10px;">Email</label>
                         <input id="input_correo_responsable" type="email" placeholder="Email" >

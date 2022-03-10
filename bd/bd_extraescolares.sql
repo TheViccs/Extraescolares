@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-03-2022 a las 16:18:01
+-- Tiempo de generación: 10-03-2022 a las 22:42:11
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -77,8 +77,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_programa_departamento` (I
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_responsable`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_responsable` (IN `r_clave` VARCHAR(10), IN `r_nombre` VARCHAR(150), IN `r_correo` VARCHAR(150))  BEGIN
-	INSERT INTO responsable(clave, nombre, correo) VALUES (r_clave,r_nombre,r_correo) ON DUPLICATE KEY UPDATE nombre=r_nombre, correo=r_correo;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_responsable` (IN `r_clave` VARCHAR(10), IN `r_nombre` VARCHAR(150), IN `r_apellido_p` INT(50), IN `r_apellido_m` INT(50), IN `r_correo` VARCHAR(150))  BEGIN
+	INSERT INTO responsable(clave, nombre, apellido_p, apellido_m, correo) VALUES (r_clave,r_nombre,r_apellido_p,r_apellido_m,r_correo) ON DUPLICATE KEY UPDATE nombre=r_nombre,apellido_p=r_apellido_p,apellido_m=r_apellido_m, correo=r_correo;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_departamentos`$$
@@ -118,7 +118,7 @@ END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_responsable_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_responsable_id` (IN `r_id_responsable` INT)  BEGIN
-	SELECT responsable.id_responsable, responsable.clave as clave_responsable, responsable.nombre, responsable.correo, departamento.id_departamento, departamento.nombre as nombre_departamento FROM responsable LEFT JOIN departamento_responsable ON responsable.id_responsable=departamento_responsable.id_responsable LEFT JOIN departamento ON departamento_responsable.id_departamento=departamento.id_departamento WHERE responsable.id_responsable=r_id_responsable;
+	SELECT responsable.id_responsable, responsable.clave as clave_responsable, responsable.nombre, responsable.apellido_p, responsable.apellido_m, responsable.correo, departamento.id_departamento, departamento.nombre as nombre_departamento FROM responsable LEFT JOIN departamento_responsable ON responsable.id_responsable=departamento_responsable.id_responsable LEFT JOIN departamento ON departamento_responsable.id_departamento=departamento.id_departamento WHERE responsable.id_responsable=r_id_responsable;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_tipo_usuario`$$
@@ -306,6 +306,8 @@ CREATE TABLE `responsable` (
   `id_responsable` int(11) NOT NULL,
   `clave` varchar(10) NOT NULL,
   `nombre` varchar(150) NOT NULL,
+  `apellido_p` varchar(50) DEFAULT NULL,
+  `apellido_m` varchar(50) DEFAULT NULL,
   `correo` varchar(150) NOT NULL,
   `foto` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -314,10 +316,10 @@ CREATE TABLE `responsable` (
 -- Volcado de datos para la tabla `responsable`
 --
 
-INSERT INTO `responsable` (`id_responsable`, `clave`, `nombre`, `correo`, `foto`) VALUES
-(1, '1', 'Ana Rosa Braña Castillo', 'ana.braña', NULL),
-(4, '2', 'Pedro Itzvan Silva Medina', 'pedro.silva', NULL),
-(5, '190', 'Ariel Lira Obando', 'alira@colima.tecnm.mx', NULL);
+INSERT INTO `responsable` (`id_responsable`, `clave`, `nombre`, `apellido_p`, `apellido_m`, `correo`, `foto`) VALUES
+(1, '1', 'Ana Rosa', 'Braña', 'Castillo', 'ana.braña@colima.tecnm.mx', NULL),
+(4, '2', 'Pedro Itzvan', 'Silva', 'Medina', 'pedro.silva@colima.tecnm.mx', NULL),
+(5, '190', 'Ariel', 'Lira', 'Obando', 'alira@colima.tecnm.mx', NULL);
 
 --
 -- Índices para tablas volcadas

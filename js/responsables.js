@@ -53,7 +53,7 @@ function agregar_responsables_tabla(responsables){
     let tabla = $("#tabla-responsables").DataTable();
     tabla.rows().remove().draw();
     for(let responsable of responsables){
-        tabla.row.add({"clave":responsable.clave, "nombre":responsable.nombre, "correo":responsable.correo,"botoneditar":"<button id='botoneditarresponsable"+ responsable.id_responsable+"'class='btn btn-primary'> Editar </button>", "botonborrar": "<button id='botonborrarresponsable"+responsable.id_responsable+"'class='btn btn-danger' >Borrar</button>", "botonimprimir":"<button id='botonimprimir"+responsable.id_responsable+"' class= 'btn btn-dark'>Imprimir</button>"}).draw();
+        tabla.row.add({"clave":responsable.clave, "nombre":responsable.nombre+" "+responsable.apellido_p+" "+responsable.apellido_m, "correo":responsable.correo,"botoneditar":"<button id='botoneditarresponsable"+ responsable.id_responsable+"'class='btn btn-primary'> Editar </button>", "botonborrar": "<button id='botonborrarresponsable"+responsable.id_responsable+"'class='btn btn-danger' >Borrar</button>", "botonimprimir":"<button id='botonimprimir"+responsable.id_responsable+"' class= 'btn btn-dark'>Imprimir</button>"}).draw();
      $("#botoneditarresponsable"+responsable.id_responsable).on( "click", function(){select_responsables_id(responsable.id_responsable)});
        $("#botonborrarresponsable"+responsable.id_responsable).on( "click", function(){mostrar_modal_borrar_responsable(responsable.id_responsable, responsable.clave, responsable.nombre, responsable.correo)});
        $("#botonimprimir"+responsable.id_responsable).on( "click", function(){generar_pdf(responsable.id_responsable)});
@@ -74,13 +74,15 @@ function mostrar_modal_borrar_responsable(id_responsable, clave, nombre, correo)
 function insert_responsable(){
     let clave = $("#input_clave_responsable").val();
     let nombre = $("#input_nombre_responsable").val();
+    let apellido_p = $("#input_apellido_p_responsable").val();
+    let apellido_m = $("#input_apellido_m_responsable").val();
     let correo = $("#input_correo_responsable").val();
 
-    if(clave.length !== 0 && nombre.length !== 0 && correo.length !== 0){
+    if(clave.length !== 0 && nombre.length !== 0 && apellido_p.length !== 0 && apellido_m.length !== 0 && correo.length !== 0){
         $.ajax({
             type: "POST",
             url: path+"insert_responsable.php",
-            data: {"clave":clave,"nombre":nombre,"correo":correo + "@colima.tecnm.mx"},
+            data: {"clave":clave,"nombre":nombre,"apellido_p":apellido_p,"apellido_m":apellido_m,"correo":correo + "@colima.tecnm.mx"},
             success: function(res){
                 borrar_datos_input_responsable();
                 select_responsables_1();
@@ -100,6 +102,8 @@ function insert_responsable(){
 function borrar_datos_input_responsable(){
     $("#input_clave_responsable").val("");
     $("#input_nombre_responsable").val("");
+    $("#input_apellido_p_responsable").val("");
+    $("#input_apellido_m_responsable").val("");
     $("#input_correo_responsable").val("");
 }
 
@@ -163,6 +167,8 @@ function select_responsables_id(id_responsable){
             //$("#input_id_responsable").val(responsable.id_responsable);                
             $("#input_clave_responsable").val(responsable.clave_responsable);
             $("#input_nombre_responsable").val(responsable.nombre);
+            $("#input_apellido_p_responsable").val(responsable.apellido_p);
+            $("#input_apellido_m_responsable").val(responsable.apellido_m);
             $("#input_correo_responsable").val(responsable.correo);
         }
     });
