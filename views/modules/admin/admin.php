@@ -41,6 +41,9 @@
         </div>
         <!-- FOOTER -->
        <?php include "../../../views/layout/footer.php" ?>
+        
     </div>
+    <script src="../../../js/departamentos.js"></script>
 </body>
+
 </html>

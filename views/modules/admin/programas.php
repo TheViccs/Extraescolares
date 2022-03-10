@@ -34,22 +34,23 @@
                 <div class="d-flex justify-content-evenly" style="width: 100% !important;">
                     <input id="input_id_programa" type="text" hidden/>
                     <div class="d-flex justify-content-between" style="width: 45% !important;">
-                        <label class="text-center" style="width: 50% !important;">Nombre</label>
-                        <input id="input_nombre_programa" style="width: 50% !important;" type="text" required/>
+                        <label class="text-center" style="width: 50% !important;">Clave</label>
+                        <input id="input_clave_programa" style="width: 50% !important;" type="text" required/>
                     </div>
                     <div class="d-flex justify-content-between" style="width: 45% !important;">
-                        <label class="text-center" style="width: 50% !important;">Descripción</label>
-                        <textarea id="input_descripcion_programa" style="width: 50% !important;" type="text" required></textarea>
-                    </div>
+                        <label class="text-center" style="width: 50% !important;">Nombre</label>
+                        <input id="input_nombre_programa" style="width: 50% !important;" type="text" required/>
+                    </div>                 
                 </div>
                 <br>
                 <div class="d-flex justify-content-evenly" style="width: 100% !important;">          
                     <div class="d-flex justify-content-between" style="width: 45% !important;">
-                        <label class="text-center" style="width: 50% !important;">Observaciones</label>
-                        <textarea id="input_observaciones_programa" style="width: 50% !important;" type="text" required></textarea>
+                        <label class="text-center" style="width: 50% !important;">Descripción</label>
+                        <textarea id="input_descripcion_programa" style="width: 50% !important;" type="text" required></textarea>
                     </div>
                     <div class="d-flex justify-content-between" style="width: 45% !important;">
-                        
+                        <label class="text-center" style="width: 50% !important;">Observaciones</label>
+                        <textarea id="input_observaciones_programa" style="width: 50% !important;" type="text" required></textarea>
                     </div>
                 </div>
                 <br>
@@ -92,6 +93,7 @@
                 <div class="modal-body text-center">
                     <div class="w-100">
                         <h3>Seguro que quiere borrar el programa?</h1>
+                        <p id="p_clave_programa"></p>
                         <p id="p_nombre_programa"></p>
                         <p id="p_descripcion_programa"></p>
                         <input id="input_id_programa_borrar" type="text" hidden/>

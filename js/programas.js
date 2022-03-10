@@ -29,6 +29,7 @@ $('#tabla_programas').DataTable({
     pageLength: 20,
     caseInsen: false,
     columns: [
+        {data: "clave", title:'Clave'},
         {data: "nombre", title: 'Nombre'},
         {data: "descripcion", title: 'Descripción'},
         {data: "observaciones", title: 'Observaciones'},
@@ -80,9 +81,9 @@ function agregar_programas_tabla(programas){
     let tabla = $("#tabla_programas").DataTable();
     tabla.rows().remove().draw();
     for(let programa of programas){
-        tabla.row.add({"nombre":programa.nombre,"descripcion":programa.descripcion,"observaciones":programa.observaciones,"botoneditar":"<button id='botoneditarprograma"+programa.id_programa+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrarprograma"+programa.id_programa+"' class='btn btn-danger'>Borrar</button>","botonimprimir":"<button id='botonimprimirprograma"+programa.id_programa+"' class='btn btn-dark'>Imprimir</button>"}).draw();
+        tabla.row.add({"clave":programa.clave,"nombre":programa.nombre,"descripcion":programa.descripcion,"observaciones":programa.observaciones,"botoneditar":"<button id='botoneditarprograma"+programa.id_programa+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrarprograma"+programa.id_programa+"' class='btn btn-danger'>Borrar</button>","botonimprimir":"<button id='botonimprimirprograma"+programa.id_programa+"' class='btn btn-dark'>Imprimir</button>"}).draw();
         $("#botoneditarprograma"+programa.id_programa).on( "click", function(){select_programa_id(programa.id_programa)});
-        $("#botonborrarprograma"+programa.id_programa).on( "click", function(){mostrar_modal_borrar_programa(programa.id_programa, programa.nombre, programa.descripcion)});
+        $("#botonborrarprograma"+programa.id_programa).on( "click", function(){mostrar_modal_borrar_programa(programa.id_programa,programa.clave, programa.nombre, programa.descripcion)});
         $("#botonimprimirprograma"+programa.id_programa).on( "click", function(){generar_pdf(programa.id_programa)});
     }
 }
@@ -98,7 +99,8 @@ function select_programa_id(id_programa){
             let departamentos = JSON.parse(res).map(function(programa){
                 return programa.nombre_departamento;
             });
-            $("#input_id_programa").val(id_programa);                
+            $("#input_id_programa").val(id_programa); 
+            $("#input_clave_programa").val(programa.clave);                
             $("#input_nombre_programa").val(programa.nombre);
             $("#input_descripcion_programa").val(programa.descripcion);
             $("#input_observaciones_programa").val(programa.observaciones);
@@ -115,17 +117,18 @@ function select_programa_id(id_programa){
 //UPDATE PROGRAMA
 function update_programa(){
     let id_programa = $("#input_id_programa").val();
+    let clave =  $("#input_clave_programa").val();
     let nombre = $("#input_nombre_programa").val();
     let descripcion = $("#input_descripcion_programa").val();
     let observaciones = $("#input_observaciones_programa").val();
-    if(id_programa.length !== 0 && nombre.length !== 0){
+    if(id_programa.length !== 0 && clave.length !== 0 && nombre.length !== 0){
         let departamentos = [].map.call($("#select_programas option:selected"),function(departamento){
             return departamento.id;
         })
         if(departamentos.length===0){
-            update_only_programa(id_programa,nombre,descripcion,observaciones);
+            update_only_programa(id_programa,clave,nombre,descripcion,observaciones);
         }else{
-            update_programa_departamento(id_programa,nombre,descripcion,observaciones,departamentos);
+            update_programa_departamento(id_programa,clave,nombre,descripcion,observaciones,departamentos);
         }
     }else{
         mostrar_alerta(2);
@@ -133,11 +136,11 @@ function update_programa(){
 }
 
 //UPDATE A DEPARTAMENTO
-function update_only_programa(id_programa,nombre,descripcion,observaciones){
+function update_only_programa(id_programa,clave,nombre,descripcion,observaciones){
     $.ajax({
         type: "POST",
         url: path+"update_programa.php",  
-        data: {"id_programa":id_programa, "nombre": nombre, "descripcion": descripcion, "observaciones": observaciones} ,                         
+        data: {"id_programa":id_programa, "clave":clave, "nombre": nombre, "descripcion": descripcion, "observaciones": observaciones} ,                         
         success: function(res){ 
             console.log(res);
             select_programas(); 
@@ -152,11 +155,11 @@ function update_only_programa(id_programa,nombre,descripcion,observaciones){
 }
 
 //UPDATE A PROGRAMA Y A PROGRAMA-DEPARTAMENTO
-function update_programa_departamento(id_programa,nombre,descripcion,observaciones,departamentos){
+function update_programa_departamento(id_programa,clave,nombre,descripcion,observaciones,departamentos){
     $.ajax({
         type: "POST",
         url: path+"update_programa_departamento.php",  
-        data: {"id_programa":id_programa,"nombre": nombre, "descripcion": descripcion, "observaciones": observaciones, "departamentos": departamentos.toString()} ,                         
+        data: {"id_programa":id_programa, "clave":clave , "nombre": nombre, "descripcion": descripcion, "observaciones": observaciones, "departamentos": departamentos.toString()} ,                         
         success: function(res){ 
             console.log(res);
             select_programas(); 
@@ -167,8 +170,9 @@ function update_programa_departamento(id_programa,nombre,descripcion,observacion
 }
 
 //MOSTRAR MODAL BORRAR PROGRAMA
-function mostrar_modal_borrar_programa(id_programa, nombre, descripcion){
+function mostrar_modal_borrar_programa(id_programa,clave, nombre, descripcion){
     $("#modal_programa").modal("show");
+    $("#p_clave_programa").text("Clave: "+clave);
     $("#p_nombre_programa").text("Nombre: "+nombre);
     if(descripcion===null){
         descripcion = "N/A";
@@ -179,6 +183,7 @@ function mostrar_modal_borrar_programa(id_programa, nombre, descripcion){
 
 //INSERT DE PROGRAMA
 function insert_programa(){
+    let clave =  $("#input_clave_programa").val();
     let nombre = $("#input_nombre_programa").val();
     let descripcion = $("#input_descripcion_programa").val();
     let observaciones = $("#input_observaciones_programa").val();
@@ -187,9 +192,9 @@ function insert_programa(){
             return departamento.id;
         })
         if(departamentos.length===0){
-            insert_only_programa(nombre,descripcion,observaciones);
+            insert_only_programa(clave,nombre,descripcion,observaciones);
         }else{
-            insert_programa_departamento(nombre, descripcion, observaciones, departamentos);
+            insert_programa_departamento(clave,nombre, descripcion, observaciones, departamentos);
         }
     }else{
         mostrar_alerta(2);
@@ -198,11 +203,11 @@ function insert_programa(){
 
 
 //INSERT A PROGRAMA
-function insert_only_programa(nombre,descripcion,observaciones){
+function insert_only_programa(clave, nombre, descripcion, observaciones){
     $.ajax({
         type: "POST",
         url: path+"insert_programa.php",  
-        data: {"nombre": nombre, "descripcion": descripcion, "observaciones": observaciones} ,                         
+        data: {"clave": clave, "nombre": nombre, "descripcion": descripcion, "observaciones": observaciones} ,                         
         success: function(res){ 
             select_programas();
             if(res==="1"){
@@ -216,11 +221,11 @@ function insert_only_programa(nombre,descripcion,observaciones){
 }
 
 //INSERT A PROGRAMA Y A DEPARTAMENTO PROGRAMA
-function insert_programa_departamento(nombre, descripcion, observaciones, departamentos){
+function insert_programa_departamento(clave, nombre, descripcion, observaciones, departamentos){
     $.ajax({
         type: "POST",
         url: path+"insert_programa_departamento.php",  
-        data: {"nombre": nombre, "descripcion": descripcion, "observaciones": observaciones, "departamentos": departamentos.toString()} ,                         
+        data: {"clave": clave, "nombre": nombre, "descripcion": descripcion, "observaciones": observaciones, "departamentos": departamentos.toString()} ,                         
         success: function(res){  
             mostrar_alerta(1);
             select_programas();
@@ -232,6 +237,7 @@ function insert_programa_departamento(nombre, descripcion, observaciones, depart
 
 //BORRAR DATOS DE LOS INPUT DEPARTAMENTO
 function borrar_datos_input_programa(){
+    $("#input_clave_programa").val("");
     $("#input_nombre_programa").val("");
     $("#input_descripcion_programa").val("");
     $("#input_observaciones_programa").val("");
@@ -271,9 +277,9 @@ function generar_pdf(id_programa){
             programas.forEach(programa => {
                 departamentos.push(programa.nombre_departamento);
             });
-            data.push([programas[0].nombre, programas[0].descripcion, programas[0].observaciones, departamentos]);
+            data.push([programas[0].clave, programas[0].nombre, programas[0].descripcion, programas[0].observaciones, departamentos]);
             let pdf = new jsPDF();
-            let columns = [["Nombre", "Descripción", "Observaciones","Departamentos"]];            
+            let columns = [["Clave", "Nombre", "Descripción", "Observaciones","Departamentos"]];            
             pdf.setProperties({
                 title: "Tabla Programa "+programas[0].nombre
             });

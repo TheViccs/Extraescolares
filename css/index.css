@@ -25,16 +25,52 @@ thead{
     border-color: rgb(118, 118, 118) !important;
 }
 
+.menu{
+    width: 80%;
+}
+
 .contenedor-menu, .contenedor-menu li{
     list-style: none !important;
 }
 
 .contenedor-menu li{
-    background-color: red;
+    background-color: whitesmoke;
+    border: solid 1px whitesmoke;
+    border-radius: 0.5rem;
+    text-decoration: none !important;
 }
 
 .contenedor-menu li:hover{
-    background-color: orange;
+    color: orange;
+    transform: scale(1.03);
+    transition: .2s;
+    z-index: 1000;
+    cursor: pointer;   
+}
+
+.contenedor-menu li a:hover {
+    color: orange !important;
+}
+
+
+.contenedor-menu li a{
+    color: black;
+    font-weight: bold;
+    display: block;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    text-decoration: none !important;
+}
+
+.contenedor-menu li a img{
+    margin-left: 2rem;
+}
+
+.contenedor-menu li a span{
+    margin-left: 2rem;
 }
 
 .contenedor-menu{
@@ -45,10 +81,5 @@ thead{
     grid-row: 20px;
     padding: 0;
     margin: 0;
-}
-
-.imagen{
-    width: 10px ;
-    height:50px ;
 }
 

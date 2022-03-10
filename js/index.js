@@ -40,7 +40,7 @@ function crear_alerta(tipo){
 //MOSTRAR Y ELIMINAR ALERTA
 function mostrar_alerta(tipo){
     crear_alerta(tipo);
-    $("#alerta").delay(3000).slideUp(200, function() {
+    $("#alerta").delay(500).slideUp(100, function() {
         $(this).alert('close');
     });
 }

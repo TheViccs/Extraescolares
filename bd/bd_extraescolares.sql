@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-03-2022 a las 02:29:43
+-- Tiempo de generación: 08-03-2022 a las 16:13:36
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -54,21 +54,21 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_departamento_responsable`
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_periodo`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_periodo` (IN `p_nombre` VARCHAR(12), IN `p_fecha_i_a` DATE, IN `p_fecha_f_a` DATE, IN `p_fecha_i_i` DATE, IN `p_fecha_f_i` DATE)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_periodo` (IN `p_nombre` VARCHAR(12), IN `p_fecha_i_a` DATE, IN `p_fecha_f_a` DATE)  BEGIN
 	IF 0 = (SELECT COUNT(*) FROM periodo) THEN
-    	INSERT INTO periodo (nombre, fecha_inicio_actividades, fecha_fin_actividades, fecha_inicio_inscripciones, fecha_fin_inscripciones) VALUES (p_nombre, p_fecha_i_a, p_fecha_f_a, p_fecha_i_i, p_fecha_f_i);
+    	INSERT INTO periodo (nombre, fecha_inicio_actividades, fecha_fin_actividades) VALUES (p_nombre, p_fecha_i_a, p_fecha_f_a);
     ELSE
     	IF(CURDATE() > (SELECT fecha_fin_actividades FROM periodo ORDER BY id_periodo DESC LIMIT 1)) THEN
-        	INSERT INTO periodo (nombre, fecha_inicio_actividades, fecha_fin_actividades, fecha_inicio_inscripciones, fecha_fin_inscripciones) VALUES (p_nombre, p_fecha_i_a, p_fecha_f_a, p_fecha_i_i, p_fecha_f_i);
+        	INSERT INTO periodo (nombre, fecha_inicio_actividades, fecha_fin_actividades) VALUES (p_nombre, p_fecha_i_a, p_fecha_f_a);
         ELSE
-        	UPDATE periodo SET nombre=p_nombre, fecha_inicio_actividades=p_fecha_i_a, fecha_fin_actividades=p_fecha_f_a, fecha_inicio_inscripciones=p_fecha_i_i, fecha_fin_inscripciones=p_fecha_f_i WHERE fecha_fin_actividades > CURDATE();
+        	UPDATE periodo SET nombre=p_nombre, fecha_inicio_actividades=p_fecha_i_a, fecha_fin_actividades=p_fecha_f_a WHERE fecha_fin_actividades > CURDATE();
         END IF;
     END IF;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_programa`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_programa` (IN `p_nombre` VARCHAR(150), IN `p_descripcion` VARCHAR(150), IN `p_observaciones` VARCHAR(150))  BEGIN
-	INSERT INTO programa(nombre, descripcion, observaciones) VALUES (p_nombre,p_descripcion,p_observaciones) ON DUPLICATE KEY UPDATE nombre=p_nombre, descripcion=p_descripcion, observaciones=p_observaciones;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_programa` (IN `p_clave` VARCHAR(12), IN `p_nombre` VARCHAR(150), IN `p_descripcion` VARCHAR(150), IN `p_observaciones` VARCHAR(150))  BEGIN
+	INSERT INTO programa(clave, nombre, descripcion, observaciones) VALUES (p_clave, p_nombre,p_descripcion,p_observaciones) ON DUPLICATE KEY UPDATE nombre=p_nombre, descripcion=p_descripcion, observaciones=p_observaciones;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_programa_departamento`$$
@@ -108,12 +108,17 @@ END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_programa_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_programa_id` (IN `p_id_programa` INT)  BEGIN
-	SELECT programa.nombre, programa.descripcion, programa.observaciones, departamento_programa.id_departamento, departamento.nombre AS nombre_departamento FROM programa LEFT JOIN departamento_programa ON programa.id_programa=departamento_programa.id_programa LEFT JOIN departamento ON departamento.id_departamento=departamento_programa.id_departamento WHERE programa.id_programa=p_id_programa;
+	SELECT programa.clave, programa.nombre, programa.descripcion, programa.observaciones, departamento_programa.id_departamento, departamento.nombre AS nombre_departamento FROM programa LEFT JOIN departamento_programa ON programa.id_programa=departamento_programa.id_programa LEFT JOIN departamento ON departamento.id_departamento=departamento_programa.id_departamento WHERE programa.id_programa=p_id_programa;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_responsables`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_responsables` ()  BEGIN
 	SELECT * FROM responsable;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_responsable_id`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_responsable_id` (IN `r_id_responsable` INT)  BEGIN
+	SELECT responsable.id_responsable, responsable.clave as clave_responsable, responsable.nombre, responsable.correo, departamento.id_departamento, departamento.nombre as nombre_departamento FROM responsable LEFT JOIN departamento_responsable ON responsable.id_responsable=departamento_responsable.id_responsable LEFT JOIN departamento ON departamento_responsable.id_departamento=departamento.id_departamento WHERE responsable.id_responsable=r_id_responsable;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_update_departamento`$$
@@ -138,8 +143,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_departamento_responsable`
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_update_programa`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_programa` (IN `p_id_programa` INT, IN `p_nombre` VARCHAR(150), IN `p_descripcion` VARCHAR(150), IN `p_observaciones` VARCHAR(150))  BEGIN
-	UPDATE programa SET nombre=p_nombre, descripcion=p_descripcion, observaciones=p_observaciones WHERE id_programa=p_id_programa;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_programa` (IN `p_id_programa` INT, IN `p_clave` VARCHAR(12), IN `p_nombre` VARCHAR(150), IN `p_descripcion` VARCHAR(150), IN `p_observaciones` VARCHAR(150))  BEGIN
+	UPDATE programa SET clave=p_clave, nombre=p_nombre, descripcion=p_descripcion, observaciones=p_observaciones WHERE id_programa=p_id_programa;
     DELETE FROM departamento_programa WHERE id_programa=p_id_programa;
 END$$
 
@@ -149,6 +154,23 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_programa_departamento` (I
 END$$
 
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `coordinador`
+--
+
+DROP TABLE IF EXISTS `coordinador`;
+CREATE TABLE `coordinador` (
+  `id_coordinador` int(11) NOT NULL,
+  `clave` varchar(12) NOT NULL,
+  `nombre` varchar(150) NOT NULL,
+  `apellido_p` varchar(150) NOT NULL,
+  `apellido_m` varchar(150) NOT NULL,
+  `correo` varchar(150) NOT NULL,
+  `foto` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -170,13 +192,9 @@ CREATE TABLE `departamento` (
 --
 
 INSERT INTO `departamento` (`id_departamento`, `clave`, `nombre`, `ubicacion`, `extension`) VALUES
-(1, 'DEPSIS1', 'SISTEMAS', 'EDIFICIO SISTEMAS', '3121481633'),
-(2, 'DEPAMB1', 'AMBIENTAL', 'EDIFICIO AMBIENTAL', '3121481633'),
-(61, 'DEPGEST1', 'GESTION', 'EDIFICIO GESTION', '3121481633'),
-(67, 'DEPADM', 'ADMINISTRACION', 'EDIFICIO ADMINISTRACION', '3121481633'),
-(70, 'DEPELE', 'ELECTRONICA', 'EDIFICIO ELECTRONICA', '3121481633'),
-(75, 'DEPIND1', 'INDUSTRIAL', 'EDIFICIO INDUSTRIAL', '3121481633'),
-(88, 'DEPARQ', 'ARQUITECTURA', 'EDIFICIO ARQUITECTURA', '3121481633');
+(1, 'DSC', 'Departamento de Sistemas', 'Edificio R', '212'),
+(2, 'DIG', 'Departamento de Ingeniería Industrial', 'Edificio W', '232'),
+(3, 'DAE', 'Departamento de Actividades Extraescolares', 'Edificio 300', '108');
 
 -- --------------------------------------------------------
 
@@ -196,11 +214,8 @@ CREATE TABLE `departamento_programa` (
 
 INSERT INTO `departamento_programa` (`id_departamento`, `id_programa`) VALUES
 (1, 1),
-(1, 4),
 (2, 1),
-(2, 2),
-(61, 2),
-(61, 4);
+(3, 2);
 
 -- --------------------------------------------------------
 
@@ -221,32 +236,9 @@ CREATE TABLE `departamento_responsable` (
 --
 
 INSERT INTO `departamento_responsable` (`id_departamento`, `id_responsable`, `fecha_inicio`, `fecha_fin`) VALUES
-(1, 1, '2022-02-24', '2022-02-24'),
-(1, 2, '2022-02-24', '2022-02-24'),
-(1, 3, '2022-02-24', '2022-02-24'),
-(1, 4, '2022-02-24', '2022-02-24'),
-(1, 1, '2022-02-24', '2022-02-24'),
-(1, 2, '2022-02-24', '2022-02-24'),
-(1, 1, '2022-02-24', '2022-02-24'),
-(1, 2, '2022-02-24', '2022-02-24'),
-(1, 1, '2022-02-24', '2022-02-25'),
-(1, 2, '2022-02-25', '2022-02-25'),
-(1, 1, '2022-02-25', '2022-02-25'),
-(1, 2, '2022-02-25', '2022-02-25'),
-(1, 1, '2022-02-25', NULL),
-(2, 3, '2022-02-25', NULL),
-(61, 4, '2022-02-25', '2022-02-25'),
-(67, 6, '2022-02-25', '2022-02-25'),
-(61, 5, '2022-02-25', NULL),
-(67, 5, '2022-02-25', '2022-03-02'),
-(70, 7, '2022-02-25', '2022-02-25'),
-(70, 1, '2022-02-25', NULL),
-(67, 1, '2022-03-02', '2022-03-03'),
-(75, 1, '2022-03-02', '2022-03-02'),
-(75, 2, '2022-03-02', '2022-03-02'),
-(75, 7, '2022-03-02', '2022-03-02'),
-(75, 3, '2022-03-02', NULL),
-(67, 2, '2022-03-03', NULL);
+(1, 1, '2022-03-07', NULL),
+(2, 3, '2022-03-07', NULL),
+(3, 4, '2022-03-07', NULL);
 
 -- --------------------------------------------------------
 
@@ -259,17 +251,15 @@ CREATE TABLE `periodo` (
   `id_periodo` int(11) NOT NULL,
   `nombre` varchar(12) NOT NULL,
   `fecha_inicio_actividades` date NOT NULL,
-  `fecha_fin_actividades` date NOT NULL,
-  `fecha_inicio_inscripciones` date NOT NULL,
-  `fecha_fin_inscripciones` date NOT NULL
+  `fecha_fin_actividades` date NOT NULL
 ) ;
 
 --
 -- Volcado de datos para la tabla `periodo`
 --
 
-INSERT INTO `periodo` (`id_periodo`, `nombre`, `fecha_inicio_actividades`, `fecha_fin_actividades`, `fecha_inicio_inscripciones`, `fecha_fin_inscripciones`) VALUES
-(3, 'Mar-Mar 2022', '2022-03-01', '2022-03-02', '2022-03-01', '2022-03-02');
+INSERT INTO `periodo` (`id_periodo`, `nombre`, `fecha_inicio_actividades`, `fecha_fin_actividades`) VALUES
+(2, 'Mar-Mar 2022', '2022-03-08', '2022-03-31');
 
 -- --------------------------------------------------------
 
@@ -280,6 +270,7 @@ INSERT INTO `periodo` (`id_periodo`, `nombre`, `fecha_inicio_actividades`, `fech
 DROP TABLE IF EXISTS `programa`;
 CREATE TABLE `programa` (
   `id_programa` int(11) NOT NULL,
+  `clave` varchar(12) NOT NULL,
   `nombre` varchar(150) NOT NULL,
   `descripcion` varchar(150) DEFAULT NULL,
   `observaciones` varchar(150) DEFAULT NULL
@@ -289,11 +280,9 @@ CREATE TABLE `programa` (
 -- Volcado de datos para la tabla `programa`
 --
 
-INSERT INTO `programa` (`id_programa`, `nombre`, `descripcion`, `observaciones`) VALUES
-(1, 'Deportivo', NULL, NULL),
-(2, 'Cultural', NULL, NULL),
-(3, 'Cívico', NULL, NULL),
-(4, 'Académico', NULL, NULL);
+INSERT INTO `programa` (`id_programa`, `clave`, `nombre`, `descripcion`, `observaciones`) VALUES
+(1, 'PFP', 'Formación profesional', NULL, NULL),
+(2, 'PAD', 'Actividades deportivas', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -314,17 +303,20 @@ CREATE TABLE `responsable` (
 --
 
 INSERT INTO `responsable` (`id_responsable`, `clave`, `nombre`, `correo`) VALUES
-(1, '17460069', 'José Ricardo Baeza Candor', '17460069@colima.tecnm.mx'),
-(2, '17460341', 'Victor del Rio Ramos', '17460341@colima.tecnm.mx'),
-(3, '17460346', 'Marco Eleno Tovar', '17460346@colima.tecnm.mx'),
-(4, '17454323', 'Juan Perez Robles', '17454323@colima.tecnm.mx'),
-(5, '17456365', 'Renata Perez Robles', '17456365@colima.tecnm.mx'),
-(6, '1634874', 'Roberto Ramos Barrios', '1634874@colima.tecnm.mx'),
-(7, '2342525', 'Fernanda Baeza Candor', '2342525@colima.tecnm.mx');
+(1, '098', 'Ma. Elena Martínez Duran', 'mmartinez@colima.tecnm.mx'),
+(3, '200', 'Francisco Tejeda', 'ftejeda@colima.tecnm.mx'),
+(4, '180', 'Ariel Lira Obaldo', 'alira@colima.tecnm.mx');
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `coordinador`
+--
+ALTER TABLE `coordinador`
+  ADD PRIMARY KEY (`id_coordinador`),
+  ADD UNIQUE KEY `clave` (`clave`);
 
 --
 -- Indices de la tabla `departamento`
@@ -358,7 +350,7 @@ ALTER TABLE `periodo`
 --
 ALTER TABLE `programa`
   ADD PRIMARY KEY (`id_programa`),
-  ADD UNIQUE KEY `nombre` (`nombre`);
+  ADD UNIQUE KEY `clave` (`clave`);
 
 --
 -- Indices de la tabla `responsable`
@@ -372,10 +364,16 @@ ALTER TABLE `responsable`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `coordinador`
+--
+ALTER TABLE `coordinador`
+  MODIFY `id_coordinador` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `departamento`
 --
 ALTER TABLE `departamento`
-  MODIFY `id_departamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `id_departamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `periodo`
@@ -387,13 +385,13 @@ ALTER TABLE `periodo`
 -- AUTO_INCREMENT de la tabla `programa`
 --
 ALTER TABLE `programa`
-  MODIFY `id_programa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_programa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `responsable`
 --
 ALTER TABLE `responsable`
-  MODIFY `id_responsable` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_responsable` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas

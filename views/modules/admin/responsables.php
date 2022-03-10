@@ -26,39 +26,36 @@
             <!-- ALERTAS -->
             <?php include "../../../views/layout/alertas.php" ?>
 
-                        
-            <!-- FORMULARIO -->
+            <!-- TITULO DE CONTENIDO -->            
             <h1 class="mb-4 mt-2 text-center w-100">Gestión de Responsables</h1>
             
+            <!-- FORMULARIO -->
             <div class="content-form mb-4 p-3 d-flex flex-column align-items-center" style="width: 90% !important;">
                 <div id="formulario_responsable" >
                     <div id="id_responsable">
-                    <input id="input_id_responsable" type="text" hidden/>
+                        <input id="input_id_responsable" type="text" hidden/>
                         <div>
                             <label style="padding-right: 50px;">Clave</label>
-                        <input id="input_clave_responsable" type="text" placeholder="Clave" >
-
+                            <input id="input_clave_responsable" type="text" placeholder="Clave" >
                         </div>
                     </div>
-
                     <div id="nombre_responsable" style="margin-top: 10px; margin-bottom: 10px;">
                         <label style="padding-right: 50px;">Nombre</label>
                         <input style="margin-left: -20px;" id="input_nombre_responsable" type="Nombre" placeholder="Nombre">
                     </div>
-
                     <div id="email_responsable">
                         <label style="padding-right: 50px; margin-bottom: 10px;">Email</label>
                         <input id="input_correo_responsable" type="email" placeholder="Email" >
-                    </div>
-                    
+                    </div>                   
                 </div>  
+            </div>
 
             <!-- BOTONES GUARDAR Y CANCELAR -->
             <div class="d-flex justify-content-evenly" style="width: 50% !important;">
                 <button class="btn btn-success" onclick="insert_responsable()">Guardar</button>
-                <button class="btn btn-danger" onclick="borrar_datos_input_responsable()">Cancelar</button>
-                
+                <button class="btn btn-danger" onclick="borrar_datos_input_responsable()">Cancelar</button>           
             </div>
+
             <!-- TABLA -->
             <div class="content-table d-flex justify-content-center mb-3" style="width: 90% !important;">
                 <table id="tabla-responsables">
@@ -68,38 +65,34 @@
         </div>
 
         <div class="modal fade" id="modal-responsable" tabindex="-1" aria-labelledby="modal-responsable-label" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal-responsable-label">Borrar Responsabele de Departamento</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-responsable-label">Borrar Responsabele de Departamento</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <div class="w-100">
+                            <h3>Seguro que quiere borrar al Responsable?</h1>
+                            <p id="p_clave_resposable"></p>
+                            <p id="p_nombre_resposable"></p>
+                            <p id="p_correo_resposable"></p>                        
+                            <input id="input_id_responsable_borrar" type="text" hidden/>
+                        </div>        
+                    </div>
+                    <div class="modal-footer d-flex justify-content-evenly">
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger" onclick="borrar_responsable()">Borrar</button>               
+                    </div>
                 </div>
-                <div class="modal-body text-center">
-                    <div class="w-100">
-                        <h3>Seguro que quiere borrar al Responsable?</h1>
-                        <p id="p_clave_resposable"></p>
-                        <p id="p_nombre_resposable"></p>
-                        <p id="p_correo_resposable"></p>
-                        
-                        <input id="input_id_responsable_borrar" type="text" hidden/>
-                    </div>        
-                </div>
-                <div class="modal-footer d-flex justify-content-evenly">
-                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger" onclick="borrar_responsable()">Borrar</button>
-                    
-                </div>
-            </div>
+            </div>   
         </div>
-        
-    </div>
 
         <!-- FOOTER -->
         <?php include "../../../views/layout/footer.php" ?>
         
-
     </div>
-    <script src="../../../js/responsableDepartamento.js"></script>
+    <script src="../../../js/responsables.js"></script>
 </body>
 
 </html>
