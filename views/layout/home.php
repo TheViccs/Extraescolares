@@ -17,47 +17,62 @@
       <img  class="d-inline-block align-text-top">
       SiGAC
     </a>
-    <h2 style="color: white; text-align: center;">Quien eres?</h2>
+    <h2 style="color: white; text-align: center;">¿Quien eres?</h2>
   </div>
 </nav>
 
 </head>
 
-
-
-
-  <body>
+  <body class="body">
     
     <div class="container">
+
+    <center><h5 style="margin-top: 10px;">¿Quien eres?</h5></center>
+    
       
       <div class="btnAdmin">
         <a href="http://localhost/Extraescolares/views/modules/admin/administrador.php" id="boton">
-          <button type="button" class="btn btn-dark">Administrador</button>
+          <button type="button" class="btn btn-outline-dark" style="width: 260px;">Administrador
+          <img  id="iconos" src="../../assets/img/user.png" alt="" style="width: 30px; height: 30px; margin-right: -20px;">
+        </button>
+         
         </a>
+        
     </div>
 
     <div class="btnAdmin">
       <a href="" >
-        <button type="button" class="btn btn-dark">Responsable Programas</button>
+        <button type="button" class="btn btn-outline-dark" style="width: 260px;">Responsable Programas
+        <img  id="iconos" src="../../assets/img/responsabilidad.png" alt="" style="width: 30px; height: 30px; margin-right: 10px;">
+      </button>
+        
       </a>
+
   </div>
   
   
   <div class="btnAdmin">
     <a href="" >
-      <button type="button" class="btn btn-dark">Instructor</button>
+      <button type="button" class="btn btn-outline-dark" style="width: 260px;">Instructor
+      <img  id="iconos" src="../../assets/img/instructor.png" alt="" style="width: 30px; height: 30px; margin-right: 10px;">
+    </button>
     </a>
   </div>
 
   <div class="btnAdmin">
     <a href="http://localhost/extraescolares/views/modules/estudiante/home_estudiantes.html" >
-      <button type="button" class="btn btn-dark">Estudiantes</button>
+      <button type="button" class="btn btn-outline-dark" style="width: 260px;">Estudiantes
+      <img  id="iconos" src="../../assets/img/graduated.png" alt="" style="width: 30px; height: 30px; margin-right: 10px;">
+    </button>
     </a>
+    
   </div>
 
 <div class="btnAdmin">
   <a href="" >
-    <button type="button" class="btn btn-dark">Directivos</button>
+    <button type="button" class="btn btn-outline-dark" style="width: 260px;">Directivos
+    <img  id="iconos" src="../../assets/img/calendario.png" alt="" style="width: 30px; height: 30px; margin-right: 10px;">
+  </button>
   </a>
 </div>
 
