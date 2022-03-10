@@ -80,7 +80,7 @@ function insert_responsable(){
         $.ajax({
             type: "POST",
             url: path+"insert_responsable.php",
-            data: {"clave":clave,"nombre":nombre,"correo":correo},
+            data: {"clave":clave,"nombre":nombre,"correo":correo + "@colima.tecnm.mx"},
             success: function(res){
                 borrar_datos_input_responsable();
                 select_responsables_1();
