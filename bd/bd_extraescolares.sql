@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-03-2022 a las 22:42:11
+-- Tiempo de generación: 11-03-2022 a las 02:35:37
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -160,6 +160,11 @@ END$$
 DROP PROCEDURE IF EXISTS `sp_update_programa_departamento`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_programa_departamento` (IN `p_id_programa` INT, IN `d_id_departamento` INT)  BEGIN
 	INSERT INTO departamento_programa (id_programa,id_departamento) VALUES (p_id_programa,d_id_departamento);
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_update_responsable`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_responsable` (IN `r_id_responsable` INT, IN `r_clave` VARCHAR(10), IN `r_nombre` VARCHAR(150), IN `r_apellido_p` VARCHAR(50), IN `r_apellido_m` VARCHAR(50), IN `r_correo` VARCHAR(150))  BEGIN
+	UPDATE responsable SET clave=r_clave, nombre=r_nombre, apellido_p=r_apellido_p, apellido_m=r_apellido_m, correo=r_correo WHERE id_responsable=r_id_responsable;
 END$$
 
 DELIMITER ;
