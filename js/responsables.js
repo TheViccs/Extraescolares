@@ -35,7 +35,7 @@ $('#tabla-responsables').DataTable({
     },
 });
 
-function select_responsables_1(){
+function select_responsables(){
     $.ajax({
         type: "GET",
         url: path+"select_responsables.php",                           
@@ -45,7 +45,7 @@ function select_responsables_1(){
         }
     });
 }
-select_responsables_1();
+select_responsables();
 
 
 //AGREGA DEPARTAMENTOS A DATATABLE
@@ -54,9 +54,9 @@ function agregar_responsables_tabla(responsables){
     tabla.rows().remove().draw();
     for(let responsable of responsables){
         tabla.row.add({"clave":responsable.clave, "nombre":responsable.nombre+" "+responsable.apellido_p+" "+responsable.apellido_m, "correo":responsable.correo,"botoneditar":"<button id='botoneditarresponsable"+ responsable.id_responsable+"'class='btn btn-primary'> Editar </button>", "botonborrar": "<button id='botonborrarresponsable"+responsable.id_responsable+"'class='btn btn-danger' >Borrar</button>", "botonimprimir":"<button id='botonimprimir"+responsable.id_responsable+"' class= 'btn btn-dark'>Imprimir</button>"}).draw();
-     $("#botoneditarresponsable"+responsable.id_responsable).on( "click", function(){select_responsables_id(responsable.id_responsable)});
-       $("#botonborrarresponsable"+responsable.id_responsable).on( "click", function(){mostrar_modal_borrar_responsable(responsable.id_responsable, responsable.clave, responsable.nombre, responsable.correo)});
-       $("#botonimprimir"+responsable.id_responsable).on( "click", function(){generar_pdf(responsable.id_responsable)});
+        $("#botoneditarresponsable"+responsable.id_responsable).on( "click", function(){select_responsable_id(responsable.id_responsable)});
+        $("#botonborrarresponsable"+responsable.id_responsable).on( "click", function(){mostrar_modal_borrar_responsable(responsable.id_responsable, responsable.clave, responsable.nombre, responsable.correo)});
+        $("#botonimprimir"+responsable.id_responsable).on( "click", function(){generar_pdf(responsable.id_responsable)});
     }
 }
 
@@ -77,7 +77,6 @@ function insert_responsable(){
     let apellido_p = $("#input_apellido_p_responsable").val();
     let apellido_m = $("#input_apellido_m_responsable").val();
     let correo = $("#input_correo_responsable").val();
-
     if(clave.length !== 0 && nombre.length !== 0 && apellido_p.length !== 0 && apellido_m.length !== 0 && correo.length !== 0){
         $.ajax({
             type: "POST",
@@ -85,17 +84,45 @@ function insert_responsable(){
             data: {"clave":clave,"nombre":nombre,"apellido_p":apellido_p,"apellido_m":apellido_m,"correo":correo + "@colima.tecnm.mx"},
             success: function(res){
                 borrar_datos_input_responsable();
-                select_responsables_1();
-                if (res == 1) {
-                    if (id_responsable != undefined) {
-                        
-                    }
-                    
+                select_responsables();
+                if (res === "1") {
+                    mostrar_alerta(1);
+                }else{
+                    mostrar_alerta(2);
                 }
             }
         });
+    }else{
+        mostrar_alerta(3);
     }
+}
 
+//UPDATE A RESPONSABLE
+function update_responsable(){
+    let id_responsable = $("#input_id_responsable").val();
+    let clave = $("#input_clave_responsable").val();
+    let nombre = $("#input_nombre_responsable").val();
+    let apellido_p = $("#input_apellido_p_responsable").val();
+    let apellido_m = $("#input_apellido_m_responsable").val();
+    let correo = $("#input_correo_responsable").val();
+    if(id_responsable.length !== 0 && clave.length !== 0 && nombre.length !== 0 && apellido_p.length !== 0 && apellido_m.length !== 0 && correo.length !== 0){
+        $.ajax({
+            type: "POST",
+            url: path+"update_responsable.php",  
+            data: {"id_responsable": id_responsable, "clave": clave, "nombre": nombre, "apellido_p": apellido_p, "apellido_m": apellido_m, "correo": correo} ,                         
+            success: function(res){ 
+                select_responsables(); 
+                if(res==="1"){
+                    mostrar_alerta(1);
+                    borrar_datos_input_responsable();
+                }else{
+                    mostrar_alerta(3);
+                }
+            }
+        });
+    }else{
+        mostrar_alerta(2);
+    }
 }
 
 //LIMPIAR CAJAS DE TEXTO
@@ -105,6 +132,7 @@ function borrar_datos_input_responsable(){
     $("#input_apellido_p_responsable").val("");
     $("#input_apellido_m_responsable").val("");
     $("#input_correo_responsable").val("");
+    $("#boton_insert_update_responsable").attr("onclick","insert_responsable()");
 }
 
 //BORRAR RESPONSABLE
@@ -115,7 +143,7 @@ function borrar_responsable(){
         url: path+"delete_responsable.php",  
         data: {"id_responsable": id_responsable} ,                         
         success: function(res){
-            select_responsables_1();
+            select_responsables();
             $("#modal-responsable").modal("hide");   
             if(res==="1"){
                 mostrar_alerta(1);
@@ -136,7 +164,7 @@ function generar_pdf(id_responsable){
             let responsable = JSON.parse(res)[0];           
             let pdf = new jsPDF();
             let columns = [["Clave","Nombre","Correo"]]; 
-            let data = [[responsable.clave_responsable, responsable.nombre, responsable.correo]];
+            let data = [[responsable.clave_responsable, responsable.nombre+" "+responsable.apellido_p+" "+responsable.apellido_m, responsable.correo]];
             pdf.setProperties({
                 title: "Tabla Responsable "+responsable.nombre
             });
@@ -156,20 +184,20 @@ function generar_pdf(id_responsable){
 
 
 //SELECT DE DEPARTAMENTO POR ID
-function select_responsables_id(id_responsable){
+function select_responsable_id(id_responsable){
     $.ajax({
         type: "POST",
         data: {"id_responsable": id_responsable},
         url: path+"select_responsable_id.php",                           
         success: function(res){    
             let responsable = JSON.parse(res)[0];
-            console.log(res);
-            //$("#input_id_responsable").val(responsable.id_responsable);                
+            $("#input_id_responsable").val(responsable.id_responsable);                
             $("#input_clave_responsable").val(responsable.clave_responsable);
             $("#input_nombre_responsable").val(responsable.nombre);
             $("#input_apellido_p_responsable").val(responsable.apellido_p);
             $("#input_apellido_m_responsable").val(responsable.apellido_m);
             $("#input_correo_responsable").val(responsable.correo);
+            $("#boton_insert_update_responsable").attr("onclick","update_responsable()");
         }
     });
 }
