@@ -8,6 +8,8 @@ function login(){
         success: function(res){ 
             if(res==="responsable"){
                 window.location.href = "../../../views/modules/admin/administrador.php"
+            }else if(res===""){
+                
             } 
         }
     });
