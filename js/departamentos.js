@@ -24,12 +24,14 @@ function agregar_responsables_select(responsables){
 function insert_responsable(){
     let clave = $("#input_clave_responsable").val();
     let nombre = $("#input_nombre_responsable").val();
+    let apellido_p = $("#input_apellido_p_responsable").val();
+    let apellido_m = $("#input_apellido_m_responsable").val();
     let correo = $("#input_correo_responsable" ).val();
-    if(clave.length!==0 && nombre.length!==0 && correo.length!==0 ){
+    if(clave.length!==0 && nombre.length!==0 && apellido_p.length!==0 && apellido_m.length!==0 && correo.length!==0 ){
         $.ajax({
             type: "POST",
             url: path+"insert_responsable.php",  
-            data: {"clave": clave, "nombre": nombre, "correo":correo + "@colima.tecnm.mx" } ,                         
+            data: {"clave": clave, "nombre": nombre, "apellido_p":apellido_p, "apellido_m": apellido_m, "correo":correo + "@colima.tecnm.mx" } ,                         
             success: function(res){
                 if(res==="1"){
                     select_responsables();  

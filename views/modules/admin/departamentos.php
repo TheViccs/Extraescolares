@@ -133,6 +133,16 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                         </div>
                         <br>
                         <div class="w-100 d-flex">
+                            <label class="w-50">Apellido Paterno</label>
+                            <input id="input_apellido_p_responsable" class="w-50" type="text" />
+                        </div>
+                        <br>
+                        <div class="w-100 d-flex">
+                            <label class="w-50">Apellido Materno</label>
+                            <input id="input_apellido_m_responsable" class="w-50" type="text" />
+                        </div>
+                        <br>
+                        <div class="w-100 d-flex">
                             <label class="w-50">Correo</label>
                             <input id="input_correo_responsable" class="w-50" type="text" />
                         </div>
