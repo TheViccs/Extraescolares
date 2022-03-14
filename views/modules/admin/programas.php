@@ -32,7 +32,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                 <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"
                     src="../../.././assets/img/back.png"></a>
             <!-- TITULO DE CONTENIDO -->
-            <h1 class="mb-4 mt-2 text-center w-100">Gestión de programas</h1>
+            <h1 class="mb-4 mt-2 text-center w-100">Gestión de Programas</h1>
             
             <!-- FORMULARIO -->
             <div class="content-form mb-4 p-3 d-flex flex-column align-items-center" style="width: 90% !important;">
