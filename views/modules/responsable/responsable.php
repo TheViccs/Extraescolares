@@ -1,3 +1,9 @@
+<?php
+session_start();
+if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
+    header('Location: ../../layout/login/index.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="en" class="vh-100 vw-100 m-0 bg-dark">
 <head>
@@ -20,10 +26,10 @@
         <!-- CONTENT -->
         
         <div class="d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height: calc(100% - 112px) !important; overflow-y:auto; margin-top: 20px;">
-        <a style="margin-left: 70%;" href="http://localhost/Extraescolares/views/layout/home.php">
-                <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"
-                    src="../../.././assets/img/back.png"></a>    
-        <div class="menu h-100 p-3">
+            <a style="margin-left: 70%;" href="http://localhost/Extraescolares/views/layout/home.php">
+                <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"src="../../.././assets/img/back.png">
+            </a>    
+            <div class="menu h-100 p-3">
                 <ul class="contenedor-menu w-90 h-100 text-center">
                     <li>
                         <a href="./coordinadores.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/6234/6234969.png"/><span>Gestionar Coordinadores</span></a>

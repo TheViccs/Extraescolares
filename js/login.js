@@ -6,11 +6,18 @@ function login(){
         url: path+"login.php",  
         data: {"correo": correo, "contrasena": contrasena} ,                         
         success: function(res){ 
-            if(res==="responsable"){
-                window.location.href = "../../../views/modules/admin/administrador.php"
-            }else if(res===""){
-                
-            } 
+            window.location.href = "../../../views/layout/login/index.php"
+        }
+    });
+}
+
+function salir(){
+    $.ajax({
+        type: "POST",
+        url: path+"exit.php",  
+        data: {} ,                         
+        success: function(res){ 
+            window.location.href = "../../../views/layout/login/index.php"
         }
     });
 }

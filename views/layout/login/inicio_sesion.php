@@ -25,8 +25,9 @@
           <label>Contraseña</label>
           <input id="contrasena" type="password" />
           <br>
-          <button onclick="login()">Iniciar Sesión</button>    
+          <button onclick="login()">Iniciar Sesión</button>   
         </div>
+        
         <!-- FOOTER -->
        <?php include "../../../views/layout/footer.php" ?>
     </div>

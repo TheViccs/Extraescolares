@@ -14,10 +14,8 @@
 
 <body class="d-flex m-0 h-100 w-100">
 
-    <!-- SIDEBAR -->
-    <?php include "../../../views/layout/sidebar.php" ?>
 
-    <div class="content h-100 d-flex flex-column bg-white" style="width: calc(100% - 280px);">
+    <div class="content h-100 w-100 d-flex flex-column bg-white">
 
         <!-- HEADER -->
         <?php include "../../../views/layout/header.php" ?>
