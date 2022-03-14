@@ -27,13 +27,19 @@ if(isset($_SESSION['loggedin'])){
                     src="../../.././assets/img/back.png"></a> -->
         <!-- CONTENT -->
         <div class="d-flex flex-column justify-content-center align-items-center" style="min-height:calc(100% - 112px) !important; overflow-y:auto;">
-          <label>Correo</label>
-          <input id="email" type="email" />
-          <br>
-          <label>Contraseña</label>
-          <input id="contrasena" type="password" />
-          <br>
-          <button onclick="login()">Iniciar Sesión</button>   
+            <div class="d-flex w-40 justify-content-center align-items-center mb-4">
+                <img style="width:10%; height:10vh; min-width:54px; max-height:60px;" src="../../../assets/img/itcolima.svg" alt="ITCOLIMA" class="plecaTECNM"> 
+                <h1 class="m-2">SiGAC</h1>
+            </div>
+            <div class="d-flex flex-column justify-content-center align-items-center bg-dark rounded" style="width: 25% !important; height: 45% !important;">
+                <label>Correo</label>
+                <input id="email" type="email" placeholder="Correo/Usuario"/>
+                <br>
+                <label>Contraseña</label>
+                <input id="contrasena" type="password" placeholder="Contraseña" />
+                <br>
+                <button class="btn btn-secondary" onclick="login()">Iniciar Sesión</button> 
+            </div>  
         </div>
         
         <!-- FOOTER -->
