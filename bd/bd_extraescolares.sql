@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-03-2022 a las 02:35:37
+-- Tiempo de generación: 14-03-2022 a las 04:28:04
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -40,6 +40,11 @@ END$$
 DROP PROCEDURE IF EXISTS `sp_delete_responsable`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_responsable` (IN `r_id_responsable` INT)  BEGIN
 	DELETE FROM responsable WHERE id_responsable=r_id_responsable;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insert_coordinador`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_coordinador` (IN `c_clave` VARCHAR(10), IN `c_nombre` VARCHAR(150), IN `c_apellido_p` VARCHAR(50), IN `c_apellido_m` VARCHAR(50), IN `c_correo` VARCHAR(150))  BEGIN
+	INSERT INTO coordinador(clave, nombre, apellido_p, apellido_m, correo) VALUES (c_clave,c_nombre,c_apellido_p,c_apellido_m,c_correo) ON DUPLICATE KEY UPDATE nombre=c_nombre,apellido_p=c_apellido_p,apellido_m=c_apellido_m, correo=c_correo;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_departamento`$$
@@ -81,6 +86,20 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_responsable` (IN `r_clave
 	INSERT INTO responsable(clave, nombre, apellido_p, apellido_m, correo) VALUES (r_clave,r_nombre,r_apellido_p,r_apellido_m,r_correo) ON DUPLICATE KEY UPDATE nombre=r_nombre,apellido_p=r_apellido_p,apellido_m=r_apellido_m, correo=r_correo;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_login`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_login` (IN `in_correo` VARCHAR(150), IN `in_contraseña` VARCHAR(12))  BEGIN
+	IF (SELECT COUNT(*) FROM administrador WHERE administrador.usuario=in_correo AND administrador.contraseña=in_contraseña) <> 0 THEN
+    	SELECT *,"administrador" as Tipo FROM administrador WHERE administrador.usuario=in_correo AND administrador.contraseña=in_contraseña;
+	ELSEIF (SELECT COUNT(*) FROM responsable WHERE responsable.correo=in_correo AND contraseña=in_contraseña) <> 0 THEN
+		SELECT *,"responsable" as Tipo FROM responsable WHERE responsable.correo=in_correo AND contraseña=in_contraseña;
+    ELSEIF (SELECT COUNT(*) FROM coordinador WHERE coordinador.correo=in_correo) <> 0 THEN
+    	SELECT *,"coordinador" as Tipo FROM coordinador WHERE coordinador.correo=in_correo;
+    END IF;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_coordinadores`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_coordinadores` ()  SELECT * FROM coordinador$$
+
 DROP PROCEDURE IF EXISTS `sp_select_departamentos`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_departamentos` ()  BEGIN
 	SELECT * FROM departamento;
@@ -106,6 +125,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_programas` ()  BEGIN
 	SELECT * FROM programa;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_select_programas_responsable_id`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_programas_responsable_id` (IN `r_id_responsable` INT)  BEGIN
+	SELECT programa.id_programa,programa.clave,programa.nombre,programa.descripcion,programa.observaciones, departamento_responsable.id_departamento FROM responsable JOIN departamento_responsable ON responsable.id_responsable=departamento_responsable.id_responsable JOIN departamento_programa ON departamento_responsable.id_departamento=departamento_programa.id_departamento JOIN programa ON departamento_programa.id_programa=programa.id_programa WHERE departamento_responsable.fecha_fin IS NULL AND responsable.id_responsable=r_id_responsable;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_select_programa_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_programa_id` (IN `p_id_programa` INT)  BEGIN
 	SELECT programa.clave, programa.nombre, programa.descripcion, programa.observaciones, departamento_programa.id_departamento, departamento.nombre AS nombre_departamento FROM programa LEFT JOIN departamento_programa ON programa.id_programa=departamento_programa.id_programa LEFT JOIN departamento ON departamento.id_departamento=departamento_programa.id_departamento WHERE programa.id_programa=p_id_programa;
@@ -119,15 +143,6 @@ END$$
 DROP PROCEDURE IF EXISTS `sp_select_responsable_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_responsable_id` (IN `r_id_responsable` INT)  BEGIN
 	SELECT responsable.id_responsable, responsable.clave as clave_responsable, responsable.nombre, responsable.apellido_p, responsable.apellido_m, responsable.correo, departamento.id_departamento, departamento.nombre as nombre_departamento FROM responsable LEFT JOIN departamento_responsable ON responsable.id_responsable=departamento_responsable.id_responsable LEFT JOIN departamento ON departamento_responsable.id_departamento=departamento.id_departamento WHERE responsable.id_responsable=r_id_responsable;
-END$$
-
-DROP PROCEDURE IF EXISTS `sp_select_tipo_usuario`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_tipo_usuario` (IN `in_correo` VARCHAR(150))  BEGIN
-	IF (SELECT COUNT(*) FROM responsable WHERE responsable.correo=in_correo) <> 0 THEN
-		SELECT *,"responsable" as Tipo FROM responsable WHERE responsable.correo=in_correo;
-    ELSEIF (SELECT COUNT(*) FROM coordinador WHERE coordinador.correo=in_correo) <> 0 THEN
-    	SELECT *,"coordinador" as Tipo FROM coordinador WHERE coordinador.correo=in_correo;
-    END IF;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_update_departamento`$$
@@ -172,6 +187,26 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `administrador`
+--
+
+DROP TABLE IF EXISTS `administrador`;
+CREATE TABLE `administrador` (
+  `id_admin` int(11) NOT NULL,
+  `usuario` varchar(50) NOT NULL,
+  `contraseña` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `administrador`
+--
+
+INSERT INTO `administrador` (`id_admin`, `usuario`, `contraseña`) VALUES
+(1, 'admin', '1234');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `coordinador`
 --
 
@@ -183,7 +218,31 @@ CREATE TABLE `coordinador` (
   `apellido_p` varchar(150) NOT NULL,
   `apellido_m` varchar(150) NOT NULL,
   `correo` varchar(150) NOT NULL,
+  `contraseña` varchar(12) NOT NULL DEFAULT 'coordinador1',
   `foto` varchar(150) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `coordinador`
+--
+
+INSERT INTO `coordinador` (`id_coordinador`, `clave`, `nombre`, `apellido_p`, `apellido_m`, `correo`, `contraseña`, `foto`) VALUES
+(1, 'CO1', 'Jose', 'Baeza', 'Candor', '17460069@colima.tecnm.mx', 'coordinador1', NULL),
+(5, 'CO2', 'Alexis', 'Baeza', 'Vargas', '17460070@colima.tecnm.mx', 'coordinador1', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `coordinador_programa`
+--
+
+DROP TABLE IF EXISTS `coordinador_programa`;
+CREATE TABLE `coordinador_programa` (
+  `id_coordinador` int(11) NOT NULL,
+  `id_programa` int(11) NOT NULL,
+  `correo` varchar(150) NOT NULL,
+  `fecha_inicio` date NOT NULL,
+  `fecha_fin` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -209,6 +268,20 @@ INSERT INTO `departamento` (`id_departamento`, `clave`, `nombre`, `ubicacion`, `
 (1, 'D', 'Dirección', ' ', '201'),
 (2, 'SPB', 'Subdirector de Planeación y Vinculación', ' ', '102'),
 (6, 'DAE', 'Departamento de Actividades Extraescolares', ' ', '108');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `departamento_coordinador`
+--
+
+DROP TABLE IF EXISTS `departamento_coordinador`;
+CREATE TABLE `departamento_coordinador` (
+  `id_departamento` int(11) NOT NULL,
+  `id_coordinador` int(11) NOT NULL,
+  `fecha_inicio` date NOT NULL,
+  `fecha_fin` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -314,6 +387,7 @@ CREATE TABLE `responsable` (
   `apellido_p` varchar(50) DEFAULT NULL,
   `apellido_m` varchar(50) DEFAULT NULL,
   `correo` varchar(150) NOT NULL,
+  `contraseña` varchar(12) NOT NULL DEFAULT 'responsable1',
   `foto` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -321,14 +395,21 @@ CREATE TABLE `responsable` (
 -- Volcado de datos para la tabla `responsable`
 --
 
-INSERT INTO `responsable` (`id_responsable`, `clave`, `nombre`, `apellido_p`, `apellido_m`, `correo`, `foto`) VALUES
-(1, '1', 'Ana Rosa', 'Braña', 'Castillo', 'ana.braña@colima.tecnm.mx', NULL),
-(4, '2', 'Pedro Itzvan', 'Silva', 'Medina', 'pedro.silva@colima.tecnm.mx', NULL),
-(5, '190', 'Ariel', 'Lira', 'Obando', 'alira@colima.tecnm.mx', NULL);
+INSERT INTO `responsable` (`id_responsable`, `clave`, `nombre`, `apellido_p`, `apellido_m`, `correo`, `contraseña`, `foto`) VALUES
+(1, '1', 'Ana Rosa', 'Braña', 'Castillo', 'ana.braña@colima.tecnm.mx', 'responsable1', NULL),
+(4, '2', 'Pedro Itzvan', 'Silva', 'Medina', 'pedro.silva@colima.tecnm.mx', 'responsable1', NULL),
+(5, '190', 'Ariel', 'Lira', 'Obando', 'alira@colima.tecnm.mx', 'responsable1', NULL);
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `administrador`
+--
+ALTER TABLE `administrador`
+  ADD PRIMARY KEY (`id_admin`),
+  ADD UNIQUE KEY `usuario` (`usuario`);
 
 --
 -- Indices de la tabla `coordinador`
@@ -338,11 +419,25 @@ ALTER TABLE `coordinador`
   ADD UNIQUE KEY `clave` (`clave`);
 
 --
+-- Indices de la tabla `coordinador_programa`
+--
+ALTER TABLE `coordinador_programa`
+  ADD KEY `id_coordinador` (`id_coordinador`),
+  ADD KEY `id_programa` (`id_programa`);
+
+--
 -- Indices de la tabla `departamento`
 --
 ALTER TABLE `departamento`
   ADD PRIMARY KEY (`id_departamento`),
   ADD UNIQUE KEY `id` (`clave`);
+
+--
+-- Indices de la tabla `departamento_coordinador`
+--
+ALTER TABLE `departamento_coordinador`
+  ADD KEY `id_departamento` (`id_departamento`),
+  ADD KEY `id_coordinador` (`id_coordinador`);
 
 --
 -- Indices de la tabla `departamento_programa`
@@ -383,10 +478,16 @@ ALTER TABLE `responsable`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `administrador`
+--
+ALTER TABLE `administrador`
+  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `coordinador`
 --
 ALTER TABLE `coordinador`
-  MODIFY `id_coordinador` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_coordinador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `departamento`
@@ -415,6 +516,20 @@ ALTER TABLE `responsable`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `coordinador_programa`
+--
+ALTER TABLE `coordinador_programa`
+  ADD CONSTRAINT `coordinador_programa_ibfk_1` FOREIGN KEY (`id_coordinador`) REFERENCES `coordinador` (`id_coordinador`),
+  ADD CONSTRAINT `coordinador_programa_ibfk_2` FOREIGN KEY (`id_programa`) REFERENCES `programa` (`id_programa`);
+
+--
+-- Filtros para la tabla `departamento_coordinador`
+--
+ALTER TABLE `departamento_coordinador`
+  ADD CONSTRAINT `departamento_coordinador_ibfk_1` FOREIGN KEY (`id_departamento`) REFERENCES `departamento` (`id_departamento`),
+  ADD CONSTRAINT `departamento_coordinador_ibfk_2` FOREIGN KEY (`id_coordinador`) REFERENCES `coordinador` (`id_coordinador`);
 
 --
 -- Filtros para la tabla `departamento_programa`

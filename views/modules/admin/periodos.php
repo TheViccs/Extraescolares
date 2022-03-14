@@ -1,3 +1,9 @@
+<?php
+session_start();
+if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
+    header('Location: ../../layout/login/index.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="en" class="vh-100 vw-100 m-0 bg-dark">
 <head>
@@ -11,11 +17,8 @@
 
 </head>
 <body class="d-flex m-0 h-100 w-100">
-    
-    <!-- SIDEBAR -->
-    <?php include "../../../views/layout/sidebar.php" ?>
 
-    <div class="content h-100 d-flex flex-column bg-white" style="width: calc(100% - 280px); min-height: 100% !important;">
+    <div class="content h-100 w-100 d-flex flex-column bg-white" style="min-height: 100% !important;">
         
     <!-- HEADER -->
         <?php include "../../../views/layout/header.php" ?>

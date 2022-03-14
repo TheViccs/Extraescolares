@@ -1,9 +1,7 @@
-<?php 
+<?php
 session_start();
-if(isset($_SESSION['loggedin'])){
-
-}else{
-    header('Location: ../../../../layout/login/inicio_sesion.php');
+if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
+    header('Location: ../../layout/login/index.php');
 }
 ?>
 <!DOCTYPE html>
@@ -19,18 +17,15 @@ if(isset($_SESSION['loggedin'])){
 
 </head>
 <body class="d-flex m-0 h-100 w-100">  
-    
-    <!-- SIDEBAR -->
-    <?php include "../../../views/layout/sidebar.php" ?>
 
-    <div class="content h-100 d-flex flex-column bg-white" style="width: calc(100% - 280px);">
-        
+    <div class="content h-100 w-100 d-flex flex-column bg-white">  
+
         <!-- HEADER -->
         <?php include "../../../views/layout/header.php" ?>
 
         <!-- CONTENT -->
         <div class="box d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height:calc(100% - 112px) !important; overflow-y:auto;">
-            <input id="input_id_responsable" type="text" value="<?php echo $_SESSION['id_responsable'] ?>"/>
+            <input id="input_id_responsable" type="text" value="<?php echo $_SESSION['id_responsable'] ?>" hidden/>
 
             <!-- ALERTAS -->
             <?php include "../../../views/layout/alertas.php" ?>
