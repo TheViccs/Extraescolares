@@ -29,6 +29,9 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
 
             <!-- ALERTAS -->
             <?php include "../../../views/layout/alertas.php" ?>
+            <a style="margin-left: 70%;" href="http://localhost/Extraescolares/views/modules/responsable/responsable.php">
+                <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"src="../../.././assets/img/back.png">
+            </a> 
 
             <!-- TITULO DE CONTENIDO -->
             <h1 class="mb-4 mt-2 text-center w-100">Mis Programas</h1>

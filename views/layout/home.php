@@ -42,7 +42,7 @@
     </div>
 
     <div class="btnAdmin">
-      <a href="" >
+      <a href="http://localhost/Extraescolares/views/modules/admin/administrador.php" >
         <button type="button" class="btn btn-outline-dark" style="width: 260px;">Responsable Programas
         <img  id="iconos" src="../../assets/img/responsabilidad.png" alt="" style="width: 30px; height: 30px; margin-right: 10px;">
       </button>

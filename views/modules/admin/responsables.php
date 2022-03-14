@@ -36,7 +36,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
             
             <!-- FORMULARIO -->
             <div class="content-form mb-4 p-3 d-flex flex-column align-items-center" style="width: 90% !important;">
-            <div class="content-form mb-4 p-5 d-flex flex-column align-items-center border border-dark" style="width: 72% !important;">    
+            <div class="content-form mb-4 p-5 d-flex flex-column align-items-center border border-dark" style="width: 80% !important;">    
             <div id="formulario_responsable" >
                     <div id="id_responsable">
                         <input id="input_id_responsable" type="text" hidden/>
@@ -66,9 +66,9 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
             </div>
 
             <!-- BOTONES GUARDAR Y CANCELAR -->
-            <div class="d-flex flex-row-reverse" style="width: 80% !important;  margin-right: 15%;">
-                <button id="boton_insert_update_responsable" class="btn btn-success" onclick="insert_responsable()"  style="margin-left: 50px;">Guardar</button>
-                <button class="btn btn-danger" onclick="borrar_datos_input_responsable()">Cancelar</button>           
+            <div class="d-flex flex-row-reverse" style="width: 80% !important;  margin-right: 9%;">
+                <button id="boton_insert_update_responsable" class="btn btn-success" onclick="insert_responsable()"  style="margin-left: 10%;">Guardar</button>
+                <button class="btn btn-danger" onclick="borrar_datos_input_responsable()" >Cancelar</button>           
             </div>
 
             <!-- TABLA -->

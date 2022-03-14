@@ -29,12 +29,17 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
             <!-- ALERTAS -->
             <?php include "../../../views/layout/alertas.php" ?>
 
+            <a style="margin-left: 70%;" href="http://localhost/Extraescolares/views/modules/responsable/responsable.php">
+                <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"src="../../.././assets/img/back.png">
+            </a>    
+
             <!-- TITULO DE CONTENIDO -->            
             <h1 class="mb-4 mt-2 text-center w-100">Gestión de Coordinadores</h1>
             
             <!-- FORMULARIO -->
             <div class="content-form mb-4 p-3 d-flex flex-column align-items-center" style="width: 90% !important;">
-                <div id="formulario_coordinador" >
+            <div class="content-form mb-4 p-5 d-flex flex-column align-items-center border border-dark" style="width: 71% !important;">    
+            <div id="formulario_coordinador" >
                     <div id="id_coordinador">
                         <input id="input_id_coordinador" type="text" hidden/>
                         <div>
@@ -62,9 +67,9 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
             </div>
 
             <!-- BOTONES GUARDAR Y CANCELAR -->
-            <div class="d-flex justify-content-evenly" style="width: 50% !important;">
-                <button id="boton_insert_update_coordinador" class="btn btn-success" onclick="insert_coordinador()">Guardar</button>
-                <button class="btn btn-danger" onclick="borrar_datos_input_coordinador()">Cancelar</button>           
+            <div class="d-flex justify-content-evenly"  style="width: 80% !important;  margin-left: 34%;">
+                <button id="boton_insert_update_coordinador" class="btn btn-success" onclick="insert_coordinador()" style="margin-left: 25%;">Guardar</button>
+                <button class="btn btn-danger" onclick="borrar_datos_input_coordinador()" style="margin-left: -20%;">Cancelar</button>           
             </div>
 
             <!-- TABLA -->
@@ -97,6 +102,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
                     </div>
                 </div>
             </div>   
+        </div>
         </div>
 
         <!-- FOOTER -->
