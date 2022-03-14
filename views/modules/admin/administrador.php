@@ -23,13 +23,9 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
         <!-- HEADER -->
         <?php include "../../../views/layout/header.php" ?>
 
-        <!-- CONTENT -->
-        
-        <div class="d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height: calc(100% - 112px) !important; overflow-y:auto; margin-top: 20px;">
-        <a style="margin-left: 70%;" href="http://localhost/Extraescolares/views/layout/home.php">
-                <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"
-                    src="../../.././assets/img/back.png"></a>    
-        <div class="menu h-100 p-3">
+        <!-- CONTENT -->    
+        <div class="d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height: calc(100% - 132px) !important; overflow-y:auto; margin-top: 20px;"> 
+            <div class="menu h-100 p-3">
                 <ul class="contenedor-menu w-90 h-100 text-center">
                     <li>
                         <a href="./periodos.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/2370/2370264.png"/><span>Gestionar Periodos</span></a>
@@ -46,6 +42,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                 </ul>
             </div>
         </div>
+
         <!-- FOOTER -->
        <?php include "../../../views/layout/footer.php" ?>
     </div>

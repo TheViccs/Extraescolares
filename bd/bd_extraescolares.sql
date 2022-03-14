@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-03-2022 a las 04:28:04
+-- Tiempo de generación: 14-03-2022 a las 16:43:55
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -48,13 +48,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_coordinador` (IN `c_clave
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_departamento`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_departamento` (IN `d_clave` VARCHAR(10), IN `d_nombre` VARCHAR(150), IN `d_ubicacion` VARCHAR(150), IN `d_extension` VARCHAR(12))  BEGIN
-	INSERT INTO departamento(clave, nombre, ubicacion, extension) VALUES (d_clave,d_nombre,d_ubicacion,d_extension) ON DUPLICATE KEY UPDATE nombre=d_nombre, ubicacion=d_ubicacion, extension=d_extension;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_departamento` (IN `d_clave` VARCHAR(10), IN `d_nombre` VARCHAR(150), IN `d_ubicacion` VARCHAR(150), IN `d_extension` VARCHAR(12), IN `d_correo` INT(150))  BEGIN
+	INSERT INTO departamento(clave, nombre, ubicacion, extension,correo) VALUES (d_clave,d_nombre,d_ubicacion,d_extension,d_correo) ON DUPLICATE KEY UPDATE nombre=d_nombre, ubicacion=d_ubicacion, extension=d_extension,correo=d_correo;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_departamento_responsable`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_departamento_responsable` (IN `d_clave` VARCHAR(10), IN `d_nombre` VARCHAR(150), IN `d_ubicacion` VARCHAR(150), IN `d_extension` VARCHAR(12), IN `r_id` INT)  BEGIN
-	INSERT INTO departamento (clave,nombre,ubicacion,extension) VALUES (d_clave,d_nombre,d_ubicacion,d_extension);
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_departamento_responsable` (IN `d_clave` VARCHAR(10), IN `d_nombre` VARCHAR(150), IN `d_ubicacion` VARCHAR(150), IN `d_extension` VARCHAR(12), IN `d_correo` VARCHAR(150), IN `r_id` INT)  BEGIN
+	INSERT INTO departamento (clave,nombre,ubicacion,extension,correo) VALUES (d_clave,d_nombre,d_ubicacion,d_extension,d_correo);
     INSERT INTO departamento_responsable(id_departamento,id_responsable,fecha_inicio)VALUES((SELECT id_departamento FROM departamento ORDER BY id_departamento DESC LIMIT 1),r_id,NOW());
 END$$
 
@@ -112,7 +112,7 @@ END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_departamento_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_departamento_id` (IN `d_id_departamento` INT)  BEGIN
-	SELECT departamento.id_departamento, departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension, departamento_responsable.id_responsable, responsable.nombre AS nombre_responsable FROM departamento LEFT JOIN departamento_responsable ON departamento.id_departamento = departamento_responsable.id_departamento LEFT JOIN responsable ON responsable.id_responsable=departamento_responsable.id_responsable WHERE departamento.id_departamento=d_id_departamento AND departamento_responsable.fecha_fin IS NULL;
+	SELECT departamento.id_departamento, departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension, departamento.correo, departamento_responsable.id_responsable, responsable.nombre AS nombre_responsable FROM departamento LEFT JOIN departamento_responsable ON departamento.id_departamento = departamento_responsable.id_departamento LEFT JOIN responsable ON responsable.id_responsable=departamento_responsable.id_responsable WHERE departamento.id_departamento=d_id_departamento AND departamento_responsable.fecha_fin IS NULL;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_periodo`$$
@@ -257,17 +257,18 @@ CREATE TABLE `departamento` (
   `clave` varchar(10) NOT NULL,
   `nombre` varchar(150) NOT NULL,
   `ubicacion` varchar(150) NOT NULL,
-  `extension` varchar(12) NOT NULL
+  `extension` varchar(12) NOT NULL,
+  `correo` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `departamento`
 --
 
-INSERT INTO `departamento` (`id_departamento`, `clave`, `nombre`, `ubicacion`, `extension`) VALUES
-(1, 'D', 'Dirección', ' ', '201'),
-(2, 'SPB', 'Subdirector de Planeación y Vinculación', ' ', '102'),
-(6, 'DAE', 'Departamento de Actividades Extraescolares', ' ', '108');
+INSERT INTO `departamento` (`id_departamento`, `clave`, `nombre`, `ubicacion`, `extension`, `correo`) VALUES
+(1, 'D', 'Dirección', ' ', '201', ''),
+(2, 'SPB', 'Subdirector de Planeación y Vinculación', ' ', '102', ''),
+(6, 'DAE', 'Departamento de Actividades Extraescolares', ' ', '108', '');
 
 -- --------------------------------------------------------
 

@@ -214,13 +214,14 @@ function insert_departamento(){
     let nombre = $("#input_nombre_departamento").val();
     let ubicacion = $("#input_ubicacion_departamento").val();
     let extension = $("#input_extension_departamento").val();
-    if(clave.length !== 0 && nombre.length !== 0 && ubicacion.length !== 0 && extension.length !== 0){
+    let correo = $("#input_correo_departamento").val();
+    if(clave.length !== 0 && nombre.length !== 0 && ubicacion.length !== 0 && extension.length !== 0 && correo.length !== 0){
         let val = $("#input_select_responsables").val(); 
         let id_responsable = $("#select_responsables option[value='"+val+"']").attr("id");
         if(id_responsable!==undefined){
-            insert_departamento_responsable(clave, nombre, ubicacion, extension, id_responsable);
+            insert_departamento_responsable(clave, nombre, ubicacion, extension,correo, id_responsable);
         }else{
-            insert_only_departamento(clave, nombre, ubicacion, extension);
+            insert_only_departamento(clave, nombre, ubicacion, extension,correo);
         }
     }else{
         mostrar_alerta(2);
@@ -228,11 +229,11 @@ function insert_departamento(){
 }
 
 //INSERT EN DEPARTAMENTO
-function insert_only_departamento(clave, nombre, ubicacion, extension){
+function insert_only_departamento(clave, nombre, ubicacion, extension,correo){
     $.ajax({
         type: "POST",
         url: path+"insert_departamento.php",  
-        data: {"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension} ,                         
+        data: {"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension, "correo":correo} ,                         
         success: function(res){  
             select_departamentos();
             if(res==="1"){
@@ -247,11 +248,11 @@ function insert_only_departamento(clave, nombre, ubicacion, extension){
 
 
 //INSERT EN DEPARTAMENTO Y EN DEPARTAMENTO-RESPONSABLE
-function insert_departamento_responsable(clave, nombre, ubicacion, extension, id_responsable){
+function insert_departamento_responsable(clave, nombre, ubicacion, extension, correo,id_responsable){
     $.ajax({
         type: "POST",
         url: path+"insert_departamento_responsable.php",  
-        data: {"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension, "id_responsable": id_responsable} ,                         
+        data: {"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension,"correo":correo, "id_responsable": id_responsable} ,                         
         success: function(res){ 
             select_departamentos(); 
             if(res==="1"){
@@ -270,6 +271,7 @@ function borrar_datos_input_departamento(){
     $("#input_nombre_departamento").val("");
     $("#input_ubicacion_departamento").val("");
     $("#input_extension_departamento").val("");
+    $("#input_correo_departamento").val("");
     $("#input_select_responsables").val("");
     $("#boton_insert_update_departamento").attr("onclick","insert_departamento()");
 }
