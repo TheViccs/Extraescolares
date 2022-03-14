@@ -36,7 +36,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                 <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"
                     src="../../.././assets/img/back.png"></a>
 
-            <h1 class="mb-4 mt-2 text-center w-100 ">Gestión De Unidades responsables</h1>
+            <h1 class="mb-4 mt-2 text-center w-100 ">Gestión de Unidades Responsables</h1>
 
 
 
@@ -76,12 +76,12 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                         </div>
                     </div>
                     <br>
-                    <div class="d-flex " style="width: 45% !important; margin-right: 50%;">
+                    <div class="d-flex " style="width: 45% !important; height:30px; margin-right: 50%;">
                         <label class="text-center" style="width: 45% !important;">Jefe de Departamento</label>
                         <input id="input_select_responsables" type="text" list="select_responsables" />
                         <datalist id="select_responsables" style="width: 45% !important;">
                         </datalist>
-                        <button class="btn btn-dark p-0" style="height: 28px; width: 28px;" data-bs-toggle="modal"
+                        <button class="btn btn-dark p-0" style="width: 28px;" data-bs-toggle="modal"
                             data-bs-target="#modal_responsable">+</button>
                     </div>
 

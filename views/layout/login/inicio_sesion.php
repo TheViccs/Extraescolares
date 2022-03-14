@@ -1,3 +1,9 @@
+<?php
+session_start();
+if(isset($_SESSION['loggedin'])){
+    header('Location: ../../layout/login/index.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="en" class="vh-100 vw-100 m-0 bg-dark">
 <head>
@@ -16,9 +22,9 @@
         
         <!-- HEADER -->
         <?php include "../../../views/layout/header.php" ?>
-        <a style="margin-left: 70%;" href="http://localhost/Extraescolares/views/layout/home.php">
+        <!-- <a style="margin-left: 70%;" href="http://localhost/Extraescolares/views/layout/home.php">
                 <img style="width:5%; height:10vh; min-width:30px; max-height:30px;"
-                    src="../../.././assets/img/back.png"></a>
+                    src="../../.././assets/img/back.png"></a> -->
         <!-- CONTENT -->
         <div class="d-flex flex-column justify-content-center align-items-center" style="min-height:calc(100% - 112px) !important; overflow-y:auto;">
           <label>Correo</label>
