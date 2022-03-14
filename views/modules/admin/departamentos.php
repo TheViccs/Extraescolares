@@ -26,7 +26,8 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
         <?php include "../../../views/layout/header.php" ?>
 
         <!-- CONTENT -->
-        <div class="d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height: calc(100% - 112px) !important; overflow-y:auto;">
+        <div class="d-flex flex-column align-items-center bg-white"
+            style="width: 100% !important; min-height: calc(100% - 112px) !important; overflow-y:auto;">
 
             <!-- ALERTAS -->
             <?php include "../../../views/layout/alertas.php" ?>
@@ -43,20 +44,28 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
 
             <!-- FORMULARIO -->
             <div class="content-form mb-4 p-3 d-flex flex-column align-items-center " style="width: 100% !important;">
-                <div class="content-form mb-4 p-5 d-flex flex-column align-items-center border border-dark" style="width: 72% !important;">
+                <div class="content-form mb-4 p-5 d-flex flex-column align-items-center border border-dark"
+                    style="width: 72% !important;">
                     <div class="d-flex " style="width: 100% !important;">
                         <input id="input_id_departamento" type="text" hidden />
                         <div class="d-flex justify-content-between" style="width: 45% !important;">
                             <label class="text-center" style="width: 50% !important;">Clave</label>
-                            <input id="input_clave_departamento" style="width: 20% !important; margin-right: 30%;" type="text" required />
+                            <input id="input_clave_departamento" style="width: 20% !important; margin-right: 30%;"
+                                type="text" required />
                         </div>
-
+                        <div class="d-flex" style="width: 50% !important; margin-right:30%;">
+                            <label class="text-center" style="width: 50% !important; ">Correo de repartamento</label>
+                            <input id="input_correo_departamento" style="width: 50% !important;" type="text" required />
+                        </div>
                     </div>
+
+
 
                     <div class="d-flex" style="width: 100% !important; margin-top: 30px;">
                         <div class="d-flex justify-content-between" style="width: 45% !important;">
                             <label class="text-center" style="width: 50% !important;">Nombre</label>
-                            <input id="input_nombre_departamento" style="width: 110% !important; margin-right: -60%;" type="text" required />
+                            <input id="input_nombre_departamento" style="width: 110% !important; margin-right: -60%;"
+                                type="text" required />
                         </div>
                     </div>
 
@@ -74,6 +83,9 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                             <input id="input_extension_departamento" style="width: 50% !important;" type="text"
                                 required />
                         </div>
+
+
+
                     </div>
                     <br>
                     <div class="d-flex " style="width: 45% !important; height:30px; margin-right: 50%;">
@@ -86,13 +98,13 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                     </div>
 
                 </div>
-                    <!-- BOTONES GUARDAR Y CANCELAR -->
-                    <div class="d-flex flex-row-reverse" style="width: 80% !important;  margin-right: 10%;">
-                        <button id="boton_insert_update_departamento" class="btn btn-success" style="margin-left:50px;"
-                            onclick="insert_departamento()">Guardar</button>
-                        <button class="btn btn-danger" onclick="borrar_datos_input_departamento()">Cancelar</button>
-                    </div>
-                
+                <!-- BOTONES GUARDAR Y CANCELAR -->
+                <div class="d-flex flex-row-reverse" style="width: 80% !important;  margin-right: 10%;">
+                    <button id="boton_insert_update_departamento" class="btn btn-success" style="margin-left:50px;"
+                        onclick="insert_departamento()">Guardar</button>
+                    <button class="btn btn-danger" onclick="borrar_datos_input_departamento()">Cancelar</button>
+                </div>
+
             </div>
             <!-- TABLA -->
             <div class="content-table d-flex justify-content-center mb-3" style="width: 90% !important;">
