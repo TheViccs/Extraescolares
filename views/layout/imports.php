@@ -6,6 +6,7 @@
 <link href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" rel="stylesheet">
 <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 <script src="../../../js/index.js"></script>
+<script src="../../../js/login.js"></script>
 <script src="../../../lib/moment.js"></script>
 <script src="../../../lib/moment-with-locales.min.js"></script>
 <script src="../../../lib/jspdf/dist/jspdf.min.js"></script>

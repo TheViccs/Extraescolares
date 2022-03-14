@@ -1,3 +1,9 @@
+<?php
+session_start();
+if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
+    header('Location: ../../layout/login/index.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="en" class="vh-100 vw-100 m-0 bg-dark">
 <head>
@@ -12,7 +18,7 @@
 </head>
 <body class="d-flex m-0 h-100 w-100">  
 
-    <div class="content h-100 d-flex flex-column bg-white w-100">
+    <div class="content h-100 w-100 d-flex flex-column bg-white">
         
         <!-- HEADER -->
         <?php include "../../../views/layout/header.php" ?>
@@ -29,16 +35,17 @@
                         <a href="./periodos.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/2370/2370264.png"/><span>Gestionar Periodos</span></a>
                     </li>
                     <li>
+<<<<<<< HEAD
                         <a href="./departamentos.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/554/554744.png"/><span>Gestionar De Unidades Responsables</span></a>
+=======
+                        <a href="./departamentos.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/921/921296.png"/><span>Gestionar De Unidades Responsables</span></a>
+>>>>>>> 320b860fae063eb675f5724dad9ef0fc7801b667
                     </li>
                     <li>
                         <a href="./responsables.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/4395/4395348.png"/><span>Gestionar Responsables</span></a>
                     </li>
                     <li>
                         <a href="./programas.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/1032/1032432.png"/><span>Gestionar Programas</span></a>
-                    </li>
-                    <li>
-                        <a><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/6234/6234969.png"/><span>Gestionar Coordinadores</span></a>
                     </li>
                 </ul>
             </div>
