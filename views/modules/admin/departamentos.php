@@ -68,9 +68,6 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                                 type="text" required />
                         </div>
                     </div>
-
-
-
                     <br>
                     <div class="d-flex justify-content-evenly" style="width: 100% !important;">
                         <div class="d-flex" style="width: 45% !important; margin-right: 90px;">
@@ -86,6 +83,13 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
 
 
 
+                    </div>
+                    <br>
+                    <div class="d-flex " style="width: 100% !important;">
+                        <div class="d-flex" style="width: 70% !important; margin-right: 90px;">
+                            <label class="text-center" style="width: 32% !important;">Correo</label>
+                            <input id="input_correo_departamento" style="width: 68% !important;" type="text" required />
+                        </div>
                     </div>
                     <br>
                     <div class="d-flex " style="width: 45% !important; height:30px; margin-right: 50%;">
@@ -141,6 +145,16 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                         </div>
                         <br>
                         <div class="w-100 d-flex">
+                            <label class="w-50">Apellido Paterno</label>
+                            <input id="input_apellido_p_responsable" class="w-50" type="text" />
+                        </div>
+                        <br>
+                        <div class="w-100 d-flex">
+                            <label class="w-50">Apellido Materno</label>
+                            <input id="input_apellido_m_responsable" class="w-50" type="text" />
+                        </div>
+                        <br>
+                        <div class="w-100 d-flex">
                             <label class="w-50">Correo</label>
                             <input id="input_correo_responsable" class="w-50" type="text" />
                         </div>
@@ -170,6 +184,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                             <p id="p_nombre_departamento"></p>
                             <p id="p_ubicacion_departamento"></p>
                             <p id="p_extension_departamento"></p>
+                            <p id="p_correo_departamento"></p>
                             <input id="input_id_departamento_borrar" type="text" hidden />
                     </div>
                 </div>

@@ -16,7 +16,7 @@ select_responsables();
 function agregar_responsables_select(responsables){
     $("#select_responsables").html("");
     for(let responsable of responsables){
-        $("#select_responsables").append("<option id="+responsable.id_responsable+" value='"+responsable.nombre+"'></option>");
+        $("#select_responsables").append("<option id="+responsable.id_responsable+" value='"+responsable.nombre+" "+responsable.apellido_p+" "+responsable.apellido_m+"'></option>");
     }
 }
 
@@ -24,12 +24,14 @@ function agregar_responsables_select(responsables){
 function insert_responsable(){
     let clave = $("#input_clave_responsable").val();
     let nombre = $("#input_nombre_responsable").val();
+    let apellido_p = $("#input_apellido_p_responsable").val();
+    let apellido_m = $("#input_apellido_m_responsable").val();
     let correo = $("#input_correo_responsable" ).val();
-    if(clave.length!==0 && nombre.length!==0 && correo.length!==0 ){
+    if(clave.length!==0 && nombre.length!==0 && apellido_p.length!==0 && apellido_m.length!==0 && correo.length!==0 ){
         $.ajax({
             type: "POST",
             url: path+"insert_responsable.php",  
-            data: {"clave": clave, "nombre": nombre, "correo":correo + "@colima.tecnm.mx" } ,                         
+            data: {"clave": clave, "nombre": nombre, "apellido_p":apellido_p, "apellido_m": apellido_m, "correo":correo + "@colima.tecnm.mx" } ,                         
             success: function(res){
                 if(res==="1"){
                     select_responsables();  
@@ -68,7 +70,7 @@ $('#tabla_departamentos').DataTable({
         {data: "nombre", title: 'Nombre'},
         {data: "ubicacion", title: 'Ubicación'},
         {data: "extension", title: 'Extensión'},
-        {data: "correo", title: 'correo'},
+        {data: "correo", title: 'Correo'},
         {data: "botoneditar", title: 'Editar'},
         {data: "botonborrar", title: 'Borrar'},
         {data: "botonimprimir", title: 'Imprimir'}
@@ -117,9 +119,13 @@ function agregar_departamentos_tabla(departamentos){
     let tabla = $("#tabla_departamentos").DataTable();
     tabla.rows().remove().draw();
     for(let departamento of departamentos){
+<<<<<<< HEAD
         tabla.row.add({"clave":departamento.clave,"nombre":departamento.nombre,"ubicacion":departamento.ubicacion,"extension":departamento.extension,"correo": departamento.correo,"botoneditar":"<button id='botoneditardepartamento"+departamento.id_departamento+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrardepartamento"+departamento.id_departamento+"' class='btn btn-danger'>Borrar</button>","botonimprimir":"<button id='botonimprimirdepartamento"+departamento.id_departamento+"' class='btn btn-dark'>Imprimir</button>"}).draw();
+=======
+        tabla.row.add({"clave":departamento.clave,"nombre":departamento.nombre,"ubicacion":departamento.ubicacion,"extension":departamento.extension,"correo":departamento.correo,"botoneditar":"<button id='botoneditardepartamento"+departamento.id_departamento+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrardepartamento"+departamento.id_departamento+"' class='btn btn-danger'>Borrar</button>","botonimprimir":"<button id='botonimprimirdepartamento"+departamento.id_departamento+"' class='btn btn-dark'>Imprimir</button>"}).draw();
+>>>>>>> f94d519f244ebffa9fa782130cd0a87c500c5af4
         $("#botoneditardepartamento"+departamento.id_departamento).on( "click", function(){select_departamento_id(departamento.id_departamento)});
-        $("#botonborrardepartamento"+departamento.id_departamento).on( "click", function(){mostrar_modal_borrar_departamento(departamento.id_departamento, departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension)});
+        $("#botonborrardepartamento"+departamento.id_departamento).on( "click", function(){mostrar_modal_borrar_departamento(departamento.id_departamento, departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension, departamento.correo)});
         $("#botonimprimirdepartamento"+departamento.id_departamento).on( "click", function(){generar_pdf(departamento.id_departamento)});
     }
 }
@@ -137,6 +143,7 @@ function select_departamento_id(id_departamento){
             $("#input_nombre_departamento").val(departamento.nombre);
             $("#input_ubicacion_departamento").val(departamento.ubicacion);
             $("#input_extension_departamento").val(departamento.extension);
+            $("#input_correo_departamento").val(departamento.correo);
             $("#input_select_responsables").val($("#select_responsables option[id=" +departamento.id_responsable+"]").attr("value"));
             $("#boton_insert_update_departamento").attr("onclick","update_departamento()");
         }
@@ -150,13 +157,14 @@ function update_departamento(){
     let nombre = $("#input_nombre_departamento").val();
     let ubicacion = $("#input_ubicacion_departamento").val();
     let extension = $("#input_extension_departamento").val();
-    if(id_departamento.length !== 0 && clave.length !== 0 && nombre.length !== 0 && ubicacion.length !== 0 && extension.length !== 0){
+    let correo = $("#input_correo_departamento").val();
+    if(id_departamento.length !== 0 && clave.length !== 0 && nombre.length !== 0 && ubicacion.length !== 0 && extension.length !== 0 && correo.length !== 0){
         let val = $("#input_select_responsables").val(); 
         let id_responsable = $("#select_responsables option[value='"+val+"']").attr("id");
         if(id_responsable!==undefined){
-            update_departamento_responsable(id_departamento,clave,nombre,ubicacion,extension,id_responsable);
+            update_departamento_responsable(id_departamento,clave,nombre,ubicacion,extension,correo,id_responsable);
         }else{
-            update_only_departamento(id_departamento,clave,nombre,ubicacion,extension);
+            update_only_departamento(id_departamento,clave,nombre,ubicacion,extension,correo);
         }
     }else{
         mostrar_alerta(2);
@@ -164,11 +172,11 @@ function update_departamento(){
 }
 
 //UPDATE A DEPARTAMENTO Y A DEPARTAMENTO-RESPONSABLE
-function update_departamento_responsable(id_departamento,clave,nombre,ubicacion,extension,id_responsable){
+function update_departamento_responsable(id_departamento,clave,nombre,ubicacion,extension,correo,id_responsable){
     $.ajax({
         type: "POST",
         url: path+"update_departamento_responsable.php",  
-        data: {"id_departamento":id_departamento,"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension, "id_responsable": id_responsable} ,                         
+        data: {"id_departamento":id_departamento,"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension,"correo": correo, "id_responsable": id_responsable} ,                         
         success: function(res){ 
             select_departamentos(); 
             if(res==="1"){
@@ -182,11 +190,11 @@ function update_departamento_responsable(id_departamento,clave,nombre,ubicacion,
 }
 
 //UPDATE A DEPARTAMENTO
-function update_only_departamento(id_departamento,clave,nombre,ubicacion,extension){
+function update_only_departamento(id_departamento,clave,nombre,ubicacion,extension,correo){
     $.ajax({
         type: "POST",
         url: path+"update_departamento.php",  
-        data: {"id_departamento":id_departamento,"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension} ,                         
+        data: {"id_departamento":id_departamento,"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension, "correo":correo} ,                         
         success: function(res){ 
             select_departamentos(); 
             if(res==="1"){
@@ -200,12 +208,13 @@ function update_only_departamento(id_departamento,clave,nombre,ubicacion,extensi
 }
 
 //MOSTRAR MODAL BORRAR DEPARTAMENTO
-function mostrar_modal_borrar_departamento(id_departamento, clave, nombre, ubicacion, extension){
+function mostrar_modal_borrar_departamento(id_departamento, clave, nombre, ubicacion, extension,correo){
     $("#modal_departamento").modal("show");
     $("#p_clave_departamento").text("Clave: "+clave);
     $("#p_nombre_departamento").text("Nombre: "+nombre);
     $("#p_ubicacion_departamento").text("Ubicación: "+ubicacion);
     $("#p_extension_departamento").text("Extensión: "+extension);
+    $("#p_correo_departamento").text("Extensión: "+correo);
     $("#input_id_departamento_borrar").val(id_departamento);
 }
 
@@ -215,13 +224,14 @@ function insert_departamento(){
     let nombre = $("#input_nombre_departamento").val();
     let ubicacion = $("#input_ubicacion_departamento").val();
     let extension = $("#input_extension_departamento").val();
-    if(clave.length !== 0 && nombre.length !== 0 && ubicacion.length !== 0 && extension.length !== 0){
+    let correo = $("#input_correo_departamento").val();
+    if(clave.length !== 0 && nombre.length !== 0 && ubicacion.length !== 0 && extension.length !== 0 && correo.length !== 0){
         let val = $("#input_select_responsables").val(); 
         let id_responsable = $("#select_responsables option[value='"+val+"']").attr("id");
         if(id_responsable!==undefined){
-            insert_departamento_responsable(clave, nombre, ubicacion, extension, id_responsable);
+            insert_departamento_responsable(clave, nombre, ubicacion, extension,correo, id_responsable);
         }else{
-            insert_only_departamento(clave, nombre, ubicacion, extension);
+            insert_only_departamento(clave, nombre, ubicacion, extension,correo);
         }
     }else{
         mostrar_alerta(2);
@@ -229,11 +239,11 @@ function insert_departamento(){
 }
 
 //INSERT EN DEPARTAMENTO
-function insert_only_departamento(clave, nombre, ubicacion, extension){
+function insert_only_departamento(clave, nombre, ubicacion, extension,correo){
     $.ajax({
         type: "POST",
         url: path+"insert_departamento.php",  
-        data: {"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension} ,                         
+        data: {"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension, "correo":correo+"@colima.tecnm.mx"} ,                         
         success: function(res){  
             select_departamentos();
             if(res==="1"){
@@ -248,11 +258,11 @@ function insert_only_departamento(clave, nombre, ubicacion, extension){
 
 
 //INSERT EN DEPARTAMENTO Y EN DEPARTAMENTO-RESPONSABLE
-function insert_departamento_responsable(clave, nombre, ubicacion, extension, id_responsable){
+function insert_departamento_responsable(clave, nombre, ubicacion, extension, correo,id_responsable){
     $.ajax({
         type: "POST",
         url: path+"insert_departamento_responsable.php",  
-        data: {"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension, "id_responsable": id_responsable} ,                         
+        data: {"clave": clave, "nombre": nombre, "ubicacion": ubicacion, "extension": extension,"correo":correo+"@colima.tecnm.mx", "id_responsable": id_responsable} ,                         
         success: function(res){ 
             select_departamentos(); 
             if(res==="1"){
@@ -271,6 +281,7 @@ function borrar_datos_input_departamento(){
     $("#input_nombre_departamento").val("");
     $("#input_ubicacion_departamento").val("");
     $("#input_extension_departamento").val("");
+    $("#input_correo_departamento").val("");
     $("#input_select_responsables").val("");
     $("#boton_insert_update_departamento").attr("onclick","insert_departamento()");
 }
@@ -304,7 +315,8 @@ function generar_pdf(id_departamento){
             let departamento = JSON.parse(res)[0];           
             let pdf = new jsPDF();
             let columns = [["Clave", "Nombre", "Ubicación", "Extensión","Responsable"]];
-            let data = [[departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension, departamento.nombre_responsable]];
+            console.log(departamento.nombre_responsable);
+            let data = [[departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension, departamento.nombre_responsable+" "+departamento.apellido_p+" "+departamento.apellido_m]];
             pdf.setProperties({
                 title: "Tabla Departamento "+departamento.nombre
             });

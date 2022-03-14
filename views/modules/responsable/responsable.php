@@ -26,7 +26,13 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
         <!-- CONTENT -->
         
         <div class="d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height: calc(100% - 132px) !important; overflow-y:auto; margin-top: 20px;">
+<<<<<<< HEAD
 
+=======
+            <a style="margin-left: 70%;" href="http://localhost/Extraescolares/views/layout/home.php">
+                <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"src="../../.././assets/img/back.png">
+            </a>    
+>>>>>>> f94d519f244ebffa9fa782130cd0a87c500c5af4
             <div class="menu h-100 p-3">
                 <ul class="contenedor-menu w-90 h-100 text-center">
                     <li>
