@@ -12,10 +12,9 @@
 </head>
 <body class="d-flex m-0 h-100 w-100">  
     
-    <!-- SIDEBAR -->
-    <?php include "../../../views/layout/sidebar.php" ?>
 
-    <div class="content h-100 d-flex flex-column bg-white" style="width: calc(100% - 280px);">
+
+    <div class="content h-100  w-100 d-flex flex-column bg-white" >
         
         <!-- HEADER -->
         <?php include "../../../views/layout/header.php" ?>
@@ -25,13 +24,16 @@
             
             <!-- ALERTAS -->
             <?php include "../../../views/layout/alertas.php" ?>
-
+            <a style="margin-left: 70%;" href="http://localhost/Extraescolares/views/modules/admin/administrador.php">
+                <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"
+                    src="../../.././assets/img/back.png"></a>
             <!-- TITULO DE CONTENIDO -->
             <h1 class="mb-4 mt-2 text-center w-100">Gestión de programas</h1>
             
             <!-- FORMULARIO -->
             <div class="content-form mb-4 p-3 d-flex flex-column align-items-center" style="width: 90% !important;">
-                <div class="d-flex justify-content-evenly" style="width: 100% !important;">
+            <div class="content-form mb-4 p-5 d-flex flex-column align-items-center border border-dark" style="width: 72% !important;">  
+            <div class="d-flex justify-content-evenly" style="width: 100% !important;">
                     <input id="input_id_programa" type="text" hidden/>
                     <div class="d-flex justify-content-between" style="width: 45% !important;">
                         <label class="text-center" style="width: 50% !important;">Clave</label>
@@ -63,15 +65,15 @@
                     </div>
                 </div>                                                 
             </div>
-            
+            </div>
             <!-- BOTONES GUARDAR Y CANCELAR -->
-            <div class="d-flex justify-content-evenly" style="width: 50% !important;">
-                <button id="boton_insert_update_programa" class="btn btn-success" onclick="insert_programa()">Guardar</button>
+            <div class="d-flex justify-content-evenly" style="width: 80% !important;  margin-right: 10%;">
+                <button id="boton_insert_update_programa" class="btn btn-success" style="margin-left:75%; margin-right: 50px;" onclick="insert_programa()" >Guardar</button>
                 <button class="btn btn-danger" onclick="borrar_datos_input_programa()">Cancelar</button>
             </div>
             
             <!-- TABLA -->
-            <div class="content-table d-flex justify-content-center mb-3" style="width: 90% !important;">
+            <div class="content-table d-flex justify-content-center mb-3" style="width: 80% !important;">
                 <table id="tabla_programas">
                     
                 </table>

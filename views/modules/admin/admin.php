@@ -25,7 +25,7 @@
                         <a href="./periodos.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/2370/2370264.png"/><span>Gestionar Periodos</span></a>
                     </li>
                     <li>
-                        <a href="./departamentos.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons.flaticon.com/png/512/2787/premium/2787683.png?token=exp=1646836361~hmac=4422ff0ed7932c66844a26589d6086f8"/><span>Gestionar Departamentos</span></a>
+                        <a href="./departamentos.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons.flaticon.com/png/512/1769/premium/1769041.png?token=exp=1647011280~hmac=74cc4ccba20a77f99047888f57758a44"/><span>Gestionar De Unidades Responsable </span></a>
                     </li>
                     <li>
                         <a href="./responsables.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/4395/4395348.png"/><span>Gestionar Responsables</span></a>

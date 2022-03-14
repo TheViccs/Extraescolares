@@ -9,8 +9,8 @@
     
 }
 
-.body{
-    /*background-image: url('../assets/img/Tec-de-Colima.jpeg');*/
+.back{
+    background-image: url('../assets/img/Tec-de-Colima.jpeg');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;

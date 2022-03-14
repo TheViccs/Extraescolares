@@ -12,19 +12,16 @@
 
 </head>
 
-<body class="d-flex m-0 h-100 w-100">
+<body class="m-0 h-100% w-100%">
 
-    <!-- SIDEBAR -->
-    <?php include "../../../views/layout/sidebar.php" ?>
-
-    <div class="content h-100 d-flex flex-column bg-white" style="width: calc(100% - 280px);">
+    <div class="content h-100 w-100 d-flex flex-column bg-white">
 
         <!-- HEADER -->
         <?php include "../../../views/layout/header.php" ?>
 
         <!-- CONTENT -->
         <div class="d-flex flex-column align-items-center bg-white"
-            style="width: 100% !important; min-height: calc(100% - 112px) !important; overflow-y:auto;">
+            style="width: 100% !important;">
 
             <!-- ALERTAS -->
             <?php include "../../../views/layout/alertas.php" ?>

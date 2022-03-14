@@ -12,10 +12,9 @@
 </head>
 <body class="d-flex m-0 h-100 w-100">  
     
-    <!-- SIDEBAR -->
-    <?php include "../../../views/layout/sidebar.php" ?>
+   
 
-    <div class="content h-100 d-flex flex-column bg-white" style="width: calc(100% - 280px);">
+    <div class="content h-100 w-100 d-flex flex-column bg-white">
         
         <!-- HEADER -->
         <?php include "../../../views/layout/header.php" ?>
@@ -25,42 +24,46 @@
             
             <!-- ALERTAS -->
             <?php include "../../../views/layout/alertas.php" ?>
-
+            <a style="margin-left: 70%;" href="http://localhost/Extraescolares/views/modules/admin/administrador.php">
+                <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"
+                    src="../../.././assets/img/back.png"></a>
             <!-- TITULO DE CONTENIDO -->            
             <h1 class="mb-4 mt-2 text-center w-100">Gestión de Responsables</h1>
             
             <!-- FORMULARIO -->
             <div class="content-form mb-4 p-3 d-flex flex-column align-items-center" style="width: 90% !important;">
-                <div id="formulario_responsable" >
+            <div class="content-form mb-4 p-5 d-flex flex-column align-items-center border border-dark" style="width: 72% !important;">    
+            <div id="formulario_responsable" >
                     <div id="id_responsable">
                         <input id="input_id_responsable" type="text" hidden/>
                         <div>
-                            <label style="padding-right: 50px;">Clave</label>
+                            <label style="padding-right: 114px;">Clave</label>
                             <input id="input_clave_responsable" type="text" placeholder="Clave" >
                         </div>
                     </div>
                     <div id="nombre_responsable" style="margin-top: 10px; margin-bottom: 10px;">
-                        <label style="padding-right: 50px;">Nombre</label>
+                        <label style="padding-right: 114px;">Nombre</label>
                         <input style="margin-left: -20px;" id="input_nombre_responsable" type="Nombre" placeholder="Nombre">
                     </div>
                     <div id="apellido_p_responsable" style="margin-top: 10px; margin-bottom: 10px;">
-                        <label style="padding-right: 50px;">Apellido Paterno</label>
+                        <label style="padding-right: 55px;">Apellido Paterno</label>
                         <input style="margin-left: -20px;" id="input_apellido_p_responsable" type="ApellidoP" placeholder="Apellido Paterno">
                     </div>
                     <div id="apellido_m_responsable" style="margin-top: 10px; margin-bottom: 10px;">
                         <label style="padding-right: 50px;">Apellido Materno</label>
-                        <input style="margin-left: -20px;" id="input_apellido_m_responsable" type="ApellidoM" placeholder="Apellido Materno">
+                        <input style="margin-left: -20px;" id="input_apellido_m_responsable" type="ApellidoM" placeholder="Apellido Materno" required="false">
                     </div>
                     <div id="email_responsable">
-                        <label style="padding-right: 50px; margin-bottom: 10px;">Email</label>
+                        <label style="padding-right: 114px; margin-bottom: 10px;">Email</label>
                         <input id="input_correo_responsable" type="email" placeholder="Email" >
                     </div>                   
                 </div>  
             </div>
+            </div>
 
             <!-- BOTONES GUARDAR Y CANCELAR -->
-            <div class="d-flex justify-content-evenly" style="width: 50% !important;">
-                <button id="boton_insert_update_responsable" class="btn btn-success" onclick="insert_responsable()">Guardar</button>
+            <div class="d-flex flex-row-reverse" style="width: 80% !important;  margin-right: 15%;">
+                <button id="boton_insert_update_responsable" class="btn btn-success" onclick="insert_responsable()"  style="margin-left: 50px;">Guardar</button>
                 <button class="btn btn-danger" onclick="borrar_datos_input_responsable()">Cancelar</button>           
             </div>
 
