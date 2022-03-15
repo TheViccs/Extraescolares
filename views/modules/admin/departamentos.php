@@ -53,14 +53,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                             <input id="input_clave_departamento" style="width: 20% !important; margin-right: 30%;"
                                 type="text" required />
                         </div>
-                        <div class="d-flex" style="width: 50% !important; margin-right:30%;">
-                            <label class="text-center" style="width: 50% !important; ">Correo de repartamento</label>
-                            <input id="input_correo_departamento" style="width: 50% !important;" type="text" required />
-                        </div>
                     </div>
-
-
-
                     <div class="d-flex" style="width: 100% !important; margin-top: 30px;">
                         <div class="d-flex justify-content-between" style="width: 45% !important;">
                             <label class="text-center" style="width: 50% !important;">Nombre</label>
@@ -157,6 +150,15 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                         <div class="w-100 d-flex">
                             <label class="w-50">Correo</label>
                             <input id="input_correo_responsable" class="w-50" type="text" />
+                        </div>
+                        <br>
+                        <div class="w-100 d-flex">
+                            <label class="w-50">Sexo</label>
+                            <select id="select_sexo_responsable">
+                                <option value="O" disabled selected>Elige...</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
                         </div>
                     </div>
                 </div>

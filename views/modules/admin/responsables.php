@@ -60,6 +60,14 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                     <div id="email_responsable">
                         <label style="padding-right: 114px; margin-bottom: 10px;">Email</label>
                         <input id="input_correo_responsable" type="email" placeholder="Email" >
+                    </div> 
+                    <div id="sexo_responsable">
+                        <label style="padding-right: 118px; margin-bottom: 10px;">Sexo</label>
+                        <select id="select_sexo_responsable">
+                            <option value="O" disabled selected>Elige...</option>
+                            <option value="M">Masculino</option>
+                            <option value="F">Femenino</option>
+                        </select>
                     </div>                   
                 </div>  
             </div>
@@ -91,6 +99,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                             <h3>Seguro que quiere borrar al Responsable?</h1>
                             <p id="p_clave_resposable"></p>
                             <p id="p_nombre_resposable"></p>
+                            <p id="p_sexo_resposable"></p>  
                             <p id="p_correo_resposable"></p>                        
                             <input id="input_id_responsable_borrar" type="text" hidden/>
                         </div>        

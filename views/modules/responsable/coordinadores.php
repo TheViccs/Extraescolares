@@ -35,7 +35,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
 
             <!-- TITULO DE CONTENIDO -->            
             <h1 class="mb-4 mt-2 text-center w-100">Gestión de Coordinadores</h1>
-            
+            <input id="input_id_programa_asignar" value="<?php if(!empty($_GET)){echo $_GET["programa"];} ?>"/>
             <!-- FORMULARIO -->
             <div class="content-form mb-4 p-3 d-flex flex-column align-items-center" style="width: 90% !important;">
             <div class="content-form mb-4 p-5 d-flex flex-column align-items-center border border-dark" style="width: 71% !important;">    
@@ -62,7 +62,15 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
                     <div id="email_coordinador">
                         <label style="padding-right: 50px; margin-bottom: 10px;">Email</label>
                         <input id="input_correo_coordinador" type="email" placeholder="Email" >
-                    </div>                   
+                    </div>
+                    <div id="sexo_coordinador">
+                    <label style="padding-right: 118px; margin-bottom: 10px;">Sexo</label>
+                        <select id="select_sexo_coordinador">
+                            <option value="O" disabled selected>Elige...</option>
+                            <option value="M">Masculino</option>
+                            <option value="F">Femenino</option>
+                        </select>
+                    </div>                     
                 </div>  
             </div>
 

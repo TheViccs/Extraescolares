@@ -4,13 +4,14 @@ $('#tabla-responsables').DataTable({
     columns: [
         {data: "clave", title: 'Clave'},
         {data: "nombre", title: 'Nombre'},
+        {data: "sexo", title: 'Sexo'},
         {data: "correo", title: 'Correo'},
         {data: "botoneditar", title: 'Editar'},
         {data: "botonborrar", title: 'Borrar'},
         {data: "botonimprimir", title: 'Impirmir'}
     ],
     "columnDefs": [
-        { "orderable": false, "targets": [3,4,5] },
+        { "orderable": false, "targets": [4,5,6] },
     ],
     lengthChange: false,
     language: {
@@ -53,18 +54,19 @@ function agregar_responsables_tabla(responsables){
     let tabla = $("#tabla-responsables").DataTable();
     tabla.rows().remove().draw();
     for(let responsable of responsables){
-        tabla.row.add({"clave":responsable.clave, "nombre":responsable.nombre+" "+responsable.apellido_p+" "+responsable.apellido_m, "correo":responsable.correo,"botoneditar":"<button id='botoneditarresponsable"+ responsable.id_responsable+"'class='btn btn-primary'> Editar </button>", "botonborrar": "<button id='botonborrarresponsable"+responsable.id_responsable+"'class='btn btn-danger' >Borrar</button>", "botonimprimir":"<button id='botonimprimir"+responsable.id_responsable+"' class= 'btn btn-dark'>Imprimir</button>"}).draw();
+        tabla.row.add({"clave":responsable.clave, "nombre":responsable.nombre+" "+responsable.apellido_p+" "+responsable.apellido_m,"sexo":responsable.sexo ,"correo":responsable.correo,"botoneditar":"<button id='botoneditarresponsable"+ responsable.id_responsable+"'class='btn btn-primary'> Editar </button>", "botonborrar": "<button id='botonborrarresponsable"+responsable.id_responsable+"'class='btn btn-danger' >Borrar</button>", "botonimprimir":"<button id='botonimprimir"+responsable.id_responsable+"' class= 'btn btn-dark'>Imprimir</button>"}).draw();
         $("#botoneditarresponsable"+responsable.id_responsable).on( "click", function(){select_responsable_id(responsable.id_responsable)});
-        $("#botonborrarresponsable"+responsable.id_responsable).on( "click", function(){mostrar_modal_borrar_responsable(responsable.id_responsable, responsable.clave, responsable.nombre, responsable.correo)});
+        $("#botonborrarresponsable"+responsable.id_responsable).on( "click", function(){mostrar_modal_borrar_responsable(responsable.id_responsable, responsable.clave, responsable.nombre+" "+responsable.apellido_p+" "+responsable.apellido_m, responsable.sexo, responsable.correo)});
         $("#botonimprimir"+responsable.id_responsable).on( "click", function(){generar_pdf(responsable.id_responsable)});
     }
 }
 
 //MOSTRAR MODAL BORRAR RESPONSABLE
-function mostrar_modal_borrar_responsable(id_responsable, clave, nombre, correo){
+function mostrar_modal_borrar_responsable(id_responsable, clave, nombre, sexo,correo){
     $("#modal-responsable").modal("show");
     $("#p_clave_resposable").text("Clave: "+clave);
     $("#p_nombre_resposable").text("Nombre: "+nombre);
+    $("#p_sexo_resposable").text("Sexo: "+sexo);
     $("#p_correo_resposable").text("Correo: "+correo);
     $("#input_id_responsable_borrar").val(id_responsable);
 }
@@ -76,24 +78,26 @@ function insert_responsable(){
     let nombre = $("#input_nombre_responsable").val();
     let apellido_p = $("#input_apellido_p_responsable").val();
     let apellido_m = $("#input_apellido_m_responsable").val();
+    let sexo = $("#select_sexo_responsable").val();
+    console.log(sexo);
     let correo = $("#input_correo_responsable").val();
-    if(clave.length !== 0 && nombre.length !== 0 && apellido_p.length !== 0 && apellido_m.length !== 0 && correo.length !== 0){
+    if(clave.length !== 0 && nombre.length !== 0 && apellido_p.length !== 0 && apellido_m.length !== 0 && correo.length !== 0 && sexo!==null){
         $.ajax({
             type: "POST",
             url: path+"insert_responsable.php",
-            data: {"clave":clave,"nombre":nombre,"apellido_p":apellido_p,"apellido_m":apellido_m,"correo":correo + "@colima.tecnm.mx"},
+            data: {"clave":clave,"nombre":nombre,"apellido_p":apellido_p,"apellido_m":apellido_m,"sexo":sexo,"correo":correo + "@colima.tecnm.mx"},
             success: function(res){
                 borrar_datos_input_responsable();
                 select_responsables();
                 if (res === "1") {
                     mostrar_alerta(1);
                 }else{
-                    mostrar_alerta(2);
+                    mostrar_alerta(3);
                 }
             }
         });
     }else{
-        mostrar_alerta(3);
+        mostrar_alerta(2);
     }
 }
 
@@ -104,12 +108,13 @@ function update_responsable(){
     let nombre = $("#input_nombre_responsable").val();
     let apellido_p = $("#input_apellido_p_responsable").val();
     let apellido_m = $("#input_apellido_m_responsable").val();
+    let sexo = $("#select_sexo_responsable").val();
     let correo = $("#input_correo_responsable").val();
-    if(id_responsable.length !== 0 && clave.length !== 0 && nombre.length !== 0 && apellido_p.length !== 0 && apellido_m.length !== 0 && correo.length !== 0){
+    if(id_responsable.length !== 0 && clave.length !== 0 && nombre.length !== 0 && apellido_p.length !== 0 && apellido_m.length !== 0 && correo.length !== 0 && sexo!=="O"){
         $.ajax({
             type: "POST",
             url: path+"update_responsable.php",  
-            data: {"id_responsable": id_responsable, "clave": clave, "nombre": nombre, "apellido_p": apellido_p, "apellido_m": apellido_m, "correo": correo} ,                         
+            data: {"id_responsable": id_responsable, "clave": clave, "nombre": nombre, "apellido_p": apellido_p, "apellido_m": apellido_m, "sexo":sexo,"correo": correo} ,                         
             success: function(res){ 
                 select_responsables(); 
                 if(res==="1"){
@@ -131,6 +136,7 @@ function borrar_datos_input_responsable(){
     $("#input_nombre_responsable").val("");
     $("#input_apellido_p_responsable").val("");
     $("#input_apellido_m_responsable").val("");
+    $("#select_sexo_responsable").val("O");
     $("#input_correo_responsable").val("");
     $("#boton_insert_update_responsable").attr("onclick","insert_responsable()");
 }
@@ -196,7 +202,8 @@ function select_responsable_id(id_responsable){
             $("#input_nombre_responsable").val(responsable.nombre);
             $("#input_apellido_p_responsable").val(responsable.apellido_p);
             $("#input_apellido_m_responsable").val(responsable.apellido_m);
-            $("#input_correo_responsable").val(responsable.correo);
+            $("#select_sexo_responsable").val(responsable.sexo);
+            $("#input_correo_responsable").val(responsable.correo_responsable);
             $("#boton_insert_update_responsable").attr("onclick","update_responsable()");
         }
     });

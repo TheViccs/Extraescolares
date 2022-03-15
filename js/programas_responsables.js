@@ -55,6 +55,13 @@ function agregar_programas_tabla(programas){
     tabla.rows().remove().draw();
     for(let programa of programas){
         tabla.row.add({"clave":programa.clave,"nombre":programa.nombre,"descripcion":programa.descripcion,"observaciones":programa.observaciones,"botonasignar":"<button id='botonasignar"+programa.id_programa+"' class='btn btn-primary'>Asignar</button>"}).draw();
-        /* $("#botoneditarprograma"+programa.id_programa).on( "click", function(){select_programa_id(programa.id_programa)}); */
+        $("#botonasignar"+programa.id_programa).on( "click", function(){asignar_coordinador(programa.id_programa)});
     }
+}
+
+//CAMBIA DE PAGINA PARA ASIGNAR COORDINADOR
+function asignar_coordinador(id_programa){
+    
+    window.location.href = "../../../views/modules/responsable/coordinadores.php?programa="+id_programa;
+
 }
