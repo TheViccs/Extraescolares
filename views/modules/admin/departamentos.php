@@ -59,37 +59,11 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                             <label>Clave: </label>
                             <input id="input_clave_departamento" placeholder="Clave" type="text" required />
                         </div>
-<<<<<<< HEAD
-                        <div id="correo">
-                            <label>Correo:</label>
-                            <input id="input_correo_departamento" placeholder="Correo" type="text" required />
-                        </div>
-                    </div>
-
-
-
-                    <div id="contenedor_inputs">
-                        <div id="nombreDiv">
-                            <label>Nombre: </label>
-                            <input id="input_nombre_departamento" placeholder="Nombre" type="text" required />
-                        </div>
-                    </div>
-
-                    <div id="contenedor_inputs">
-                        <div>
-                            <label>Ubicación:</label>
-                            <input id="input_ubicacion_departamento" placeholder="Ubicación" type="text" required />
-                        </div>
-                        <div>
-                            <label class="text-center" style="margin-left: 13px;">Extensión:</label>
-                            <input id="input_extension_departamento" style="width: 243px;" placeholder="Extención"
-=======
                     </div>
                     <div class="d-flex" style="width: 100% !important; margin-top: 30px;">
                         <div class="d-flex justify-content-between" style="width: 45% !important;">
                             <label class="text-center" style="width: 50% !important;">Nombre</label>
                             <input id="input_nombre_departamento" style="width: 110% !important; margin-right: -60%;"
->>>>>>> 4914928ddb951b63a79900ac935265275b03dadb
                                 type="text" required />
                         </div>
                     </div>

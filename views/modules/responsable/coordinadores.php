@@ -32,20 +32,6 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
             <!-- ALERTAS -->
             <?php include "../../../views/layout/alertas.php" ?>
 
-<<<<<<< HEAD
-           
-            <!-- TITULO DE CONTENIDO -->
-            <div id="inicio">
-                <div id="titulo">
-                    <h1>Gestión de Coordinadores</h1>
-                </div>
-                <div id="flecha">
-                    <a id="return" href="http://localhost/Extraescolares/views/modules/admin/administrador.php">
-                        <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"
-                            src="../../.././assets/img/back.png"></a>
-                </div>
-            </div>
-=======
             <a style="margin-left: 70%;" href="http://localhost/Extraescolares/views/modules/responsable/responsable.php">
                 <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"src="../../.././assets/img/back.png">
             </a>    
@@ -53,7 +39,6 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
             <!-- TITULO DE CONTENIDO -->            
             <h1 class="mb-4 mt-2 text-center w-100">Gestión de Coordinadores</h1>
             <input id="input_id_programa_asignar" value="<?php if(!empty($_GET)){echo $_GET["programa"];} ?>" hidden/>
->>>>>>> 4914928ddb951b63a79900ac935265275b03dadb
             <!-- FORMULARIO -->
             <div class="content-form mb-4 p-3 d-flex w-100 flex-column align-items-center">
                 <div id="cuadro">
