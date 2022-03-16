@@ -39,6 +39,101 @@
     width: 30px; 
     height: 30px;
 }
+/*Return*/
+#titulo{
+    width: 95%;
+    text-align: center;
+}
+
+#flecha{
+    width: 5%;
+}
+
+
+#inicio{
+    height: 100%;
+    width: 1300px;
+    display: flex;
+    align-items: center;
+}
+
+/*Interfaces del Administrador*/
+/*Interfaz de Unidades Responsables*/
+#cuadro{
+    height: 100%;
+    width: 70%;
+    border: solid black 1px;
+    border-radius: 5px;
+}
+
+#contenedor_inputs{
+    width: 100%;
+    height: 30px;
+    display: flex;
+    margin-top: 20px;
+    transform: translate(0%,0%);
+}
+
+#clave{
+    width: 30%;
+    height: 30px;      
+}
+
+#correo{
+    width: 500px;
+    height: 30px;
+}
+
+#input_clave_departamento{
+    width: 70px;
+    margin-left: 20px;
+}
+
+#input_correo_departamento{
+    width: 385px;
+}
+
+#nombreDiv{    
+    width: 100%;
+    height: 100%;
+}
+
+#input_nombre_departamento{
+    width: 550px;
+}
+
+#ubicacionDiv{
+   margin-left: -200px;
+   width: 100px;
+   height: 30px; 
+}
+
+
+/*Interfaces de Responsable*/
+/*Interfaz de Coordinadores*/
+
+#inputs_coordinador{
+    height:30px;
+    width: 100%;
+    display: flex;
+    margin-top: 20px;
+    transform: translate(5%,5%);
+    align-items: center;
+}
+
+#botones{
+    height: 50px;
+    width: 15%;
+    margin-top: 20px;
+    display: flex;
+    margin-left: 800px;
+    
+    
+}
+
+
+
+
 
 
 
