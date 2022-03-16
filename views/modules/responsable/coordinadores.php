@@ -35,7 +35,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
 
             <!-- TITULO DE CONTENIDO -->            
             <h1 class="mb-4 mt-2 text-center w-100">Gestión de Coordinadores</h1>
-            <input id="input_id_programa_asignar" value="<?php if(!empty($_GET)){echo $_GET["programa"];} ?>"/>
+            <input id="input_id_programa_asignar" value="<?php if(!empty($_GET)){echo $_GET["programa"];} ?>" hidden/>
             <!-- FORMULARIO -->
             <div class="content-form mb-4 p-3 d-flex flex-column align-items-center" style="width: 90% !important;">
             <div class="content-form mb-4 p-5 d-flex flex-column align-items-center border border-dark" style="width: 71% !important;">    
