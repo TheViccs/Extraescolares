@@ -59,6 +59,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                             <label>Clave: </label>
                             <input id="input_clave_departamento" placeholder="Clave" type="text" required />
                         </div>
+<<<<<<< HEAD
                         <div id="correo">
                             <label>Correo:</label>
                             <input id="input_correo_departamento" placeholder="Correo" type="text" required />
@@ -82,6 +83,13 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                         <div>
                             <label class="text-center" style="margin-left: 13px;">Extensión:</label>
                             <input id="input_extension_departamento" style="width: 243px;" placeholder="Extención"
+=======
+                    </div>
+                    <div class="d-flex" style="width: 100% !important; margin-top: 30px;">
+                        <div class="d-flex justify-content-between" style="width: 45% !important;">
+                            <label class="text-center" style="width: 50% !important;">Nombre</label>
+                            <input id="input_nombre_departamento" style="width: 110% !important; margin-right: -60%;"
+>>>>>>> 4914928ddb951b63a79900ac935265275b03dadb
                                 type="text" required />
                         </div>
                     </div>
@@ -176,6 +184,15 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                         <div class="w-100 d-flex">
                             <label class="w-50">Correo</label>
                             <input id="input_correo_responsable" class="w-50" type="text" />
+                        </div>
+                        <br>
+                        <div class="w-100 d-flex">
+                            <label class="w-50">Sexo</label>
+                            <select id="select_sexo_responsable">
+                                <option value="O" disabled selected>Elige...</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
                         </div>
                     </div>
                 </div>

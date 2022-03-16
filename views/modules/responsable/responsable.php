@@ -32,10 +32,10 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
             <div class="menu h-100 p-3">
                 <ul class="contenedor-menu w-90 h-100 text-center">
                     <li>
-                        <a href="./coordinadores.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/6234/6234969.png"/><span>Gestionar Coordinadores</span></a>
+                        <a href="./programas.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/1032/1032432.png"/><span>Mis Programas</span></a>
                     </li>
                     <li>
-                        <a href="./programas.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/1032/1032432.png"/><span>Mis Programas</span></a>
+                        <a href="./coordinadores.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/6234/6234969.png"/><span>Gestionar Coordinadores</span></a>
                     </li>
                 </ul>
             </div>

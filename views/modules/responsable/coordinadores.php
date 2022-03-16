@@ -32,6 +32,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
             <!-- ALERTAS -->
             <?php include "../../../views/layout/alertas.php" ?>
 
+<<<<<<< HEAD
            
             <!-- TITULO DE CONTENIDO -->
             <div id="inicio">
@@ -44,6 +45,15 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
                             src="../../.././assets/img/back.png"></a>
                 </div>
             </div>
+=======
+            <a style="margin-left: 70%;" href="http://localhost/Extraescolares/views/modules/responsable/responsable.php">
+                <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"src="../../.././assets/img/back.png">
+            </a>    
+
+            <!-- TITULO DE CONTENIDO -->            
+            <h1 class="mb-4 mt-2 text-center w-100">Gestión de Coordinadores</h1>
+            <input id="input_id_programa_asignar" value="<?php if(!empty($_GET)){echo $_GET["programa"];} ?>" hidden/>
+>>>>>>> 4914928ddb951b63a79900ac935265275b03dadb
             <!-- FORMULARIO -->
             <div class="content-form mb-4 p-3 d-flex w-100 flex-column align-items-center">
                 <div id="cuadro">
@@ -92,6 +102,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
                         </ul>
                         </div>
                     </div>
+<<<<<<< HEAD
                     <br>
 
                 </div>
@@ -108,6 +119,25 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
 
                     </table>
                 </div>
+=======
+                    <div id="apellido_m_coordinador" style="margin-top: 10px; margin-bottom: 10px;">
+                        <label style="padding-right: 50px;">Apellido Materno</label>
+                        <input style="margin-left: -20px;" id="input_apellido_m_coordinador" type="ApellidoM" placeholder="Apellido Materno">
+                    </div>
+                    <div id="email_coordinador">
+                        <label style="padding-right: 50px; margin-bottom: 10px;">Email</label>
+                        <input id="input_correo_coordinador" type="email" placeholder="Email" >
+                    </div>
+                    <div id="sexo_coordinador">
+                    <label style="padding-right: 118px; margin-bottom: 10px;">Sexo</label>
+                        <select id="select_sexo_coordinador">
+                            <option value="O" disabled selected>Elige...</option>
+                            <option value="M">Masculino</option>
+                            <option value="F">Femenino</option>
+                        </select>
+                    </div>                     
+                </div>  
+>>>>>>> 4914928ddb951b63a79900ac935265275b03dadb
             </div>
 
             <div class="modal fade" id="modal-coordinador" tabindex="-1" aria-labelledby="modal-coordinador-label"

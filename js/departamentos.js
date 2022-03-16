@@ -26,12 +26,13 @@ function insert_responsable(){
     let nombre = $("#input_nombre_responsable").val();
     let apellido_p = $("#input_apellido_p_responsable").val();
     let apellido_m = $("#input_apellido_m_responsable").val();
+    let sexo = $("#select_sexo_responsable").val();
     let correo = $("#input_correo_responsable" ).val();
-    if(clave.length!==0 && nombre.length!==0 && apellido_p.length!==0 && apellido_m.length!==0 && correo.length!==0 ){
+    if(clave.length!==0 && nombre.length!==0 && apellido_p.length!==0 && apellido_m.length!==0 && correo.length!==0 && sexo!==null ){
         $.ajax({
             type: "POST",
             url: path+"insert_responsable.php",  
-            data: {"clave": clave, "nombre": nombre, "apellido_p":apellido_p, "apellido_m": apellido_m, "correo":correo + "@colima.tecnm.mx" } ,                         
+            data: {"clave": clave, "nombre": nombre, "apellido_p":apellido_p, "apellido_m": apellido_m, "sexo":sexo, "correo":correo + "@colima.tecnm.mx" } ,                         
             success: function(res){
                 if(res==="1"){
                     select_responsables();  
@@ -56,6 +57,7 @@ function borrar_datos_input_responsable(){
     $("#input_clave_responsable").val("");
     $("#input_nombre_responsable").val("");
     $("#input_correo_responsable").val("");
+    $("#select_sexo_responsable").val("O");
 }
 
 //------------------------------------------------------------------------------------------------------
@@ -119,7 +121,11 @@ function agregar_departamentos_tabla(departamentos){
     let tabla = $("#tabla_departamentos").DataTable();
     tabla.rows().remove().draw();
     for(let departamento of departamentos){
+<<<<<<< HEAD
         tabla.row.add({"clave":departamento.clave,"nombre":departamento.nombre,"ubicacion":departamento.ubicacion,"extension":departamento.extension,"correo":departamento.correo,"botoneditar":"<button id='botoneditardepartamento"+departamento.id_departamento+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrardepartamento"+departamento.id_departamento+"' class='btn btn-danger'>Borrar</button>","botonimprimir":"<button id='botonimprimirdepartamento"+departamento.id_departamento+"' class='btn btn-dark'>Imprimir</button>"}).draw();
+=======
+        tabla.row.add({"clave":departamento.clave,"nombre":departamento.nombre,"ubicacion":departamento.ubicacion,"extension":departamento.extension,"correo": departamento.correo,"botoneditar":"<button id='botoneditardepartamento"+departamento.id_departamento+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrardepartamento"+departamento.id_departamento+"' class='btn btn-danger'>Borrar</button>","botonimprimir":"<button id='botonimprimirdepartamento"+departamento.id_departamento+"' class='btn btn-dark'>Imprimir</button>"}).draw();
+>>>>>>> 4914928ddb951b63a79900ac935265275b03dadb
         $("#botoneditardepartamento"+departamento.id_departamento).on( "click", function(){select_departamento_id(departamento.id_departamento)});
         $("#botonborrardepartamento"+departamento.id_departamento).on( "click", function(){mostrar_modal_borrar_departamento(departamento.id_departamento, departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension, departamento.correo)});
         $("#botonimprimirdepartamento"+departamento.id_departamento).on( "click", function(){generar_pdf(departamento.id_departamento)});
