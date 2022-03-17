@@ -84,9 +84,11 @@ mostrar_coordinadores_tabla();
 
 //SELECT DE COORDINADORES
 function select_coordinadores(){
+    let id_responsable = $("#input_id_responsable").val();
     $.ajax({
-        type: "GET",
-        url: path+"select_coordinadores.php",                           
+        type: "POST",
+        url: path+"select_coordinadores.php",
+        data: {"id_responsable":id_responsable},                           
         success: function(res){    
             let coordinadores = JSON.parse(res);             
             agregar_coordinadores_tabla(coordinadores);
@@ -103,9 +105,15 @@ function agregar_coordinadores_tabla(coordinadores){
         if($("#input_id_programa_asignar").val()===""){
             tabla.row.add({"clave":coordinador.clave,"nombre":coordinador.nombre+" "+coordinador.apellido_p+" "+coordinador.apellido_m,"sexo":coordinador.sexo,"correo":coordinador.correo,"botoneditar":"<button id='botoneditarcoordinador"+coordinador.id_coordinador+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrarcoordinador"+coordinador.id_coordinador+"' class='btn btn-danger'>Borrar</button>","botonimprimir":"<button id='botonimprimircoordinador"+coordinador.id_coordinador+"' class='btn btn-dark'>Imprimir</button>"}).draw();
         }else{
-            tabla.row.add({"clave":coordinador.clave,"nombre":coordinador.nombre+" "+coordinador.apellido_p+" "+coordinador.apellido_m,"sexo":coordinador.sexo,"correo":coordinador.correo,"botoneditar":"<button id='botoneditarcoordinador"+coordinador.id_coordinador+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrarcoordinador"+coordinador.id_coordinador+"' class='btn btn-danger'>Borrar</button>","botonimprimir":"<button id='botonimprimircoordinador"+coordinador.id_coordinador+"' class='btn btn-dark'>Imprimir</button>","botonasignar":"<button id='botonasignarcoordinador"+coordinador.id_coordinador+"' class='btn btn-secondary'>Asignar</button>"}).draw();
+            if(coordinador.id_programa!==$("#input_id_programa_asignar").val()){
+                tabla.row.add({"clave":coordinador.clave,"nombre":coordinador.nombre+" "+coordinador.apellido_p+" "+coordinador.apellido_m,"sexo":coordinador.sexo,"correo":coordinador.correo,"botoneditar":"<button id='botoneditarcoordinador"+coordinador.id_coordinador+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrarcoordinador"+coordinador.id_coordinador+"' class='btn btn-danger'>Borrar</button>","botonimprimir":"<button id='botonimprimircoordinador"+coordinador.id_coordinador+"' class='btn btn-dark'>Imprimir</button>","botonasignar":"<button id='botonasignarcoordinador"+coordinador.id_coordinador+"' class='btn btn-secondary'>Asignar</button>"}).draw();
+            }else{
+                tabla.row.add({"clave":coordinador.clave,"nombre":coordinador.nombre+" "+coordinador.apellido_p+" "+coordinador.apellido_m,"sexo":coordinador.sexo,"correo":coordinador.correo,"botoneditar":"<button id='botoneditarcoordinador"+coordinador.id_coordinador+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrarcoordinador"+coordinador.id_coordinador+"' class='btn btn-danger'>Borrar</button>","botonimprimir":"<button id='botonimprimircoordinador"+coordinador.id_coordinador+"' class='btn btn-dark'>Imprimir</button>","botonasignar":"<button id='botonasignarcoordinador"+coordinador.id_coordinador+"' class='btn btn-secondary'>Gestionar</button>"}).draw();
+            }
+            $("#botonasignarcoordinador"+coordinador.id_coordinador).on( "click", function(){mostrar_modal_asignar_coordinador(coordinador.id_coordinador, coordinador.clave, coordinador.nombre+" "+coordinador.apellido_p+" "+coordinador.apellido_m, coordinador.sexo, coordinador.correo)});
         }    
         $("#botoneditarcoordinador"+coordinador.id_coordinador).on( "click", function(){select_coordinador_id(coordinador.id_coordinador)});
+        $("#botonborrarcoordinador"+coordinador.id_coordinador).on( "click", function(){mostrar_modal_borrar_coordinador(coordinador.id_coordinador, coordinador.clave, coordinador.nombre+" "+coordinador.apellido_p+" "+coordinador.apellido_m, coordinador.sexo, coordinador.correo)});
         $("#botonimprimircoordinador"+coordinador.id_coordinador).on( "click", function(){generar_pdf(coordinador.id_coordinador)});
     }
 }
@@ -118,12 +126,14 @@ function insert_coordinador(){
     let apellido_m = $("#input_apellido_m_coordinador").val();
     let sexo = $("#select_sexo_coordinador").val();
     let correo = $("#input_correo_coordinador").val();
-    if(clave.length !== 0 && nombre.length !== 0 && apellido_p.length !== 0 && apellido_m.length !== 0 && correo.length !== 0 && sexo !== null){
+    let id_responsable = $("#input_id_responsable").val();
+    if(id_responsable.length !== 0 && clave.length !== 0 && nombre.length !== 0 && apellido_p.length !== 0 && apellido_m.length !== 0 && correo.length !== 0 && sexo !== null){
         $.ajax({
             type: "POST",
             url: path+"insert_coordinador.php",
-            data: {"clave":clave,"nombre":nombre,"apellido_p":apellido_p,"apellido_m":apellido_m,"sexo":sexo,"correo":correo + "@colima.tecnm.mx"},
+            data: {"id_responsable":id_responsable, "clave":clave,"nombre":nombre,"apellido_p":apellido_p,"apellido_m":apellido_m,"sexo":sexo,"correo":correo + "@colima.tecnm.mx"},
             success: function(res){
+                console.log(res);
                 borrar_datos_input_coordinador();
                 select_coordinadores();
                 if (res === "1") {
@@ -231,3 +241,70 @@ function update_coordinador(){
         mostrar_alerta(3);
     }   
 }
+
+//MOSTRAR MODAL BORRAR COORDINADOR
+function mostrar_modal_borrar_coordinador(id_coordinador, clave, nombre, sexo, correo){
+    $("#modal_borrar_coordinador").modal("show");
+    $("#p_clave_coordinador").text("Clave: "+clave);
+    $("#p_nombre_coordinador").text("Nombre: "+nombre);
+    $("#p_sexo_coordinador").text("Sexo: "+sexo);
+    $("#p_correo_coordinador").text("Extensión: "+correo);
+    $("#input_id_coordinador_borrar").val(id_coordinador);
+}
+
+//BORRAR RESPONSABLE
+function borrar_coordinador(){
+    let id_coordinador = $("#input_id_coordinador_borrar").val();
+    let id_responsable = $("#input_id_responsable").val();
+    $.ajax({
+        type: "POST",
+        url: path+"delete_coordinador.php",  
+        data: {"id_coordinador": id_coordinador, "id_responsable": id_responsable} ,                         
+        success: function(res){
+            select_coordinadores();
+            $("#modal_borrar_coordinador").modal("hide");   
+            if(res==="1"){
+                mostrar_alerta(1);
+            }else{
+                mostrar_alerta(3)
+            }
+        }
+    });
+}
+
+//MOSTRAR MODAL ASIGNAR
+function mostrar_modal_asignar_coordinador(id_coordinador, clave, nombre, sexo, correo){
+    $("#modal_asignar_coordinador").modal("show");
+    $("#p_clave_coordinador_asignar").text("Clave: "+clave);
+    $("#p_nombre_coordinador_asignar").text("Nombre: "+nombre);
+    $("#p_sexo_coordinador_asignar").text("Sexo: "+sexo);
+    $("#p_correo_coordinador_asignar").text("Extensión: "+correo);
+    $("#input_asignar_id_coordinador").val(id_coordinador);
+}
+
+//ASIGNAR RESPONSABLE A PROGRAMA
+function asignar_responsable(){
+    let id_coordinador = $("#input_asignar_id_coordinador").val();
+    let id_programa = $("#input_id_programa_asignar").val();
+    let correo = $("#input_correo_coordinador_programa").val();
+    let fecha_inicio = $("#input_fecha_inicio_coordinador_programa").val();
+    if(id_coordinador.length!==0 && id_programa.length!==0 && correo.length!==0 && fecha_inicio.length!==0){
+        $.ajax({
+            type: "POST",
+            url: path+"insert_coordinador_programa.php",  
+            data: {"id_coordinador": id_coordinador, "id_programa": id_programa, "correo":correo, "fecha_inicio":fecha_inicio} ,                         
+            success: function(res){
+                $("#modal_asignar_coordinador").modal("hide");  
+                console.log(res) 
+                if(res==="1"){
+                    mostrar_alerta(1);
+                }else{
+                    mostrar_alerta(3)
+                }
+            }
+        });
+    }else{
+        mostrar_alerta(2);
+    }    
+}
+
