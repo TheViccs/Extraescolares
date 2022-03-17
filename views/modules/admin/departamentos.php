@@ -16,6 +16,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
     <!-- IMPORTS -->
     <?php include "../../../views/layout/imports.php" ?>
 
+
 </head>
 
 <body class="m-0 h-100% w-100%">
@@ -33,25 +34,30 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
             <?php include "../../../views/layout/alertas.php" ?>
 
             <!-- TITULO DE CONTENIDO -->
-            <a style="margin-left: 70%;" href="http://localhost/Extraescolares/views/modules/admin/administrador.php">
-                <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"
-                    src="../../.././assets/img/back.png"></a>
-
-            <h1 class="mb-4 mt-2 text-center w-100 ">Gestión de Unidades Responsables</h1>
 
 
+
+
+            <div id="inicio">
+                <div id="titulo">
+                    <h1>Gestión de Unidades Responsables</h1>
+                </div>
+                <div id="flecha">
+                    <a id="return" href="http://localhost/Extraescolares/views/modules/admin/administrador.php">
+                        <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"
+                            src="../../.././assets/img/back.png"></a>
+                </div>
+            </div>
 
 
             <!-- FORMULARIO -->
-            <div class="content-form mb-4 p-3 d-flex flex-column align-items-center " style="width: 100% !important;">
-                <div class="content-form mb-4 p-5 d-flex flex-column align-items-center border border-dark"
-                    style="width: 72% !important;">
-                    <div class="d-flex " style="width: 100% !important;">
+            <div id="cuadro" class="content-form mb-4 p-3 d-flex flex-column align-items-center ">
+                <div>
+                    <div id="contenedor_inputs">
                         <input id="input_id_departamento" type="text" hidden />
-                        <div class="d-flex justify-content-between" style="width: 45% !important;">
-                            <label class="text-center" style="width: 50% !important;">Clave</label>
-                            <input id="input_clave_departamento" style="width: 20% !important; margin-right: 30%;"
-                                type="text" required />
+                        <div id="clave">
+                            <label>Clave: </label>
+                            <input id="input_clave_departamento" placeholder="Clave" type="text" required />
                         </div>
                     </div>
                     <div class="d-flex" style="width: 100% !important; margin-top: 30px;">
@@ -61,48 +67,47 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                                 type="text" required />
                         </div>
                     </div>
-                    <br>
-                    <div class="d-flex justify-content-evenly" style="width: 100% !important;">
-                        <div class="d-flex" style="width: 45% !important; margin-right: 90px;">
-                            <label class="text-center" style="width: 50% !important; ">Ubicación</label>
-                            <input id="input_ubicacion_departamento" style="width: 50% !important;" type="text"
-                                required />
-                        </div>
-                        <div class="d-flex justify-content-between" style="width: 45% !important; ">
-                            <label class="text-center" style="width: 50% !important;">Extensión</label>
-                            <input id="input_extension_departamento" style="width: 50% !important;" type="text"
-                                required />
-                        </div>
 
 
+                    <!-- Example single danger button -->
+
+                    <div id="input_genero_deoartamneto" class="btn-group" style=" margin-top:30px;">
+                        <button type="button" class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Selecione Genero
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item">M</a></li>
+                            <li><a class="dropdown-item">F</a></li>
+
+                        </ul>
+
+                        <div>
+                            <label style="margin-left: 13px;">Contacto:</label>
+                            <input id="input_contacto_departamento" placeholder="Contacto" type="text" required />
+                        </div>
 
                     </div>
-                    <br>
-                    <div class="d-flex " style="width: 100% !important;">
-                        <div class="d-flex" style="width: 70% !important; margin-right: 90px;">
-                            <label class="text-center" style="width: 32% !important;">Correo</label>
-                            <input id="input_correo_departamento" style="width: 68% !important;" type="text" required />
-                        </div>
-                    </div>
-                    <br>
-                    <div class="d-flex " style="width: 45% !important; height:30px; margin-right: 50%;">
-                        <label class="text-center" style="width: 45% !important;">Jefe de Departamento</label>
-                        <input id="input_select_responsables" type="text" list="select_responsables" />
+
+                    <div id="contenedor_inputs">
+                        <label style="margin-right: 20px;">Jefe de Departamento:</label>
+                        <input id="input_select_responsables" placeholder="Seleccione al jefe" type="text"
+                            list="select_responsables" />
                         <datalist id="select_responsables" style="width: 45% !important;">
                         </datalist>
                         <button class="btn btn-dark p-0" style="width: 28px;" data-bs-toggle="modal"
                             data-bs-target="#modal_responsable">+</button>
                     </div>
-
                 </div>
-                <!-- BOTONES GUARDAR Y CANCELAR -->
-                <div class="d-flex flex-row-reverse" style="width: 80% !important;  margin-right: 10%;">
-                    <button id="boton_insert_update_departamento" class="btn btn-success" style="margin-left:50px;"
-                        onclick="insert_departamento()">Guardar</button>
-                    <button class="btn btn-danger" onclick="borrar_datos_input_departamento()">Cancelar</button>
-                </div>
-
             </div>
+            <!-- BOTONES GUARDAR Y CANCELAR -->
+            <div class="d-flex flex-row-reverse" style="width: 80% !important;  margin-right: 10%;">
+                <button id="boton_insert_update_departamento" class="btn btn-success" style="margin-left:50px;"
+                    onclick="insert_departamento()">Guardar</button>
+                <button class="btn btn-danger" onclick="borrar_datos_input_departamento()">Cancelar</button>
+            </div>
+
+
             <!-- TABLA -->
             <div class="content-table d-flex justify-content-center mb-3" style="width: 90% !important;">
                 <table id="tabla_departamentos">
@@ -110,6 +115,9 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                 </table>
             </div>
         </div>
+
+
+
 
         <!-- FOOTER -->
         <?php include "../../../views/layout/footer.php" ?>
