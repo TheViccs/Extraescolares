@@ -26,23 +26,11 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
         <?php include "../../../views/layout/header.php" ?>
 
         <!-- CONTENT -->
-        <div class="box d-flex flex-column align-items-center bg-white"
-            style="width: 100% !important; min-height:calc(100% - 112px) !important; overflow-y:auto;">
+        <div class="box d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height:calc(100% - 112px) !important; overflow-y:auto;">
 
             <!-- ALERTAS -->
             <?php include "../../../views/layout/alertas.php" ?>
-
-<<<<<<< HEAD
-            <a style="margin-left: 70%;" href="http://localhost/Extraescolares/views/modules/responsable/responsable.php">
-                <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"src="../../.././assets/img/back.png">
-            </a>    
-
-            <!-- TITULO DE CONTENIDO -->            
-            <h1 class="mb-4 mt-2 text-center w-100">Gestión de Coordinadores</h1>
-            <input id="input_id_programa_asignar" value="<?php if(!empty($_GET)){echo $_GET["programa"];} ?>" hidden/>
-            <input id="input_id_responsable" value="<?php echo $_SESSION['id_responsable'] ?>" hidden/>
-=======
-           
+      
             <!-- TITULO DE CONTENIDO -->
             <div id="inicio">
                 <div id="titulo">
@@ -54,14 +42,16 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
                             src="../../.././assets/img/back.png"></a>
                 </div>
             </div>
->>>>>>> 47e15a2be92f13c46f55526e86904b71e0577fd4
+
+            <input id="input_id_programa_asignar" value="<?php if(!empty($_GET)){echo $_GET["programa"];} ?>" hidden/>
+            <input id="input_id_responsable" value="<?php echo $_SESSION['id_responsable'] ?>" hidden/>
+            
             <!-- FORMULARIO -->
             <div class="content-form mb-4 p-3 d-flex w-100 flex-column align-items-center">
                 <div id="cuadro">
-                     <div id="inputs_coordinador">
+                    <div id="inputs_coordinador">
                         <input id="input_id_coordinador" type="text" hidden />
                         <div>
-
                             <label>Clave:</label>
                             <input id="input_clave_coordinador" type="text" placeholder="Clave">
                         </div>
@@ -85,28 +75,23 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
                             <label style="margin-left:5px;">Email:</label>
                             <input id="input_correo_coordinador" type="email" placeholder="Email">
                         </div>
-
                         <div>
                             <label style="margin-left:5px;">Contacto:</label>
                             <input id="input_contacto_coordinador" placeholder="Contacto" type="text" required />
                         </div>
-
                         <div id="input_genero_coordinador" class="btn-group" style="margin-left:20px; ">
-                        <button type="button" class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Selecione Genero
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item">M</a></li>
-                            <li><a class="dropdown-item">F</a></li>
+                            <button type="button" class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown"aria-expanded="false">
+                                Selecione Genero
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item">M</a></li>
+                                <li><a class="dropdown-item">F</a></li>
 
-                        </ul>
+                            </ul>
                         </div>
                     </div>
-                    <br>
-
                 </div>
-
+                <br>
                 <!-- BOTONES GUARDAR Y CANCELAR -->
                 <div id="botones">
                     <button id="boton_insert_update_coordinador" class="btn btn-success" onclick="insert_coordinador()">Guardar</button>
@@ -120,21 +105,6 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
                     </table>
                 </div>
             </div>
-
-<<<<<<< HEAD
-            <!-- BOTONES GUARDAR Y CANCELAR -->
-            <div class="d-flex justify-content-evenly"  style="width: 80% !important;  margin-left: 34%;">
-                <button id="boton_insert_update_coordinador" class="btn btn-success" onclick="insert_coordinador()" style="margin-left: 25%;">Guardar</button>
-                <button class="btn btn-danger" onclick="borrar_datos_input_coordinador()" style="margin-left: -20%;">Cancelar</button>           
-            </div>
-
-            <!-- TABLA -->
-            <div class="content-table d-flex justify-content-center mb-3" style="width: 90% !important;">
-                <table id="tabla_coordinadores">
-                    
-                </table>
-            </div>
-        </div>
 
         <div class="modal fade" id="modal_borrar_coordinador" tabindex="-1" aria-labelledby="modal_borrar_coordinador-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -190,34 +160,6 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
             </div>   
         </div>
 
-=======
-            <div class="modal fade" id="modal-coordinador" tabindex="-1" aria-labelledby="modal-coordinador-label"
-                aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modal-coordinador-label">Borrar Responsabele de Departamento
-                            </h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body text-center">
-                            <div class="w-100">
-                                <h3>Seguro que quiere borrar al coordinador?</h1>
-                                    <p id="p_clave_resposable"></p>
-                                    <p id="p_nombre_resposable"></p>
-                                    <p id="p_correo_resposable"></p>
-                                    <input id="input_id_coordinador_borrar" type="text" hidden />
-                            </div>
-                        </div>
-                        <div class="modal-footer d-flex justify-content-evenly">
-                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-danger" onclick="borrar_coordinador()">Borrar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
->>>>>>> 47e15a2be92f13c46f55526e86904b71e0577fd4
-        </div>
 
         <!-- FOOTER -->
         <?php include "../../../views/layout/footer.php" ?>
