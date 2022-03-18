@@ -29,12 +29,21 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
 
             <!-- ALERTAS -->
             <?php include "../../../views/layout/alertas.php" ?>
-            <a style="margin-left: 70%;" href="http://localhost/Extraescolares/views/modules/responsable/responsable.php">
-                <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"src="../../.././assets/img/back.png">
-            </a> 
+             
 
             <!-- TITULO DE CONTENIDO -->
-            <h1 class="mb-4 mt-2 text-center w-100">Mis Programas</h1>
+            
+
+            <div id="inicio">
+                <div id="titulo">
+                    <h1>Mis Programas</h1>
+                </div>
+                <div id="flecha">
+                    <a id="return" href="http://localhost/Extraescolares/views/modules/admin/administrador.php">
+                        <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"
+                            src="../../.././assets/img/back.png"></a>
+                </div>
+            </div>
             
             <!-- TABLA -->
             <div class="content-table d-flex justify-content-center mb-3" style="width: 90% !important;">

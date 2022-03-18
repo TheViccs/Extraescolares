@@ -51,43 +51,41 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
 
 
             <!-- FORMULARIO -->
-            <div id="cuadro" class="content-form mb-4 p-3 d-flex flex-column align-items-center ">
-                <div>
+            <div id="cuadro">
+                
                     <div id="contenedor_inputs">
                         <input id="input_id_departamento" type="text" hidden />
-                        <div id="clave">
-                            <label>Clave: </label>
-                            <input id="input_clave_departamento" placeholder="Clave" type="text" required />
-                        </div>
-                    </div>
-                    <div class="d-flex" style="width: 100% !important; margin-top: 30px;">
-                        <div class="d-flex justify-content-between" style="width: 45% !important;">
-                            <label class="text-center" style="width: 50% !important;">Nombre</label>
-                            <input id="input_nombre_departamento" style="width: 110% !important; margin-right: -60%;"
-                                type="text" required />
-                        </div>
+                            <div id="clave">
+                                <label>Clave: </label>
+                                <input id="input_clave_departamento" placeholder="Clave" type="text" required />
+                            </div>
                     </div>
 
+                    <div id="contenedor_inputs">
+                        <div >
+                            <label >Nombre</label>
+                            <input id="input_nombre_departamento" type="text" required />
+                        </div>
+                    </div>
 
-                    <!-- Example single danger button -->
-
-                    <div id="input_genero_deoartamneto" class="btn-group" style=" margin-top:30px;">
-                        <button type="button" class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Selecione Genero
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item">M</a></li>
-                            <li><a class="dropdown-item">F</a></li>
-
-                        </ul>
+                    <div id="contenedor_inputs">
+                        <div id="sexo_responsable">
+                            <label style="padding-right: 118px; margin-bottom: 10px;  margin-left: 0px;">Sexo</label>
+                            <select id="select_sexo_responsable" style="margin-left: -90px;">
+                                <option value="O" disabled selected>Elige...</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                        </div>
 
                         <div>
                             <label style="margin-left: 13px;">Contacto:</label>
                             <input id="input_contacto_departamento" placeholder="Contacto" type="text" required />
                         </div>
+                    </div >
+                        
 
-                    </div>
+
 
                     <div id="contenedor_inputs">
                         <label style="margin-right: 20px;">Jefe de Departamento:</label>
@@ -98,10 +96,10 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                         <button class="btn btn-dark p-0" style="width: 28px;" data-bs-toggle="modal"
                             data-bs-target="#modal_responsable">+</button>
                     </div>
-                </div>
+                
             </div>
             <!-- BOTONES GUARDAR Y CANCELAR -->
-            <div class="d-flex flex-row-reverse" style="width: 80% !important;  margin-right: 10%;">
+            <div class="d-flex flex-row-reverse" style="width: 80% !important;  margin-right: 10%; margin-top: 20px;">
                 <button id="boton_insert_update_departamento" class="btn btn-success" style="margin-left:50px;"
                     onclick="insert_departamento()">Guardar</button>
                 <button class="btn btn-danger" onclick="borrar_datos_input_departamento()">Cancelar</button>

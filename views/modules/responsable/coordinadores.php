@@ -80,17 +80,16 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
                             <input id="input_contacto_coordinador" placeholder="Contacto" type="text" required />
                         </div>
 
-                        <div id="input_genero_coordinador" class="btn-group" style="margin-left:20px; ">
-                        <button type="button" class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Selecione Genero
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item">M</a></li>
-                            <li><a class="dropdown-item">F</a></li>
+                        <div id="sexo_responsable">
+                        <label style="padding-right: 118px; margin-bottom: 10px;">Sexo</label>
+                        <select id="select_sexo_responsable">
+                            <option value="O" disabled selected>Elige...</option>
+                            <option value="M">Masculino</option>
+                            <option value="F">Femenino</option>
+                        </select>
+                    </div> 
 
-                        </ul>
-                        </div>
+
                     </div>
                     <br>
 

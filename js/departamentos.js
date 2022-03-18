@@ -121,11 +121,7 @@ function agregar_departamentos_tabla(departamentos){
     let tabla = $("#tabla_departamentos").DataTable();
     tabla.rows().remove().draw();
     for(let departamento of departamentos){
-<<<<<<< HEAD
-        tabla.row.add({"clave":departamento.clave,"nombre":departamento.nombre,"ubicacion":departamento.ubicacion,"extension":departamento.extension,"correo":departamento.correo,"botoneditar":"<button id='botoneditardepartamento"+departamento.id_departamento+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrardepartamento"+departamento.id_departamento+"' class='btn btn-danger'>Borrar</button>","botonimprimir":"<button id='botonimprimirdepartamento"+departamento.id_departamento+"' class='btn btn-dark'>Imprimir</button>"}).draw();
-=======
         tabla.row.add({"clave":departamento.clave,"nombre":departamento.nombre,"ubicacion":departamento.ubicacion,"extension":departamento.extension,"correo": departamento.correo,"botoneditar":"<button id='botoneditardepartamento"+departamento.id_departamento+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrardepartamento"+departamento.id_departamento+"' class='btn btn-danger'>Borrar</button>","botonimprimir":"<button id='botonimprimirdepartamento"+departamento.id_departamento+"' class='btn btn-dark'>Imprimir</button>"}).draw();
->>>>>>> 4914928ddb951b63a79900ac935265275b03dadb
         $("#botoneditardepartamento"+departamento.id_departamento).on( "click", function(){select_departamento_id(departamento.id_departamento)});
         $("#botonborrardepartamento"+departamento.id_departamento).on( "click", function(){mostrar_modal_borrar_departamento(departamento.id_departamento, departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension, departamento.correo)});
         $("#botonimprimirdepartamento"+departamento.id_departamento).on( "click", function(){generar_pdf(departamento.id_departamento)});
