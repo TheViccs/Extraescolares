@@ -17,7 +17,7 @@ if($result){
 }     
 
 foreach ($array_departamentos as $departamento) {
-    $sql=("CALL sp_insert_programa_departamento(".$departamento.")");
+    $sql=("CALL sp_insert_programa_departamento(".$departamento.",'".$clave."')");
     $result = mysqli_query($conn,$sql);
     if($result){
         echo "1";

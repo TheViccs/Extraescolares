@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-03-2022 a las 06:04:58
+-- Tiempo de generación: 18-03-2022 a las 15:17:05
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -27,24 +27,53 @@ DELIMITER $$
 --
 -- Procedimientos
 --
+DROP PROCEDURE IF EXISTS `sp_delete_coordinador`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_coordinador` (IN `c_id_coordinador` INT(7), IN `c_id_responsable` INT(5))  BEGIN
+	UPDATE departamento_coordinador SET departamento_coordinador.fecha_fin=NOW(), departamento_coordinador.visible=0 WHERE departamento_coordinador.id_coordinador=c_id_coordinador AND departamento_coordinador.id_departamento=(SELECT id_departamento FROM departamento_responsable WHERE departamento_responsable.id_responsable=c_id_responsable AND departamento_responsable.fecha_fin IS NULL);
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_delete_departamento`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_departamento` (IN `d_id_departamento` INT)  BEGIN
 	UPDATE departamento SET departamento.visible=0 WHERE departamento.id_departamento=d_id_departamento;
+    UPDATE departamento_responsable SET departamento_responsable.fecha_fin=NOW() WHERE departamento_responsable.id_departamento=d_id_departamento;
+    UPDATE departamento_coordinador SET departamento_coordinador.fecha_fin=NOW() WHERE departamento_coordinador.id_departamento=d_id_departamento;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_delete_programa`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_programa` (IN `p_id_programa` INT)  BEGIN
-	DELETE FROM programa WHERE id_programa=p_id_programa;
+	UPDATE programa SET programa.visible=0 WHERE programa.id_programa=p_id_programa;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_delete_responsable`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_responsable` (IN `r_id_responsable` INT)  BEGIN
-	DELETE FROM responsable WHERE id_responsable=r_id_responsable;
+	UPDATE responsable SET responsable.visible=0 WHERE responsable.id_responsable=r_id_responsable;
+    UPDATE departamento_responsable SET departamento_responsable.fecha_fin=NOW() WHERE departamento_responsable.id_responsable=r_id_responsable;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_coordinador`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_coordinador` (IN `c_clave` VARCHAR(10), IN `c_nombre` VARCHAR(150), IN `c_apellido_p` VARCHAR(50), IN `c_apellido_m` VARCHAR(50), IN `c_sexo` VARCHAR(1), IN `c_correo` VARCHAR(150))  BEGIN
-	INSERT INTO coordinador(clave, nombre, apellido_p, apellido_m,sexo,correo) VALUES (c_clave,c_nombre,c_apellido_p,c_apellido_m,c_sexo,c_correo) ON DUPLICATE KEY UPDATE nombre=c_nombre,apellido_p=c_apellido_p,apellido_m=c_apellido_m, sexo=c_sexo,correo=c_correo;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_coordinador` (IN `c_id_responsable` INT, IN `c_clave` VARCHAR(10), IN `c_nombre` VARCHAR(150), IN `c_apellido_p` VARCHAR(50), IN `c_apellido_m` VARCHAR(50), IN `c_sexo` VARCHAR(1), IN `c_correo` VARCHAR(150))  BEGIN
+	INSERT INTO coordinador(clave, nombre, apellido_p, apellido_m,sexo , correo) VALUES (c_clave,c_nombre,c_apellido_p,c_apellido_m,c_sexo,c_correo) ON DUPLICATE KEY UPDATE nombre=c_nombre,apellido_p=c_apellido_p,apellido_m=c_apellido_m, sexo=c_sexo,correo=c_correo;
+    
+    SET @id_departamento = (SELECT id_departamento FROM departamento_responsable WHERE id_responsable=c_id_responsable AND fecha_fin IS NULL LIMIT 1);
+    SET @id_coordinador = (SELECT id_coordinador FROM coordinador WHERE clave=c_clave);
+    
+    IF 0 = (SELECT COUNT(*) FROM departamento_coordinador WHERE id_departamento=@id_departamento AND id_coordinador=@id_coordinador AND fecha_fin IS NULL AND visible=1) THEN
+    INSERT INTO departamento_coordinador(id_departamento, id_coordinador, fecha_inicio) VALUES (@id_departamento, @id_coordinador, NOW());
+    END IF;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insert_coordinador_programa`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_coordinador_programa` (IN `c_id` INT, IN `p_id` INT, IN `c_p_correo` VARCHAR(150), IN `c_fecha_inicio` DATE)  BEGIN
+    IF 0 <> (SELECT COUNT(*) FROM coordinador_programa WHERE id_programa=p_id AND fecha_fin IS NULL) THEN
+    	IF 0 = (SELECT COUNT(*) FROM coordinador_programa WHERE id_coordinador=c_id AND id_programa=p_id AND fecha_fin IS NULL) THEN
+        	UPDATE coordinador_programa SET fecha_fin=NOW() WHERE id_programa=p_id AND fecha_fin IS NULL;
+    		INSERT INTO coordinador_programa (id_coordinador,id_programa,correo,fecha_inicio) VALUES (c_id,p_id,c_p_correo,c_fecha_inicio);
+            ELSE
+            UPDATE coordinador_programa SET correo=c_p_correo, fecha_inicio=c_fecha_inicio WHERE id_coordinador=c_id AND id_programa=p_id;
+    	END IF;
+    ELSE
+    	INSERT INTO coordinador_programa (id_coordinador,id_programa,correo,fecha_inicio) VALUES (c_id,p_id,c_p_correo,c_fecha_inicio);
+    END IF;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_departamento`$$
@@ -55,7 +84,7 @@ END$$
 DROP PROCEDURE IF EXISTS `sp_insert_departamento_responsable`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_departamento_responsable` (IN `d_clave` VARCHAR(10), IN `d_nombre` VARCHAR(150), IN `d_ubicacion` VARCHAR(150), IN `d_extension` VARCHAR(12), IN `d_correo` VARCHAR(150), IN `r_id` INT)  BEGIN
 	INSERT INTO departamento (clave,nombre,ubicacion,extension,correo) VALUES (d_clave,d_nombre,d_ubicacion,d_extension,d_correo);
-    INSERT INTO departamento_responsable(id_departamento,id_responsable,fecha_inicio)VALUES((SELECT id_departamento FROM departamento ORDER BY id_departamento DESC LIMIT 1),r_id,NOW());
+    INSERT INTO departamento_responsable(id_departamento,id_responsable,fecha_inicio)VALUES((SELECT id_departamento FROM departamento WHERE clave=d_clave),r_id,NOW());
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_periodo`$$
@@ -77,8 +106,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_programa` (IN `p_clave` V
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_programa_departamento`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_programa_departamento` (IN `d_id` INT)  BEGIN
-	INSERT INTO departamento_programa(id_programa,id_departamento) VALUES ((SELECT id_programa FROM programa ORDER BY id_programa DESC LIMIT 1),d_id);
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_programa_departamento` (IN `d_id` INT, IN `c_programa` INT)  BEGIN
+	INSERT INTO departamento_programa(id_programa,id_departamento) VALUES ((SELECT id_programa FROM programa WHERE clave=c_programa),d_id);
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_responsable`$$
@@ -98,7 +127,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_login` (IN `in_correo` VARCHAR(1
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_coordinadores`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_coordinadores` ()  SELECT * FROM coordinador$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_coordinadores` (IN `c_id_responsable` INT)  SELECT coordinador.id_coordinador,coordinador.clave,coordinador.nombre,coordinador.apellido_p,coordinador.apellido_m,coordinador.sexo,coordinador.correo,departamento_coordinador.id_departamento, coordinador_programa.id_programa FROM coordinador JOIN departamento_coordinador ON coordinador.id_coordinador=departamento_coordinador.id_coordinador LEFT JOIN coordinador_programa ON coordinador_programa.id_coordinador=coordinador.id_coordinador WHERE departamento_coordinador.id_departamento=(SELECT id_departamento FROM departamento_responsable WHERE departamento_responsable.id_responsable=c_id_responsable AND departamento_responsable.fecha_fin IS NULL) and departamento_coordinador.visible = 1$$
 
 DROP PROCEDURE IF EXISTS `sp_select_coordinador_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_coordinador_id` (IN `c_id_coordinador` INT)  BEGIN
@@ -122,12 +151,12 @@ END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_programas`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_programas` ()  BEGIN
-	SELECT * FROM programa;
+	SELECT * FROM programa WHERE programa.visible=1;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_programas_responsable_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_programas_responsable_id` (IN `r_id_responsable` INT)  BEGIN
-	SELECT programa.id_programa,programa.clave,programa.nombre,programa.descripcion,programa.observaciones, departamento_responsable.id_departamento, coordinador_programa.id_coordinador FROM responsable JOIN departamento_responsable ON responsable.id_responsable=departamento_responsable.id_responsable JOIN departamento_programa ON departamento_responsable.id_departamento=departamento_programa.id_departamento JOIN programa ON departamento_programa.id_programa=programa.id_programa LEFT JOIN coordinador_programa ON programa.id_programa=coordinador_programa.id_programa WHERE departamento_responsable.fecha_fin IS NULL AND responsable.id_responsable=r_id_responsable;
+	SELECT programa.id_programa,programa.clave,programa.nombre,programa.descripcion,programa.observaciones, departamento_responsable.id_departamento, coordinador_programa.id_coordinador FROM responsable JOIN departamento_responsable ON responsable.id_responsable=departamento_responsable.id_responsable JOIN departamento_programa ON departamento_responsable.id_departamento=departamento_programa.id_departamento JOIN programa ON departamento_programa.id_programa=programa.id_programa LEFT JOIN coordinador_programa ON programa.id_programa=coordinador_programa.id_programa WHERE departamento_responsable.fecha_fin IS NULL AND responsable.id_responsable=r_id_responsable AND programa.visible=1;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_programa_id`$$
@@ -137,7 +166,7 @@ END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_responsables`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_responsables` ()  BEGIN
-	SELECT * FROM responsable;
+	SELECT * FROM responsable WHERE responsable.visible=1;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_responsable_id`$$
@@ -233,8 +262,9 @@ CREATE TABLE `coordinador` (
 --
 
 INSERT INTO `coordinador` (`id_coordinador`, `clave`, `nombre`, `apellido_p`, `apellido_m`, `sexo`, `correo`, `contraseña`, `foto`) VALUES
-(1, 'CO1', 'José', 'Baeza', 'Candor', 'M', '17460069@colima.tecnm.mx', 'coordinador1', NULL),
-(5, 'CO2', 'Alexis', 'Baeza', 'Vargas', 'M', '17460070@colima.tecnm.mx', 'coordinador1', NULL);
+(7, '212', 'rve', 'ververv', 'erve', 'M', 'erve@colima.tecnm.mx', 'coordinador1', NULL),
+(13, '123', 'AAA', 'AAA', 'AAA', 'M', 'AAA@colima.tecnm.mx', 'coordinador1', NULL),
+(15, '324', 'qwd', 'qwd', 'qwd', 'M', 'qwd@colima.tecnm.mx', 'coordinador1', NULL);
 
 -- --------------------------------------------------------
 
@@ -250,6 +280,13 @@ CREATE TABLE `coordinador_programa` (
   `fecha_inicio` date NOT NULL,
   `fecha_fin` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `coordinador_programa`
+--
+
+INSERT INTO `coordinador_programa` (`id_coordinador`, `id_programa`, `correo`, `fecha_inicio`, `fecha_fin`) VALUES
+(13, 5, 'asada', '2022-03-09', NULL);
 
 -- --------------------------------------------------------
 
@@ -273,7 +310,7 @@ CREATE TABLE `departamento` (
 --
 
 INSERT INTO `departamento` (`id_departamento`, `clave`, `nombre`, `ubicacion`, `extension`, `correo`, `visible`) VALUES
-(1, 'D', 'Dirección', ' ', '201', 'direccion@colima.tecnm.mx', 0),
+(1, 'D', 'Dirección', ' ', '201', 'direccion@colima.tecnm.mx', 1),
 (2, 'SPB', 'Subdirector de Planeación y Vinculación', ' ', '102', 'subdireccion@colima.tecnm.mx', 1),
 (6, 'DAE', 'Departamento de Actividades Extraescolares', ' ', '108', 'departamento.extraescolares@colima.tecnm.mx', 1);
 
@@ -287,9 +324,17 @@ DROP TABLE IF EXISTS `departamento_coordinador`;
 CREATE TABLE `departamento_coordinador` (
   `id_departamento` int(11) NOT NULL,
   `id_coordinador` int(11) NOT NULL,
-  `fecha_inicio` date NOT NULL,
-  `fecha_fin` date DEFAULT NULL
+  `fecha_inicio` date DEFAULT NULL,
+  `fecha_fin` date DEFAULT NULL,
+  `visible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `departamento_coordinador`
+--
+
+INSERT INTO `departamento_coordinador` (`id_departamento`, `id_coordinador`, `fecha_inicio`, `fecha_fin`, `visible`) VALUES
+(6, 13, '2022-03-17', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -333,7 +378,9 @@ CREATE TABLE `departamento_responsable` (
 INSERT INTO `departamento_responsable` (`id_departamento`, `id_responsable`, `fecha_inicio`, `fecha_fin`) VALUES
 (1, 1, '2022-03-09', NULL),
 (2, 4, '2022-03-09', NULL),
-(6, 5, '2022-03-09', NULL);
+(6, 5, '2022-03-09', '2022-03-16'),
+(6, 1, '2022-03-16', '2022-03-16'),
+(6, 5, '2022-03-16', NULL);
 
 -- --------------------------------------------------------
 
@@ -368,18 +415,19 @@ CREATE TABLE `programa` (
   `clave` varchar(12) NOT NULL,
   `nombre` varchar(150) NOT NULL,
   `descripcion` varchar(150) DEFAULT NULL,
-  `observaciones` varchar(150) DEFAULT NULL
+  `observaciones` varchar(150) DEFAULT NULL,
+  `visible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `programa`
 --
 
-INSERT INTO `programa` (`id_programa`, `clave`, `nombre`, `descripcion`, `observaciones`) VALUES
-(1, 'PFP', 'Formación profesional', NULL, NULL),
-(2, 'PAD', 'Programa de Actividades Deportivas', NULL, NULL),
-(5, 'PAC', 'Programa de Actividades Culturales', NULL, NULL),
-(6, 'PACIV', 'Programa de Actividades Cívicas', NULL, NULL);
+INSERT INTO `programa` (`id_programa`, `clave`, `nombre`, `descripcion`, `observaciones`, `visible`) VALUES
+(1, 'PFP', 'Formación profesional', NULL, NULL, 1),
+(2, 'PAD', 'Programa de Actividades Deportivas', NULL, NULL, 1),
+(5, 'PAC', 'Programa de Actividades Culturales', NULL, NULL, 1),
+(6, 'PACIV', 'Programa de Actividades Cívicas', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -397,17 +445,18 @@ CREATE TABLE `responsable` (
   `sexo` varchar(1) NOT NULL,
   `correo` varchar(150) NOT NULL,
   `contraseña` varchar(12) NOT NULL DEFAULT 'responsable1',
-  `foto` varchar(150) DEFAULT NULL
+  `foto` varchar(150) DEFAULT NULL,
+  `visible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `responsable`
 --
 
-INSERT INTO `responsable` (`id_responsable`, `clave`, `nombre`, `apellido_p`, `apellido_m`, `sexo`, `correo`, `contraseña`, `foto`) VALUES
-(1, '1', 'Ana Rosa', 'Braña', 'Castillo', 'F', 'ana.braña@colima.tecnm.mx', 'responsable1', NULL),
-(4, '2', 'Pedro Itzvan', 'Silva', 'Medina', 'M', 'pedro.silva@colima.tecnm.mx', 'responsable1', NULL),
-(5, '190', 'Ariel', 'Lira', 'Obando', 'M', 'alira@colima.tecnm.mx', 'responsable1', NULL);
+INSERT INTO `responsable` (`id_responsable`, `clave`, `nombre`, `apellido_p`, `apellido_m`, `sexo`, `correo`, `contraseña`, `foto`, `visible`) VALUES
+(1, '1', 'Ana Rosa', 'Braña', 'Castillo', 'F', 'ana.braña@colima.tecnm.mx', 'responsable1', NULL, 1),
+(4, '2', 'Pedro Itzvan', 'Silva', 'Medina', 'M', 'pedro.silva@colima.tecnm.mx', 'responsable1', NULL, 1),
+(5, '190', 'Ariel', 'Lira', 'Obando', 'M', 'alira@colima.tecnm.mx', 'responsable1', NULL, 1);
 
 --
 -- Índices para tablas volcadas
@@ -496,7 +545,7 @@ ALTER TABLE `administrador`
 -- AUTO_INCREMENT de la tabla `coordinador`
 --
 ALTER TABLE `coordinador`
-  MODIFY `id_coordinador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_coordinador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `departamento`

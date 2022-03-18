@@ -1,7 +1,8 @@
 <?php
-
 include('conexion.php');
-$sql=("CALL sp_select_coordinadores()");
+$id_r = $_POST['id_responsable'];
+
+$sql=("CALL sp_select_coordinadores(".$id_r.")");
 $result = mysqli_query($conn,$sql);
 if($result){
     $emparray = array();
