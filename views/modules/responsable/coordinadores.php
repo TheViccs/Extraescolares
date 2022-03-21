@@ -20,13 +20,13 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
 
 <body class="d-flex m-0 h-100 w-100">
 
-    <div class="content h-100 w-100 d-flex flex-column bg-white">
+    <div >
 
         <!-- HEADER -->
         <?php include "../../../views/layout/header.php" ?>
 
         <!-- CONTENT -->
-        <div class="box d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height:calc(100% - 112px) !important; overflow-y:auto;">
+        <div class="box d-flex flex-column align-items-center bg-white" style="height:100%; width: 100% !important; min-height:calc(100% - 112px) !important; overflow-y:auto;">
 
             <!-- ALERTAS -->
             <?php include "../../../views/layout/alertas.php" ?>
@@ -80,9 +80,9 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
                             <input id="input_contacto_coordinador" placeholder="Contacto" type="text" required />
                         </div>
 
-                        <div id="sexo_responsable">
-                        <label style="padding-right: 118px; margin-bottom: 10px;">Sexo</label>
-                        <select id="select_sexo_responsable">
+                        <div id="sexo_coordinador">
+                        <label style="padding-right: 118px; margin-bottom: 10px; margin-left: 20px;">Sexo</label>
+                        <select id="select_sexo_coordinador" style="margin-left: -100px;">
                             <option value="O" disabled selected>Elige...</option>
                             <option value="M">Masculino</option>
                             <option value="F">Femenino</option>

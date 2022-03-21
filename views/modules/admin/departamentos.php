@@ -19,7 +19,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
 
 </head>
 
-<body class="m-0 h-100% w-100%">
+<body class="d-flex m-0 h-100 w-100">
 
     <div class="content h-100 w-100 d-flex flex-column bg-white">
 
@@ -28,7 +28,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
 
         <!-- CONTENT -->
         <div class="d-flex flex-column align-items-center bg-white"
-            style="width: 100% !important; min-height: calc(100% - 112px) !important; overflow-y:auto;">
+            style="width: 100% !important; min-height: calc(100% - 125px) !important; overflow-y:auto;">
 
             <!-- ALERTAS -->
             <?php include "../../../views/layout/alertas.php" ?>
@@ -52,51 +52,52 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
 
             <!-- FORMULARIO -->
             <div id="cuadro">
-                
-                    <div id="contenedor_inputs">
-                        <input id="input_id_departamento" type="text" hidden />
-                            <div id="clave">
-                                <label>Clave: </label>
-                                <input id="input_clave_departamento" placeholder="Clave" type="text" required />
-                            </div>
+
+                <div id="contenedor_inputs">
+                    <input id="input_id_departamento" type="text" hidden />
+                    <div id="clave">
+                        <label>Clave: </label>
+                        <input id="input_clave_departamento" placeholder="Clave" type="text" required />
                     </div>
 
-                    <div id="contenedor_inputs">
-                        <div >
-                            <label >Nombre</label>
-                            <input id="input_nombre_departamento" type="text" required />
-                        </div>
+                    <div >
+                        <label style = "margin-left: -100px;">Correo</label>
+                        <input id="input_correo_departamento"  placeholder="Correo" type="text" required />
+                    </div>
+                </div>
+
+                <div id="contenedor_inputs">
+                    <div>
+                        <label>Nombre</label>
+                        <input id="input_nombre_departamento" placeholder="Nombre" type="text" required />
+                    </div>
+                </div>
+
+                <div id="contenedor_inputs">
+                    <div>
+                        <label>Ubicación</label>
+                        <input id="input_ubicacion_departamento" placeholder="Ubicación" type="text" required />
+                    </div>
+                    <div>
+                        <label style = "margin-left: 5px;">Extención</label>
+                        <input id="input_extension_departamento" placeholder="Extención" type="text" required />
                     </div>
 
-                    <div id="contenedor_inputs">
-                        <div id="sexo_responsable">
-                            <label style="padding-right: 118px; margin-bottom: 10px;  margin-left: 0px;">Sexo</label>
-                            <select id="select_sexo_responsable" style="margin-left: -90px;">
-                                <option value="O" disabled selected>Elige...</option>
-                                <option value="M">Masculino</option>
-                                <option value="F">Femenino</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label style="margin-left: 13px;">Contacto:</label>
-                            <input id="input_contacto_departamento" placeholder="Contacto" type="text" required />
-                        </div>
-                    </div >
-                        
+                </div>
 
 
 
-                    <div id="contenedor_inputs">
-                        <label style="margin-right: 20px;">Jefe de Departamento:</label>
-                        <input id="input_select_responsables" placeholder="Seleccione al jefe" type="text"
-                            list="select_responsables" />
-                        <datalist id="select_responsables" style="width: 45% !important;">
-                        </datalist>
-                        <button class="btn btn-dark p-0" style="width: 28px;" data-bs-toggle="modal"
-                            data-bs-target="#modal_responsable">+</button>
-                    </div>
-                
+
+                <div id="contenedor_inputs">
+                    <label style="margin-right: 20px;">Jefe de Departamento:</label>
+                    <input id="input_select_responsables" placeholder="Seleccione al jefe" type="text"
+                        list="select_responsables" />
+                    <datalist id="select_responsables" style="width: 45% !important;">
+                    </datalist>
+                    <button class="btn btn-dark p-0" style="width: 28px;" data-bs-toggle="modal"
+                        data-bs-target="#modal_responsable">+</button>
+                </div>
+
             </div>
             <!-- BOTONES GUARDAR Y CANCELAR -->
             <div class="d-flex flex-row-reverse" style="width: 80% !important;  margin-right: 10%; margin-top: 20px;">

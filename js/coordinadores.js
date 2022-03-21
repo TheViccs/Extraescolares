@@ -156,6 +156,7 @@ function borrar_datos_input_coordinador(){
     $("#input_apellido_m_coordinador").val("");
     $("#select_sexo_coordinador").val("O");
     $("#input_correo_coordinador").val("");
+    
     $("#boton_insert_update_coordinador").attr("onclick","insert_responsable()");
 }
 

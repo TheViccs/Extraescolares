@@ -13,7 +13,7 @@
                     <li class="nav-item dropdown">
                         <div class="btn-group dropstart">
                             <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                Opciones
+                                <img src="https://cdn-icons-png.flaticon.com/512/3132/3132084.png" alt="Opciones" style="height: 30px; width:30px ; ">
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">Mi Perfil</a></li>

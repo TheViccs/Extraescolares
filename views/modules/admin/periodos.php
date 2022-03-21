@@ -20,22 +20,30 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
     
 
 
-    <div class="content h-100 w-100 d-flex flex-column bg-white">
+    <div >
         
     <!-- HEADER -->
         <?php include "../../../views/layout/header.php" ?>
 
         <!-- CONTENT -->
-        <div class="box d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height:calc(100% - 112px) !important; overflow-y:auto;">
+        <div class="box d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height:calc(100% - 120px) !important; overflow-y:auto;">
             
             <!-- ALERTAS -->
             <?php include "../../../views/layout/alertas.php" ?>
 
-            <a style="margin-left: 70%;" href="http://localhost/Extraescolares/views/modules/admin/administrador.php">
-                <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"
-                    src="../../.././assets/img/back.png"></a>
             <!-- TITULO DE CONTENIDO -->
-            <h1 class="mb-4 mt-2 text-center w-100">Gestión de Periodos</h1>
+
+            <div id="inicio">
+                <div id="titulo">
+                    <h1>Gestión de Periodos</h1>
+                </div>
+                <div id="flecha">
+                    <a id="return" href="http://localhost/Extraescolares/views/modules/admin/administrador.php">
+                        <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"
+                            src="../../.././assets/img/back.png"></a>
+                </div>
+            </div>
+
             
             <!-- FORMULARIO -->
             <div class="content-form mb-4 p-3 d-flex flex-column align-items-center" style="width: 90% !important;">
@@ -52,7 +60,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                     </div>
                 </div>
                 <br>
-                <div class="d-flex justify-content-center" style="width: 50% !important;">
+                <div class="d-flex justify-content-center" style="width: 50% !important; margin-top: 20px;">
                     <label class="text-center" style="width: 50% !important;">Nombre del periodo</label>
                     <input id="input_nombre_periodo" type="text" style="width: 50% !important;" disabled required>
                 </div>                
