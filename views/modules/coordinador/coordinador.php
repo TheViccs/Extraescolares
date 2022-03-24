@@ -27,7 +27,12 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
         <div class="d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height: calc(100% - 132px) !important; overflow-y:auto; margin-top: 20px;"> 
             <div class="menu h-100 p-3">
                 <ul class="contenedor-menu w-90 h-100 text-center">
-                    
+                    <li>
+                        <a href="#"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/1032/1032432.png"/><span>Mis Programas</span></a>
+                    </li>
+                    <li>
+                        <a href=""><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/6234/6234969.png"/><span>Gestionar Coordinadores</span></a>
+                    </li>
                 </ul>
             </div>
         </div>
