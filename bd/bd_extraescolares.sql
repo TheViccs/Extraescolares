@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-03-2022 a las 15:17:05
+-- Tiempo de generación: 28-03-2022 a las 16:43:46
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -221,6 +221,28 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `actividad`
+--
+
+DROP TABLE IF EXISTS `actividad`;
+CREATE TABLE `actividad` (
+  `id_actividad` int(11) NOT NULL,
+  `nombre` varchar(150) NOT NULL,
+  `descripcion` varchar(200) NOT NULL,
+  `competencia` varchar(200) NOT NULL,
+  `creditos_otorga` int(11) NOT NULL,
+  `beneficios` varchar(150) NOT NULL,
+  `video` varchar(150) DEFAULT NULL,
+  `capacidad_min` int(11) NOT NULL,
+  `capacidad_max` int(11) NOT NULL,
+  `actividad_padre` int(11) DEFAULT NULL,
+  `visible` tinyint(1) NOT NULL DEFAULT 1,
+  `id_programa` int(11) NOT NULL
+) ;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `administrador`
 --
 
@@ -236,7 +258,7 @@ CREATE TABLE `administrador` (
 --
 
 INSERT INTO `administrador` (`id_admin`, `usuario`, `contraseña`) VALUES
-(1, 'admin', '1234');
+(1, 'admin@colima.tecnm.mx', '1234');
 
 -- --------------------------------------------------------
 
@@ -385,6 +407,32 @@ INSERT INTO `departamento_responsable` (`id_departamento`, `id_responsable`, `fe
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `material_actividad`
+--
+
+DROP TABLE IF EXISTS `material_actividad`;
+CREATE TABLE `material_actividad` (
+  `id_material_actividad` int(11) NOT NULL,
+  `nombre` varchar(150) NOT NULL,
+  `id_actividad` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `material_alumno`
+--
+
+DROP TABLE IF EXISTS `material_alumno`;
+CREATE TABLE `material_alumno` (
+  `id_material_alumno` int(11) NOT NULL,
+  `nombre` varchar(150) NOT NULL,
+  `id_actividad` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `periodo`
 --
 
@@ -402,6 +450,18 @@ CREATE TABLE `periodo` (
 
 INSERT INTO `periodo` (`id_periodo`, `nombre`, `fecha_inicio_actividades`, `fecha_fin_actividades`) VALUES
 (2, 'Mar-Mar 2022', '2022-03-08', '2022-03-31');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `periodo_actividad`
+--
+
+DROP TABLE IF EXISTS `periodo_actividad`;
+CREATE TABLE `periodo_actividad` (
+  `id_periodo` int(11) NOT NULL,
+  `id_actividad` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -458,9 +518,31 @@ INSERT INTO `responsable` (`id_responsable`, `clave`, `nombre`, `apellido_p`, `a
 (4, '2', 'Pedro Itzvan', 'Silva', 'Medina', 'M', 'pedro.silva@colima.tecnm.mx', 'responsable1', NULL, 1),
 (5, '190', 'Ariel', 'Lira', 'Obando', 'M', 'alira@colima.tecnm.mx', 'responsable1', NULL, 1);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tema`
+--
+
+DROP TABLE IF EXISTS `tema`;
+CREATE TABLE `tema` (
+  `id_tema` int(11) NOT NULL,
+  `nombre` varchar(150) NOT NULL,
+  `descripcion` varchar(200) NOT NULL,
+  `semanas` int(11) NOT NULL,
+  `id_actividad` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `actividad`
+--
+ALTER TABLE `actividad`
+  ADD PRIMARY KEY (`id_actividad`),
+  ADD KEY `id_programa` (`id_programa`);
 
 --
 -- Indices de la tabla `administrador`
@@ -512,10 +594,30 @@ ALTER TABLE `departamento_responsable`
   ADD KEY `id_departamento` (`id_departamento`) USING BTREE;
 
 --
+-- Indices de la tabla `material_actividad`
+--
+ALTER TABLE `material_actividad`
+  ADD PRIMARY KEY (`id_material_actividad`),
+  ADD KEY `id_actividad` (`id_actividad`);
+
+--
+-- Indices de la tabla `material_alumno`
+--
+ALTER TABLE `material_alumno`
+  ADD PRIMARY KEY (`id_material_alumno`),
+  ADD KEY `id_actividad` (`id_actividad`);
+
+--
 -- Indices de la tabla `periodo`
 --
 ALTER TABLE `periodo`
   ADD PRIMARY KEY (`id_periodo`);
+
+--
+-- Indices de la tabla `periodo_actividad`
+--
+ALTER TABLE `periodo_actividad`
+  ADD UNIQUE KEY `id_periodo_actividad` (`id_periodo`,`id_actividad`) USING BTREE;
 
 --
 -- Indices de la tabla `programa`
@@ -532,8 +634,21 @@ ALTER TABLE `responsable`
   ADD UNIQUE KEY `clave` (`clave`);
 
 --
+-- Indices de la tabla `tema`
+--
+ALTER TABLE `tema`
+  ADD PRIMARY KEY (`id_tema`),
+  ADD KEY `id_actividad` (`id_actividad`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `actividad`
+--
+ALTER TABLE `actividad`
+  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `administrador`
@@ -554,6 +669,18 @@ ALTER TABLE `departamento`
   MODIFY `id_departamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT de la tabla `material_actividad`
+--
+ALTER TABLE `material_actividad`
+  MODIFY `id_material_actividad` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `material_alumno`
+--
+ALTER TABLE `material_alumno`
+  MODIFY `id_material_alumno` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `periodo`
 --
 ALTER TABLE `periodo`
@@ -572,8 +699,20 @@ ALTER TABLE `responsable`
   MODIFY `id_responsable` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
+-- AUTO_INCREMENT de la tabla `tema`
+--
+ALTER TABLE `tema`
+  MODIFY `id_tema` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `actividad`
+--
+ALTER TABLE `actividad`
+  ADD CONSTRAINT `actividad_ibfk_1` FOREIGN KEY (`id_programa`) REFERENCES `programa` (`id_programa`);
 
 --
 -- Filtros para la tabla `coordinador_programa`
@@ -602,6 +741,31 @@ ALTER TABLE `departamento_programa`
 ALTER TABLE `departamento_responsable`
   ADD CONSTRAINT `departamento_responsable_ibfk_1` FOREIGN KEY (`id_departamento`) REFERENCES `departamento` (`id_departamento`) ON DELETE CASCADE,
   ADD CONSTRAINT `departamento_responsable_ibfk_2` FOREIGN KEY (`id_responsable`) REFERENCES `responsable` (`id_responsable`);
+
+--
+-- Filtros para la tabla `material_actividad`
+--
+ALTER TABLE `material_actividad`
+  ADD CONSTRAINT `material_actividad_ibfk_1` FOREIGN KEY (`id_actividad`) REFERENCES `actividad` (`id_actividad`);
+
+--
+-- Filtros para la tabla `material_alumno`
+--
+ALTER TABLE `material_alumno`
+  ADD CONSTRAINT `material_alumno_ibfk_1` FOREIGN KEY (`id_actividad`) REFERENCES `actividad` (`id_actividad`);
+
+--
+-- Filtros para la tabla `periodo_actividad`
+--
+ALTER TABLE `periodo_actividad`
+  ADD CONSTRAINT `periodo_actividad_ibfk_1` FOREIGN KEY (`id_periodo`) REFERENCES `periodo` (`id_periodo`),
+  ADD CONSTRAINT `periodo_actividad_ibfk_2` FOREIGN KEY (`id_actividad`) REFERENCES `actividad` (`id_actividad`);
+
+--
+-- Filtros para la tabla `tema`
+--
+ALTER TABLE `tema`
+  ADD CONSTRAINT `tema_ibfk_1` FOREIGN KEY (`id_actividad`) REFERENCES `actividad` (`id_actividad`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
