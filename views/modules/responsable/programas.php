@@ -24,7 +24,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
         <?php include "../../../views/layout/header.php" ?>
 
         <!-- CONTENT -->
-        <div class="box d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height:calc(100% - 112px) !important; overflow-y:auto;">
+        <div class="box d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height:calc(100% - 137px) !important; overflow-y:auto;">
             <input id="input_id_responsable" type="text" value="<?php echo $_SESSION['id_responsable'] ?>" hidden/>
 
             <!-- ALERTAS -->

@@ -24,9 +24,9 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
         <?php include "../../../views/layout/header.php" ?>
 
         <!-- CONTENT -->    
-        <div class="d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height: calc(100% - 132px) !important; overflow-y:auto; margin-top: 20px;"> 
-            <div class="menu h-100 p-3">
-                <ul class="contenedor-menu w-90 h-100 text-center">
+        <div class="box d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height:calc(100% - 120px) !important; overflow-y:auto;"> 
+            <div class="menu h-100 p-3 " style="min-height:fit-content">
+                <ul class="contenedor-menu w-90 h-100 text-center" style="min-height:fit-content">
                     <li>
                         <a href="./periodos.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/2370/2370264.png"/><span>Gestionar Periodos</span></a>
                     </li>

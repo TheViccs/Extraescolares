@@ -26,7 +26,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
         <?php include "../../../views/layout/header.php" ?>
 
         <!-- CONTENT -->
-        <div class="box d-flex flex-column align-items-center bg-white" style="height:100%; width: 100% !important; min-height:calc(100% - 112px) !important; overflow-y:auto;">
+        <div class="box d-flex flex-column align-items-center bg-white" style="height:100%; width: 100% !important; min-height:calc(100% - 137px) !important; overflow-y:auto;">
 
             <!-- ALERTAS -->
             <?php include "../../../views/layout/alertas.php" ?>

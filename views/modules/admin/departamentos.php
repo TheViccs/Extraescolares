@@ -28,7 +28,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
 
         <!-- CONTENT -->
         <div class="d-flex flex-column align-items-center bg-white"
-            style="width: 100% !important; min-height: calc(100% - 125px) !important; overflow-y:auto;">
+            style="width: 100% !important; min-height: calc(100% - 137px) !important; overflow-y:auto;">
 
             <!-- ALERTAS -->
             <?php include "../../../views/layout/alertas.php" ?>
@@ -78,8 +78,13 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                         <label>Ubicación</label>
                         <input id="input_ubicacion_departamento" placeholder="Ubicación" type="text" required />
                     </div>
+<<<<<<< HEAD
                     <div style="width: 50%; height: 30px;  background-color: blue;">
                         <label style = "margin-left: 5px;">Extención</label>
+=======
+                    <div>
+                        <label style = "margin-left: 5px;">Extensión</label>
+>>>>>>> 624ce5e2d7ff0930f1124aa9559bb2eea5aeed18
                         <input id="input_extension_departamento" placeholder="Extención" type="text" required />
                     </div>
 

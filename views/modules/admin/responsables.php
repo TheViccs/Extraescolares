@@ -27,7 +27,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
 
         <!-- CONTENT -->
         <div class="box d-flex flex-column align-items-center bg-white"
-            style="width: 100% !important; min-height:calc(100% - 125px) !important; overflow-y:auto;">
+            style="width: 100% !important; min-height:calc(100% - 137px) !important; overflow-y:auto;">
 
 
 
