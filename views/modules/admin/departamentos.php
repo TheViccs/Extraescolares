@@ -55,30 +55,30 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
 
                 <div id="contenedor_inputs">
                     <input id="input_id_departamento" type="text" hidden />
-                    <div id="clave">
+                    <div id="clave" style="width: 50%; height: 30px;  background-color: blue;">
                         <label>Clave: </label>
-                        <input id="input_clave_departamento" placeholder="Clave" type="text" required />
+                        <input id="input_clave_departamento" placeholder="Clave" type="text" required style="width: 50%; height: 30px;" />
                     </div>
 
-                    <div >
-                        <label style = "margin-left: -100px;">Correo</label>
-                        <input id="input_correo_departamento"  placeholder="Correo" type="text" required />
+                    <div style="width: 50%; height: 30px;  background-color: blue;">
+                        <label>Correo</label>
+                        <input id="input_correo_departamento"  placeholder="Correo" type="text" required style="width: 50%; height: 30px;" />
+                    </div>
+                </div>
+
+                <div style="width: 100%; height: 30px; background-color: blue; display: flex; margin-top:2%;">
+                    <div style="width: 100%; height: 30px;  ">
+                        <label style="width: 20%; height: 30%s;  background-color: yellow;">Nombre</label>
+                        <input id="input_nombre_departamento" placeholder="Nombre" type="text" style="width: 70%; height: 30px;  background-color: black;" required />
                     </div>
                 </div>
 
                 <div id="contenedor_inputs">
-                    <div>
-                        <label>Nombre</label>
-                        <input id="input_nombre_departamento" placeholder="Nombre" type="text" required />
-                    </div>
-                </div>
-
-                <div id="contenedor_inputs">
-                    <div>
+                    <div style="width: 50%; height: 30px;  background-color: blue;">
                         <label>Ubicación</label>
                         <input id="input_ubicacion_departamento" placeholder="Ubicación" type="text" required />
                     </div>
-                    <div>
+                    <div style="width: 50%; height: 30px;  background-color: blue;">
                         <label style = "margin-left: 5px;">Extención</label>
                         <input id="input_extension_departamento" placeholder="Extención" type="text" required />
                     </div>
