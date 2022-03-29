@@ -18,7 +18,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
 </head>
 <body class="d-flex m-0 h-100 w-100">  
 
-    <div >  
+    <div class="w-100">  
 
         <!-- HEADER -->
         <?php include "../../../views/layout/header.php" ?>

@@ -108,7 +108,7 @@ function agregar_coordinadores_tabla(coordinadores){
             if(coordinador.id_programa!==$("#input_id_programa_asignar").val()){
                 tabla.row.add({"clave":coordinador.clave,"nombre":coordinador.nombre+" "+coordinador.apellido_p+" "+coordinador.apellido_m,"sexo":coordinador.sexo,"correo":coordinador.correo,"botoneditar":"<button id='botoneditarcoordinador"+coordinador.id_coordinador+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrarcoordinador"+coordinador.id_coordinador+"' class='btn btn-danger'>Borrar</button>","botonimprimir":"<button id='botonimprimircoordinador"+coordinador.id_coordinador+"' class='btn btn-dark'>Imprimir</button>","botonasignar":"<button id='botonasignarcoordinador"+coordinador.id_coordinador+"' class='btn btn-secondary'>Asignar</button>"}).draw();
             }else{
-                tabla.row.add({"clave":coordinador.clave,"nombre":coordinador.nombre+" "+coordinador.apellido_p+" "+coordinador.apellido_m,"sexo":coordinador.sexo,"correo":coordinador.correo,"botoneditar":"<button id='botoneditarcoordinador"+coordinador.id_coordinador+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrarcoordinador"+coordinador.id_coordinador+"' class='btn btn-danger'>Borrar</button>","botonimprimir":"<button id='botonimprimircoordinador"+coordinador.id_coordinador+"' class='btn btn-dark'>Imprimir</button>","botonasignar":"<button id='botonasignarcoordinador"+coordinador.id_coordinador+"' class='btn btn-secondary'>Gestionar</button>"}).draw();
+                tabla.row.add({"clave":coordinador.clave,"nombre":coordinador.nombre+" "+coordinador.apellido_p+" "+coordinador.apellido_m,"sexo":coordinador.sexo,"correo":coordinador.correo,"botoneditar":"<button id='botoneditarcoordinador"+coordinador.id_coordinador+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrarcoordinador"+coordinador.id_coordinador+"' class='btn btn-danger'>Borrar</button>","botonimprimir":"<button id='botonimprimircoordinador"+coordinador.id_coordinador+"' class='btn btn-dark'>Imprimir</button>","botonasignar":"<button id='botonasignarcoordinador"+coordinador.id_coordinador+"' class='btn btn-secondary' disabled>Asignar</button>"}).draw();
             }
             $("#botonasignarcoordinador"+coordinador.id_coordinador).on( "click", function(){mostrar_modal_asignar_coordinador(coordinador.id_coordinador, coordinador.clave, coordinador.nombre+" "+coordinador.apellido_p+" "+coordinador.apellido_m, coordinador.sexo, coordinador.correo)});
         }    
@@ -308,4 +308,3 @@ function asignar_responsable(){
         mostrar_alerta(2);
     }    
 }
-

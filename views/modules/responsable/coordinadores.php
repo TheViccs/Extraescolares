@@ -90,22 +90,21 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
                     </div> 
 
 
-                    </div>
-                </div>
-                <br>
-                <!-- BOTONES GUARDAR Y CANCELAR -->
-                <div id="botones">
-                    <button id="boton_insert_update_coordinador" class="btn btn-success" onclick="insert_coordinador()">Guardar</button>
-                    <button class="btn btn-danger" style="margin-left: 50px;" onclick="borrar_datos_input_coordinador()">Cancelar</button>
-                </div>
-
-                <!-- TABLA -->
-                <div class="content-table d-flex justify-content-center mb-3" style="width: 90% !important;">
-                    <table id="tabla_coordinadores">
-
-                    </table>
                 </div>
             </div>
+            <br>
+            <!-- BOTONES GUARDAR Y CANCELAR -->
+            <div id="botones">
+                <button id="boton_insert_update_coordinador" class="btn btn-success" onclick="insert_coordinador()">Guardar</button>
+                <button class="btn btn-danger" style="margin-left: 50px;" onclick="borrar_datos_input_coordinador()">Cancelar</button>
+            </div>
+
+            <!-- TABLA -->
+            <div class="content-table d-flex justify-content-center mb-3" style="width: 90% !important;">
+                <table id="tabla_coordinadores">
+                </table>
+            </div>
+        </div>
 
         <div class="modal fade" id="modal_borrar_coordinador" tabindex="-1" aria-labelledby="modal_borrar_coordinador-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -161,11 +160,9 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
             </div>   
         </div>
 
-
+        </div>
         <!-- FOOTER -->
         <?php include "../../../views/layout/footer.php" ?>
-
-    </div>
     <script src="../../../js/coordinadores.js"></script>
 </body>
 
