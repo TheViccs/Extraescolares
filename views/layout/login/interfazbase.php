@@ -65,8 +65,9 @@
 
     .contenedor-inputs3{
         display: flex;
+        width: 50%;
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: space-around;
         align-items: center;
         min-height: fit-content;
     }
@@ -84,14 +85,41 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        overflow-y: auto;
+        min-width: fit-content;
     }
 
+    .label1{
+        grid-area: label-clave;
+        text-align: center;
+    }
+
+    .input1{
+        grid-area: input-clave;
+    }
+
+    .label2{
+        grid-area: label-nombre;
+        text-align: center;
+    }
+
+    .input2{
+        grid-area: input-nombre;
+    }
+
+    .label3{
+        grid-area: label-correo;
+        text-align: center;
+    }
+
+    .input3{
+        grid-area: input-correo;
+    }
+
+
+
     .cuadro1{
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
+        padding: 1rem;
+        display: grid;
         height: auto;
         flex-shrink: 0;
         width: 80%;
@@ -99,6 +127,11 @@
         border-radius: 5px;
         min-height: 20%;
         min-width: fit-content;
+        grid-gap: 2rem;
+        grid-template-columns: repeat(8,.3fr);
+        grid-template-areas: 
+            "label-clave input-clave label-nombre input-nombre input-nombre input-nombre input-nombre input-nombre"
+            "label-correo input-correo input-correo input-correo input-correo input-correo input-correo input-correo";
     }
 
     .flecha{
@@ -143,26 +176,12 @@
             <a href="#"><img class="flecha"  src="../../.././assets/img/back.png"></a>
         </div>
         <div class="cuadro1">
-            <div class="contenedor-inputs2">
-                <div class="contenedor-inputs3">
-                    <label>Nombre</label>
-                    <input placeholder="Nombre"/>
-                </div>
-                <div class="contenedor-inputs3">
-                    <label>Apellido P</label>
-                    <input placeholder="Apellido P"/>
-                </div>
-            </div>
-            <div class="contenedor-inputs2">
-                <div class="contenedor-inputs3">
-                    <label>Apellido M</label>
-                    <input placeholder="Apellido M"/>
-                </div>
-                <div class="contenedor-inputs3">
-                    <label>Correo</label>
-                    <input placeholder="Correo"/>
-                </div>
-            </div>
+            <label class="label1">Clave</label>
+            <input class="input1" placeholder="Clave">
+            <label class="label2">Nombre</label>
+            <input class="input2" placeholder="Nombre">
+            <label class="label3">Correo</label>
+            <input class="input3" placeholder="Correo">
         </div>
         <div class="botones2">
             <button class="btn btn-success">Guardar</button>
