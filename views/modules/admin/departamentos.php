@@ -51,41 +51,36 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
 
 
             <!-- FORMULARIO -->
-            <div id="cuadro">
+            <div class="content-form mb-4 p-5 d-flex flex-column align-items-center border border-dark" style="width: 72% !important;">
 
                 <div id="contenedor_inputs">
                     <input id="input_id_departamento" type="text" hidden />
-                    <div id="clave" style="width: 50%; height: 30px;  background-color: blue;">
+                    <div id="clave" style="width: 50%; height: 30px;">
                         <label>Clave: </label>
-                        <input id="input_clave_departamento" placeholder="Clave" type="text" required style="width: 50%; height: 30px;" />
+                        <input id="input_clave_departamento" placeholder="Clave" type="text" required style="width: 82%; height: 30px;" />
                     </div>
 
-                    <div style="width: 50%; height: 30px;  background-color: blue;">
+                    <div style="width: 50%; height: 30px;">
                         <label>Correo</label>
-                        <input id="input_correo_departamento"  placeholder="Correo" type="text" required style="width: 50%; height: 30px;" />
+                        <input id="input_correo_departamento"  placeholder="Correo" type="text" required style="width: 82%; height: 30px; " />
                     </div>
                 </div>
 
-                <div style="width: 100%; height: 30px; background-color: blue; display: flex; margin-top:2%;">
-                    <div style="width: 100%; height: 30px;  ">
-                        <label style="width: 20%; height: 30%s;  background-color: yellow;">Nombre</label>
-                        <input id="input_nombre_departamento" placeholder="Nombre" type="text" style="width: 70%; height: 30px;  background-color: black;" required />
+                <div id="contenedor_inputs" style="width: 100%; height: 30px; display: flex; margin-top:2%;">
+                    <div style="width: 100%; height: 30px;">
+                        <label style="width: 5%; height: 20px;">Nombre</label>
+                        <input id="input_nombre_departamento" placeholder="Nombre" type="text" style="width: 89%; height: 30px;" required />
                     </div>
                 </div>
 
                 <div id="contenedor_inputs">
-                    <div style="width: 50%; height: 30px;  background-color: blue;">
+                    <div style="width: 50%; height: 30px;">
                         <label>Ubicación</label>
-                        <input id="input_ubicacion_departamento" placeholder="Ubicación" type="text" required />
+                        <input id="input_ubicacion_departamento" placeholder="Ubicación" style="width: 70%; height: 30px;" type="text" required />
                     </div>
-<<<<<<< HEAD
-                    <div style="width: 50%; height: 30px;  background-color: blue;">
+                    <div style="width: 50%; height: 30px;">
                         <label style = "margin-left: 5px;">Extención</label>
-=======
-                    <div>
-                        <label style = "margin-left: 5px;">Extensión</label>
->>>>>>> 624ce5e2d7ff0930f1124aa9559bb2eea5aeed18
-                        <input id="input_extension_departamento" placeholder="Extención" type="text" required />
+                        <input id="input_extension_departamento" placeholder="Extención" type="text" required style="width: 70%; height: 30px;"  required />
                     </div>
 
                 </div>
@@ -95,7 +90,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
 
                 <div id="contenedor_inputs">
                     <label style="margin-right: 20px;">Jefe de Departamento:</label>
-                    <input id="input_select_responsables" placeholder="Seleccione al jefe" type="text"
+                    <input id="input_select_responsables" placeholder="Seleccione al jefe" style="width: 60%; height: 30px; " type="text"
                         list="select_responsables" />
                     <datalist id="select_responsables" style="width: 45% !important;">
                     </datalist>

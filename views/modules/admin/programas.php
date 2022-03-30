@@ -9,11 +9,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<<<<<<< HEAD
     
-=======
-
->>>>>>> 624ce5e2d7ff0930f1124aa9559bb2eea5aeed18
     <title>Extraescolares</title>
     
     <!-- IMPORTS -->

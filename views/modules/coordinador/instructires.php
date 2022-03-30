@@ -1,9 +1,3 @@
-<?php
-session_start();
-if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
-    header('Location: ../../layout/login/index.php');
-}
-?>
 <!DOCTYPE html>
 <html lang="en" class="vh-100 vw-100 m-0 bg-dark">
 
@@ -33,10 +27,10 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
 
             <div id="inicio">
                 <div id="titulo">
-                    <h1>Gestión de Responsables</h1>
+                    <h1>Gestión de instructores</h1>
                 </div>
                 <div id="flecha">
-                    <a id="return" href="http://localhost/Extraescolares/views/modules/admin/administrador.php">
+                    <a id="return" href="http://localhost/Extraescolares/views/modules/coordinador/coordinador.php">
                         <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"
                             src="../../.././assets/img/back.png"></a>
                 </div>
@@ -44,46 +38,46 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
 
             <!-- FORMULARIO -->
             <div class="content-form mb-4 p-3 d-flex flex-column align-items-center" style="width: 90% !important;">
-                <div class="content-form mb-4 p-5 d-flex flex-column align-items-center border border-dark" style="width: 72% !important;">
+                <div class="content-form mb-4 p-5 d-flex flex-column align-items-center border border-dark" style="width: 80% !important;">
 
                     <div>
-                        <div id="inputs_coordinador" >
-                            <div id="id_responsable">
-                                <input id="input_id_responsable" type="text" hidden />
-                                <div>
-                                    <label style="padding-right: 114px;">Clave</label>
-                                    <input id="input_clave_responsable" type="text" placeholder="Clave">
+                        <div id="i_instructores">
+                            <div id="id_instructor">
+                                <input id="input_id_instructor" type="text" hidden />
+                                <div id="i_instructores">
+                                    <label style="height: 30px; width: 20%; background-color: black;">Clave</label>
+                                    <input id="input_clave_instructor" style="height: 30px; width: 80%; background-color: yellow;" type="text" placeholder="Clave">
                                 </div>
                             </div>
                         </div>
 
-                        <div id="inputs_coordinador">
-                            <div id="nombre_responsable" style="margin-top: 10px; margin-bottom: 10px;">
-                                <label style="padding-right: 114px;">Nombre</label>
-                                <input style="margin-left: -20px;" id="input_nombre_responsable" type="Nombre"
+                        <div id="i_instructores">
+                            <div id="nombre_instructore" style="margin-top: 10px; margin-bottom: 10px; background-color: black;">
+                                <label style="height: 30px; width: 2%; background-color: black;">Nombre</label>
+                                <input style="margin-left: -20px;" id="input_nombre_instructor" type="Nombre"
                                     placeholder="Nombre">
                             </div>
                             <div id="apellido_p_responsable" style="margin-top: 10px; margin-bottom: 10px;">
                                 <label style="padding-right: 55px; margin-left:20px;" >Apellido Paterno</label>
-                                <input style="margin-left: -20px;" id="input_apellido_p_responsable" type="ApellidoP"
+                                <input style="margin-left: -20px;" id="input_apellido_p_instructor" type="ApellidoP"
                                     placeholder="Apellido Paterno">
                             </div>
                             <div id="apellido_m_responsable" style="margin-top: 10px; margin-bottom: 10px;">
                                 <label style="padding-right: 50px; margin-left:20px;">Apellido Materno</label>
-                                <input style="margin-left: -20px;" id="input_apellido_m_responsable" type="ApellidoM"
+                                <input style="margin-left: -20px;" id="input_apellido_m_instructor" type="ApellidoM"
                                     placeholder="Apellido Materno" required="false">
                             </div>
                         </div>
 
 
-                        <div id="inputs_coordinador" style="margin-bottom:20px;">
-                            <div id="email_responsable">
+                        <div id="i_instructores" style="margin-bottom:20px;">
+                            <div id="email_instructor">
                                 <label style="padding-right: 114px; margin-bottom: 10px;">Email</label>
-                                <input id="input_correo_responsable" type="email" placeholder="Email">
+                                <input id="input_correo_instructor" type="email" placeholder="Email">
                             </div>
-                            <div id="sexo_responsable">
+                            <div id="sexo_instructor">
                                 <label style="padding-right: 118px; margin-bottom: 10px; margin-left:20px;">Sexo</label>
-                                <select id="select_sexo_responsable">
+                                <select id="select_sexo_instructor">
                                     <option value="O" disabled selected>Elige...</option>
                                     <option value="M">Masculino</option>
                                     <option value="F">Femenino</option>
@@ -109,22 +103,22 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
             </div>
         </div>
 
-        <div class="modal fade" id="modal-responsable" tabindex="-1" aria-labelledby="modal-responsable-label"
+        <div class="modal fade" id="modal-instructor" tabindex="-1" aria-labelledby="modal-instructor-label"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modal-responsable-label">Borrar Responsabele de Departamento</h5>
+                        <h5 class="modal-title" id="modal-instructor-label">Borrar Responsabele de Departamento</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body text-center">
                         <div class="w-100">
-                            <h3>Seguro que quiere borrar al Responsable?</h1>
-                                <p id="p_clave_resposable"></p>
-                                <p id="p_nombre_resposable"></p>
-                                <p id="p_sexo_resposable"></p>
-                                <p id="p_correo_resposable"></p>
-                                <input id="input_id_responsable_borrar" type="text" hidden />
+                            <h3>Seguro que quiere borrar al instructor?</h1>
+                                <p id="p_clave_instructor"></p>
+                                <p id="p_nombre_instructor"></p>
+                                <p id="p_sexo_instructor"></p>
+                                <p id="p_correo_instructor"></p>
+                                <input id="input_id_instructor_borrar" type="text" hidden />
                         </div>
                     </div>
                     <div class="modal-footer d-flex justify-content-evenly">
