@@ -1,4 +1,4 @@
-<div class="header w-100 h-20" >
+<div class="header w-100 h-20 m" >
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Sistema Gestor de Actividades Complementarias</a>
