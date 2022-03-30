@@ -48,7 +48,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
             
             <!-- FORMULARIO -->
             <div class="content-form mb-4 p-3 d-flex w-100 flex-column align-items-center">
-                <div id="cuadro">
+                <div class="content-form mb-4 p-5 d-flex flex-column align-items-center border border-dark" style="width: 72% !important;">
                     <div id="inputs_coordinador">
                         <input id="input_id_coordinador" type="text" hidden />
                         <div>
@@ -163,6 +163,8 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
         </div>
         <!-- FOOTER -->
         <?php include "../../../views/layout/footer.php" ?>
+        
+    </div>
     <script src="../../../js/coordinadores.js"></script>
 </body>
 
