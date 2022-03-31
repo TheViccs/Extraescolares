@@ -254,7 +254,6 @@ label {
                         list="select_responsables" />
                     <datalist id="select_responsables" style="width: 45% !important;">
                     </datalist>
-<<<<<<< HEAD
                     <button class="btn6 btn btn-dark" data-bs-toggle="modal" data-bs-target="#modal_responsable">+</button>
                 
 
@@ -312,10 +311,6 @@ label {
                                 onclick="insert_responsable()">Guardar</button>
                         </div>
                     </div>
-=======
-                    <button class="btn btn-dark" style="width: 28px;" data-bs-toggle="modal"
-                        data-bs-target="#modal_responsable">+</button>
->>>>>>> f6972276a81e62c2ac8e1fefd7f0177b78699ea1
                 </div>
             </div>
 
