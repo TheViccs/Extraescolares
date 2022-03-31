@@ -4,43 +4,39 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
     header('Location: ../../layout/login/index.php');
 }
 ?>
+
 <!DOCTYPE html>
-<html lang="en" class="vh-100 vw-100 m-0 bg-dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <title>Extraescolares</title>
-
-    <!-- IMPORTS -->
+    <meta name="viewport">
+    <title>Interfaz</title>
     <?php include "../../../views/layout/imports.php" ?>
-
 </head>
-<body class="d-flex m-0 h-100 w-100">
+<body>
     
-    <div class="w-100">
-        
-        <!-- HEADER -->
-        <?php include "../../../views/layout/header.php" ?>
-
-        <!-- CONTENT -->
-        <div class="box d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height:calc(100% - 120px) !important; overflow-y:auto;">
+    <div class="contenido2">
+    <?php include "../../../views/layout/header.php" ?>
+        <div class="cabecera">
+            <h1 class="titulo">Titulo</h1>
+            <a href="#"><img class="flecha"  src="../../.././assets/img/back.png"></a>
+        </div>
+        <div class="cuadro1">
             
-            <!-- ALERTAS -->
-            <?php include "../../../views/layout/alertas.php" ?>
+        </div>
+        <div class="botones2">
+            <button class="btn btn-success" onclick="insert_periodo()">Guardar</button >
+            <button class="btn btn-danger cancelar" onclick="borrar_datos_input_periodo()">Cancelar</button >
+        </div>
+        
+        <?php include "../../../views/layout/footer.php" ?>
+    </div>
+    
+</body>
+</html>
 
-            <!-- TITULO DE CONTENIDO -->
 
-            <div id="inicio">
-                <div id="titulo">
-                    <h1>Gestión de Periodos</h1>
-                </div>
-                <div id="flecha">
-                    <a id="return" href="http://localhost/Extraescolares/views/modules/admin/administrador.php">
-                        <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"
-                            src="../../.././assets/img/back.png"></a>
-                </div>
-            </div>
 
             
             <!-- FORMULARIO -->
@@ -65,18 +61,3 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
             </div>
         </div>
             
-            <!-- BOTONES GUARDAR Y CANCELAR -->
-            <div class="d-flex flex-row-reverse" style="width: 80% !important;  margin-right: 15%;">
-                <button class="btn btn-success" onclick="insert_periodo()" style="margin-left: 50px;">Guardar</button >
-                <button class="btn btn-danger" onclick="borrar_datos_input_periodo()">Cancelar</button >
-            </div>
-
-        </div>
-
-        <!-- FOOTER -->
-        <?php include "../../../views/layout/footer.php" ?>
-
-    </div>
-    <script src="../../../js/periodos.js"></script>
-</body>
-</html>
