@@ -16,9 +16,10 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
 <body>
     <div class="contenido2">
         <?php include "../../../views/layout/header.php" ?>
+        <?php include "../../../views/layout/alertas.php" ?>
         <div class="cabecera">
             <h1 class="titulo">Gestión de Responsables</h1>
-            <a href="#"><img class="flecha"  src="../../.././assets/img/back.png"></a>
+            <a href="http://localhost/Extraescolares/views/modules/admin/administrador.php"><img class="flecha"  src="../../.././assets/img/back.png"></a>
         </div>
         <div class="cuadro1">
             <input id="input_id_responsable" type="text" hidden />

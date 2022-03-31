@@ -13,8 +13,8 @@
     }
 
     html{
-        height: 100vh;
-        width: 100vw;
+        height: 100%;
+        width: 100%;
     }
 
     body{
@@ -78,6 +78,10 @@
         margin-bottom: 2%;
         width: 80%;
         border: 1px solid black;
+    }
+
+    .dataTable{
+        overflow-x: auto !important;
     }
 
     .contenido2{

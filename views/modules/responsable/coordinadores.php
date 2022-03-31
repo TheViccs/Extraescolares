@@ -5,7 +5,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
 }
 ?>
 <!DOCTYPE html>
-<html lang="en" class="vh-100 vw-100 m-0 bg-dark">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -18,7 +18,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
 
 </head>
 
-<body class="d-flex m-0 h-100 w-100">
+<body >
 
     <div >
 

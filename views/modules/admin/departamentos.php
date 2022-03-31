@@ -94,7 +94,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
                         list="select_responsables" />
                     <datalist id="select_responsables" style="width: 45% !important;">
                     </datalist>
-                    <button class="btn btn-dark p-0" style="width: 28px;" data-bs-toggle="modal"
+                    <button class="btn btn-dark" style="width: 28px;" data-bs-toggle="modal"
                         data-bs-target="#modal_responsable">+</button>
                 </div>
 

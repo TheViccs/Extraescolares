@@ -5,7 +5,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
 }
 ?>
 <!DOCTYPE html>
-<html lang="en" class="vh-100 vw-100 m-0 bg-dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,10 +16,8 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
     <?php include "../../../views/layout/imports.php" ?>
 
 </head>
-<body class="d-flex m-0 h-100 w-100">  
-
+<body>  
     <div class="content h-100 w-100 d-flex flex-column bg-white">
-        
         <!-- HEADER -->
         <?php include "../../../views/layout/header.php" ?>
 
