@@ -28,10 +28,10 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
             <div class="menu h-100 p-3">
                 <ul class="contenedor-menu w-90 h-100 text-center">
                     <li>
-                        <a href="#"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/4850/4850929.png"/><span>Actividad</span></a>
+                        <a href="./actividades.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/4850/4850929.png"/><span>Gestionar Actividades</span></a>
                     </li>
                     <li>
-                        <a href="http://localhost/Extraescolares/views/modules/coordinador/instructires.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/3410/3410674.png"/><span>Gestionar Instructores</span></a>
+                        <a href="./instructores.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/3410/3410674.png"/><span>Gestionar Instructores</span></a>
                     </li>
                 </ul>
             </div>

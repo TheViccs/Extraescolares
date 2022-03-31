@@ -5,7 +5,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
 }
 ?>
 <!DOCTYPE html>
-<html lang="en" class="vh-100 vw-100 m-0 bg-dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,7 +16,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
     <?php include "../../../views/layout/imports.php" ?>
 
 </head>
-<body class="d-flex m-0 h-100 w-100">  
+<body>  
 
     <div class="content h-100 w-100 d-flex flex-column bg-white">
         
@@ -25,7 +25,14 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
  
         <!-- CONTENT -->
         
+<<<<<<< HEAD
         <div class="d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height: calc(100% - 137px) !important; overflow-y:auto; margin-top: 20px;"> 
+=======
+        <div class="d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height: calc(100% - 132px) !important; overflow-y:auto; margin-top: 20px;">
+            <a style="margin-left: 70%;" href="http://localhost/Extraescolares/views/layout/home.php">
+                <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"src="../../.././assets/img/back.png">
+            </a>    
+>>>>>>> f6972276a81e62c2ac8e1fefd7f0177b78699ea1
             <div class="menu h-100 p-3">
                 <ul class="contenedor-menu w-90 h-100 text-center">
                     <li>

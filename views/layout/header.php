@@ -1,6 +1,6 @@
 <div class="header w-100 h-20" >
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
+        <div class="container-fluid w-100">
             <a class="navbar-brand" href="#">Sistema Gestor de Actividades Complementarias</a>
             <?php
                 if(isset($_SESSION['loggedin'])){

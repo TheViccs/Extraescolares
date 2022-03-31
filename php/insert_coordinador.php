@@ -13,5 +13,5 @@ $sql=("CALL sp_insert_coordinador(".$id_r.",'".$clave."','".$nombre."','".$apell
 $result = mysqli_query($conn,$sql);
 if($result){
     echo "1";
-}     
+}
 ?>

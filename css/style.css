@@ -1,0 +1,143 @@
+.container{
+    
+    height: 400px;
+    width: 350px;
+    border-radius: 10%;
+    background-color: whitesmoke;
+    margin-top: 5%;
+    border: 5px solid black;
+    
+}
+
+.back{
+    background-image: url('../assets/img/Tec-de-Colima.jpeg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.btnAdmin{
+    margin-top: 20px;
+    text-align: center;
+    height: 50px;
+    width: 320px;
+    display: flex;
+    justify-content: center;
+    
+    
+}
+
+.btnRP{
+    margin-top: 20px;
+    height: 50px;
+    width: 260px;
+    display: flex;
+    justify-content: center;
+}
+
+.iconos{
+    width: 30px; 
+    height: 30px;
+}
+/*Return*/
+#titulo{
+    width: 95%;
+    text-align: center;
+}
+
+/*
+#flecha{
+    width: 5%;
+}
+*/
+
+#inicio{
+    height: 100%;
+    width: 1300px;
+    display: flex;
+    align-items: center;
+}
+
+/*Login*/
+#Log{
+    height: 50px;
+    width: 50px;
+    background-color: blue;
+}
+
+/*Interfaces del Administrador*/
+/*Interfaz de Unidades Responsables
+#cuadro{
+    height: 60%;
+    width: 70%;
+    border: solid black 1px;
+    border-radius: 5px;
+    justify-content: center;
+
+    
+    
+}
+*/
+#contenedor_inputs{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    /*background-color: aqua;*/
+    
+}
+
+
+
+
+/*Interfaces de Responsable*/
+/*Interfaz de Coordinadores*/
+
+#inputs_coordinador{
+    height:30px;
+    width: 100%;
+    display: flex;
+    margin-top: 20px;
+    transform: translate(5%,5%);
+    align-items: center;
+}
+
+#botones{
+    height: 50px;
+    width: 15%;
+    margin-top: 20px;
+    display: flex;
+    margin-left: 800px;   
+}
+
+/*Login*/
+
+#contenidoLogin{
+    background-image: url('../assets/img/Tec.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+}
+
+/*Coordinador - grdtionar instructores*/
+#i_instructores{
+    height:30px;
+    width: 100%;
+    display: flex;
+    margin-top: 20px;
+    transform: translate(5%,5%);
+    align-items: center;
+    background-color: brown;
+}
+
+
+
+
+
+
+
+
+
