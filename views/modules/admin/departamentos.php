@@ -4,207 +4,356 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
     header('Location: ../../layout/login/index.php');
 }
 ?>
+
+
 <!DOCTYPE html>
-<html lang="en" class="vh-100 vw-100 m-0 bg-dark">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Extraescolares</title>
-
-    <!-- IMPORTS -->
+    <meta name="viewport">
+    <title>Unidades Responsables</title>
     <?php include "../../../views/layout/imports.php" ?>
 
+    <!-- ALERTAS -->
+    <?php include "../../../views/layout/alertas.php" ?>
 
 </head>
+<style>
+* {
+    font-size: 1rem;
+}
 
-<body class="d-flex m-0 h-100 w-100">
+html {
+    height: 100vh;
+    width: 100vw;
+}
 
-    <div class="content h-100 w-100 d-flex flex-column bg-white">
+body {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
 
-        <!-- HEADER -->
+.botones2 {
+    display: flex;
+    width: 80%;
+    height: 20%;
+    align-items: center;
+    justify-content: end;
+    min-height: 60px;
+    min-width: fit-content;
+}
+
+.cabecera {
+    display: flex;
+    margin-top: 2%;
+    justify-content: center;
+    height: 15%;
+    width: 100%;
+    min-height: 60px;
+    min-width: fit-content;
+}
+
+.cabecera a {
+    height: 100%;
+    margin-left: auto;
+    margin-right: 5%;
+    justify-self: end;
+}
+
+.cancelar {
+    margin-left: 2%;
+}
+
+.contenedor-inputs2 {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-height: fit-content;
+    width: 100%;
+}
+
+.contenedor-inputs3 {
+    display: flex;
+    width: 50%;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    min-height: fit-content;
+}
+
+.contenedor-tabla {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2%;
+    width: 80%;
+    border: 1px solid black;
+    box-sizing: contenedor-tabla;
+}
+
+
+.contenido2 {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: fit-content;
+}
+
+.label1 {
+    grid-area: label_clave_unidades;
+    text-align: center;
+}
+
+.input1 {
+    grid-area: input_clave_unidades;
+}
+
+.label2 {
+    grid-area: label_correo_unidades;
+    text-align: center;
+}
+
+.input2 {
+    grid-area: input_correo_unidades;
+}
+
+.label3 {
+    grid-area: label_nombre_unidades;
+    text-align: center;
+}
+
+.input3 {
+    grid-area: input_nombre_unidades;
+}
+
+.label4 {
+    grid-area: label_ubicacion_unidades;
+    text-align: center;
+}
+
+.input4 {
+    grid-area: input_ubicacion_unidades;
+}
+
+.label5 {
+    grid-area: label_extension_unidades;
+    text-align: center;
+}
+
+.input5 {
+    grid-area: input_extension_unidades;
+}
+
+.label6 {
+    grid-area: label_jefe_unidades;
+    text-align: center;
+}
+
+.input6 {
+    grid-area: input_jefe_unidades;
+}
+
+.btn6 {
+    grid-area: btn_jefe_unidades;
+}
+.cuadro1 {
+    padding: 1rem;
+    display: grid;
+    height: auto;
+    flex-shrink: 0;
+    width: 80%;
+    border: 1px solid black;
+    border-radius: 5px;
+    min-height: 20%;
+    min-width: fit-content;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(8, .3fr);
+    grid-template-areas:
+        /*Inputs y labels*/
+        "label_clave_unidades input_clave_unidades input_clave_unidades input_clave_unidades label_correo_unidades input_correo_unidades input_correo_unidades input_correo_unidades"
+        "label_nombre_unidades input_nombre_unidades input_nombre_unidades input_nombre_unidades input_nombre_unidades input_nombre_unidades input_nombre_unidades input_nombre_unidades"
+        "label_ubicacion_unidades input_ubicacion_unidades input_ubicacion_unidades input_ubicacion_unidades label_extension_unidades input_extension_unidades input_extension_unidades input_extension_unidades"
+        "label_jefe_unidades label_jefe_unidades input_jefe_unidades input_jefe_unidades input_jefe_unidades input_jefe_unidades input_jefe_unidades btn_jefe_unidades"
+
+}
+
+.flecha {
+    width: 10%;
+    height: 100%;
+    min-width: 30px;
+    max-height: 30px;
+}
+
+.footer {
+    width: auto;
+    min-width: fit-content;
+    margin-top: auto;
+    justify-self: end;
+}
+
+.header {
+    width: auto;
+    min-width: fit-content;
+}
+
+input {
+    height: 2rem;
+}
+
+label {
+    height: 2rem;
+}
+
+.titulo {
+    justify-self: center;
+    margin-left: auto;
+}
+</style>
+
+<body>
+
+    <div class="contenido2">
         <?php include "../../../views/layout/header.php" ?>
+        <!-- ALERTAS -->
+        <?php include "../../../views/layout/alertas.php" ?>
+        <div class="cabecera">
+            <h1 class="titulo">Gestión de Unidades Responsables</h1>
+            <a href="http://localhost/Extraescolares/views/modules/admin/administrador.php"><img class="flecha"
+                    src="../../.././assets/img/back.png"></a>
+        </div>
+        <div class="cuadro1">
 
-        <!-- CONTENT -->
-        <div class="d-flex flex-column align-items-center bg-white"
-            style="width: 100% !important; min-height: calc(100% - 137px) !important; overflow-y:auto;">
+            <!--Primer regnglon de  divs clave y correo-->
 
-            <!-- ALERTAS -->
-            <?php include "../../../views/layout/alertas.php" ?>
+            <input id="input_id_departamento" type="text" hidden />
+            <label class="label1">Clave: </label>
+            <input class="input1" id="input_clave_departamento" placeholder="Clave" type="text" required />
 
-            <!-- TITULO DE CONTENIDO -->
+            <label class="label2">Correo</label>
+            <input class="input2" id="input_correo_departamento" placeholder="Correo" type="text" required />
 
-
-
-
-            <div id="inicio">
-                <div id="titulo">
-                    <h1>Gestión de Unidades Responsables</h1>
-                </div>
-                <div id="flecha">
-                    <a id="return" href="http://localhost/Extraescolares/views/modules/admin/administrador.php">
-                        <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"
-                            src="../../.././assets/img/back.png"></a>
-                </div>
-            </div>
+            <!--Segundo rengolón de divs Nombre-->
+            <label class="label3">Nombre</label>
+            <input class="input3" id="input_nombre_departamento" placeholder="Nombre" type="text" required />
 
 
-            <!-- FORMULARIO -->
-            <div class="content-form mb-4 p-5 d-flex flex-column align-items-center border border-dark" style="width: 72% !important;">
+            <!--Tercer rengolón de divs extensión y Ubcación -->
+            <label class="label4">Ubicación</label>
+            <input class="input4" id="input_ubicacion_departamento" placeholder="Ubicación" type="text" required />
+            <label class="label5">Extensión</label>
+            <input class="input5" id="input_extension_departamento" placeholder="Extensión" type="text" required
+                required />
 
-                <div id="contenedor_inputs">
-                    <input id="input_id_departamento" type="text" hidden />
-                    <div id="clave" style="width: 50%; height: 30px;">
-                        <label>Clave: </label>
-                        <input id="input_clave_departamento" placeholder="Clave" type="text" required style="width: 82%; height: 30px;" />
-                    </div>
-
-                    <div style="width: 50%; height: 30px;">
-                        <label>Correo</label>
-                        <input id="input_correo_departamento"  placeholder="Correo" type="text" required style="width: 82%; height: 30px; " />
-                    </div>
-                </div>
-
-                <div id="contenedor_inputs" style="width: 100%; height: 30px; display: flex; margin-top:2%;">
-                    <div style="width: 100%; height: 30px;">
-                        <label style="width: 5%; height: 20px;">Nombre</label>
-                        <input id="input_nombre_departamento" placeholder="Nombre" type="text" style="width: 89%; height: 30px;" required />
-                    </div>
-                </div>
-
-                <div id="contenedor_inputs">
-                    <div style="width: 50%; height: 30px;">
-                        <label>Ubicación</label>
-                        <input id="input_ubicacion_departamento" placeholder="Ubicación" style="width: 70%; height: 30px;" type="text" required />
-                    </div>
-                    <div style="width: 50%; height: 30px;">
-                        <label style = "margin-left: 5px;">Extención</label>
-                        <input id="input_extension_departamento" placeholder="Extención" type="text" required style="width: 70%; height: 30px;"  required />
-                    </div>
-
-                </div>
-
-
-
-
-                <div id="contenedor_inputs">
-                    <label style="margin-right: 20px;">Jefe de Departamento:</label>
-                    <input id="input_select_responsables" placeholder="Seleccione al jefe" style="width: 60%; height: 30px; " type="text"
+            <!--Cuerto rengolón de divs Jefe de departamento -->
+                    <label class="label6">Jefe de Departamento:</label>
+                    <input class="input6" id="input_select_responsables" placeholder="Seleccione al jefe" type="text"
                         list="select_responsables" />
                     <datalist id="select_responsables" style="width: 45% !important;">
                     </datalist>
-                    <button class="btn btn-dark p-0" style="width: 28px;" data-bs-toggle="modal"
-                        data-bs-target="#modal_responsable">+</button>
+                    <button class="btn6 btn btn-dark" data-bs-toggle="modal" data-bs-target="#modal_responsable">+</button>
+                
+
+
+<!--
+            <div class="modal fade" id="modal_responsable" tabindex="-1" aria-labelledby="modal_responsable_label"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modal_responsable_label">Agregar responsable de departamento
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <div class="w-100">
+                                <div class="w-100 d-flex">
+                                    <label class="w-50">Clave</label>
+                                    <input id="input_clave_responsable" class="w-50" type="text" />
+                                </div>
+                                <br>
+                                <div class="w-100 d-flex">
+                                    <label class="w-50">Nombre</label>
+                                    <input id="input_nombre_responsable" class="w-50" type="text" />
+                                </div>
+                                <br>
+                                <div class="w-100 d-flex">
+                                    <label class="w-50">Apellido Paterno</label>
+                                    <input id="input_apellido_p_responsable" class="w-50" type="text" />
+                                </div>
+                                <br>
+                                <div class="w-100 d-flex">
+                                    <label class="w-50">Apellido Materno</label>
+                                    <input id="input_apellido_m_responsable" class="w-50" type="text" />
+                                </div>
+                                <br>
+                                <div class="w-100 d-flex">
+                                    <label class="w-50">Correo</label>
+                                    <input id="input_correo_responsable" class="w-50" type="text" />
+                                </div>
+                                <br>
+                                <div class="w-100 d-flex">
+                                    <label class="w-50">Sexo</label>
+                                    <select id="select_sexo_responsable">
+                                        <option value="O" disabled selected>Elige...</option>
+                                        <option value="M">Masculino</option>
+                                        <option value="F">Femenino</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-evenly">
+                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary"
+                                onclick="insert_responsable()">Guardar</button>
+                        </div>
+                    </div>
                 </div>
-
-            </div>
-            <!-- BOTONES GUARDAR Y CANCELAR -->
-            <div class="d-flex flex-row-reverse" style="width: 80% !important;  margin-right: 10%; margin-top: 20px;">
-                <button id="boton_insert_update_departamento" class="btn btn-success" style="margin-left:50px;"
-                    onclick="insert_departamento()">Guardar</button>
-                <button class="btn btn-danger" onclick="borrar_datos_input_departamento()">Cancelar</button>
             </div>
 
+            <div class="modal fade" id="modal_departamento" tabindex="-1" aria-labelledby="modal_departamento_label"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modal_departamento_label">Borrar departamento</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <div class="w-100">
+                                <h3>Seguro que quiere borrar el departamento?</h1>
+                                    <p id="p_clave_departamento"></p>
+                                    <p id="p_nombre_departamento"></p>
+                                    <p id="p_ubicacion_departamento"></p>
+                                    <p id="p_extension_departamento"></p>
+                                    <p id="p_correo_departamento"></p>
+                                    <input id="input_id_departamento_borrar" type="text" hidden />
+                            </div>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-evenly">
+                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-danger" onclick="borrar_departamento()">Borrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+        <div class="botones2">
+            <button class="btn btn-success" id="boton_insert_update_departamento"
+                onclick="insert_departamento()">Guardar</button>
+            <button class="btn btn-danger cancelar" onclick="borrar_datos_input_departamento()">Cancelar</button>
+        </div>
 
-            <!-- TABLA -->
-            <div class="content-table d-flex justify-content-center mb-3" style="width: 90% !important;">
-                <table id="tabla_departamentos">
-
-                </table>
-            </div>
+        <div class="contenedor-tabla content-table">
+            <table id="tabla_departamentos"></table>
         </div>
 
 
-
-
-        <!-- FOOTER -->
         <?php include "../../../views/layout/footer.php" ?>
-
-    </div>
-
-    <!-- MODAL INSERTAR RESPONSABLE DE DEPARTAMENTO-->
-    <div class="modal fade" id="modal_responsable" tabindex="-1" aria-labelledby="modal_responsable_label"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal_responsable_label">Agregar responsable de departamento</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <div class="w-100">
-                        <div class="w-100 d-flex">
-                            <label class="w-50">Clave</label>
-                            <input id="input_clave_responsable" class="w-50" type="text" />
-                        </div>
-                        <br>
-                        <div class="w-100 d-flex">
-                            <label class="w-50">Nombre</label>
-                            <input id="input_nombre_responsable" class="w-50" type="text" />
-                        </div>
-                        <br>
-                        <div class="w-100 d-flex">
-                            <label class="w-50">Apellido Paterno</label>
-                            <input id="input_apellido_p_responsable" class="w-50" type="text" />
-                        </div>
-                        <br>
-                        <div class="w-100 d-flex">
-                            <label class="w-50">Apellido Materno</label>
-                            <input id="input_apellido_m_responsable" class="w-50" type="text" />
-                        </div>
-                        <br>
-                        <div class="w-100 d-flex">
-                            <label class="w-50">Correo</label>
-                            <input id="input_correo_responsable" class="w-50" type="text" />
-                        </div>
-                        <br>
-                        <div class="w-100 d-flex">
-                            <label class="w-50">Sexo</label>
-                            <select id="select_sexo_responsable">
-                                <option value="O" disabled selected>Elige...</option>
-                                <option value="M">Masculino</option>
-                                <option value="F">Femenino</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer d-flex justify-content-evenly">
-                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" onclick="insert_responsable()">Guardar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL BORRAR DEPARTAMENTO -->
-    <div class="modal fade" id="modal_departamento" tabindex="-1" aria-labelledby="modal_departamento_label"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal_departamento_label">Borrar departamento</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <div class="w-100">
-                        <h3>Seguro que quiere borrar el departamento?</h1>
-                            <p id="p_clave_departamento"></p>
-                            <p id="p_nombre_departamento"></p>
-                            <p id="p_ubicacion_departamento"></p>
-                            <p id="p_extension_departamento"></p>
-                            <p id="p_correo_departamento"></p>
-                            <input id="input_id_departamento_borrar" type="text" hidden />
-                    </div>
-                </div>
-                <div class="modal-footer d-flex justify-content-evenly">
-                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger" onclick="borrar_departamento()">Borrar</button>
-                </div>
-            </div>
-        </div>
     </div>
     <script src="../../../js/departamentos.js"></script>
 </body>
-
 </html>

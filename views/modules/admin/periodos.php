@@ -4,79 +4,231 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
     header('Location: ../../layout/login/index.php');
 }
 ?>
-<!DOCTYPE html>
-<html lang="en" class="vh-100 vw-100 m-0 bg-dark">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Extraescolares</title>
 
-    <!-- IMPORTS -->
-    <?php include "../../../views/layout/imports.php" ?>
 
-</head>
-<body class="d-flex m-0 h-100 w-100">
-    
-    <div class="w-100">
-        
-        <!-- HEADER -->
-        <?php include "../../../views/layout/header.php" ?>
 
-        <!-- CONTENT -->
-        <div class="box d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height:calc(100% - 120px) !important; overflow-y:auto;">
-            
-            <!-- ALERTAS -->
-            <?php include "../../../views/layout/alertas.php" ?>
 
-            <!-- TITULO DE CONTENIDO -->
-
-            <div id="inicio">
-                <div id="titulo">
-                    <h1>Gestión de Periodos</h1>
-                </div>
-                <div id="flecha">
-                    <a id="return" href="http://localhost/Extraescolares/views/modules/admin/administrador.php">
-                        <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"
-                            src="../../.././assets/img/back.png"></a>
-                </div>
-            </div>
 
             
-            <!-- FORMULARIO -->
-            <div class="content-form mb-4 p-3 d-flex flex-column align-items-center" style="width: 90% !important;">
-            <div class="content-form mb-4 p-5 d-flex flex-column align-items-center border border-dark" style="width: 72% !important;">
-                <div class="d-flex justify-content-evenly" style="width: 100% !important;">
-                    <input id="input_id_periodo" type="text" hidden/>
-                    <div class="d-flex justify-content-between" style="width: 45% !important;">
-                        <label class="text-center" style="width: 50% !important;">Fecha inicio de actividades</label>
-                        <input id="input_inicio_actividades" type="date" style="width: 50% !important;" required>
-                    </div>
-                    <div class="d-flex justify-content-between" style="width: 45% !important;">
-                        <label class="text-center" style="width: 50% !important;">Fecha fin de actividades</label>
-                        <input id="input_fin_actividades" type="date" style="width: 50% !important;" required>
-                    </div>
-                </div>
-                <br>
-                <div class="d-flex justify-content-center" style="width: 50% !important; margin-top: 20px;">
-                    <label class="text-center" style="width: 50% !important;">Nombre del periodo</label>
-                    <input id="input_nombre_periodo" type="text" style="width: 50% !important;" disabled required>
-                </div>                
-            </div>
-        </div>
+
             
-            <!-- BOTONES GUARDAR Y CANCELAR -->
+            
+
+            
+            <!-- BOTONES GUARDAR Y CANCELAR 
             <div class="d-flex flex-row-reverse" style="width: 80% !important;  margin-right: 15%;">
                 <button class="btn btn-success" onclick="insert_periodo()" style="margin-left: 50px;">Guardar</button >
                 <button class="btn btn-danger" onclick="borrar_datos_input_periodo()">Cancelar</button >
             </div>
 
         </div>
+-->
 
-        <!-- FOOTER -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport">
+    <title>Prtiodos</title>
+    <?php include "../../../views/layout/imports.php" ?>
+</head>
+<style>
+    *{
+        font-size: 1rem;
+    }
+
+    html{
+        height: 100vh;
+        width: 100vw;
+    }
+
+    body{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .botones2{
+        display: flex;
+        width: 80%;
+        height: 20%;
+        align-items: center;
+        justify-content: end;
+        min-height: 60px;
+        min-width: fit-content;
+    }
+
+    .cabecera{
+        display: flex;
+        margin-top: 2%;
+        justify-content: center;
+        height: 15%;
+        width: 100%;
+        min-height: 60px;
+        min-width: fit-content;
+    }
+
+    .cabecera a{
+        height: 100%;
+        margin-left: auto;
+        margin-right: 5%;
+        justify-self: end;
+    }
+
+    .cancelar{
+        margin-left: 2%;
+    }
+
+    .contenedor-inputs2{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        min-height: fit-content;
+        width: 100%;
+    }
+
+    .contenedor-inputs3{
+        display: flex;
+        width: 50%;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+        min-height: fit-content;
+    }
+
+    .contenedor-tabla{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2%;
+        width: 80%;
+        border: 1px solid black;
+    }
+
+    .contenido2{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-width: fit-content;
+    }
+
+    .label1{
+        grid-area: label_fecha_inicio_periodo;
+        text-align: center;
+    }
+
+    .input1{
+        grid-area: input_fecha_inicio_periodo;
+    }
+
+    .label2{
+        grid-area: label_fecha_fin_periodo;
+        text-align: center;
+    }
+
+    .input2{
+        grid-area: input_fecha_fin_periodo;
+    }
+
+    .label3{
+        grid-area: label_nombre_periodo;
+        text-align: center;
+    }
+
+    .input3{
+        grid-area: input_nombre_periodo;
+    }
+
+
+
+    .cuadro1{
+        padding: 1rem;
+        display: grid;
+        height: auto;
+        flex-shrink: 0;
+        width: 80%;
+        border: 1px solid black;
+        border-radius: 5px;
+        min-height: 20%;
+        min-width: fit-content;
+        grid-gap: 2rem;
+        grid-template-columns: repeat(8,.3fr);
+        grid-template-areas: 
+            "label_fecha_inicio_periodo label_fecha_inicio_periodo input_fecha_inicio_periodo input_fecha_inicio_periodo label_fecha_fin_periodo label_fecha_fin_periodo input_fecha_fin_periodo input_fecha_fin_periodo"
+            "label_nombre_periodo label_nombre_periodo input_nombre_periodo input_nombre_periodo input_nombre_periodo input_nombre_periodo input_nombre_periodo input_nombre_periodo" ;
+    }
+
+    .flecha{
+        width: 10%;
+        height: 100%;
+        min-width: 30px;
+        max-height: 30px;
+    }
+
+    .footer{
+        width: auto;
+        min-width: fit-content;
+        margin-top: auto;
+        justify-self: end;
+    }
+
+    .header{
+        width: auto;
+        min-width: fit-content;
+    }
+
+    input{
+        height: 2rem;
+    }
+
+    label{
+        height: 2rem;
+    }
+
+    .titulo{
+        justify-self: center;
+        margin-left: auto;
+    }
+
+</style>
+<body>
+    
+    <div class="contenido2">
+    <?php include "../../../views/layout/header.php" ?>
+    <!-- ALERTAS -->
+    <?php include "../../../views/layout/alertas.php" ?>
+        <div class="cabecera">
+            <h1 class="titulo">Gestipnar Periodos</h1>
+            <a href="http://localhost/Extraescolares/views/modules/admin/administrador.php"><img class="flecha"  src="../../.././assets/img/back.png"></a>
+        </div>
+        <div class="cuadro1">
+
+            <!--Primer regnglon de  divs Fecha inicio y Fecha fin-->
+            <input id="input_id_periodo" type="text" hidden/>
+                <label class="label1" >Fecha inicio de actividades</label>
+                <input class="input1" id="input_inicio_actividades" type="date" required>
+                    
+                <label class="label2" >Fecha fin de actividades</label>
+                <input class="input2"id="input_fin_actividades" type="date" required>
+                    
+ 
+                <label class="label3">Nombre del periodo</label>
+                <input class="input3" id="input_nombre_periodo" type="text"  disabled required>
+        </div>
+        <div class="botones2">
+            <button class="btn btn-success"  onclick="insert_periodo()">Guardar</button>
+            <button class="btn btn-danger cancelar" onclick="borrar_datos_input_periodo()">Cancelar</button>
+
+        </div>
+
         <?php include "../../../views/layout/footer.php" ?>
-
     </div>
+
     <script src="../../../js/periodos.js"></script>
+    
 </body>
 </html>
