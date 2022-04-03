@@ -258,7 +258,7 @@ label {
                 
 
 
-<!--
+
             <div class="modal fade" id="modal_responsable" tabindex="-1" aria-labelledby="modal_responsable_label"
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -339,7 +339,7 @@ label {
                         </div>
                     </div>
                 </div>
-            </div>-->
+            </div>
         </div>
         <div class="botones2">
             <button class="btn btn-success" id="boton_insert_update_departamento"

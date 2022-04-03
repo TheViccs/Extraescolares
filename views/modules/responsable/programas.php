@@ -4,59 +4,174 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
     header('Location: ../../layout/login/index.php');
 }
 ?>
-<!DOCTYPE html>
-<html lang="en" class="vh-100 vw-100 m-0 bg-dark">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Extraescolares</title>
-    
-    <!-- IMPORTS -->
-    <?php include "../../../views/layout/imports.php" ?>
 
-</head>
-<body class="d-flex m-0 h-100 w-100">  
+    <!DOCTYPE html>
+    <html lang="en">
 
-    <div class="w-100">  
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport">
+        <title>Interfaz</title>
+        <?php include "../../../views/layout/imports.php" ?>
+    </head>
+    <style>
+    * {
+        font-size: 1rem;
+    }
 
-        <!-- HEADER -->
-        <?php include "../../../views/layout/header.php" ?>
+    html {
+        height: 100%;
+        width: 100%;
+    }
 
-        <!-- CONTENT -->
-        <div class="box d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height:calc(100% - 137px) !important; overflow-y:auto;">
-            <input id="input_id_responsable" type="text" value="<?php echo $_SESSION['id_responsable'] ?>" hidden/>
+    body {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
 
-            <!-- ALERTAS -->
-            <?php include "../../../views/layout/alertas.php" ?>
-             
+    .botones2 {
+        display: flex;
+        width: 80%;
+        height: 20%;
+        align-items: center;
+        justify-content: end;
+        min-height: 60px;
+        min-width: fit-content;
+    }
 
-            <!-- TITULO DE CONTENIDO -->
-            
+    .cabecera {
+        display: flex;
+        margin-top: 2%;
+        justify-content: center;
+        height: 15%;
+        width: 100%;
+        min-height: 60px;
+        min-width: fit-content;
+    }
 
-            <div id="inicio">
-                <div id="titulo">
-                    <h1>Mis Programas</h1>
-                </div>
-                <div id="flecha">
-                    <a id="return" href="http://localhost/Extraescolares/views/modules/admin/administrador.php">
-                        <img style="width:10%; height:10vh; min-width:30px; max-height:30px;"
-                            src="../../.././assets/img/back.png"></a>
-                </div>
+    .cabecera a {
+        height: 100%;
+        margin-left: auto;
+        margin-right: 5%;
+        justify-self: end;
+    }
+
+    .cancelar {
+        margin-left: 2%;
+    }
+
+    .contenedor-inputs2 {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        min-height: fit-content;
+        width: 100%;
+    }
+
+    .contenedor-inputs3 {
+        display: flex;
+        width: 50%;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+        min-height: fit-content;
+    }
+
+    .contenedor-tabla {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2%;
+        width: 80%;
+        border: 1px solid black;
+    }
+
+    .dataTable {
+        overflow-x: auto !important;
+    }
+
+    .contenido2 {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-width: fit-content;
+    }
+
+    .cuadro1 {
+        padding: 1rem;
+        display: grid;
+        height: auto;
+        flex-shrink: 0;
+        width: 80%;
+        border: 1px solid black;
+        border-radius: 5px;
+        min-height: 20%;
+        min-width: fit-content;
+        grid-gap: 2rem;
+        grid-template-columns: repeat(8, .3fr);
+        grid-template-areas: ;
+    }
+
+    .flecha {
+        width: 10%;
+        height: 100%;
+        min-width: 30px;
+        max-height: 30px;
+    }
+
+    .footer {
+        width: auto;
+        min-width: fit-content;
+        margin-top: auto;
+        justify-self: end;
+    }
+
+    .header {
+        width: auto;
+        min-width: fit-content;
+    }
+
+    input {
+        height: 2rem;
+    }
+
+    label {
+        height: 2rem;
+    }
+
+    .titulo {
+        justify-self: center;
+        margin-left: auto;
+    }
+    </style>
+
+    <body>
+
+        <div class="contenido2">
+            <?php include "../../../views/layout/header.php" ?>
+            <div class="cabecera">
+                <h1 class="titulo">Programas</h1>
+                <a href="http://localhost/Extraescolares/views/modules/responsable/responsable.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
             </div>
-            
-            <!-- TABLA -->
-            <div class="content-table d-flex justify-content-center mb-3" style="width: 90% !important;">
+
+         
+            <input id="input_id_responsable" type="text" value="<?php echo $_SESSION['id_responsable'] ?>" hidden />
+
+            <div class="contenedor-tabla content-table">
                 <table id="tabla_programas">
-                    
+
                 </table>
+
+
             </div>
+            <?php include "../../../views/layout/footer.php" ?>
         </div>
 
-        <!-- FOOTER -->
-        <?php include "../../../views/layout/footer.php" ?>       
-    </div>
+        <script src="../../../js/programas_responsables.js"></script>
 
-    <script src="../../../js/programas_responsables.js"></script> 
-</body>
-</html>
+    </body>
+
+    </html>

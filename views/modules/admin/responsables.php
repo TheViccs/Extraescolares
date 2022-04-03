@@ -204,18 +204,18 @@ label {
 </style>
 
 <body>
- <?php include "../../../views/layout/header.php" ?>
+ 
     <div class="contenido2">
-       
-
+  <?php include "../../../views/layout/header.php" ?>     
+<!-- ALERTAS -->
+            <?php include "../../../views/layout/alertas.php" ?>
         <div class="cabecera">
             <h1 class="titulo">Gestionar Responsables</h1>
             <a href="http://localhost/Extraescolares/views/modules/admin/administrador.php"><img class="flecha"
                     src="../../.././assets/img/back.png"></a>
         </div>
         <div class="cuadro1">
-            <!-- ALERTAS -->
-            <?php include "../../../views/layout/alertas.php" ?>
+            
             <input id="input_id_responsable" type="text" hidden />
             <label class="label1">Clave</label>
             <input class="input1" id="input_clave_responsable" type="text" placeholder="Clave">
