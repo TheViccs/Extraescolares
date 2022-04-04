@@ -8,8 +8,6 @@ thead{
     margin-bottom: 1px;
     width: 80%;
     margin-top: 2rem;
-    margin-right: 0px !important;
-    overflow-x: auto;
 }
 
 .contenido{
@@ -182,65 +180,6 @@ body{
     min-width: fit-content;
 }
 
-.label_clave_responsable{
-    grid-area:  label_clave_responsable;
-    display: flex;
-    justify-content: center;
-}
-
-.input_clave_responsable{
-    grid-area:  input_clave_responsable;
-}
-
-.label_nombre_responsable{
-    grid-area:  label_nombre_responsable;
-    display: flex;
-    justify-content: center;
-}
-
-.input_nombre_responsable{
-    grid-area:  input_nombre_responsable;
-}
-
-.label_apellido_p_responsable{
-    grid-area:  label_apellido_p_responsable;
-    display: flex;
-    justify-content: center;
-}
-
-.input_apellido_p_responsable{
-    grid-area:  input_apellido_p_responsable;
-}
-
-.label_apellido_m_responsable{
-    grid-area:  label_apellido_m_responsable;
-    display: flex;
-    justify-content: center;
-}
-
-.input_apellido_m_responsable{
-    grid-area:  input_apellido_m_responsable;
-}
-
-.label_correo_responsable{
-    grid-area:  label_correo_responsable;
-    display: flex;
-    justify-content: center;
-}
-
-.input_correo_responsable{
-    grid-area:  input_correo_responsable;
-}
-
-.label_sexo_responsable{
-    grid-area:  label_sexo_responsable;
-    display: flex;
-    justify-content: center;
-}
-
-.select_correo_responsable{
-    grid-area:  select_sexo_responsable;
-}
 
 .cuadro1{
     padding: 1rem;

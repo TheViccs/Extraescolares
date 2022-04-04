@@ -5,96 +5,234 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
 }
 ?>
 <!DOCTYPE html>
-<html lang="en" class="vh-100 vw-100 m-0 bg-dark">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
-    <title>Extraescolares</title>
-    
-    <!-- IMPORTS -->
+    <meta name="viewport">
+    <title>Interfaz</title>
     <?php include "../../../views/layout/imports.php" ?>
-
 </head>
-<body class="d-flex m-0 h-100 w-100">  
+<style>
+* {
+    font-size: 1rem;
+}
 
-    <div class=" m-0 h-100 w-100">
-        
-        <!-- HEADER -->
+html {
+    height: 100%;
+    width: 100%;
+    margin: 0%;
+    padding: 0%;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.botones2 {
+    display: flex;
+    width: 80%;
+    height: 20%;
+    align-items: center;
+    justify-content: end;
+    min-height: 60px;
+    min-width: fit-content;
+}
+
+.cabecera {
+    display: flex;
+    margin-top: 2%;
+    justify-content: center;
+    height: 15%;
+    width: 100%;
+    min-height: 60px;
+    min-width: fit-content;
+}
+
+.cabecera a {
+    height: 100%;
+    margin-left: auto;
+    margin-right: 5%;
+    justify-self: end;
+}
+
+.cancelar {
+    margin-left: 2%;
+}
+
+.contenedor-inputs2 {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-height: fit-content;
+    width: 100%;
+}
+
+.contenedor-inputs3 {
+    display: flex;
+    width: 50%;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    min-height: fit-content;
+}
+
+.contenedor-tabla {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2%;
+    width: 80%;
+    border: 1px solid black;
+    
+}
+
+.contenido2 {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: fit-content;
+}
+
+.label1 {
+    grid-area: label_clave_programa;
+    text-align: center;
+}
+
+.input1 {
+    grid-area: input_clave_programa;
+}
+
+.label2 {
+    grid-area: label_nombre_programa;
+    text-align: center;
+}
+
+.input2 {
+    grid-area: input_nombre_programa;
+}
+
+.label3 {
+    grid-area: label_des_programa;
+    text-align: center;
+}
+
+.input3 {
+    grid-area: input_des_programa;
+}
+
+.label4 {
+    grid-area: label_obs_programa;
+    text-align: center;
+}
+
+.input4 {
+    grid-area: input_obs_programa;
+}
+
+.label5 {
+    grid-area: label_dep_programa;
+    text-align: center;
+}
+
+.input5 {
+    grid-area: input_dep_programa;
+}
+
+.cuadro1 {
+    padding: 1rem;
+    display: grid;
+    height: auto;
+    flex-shrink: 0;
+    width: 80%;
+    border: 1px solid black;
+    border-radius: 5px;
+    min-height: 20%;
+    min-width: fit-content;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(8, .3fr);
+    grid-template-areas:
+        "label_clave_programa input_clave_programa label_nombre_programa input_nombre_programa input_nombre_programa input_nombre_programa input_nombre_programa input_nombre_programa"
+        "label_des_programa input_des_programa input_des_programa input_des_programa label_obs_programa input_obs_programa input_obs_programa input_obs_programa"
+        "label_dep_programa input_dep_programa input_dep_programa input_dep_programa input_dep_programa input_dep_programa input_dep_programa input_dep_programa"
+        ;
+}
+
+.flecha {
+    width: 10%;
+    height: 100%;
+    min-width: 30px;
+    max-height: 30px;
+}
+
+.footer {
+    width: auto;
+    min-width: fit-content;
+    margin-top: auto;
+    justify-self: end;
+}
+
+.header {
+    width: auto;
+    min-width: fit-content;
+}
+
+input {
+    height: 2rem;
+}
+
+label {
+    height: 2rem;
+}
+
+.titulo {
+    justify-self: center;
+    margin-left: auto;
+}
+</style>
+
+<body>
+
+    <div class="contenido2">
         <?php include "../../../views/layout/header.php" ?>
+        <?php include "../../../views/layout/alertas.php" ?>
 
-        <!-- CONTENT -->
-        <div class="box d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height:calc(100% - 137px) !important; overflow-y:auto;">
-            
-            <!-- ALERTAS -->
-            <?php include "../../../views/layout/alertas.php" ?>
+        <div class="cabecera">
+            <h1 class="titulo">Gestionar Programas</h1>
+            <a href="http://localhost/Extraescolares/views/modules/admin/administrador.php"><img class="flecha"
+                    src="../../.././assets/img/back.png"></a>
+        </div>
+        <div class="cuadro1">
 
-            <div id="inicio">
-                <div id="titulo">
-                    <h1>Gestión de Programas</h1>
-                </div>
-                <div id="flecha">
-                    <a id="return" href="http://localhost/Extraescolares/views/modules/admin/administrador.php">
-                        <img style="width:10%; height:10vh; min-width:30px; max-height:30px;" src="../../.././assets/img/back.png">
-                    </a>
-                </div>
-            </div>           
-            
-            <!-- FORMULARIO -->
-            <div class="content-form mb-4 p-3 d-flex flex-column align-items-center" style="width: 90% !important;">
-                <div class="content-form mb-4 p-5 d-flex flex-column align-items-center border border-dark" style="width: 72% !important;">  
-                    <div class="d-flex justify-content-evenly" style="width: 100% !important;">
-                        <input id="input_id_programa" type="text" hidden/>
-                        <div class="d-flex justify-content-between" style="margin-bottom: 10px; width: 45% !important; ">
-                            <label class="text-center" style="width: 50% !important;">Clave</label>
-                            <input id="input_clave_programa" placeholder="Clave" style="width: 50% !important;" type="text" required/>
-                        </div>
-                        <div class="d-flex justify-content-between" style="margin-bottom: 10px; width: 45% !important;">
-                            <label class="text-center" style="width: 50% !important;">Nombre</label>
-                            <input id="input_nombre_programa" style="width: 50% !important;" placeholder="Nombre" type="text" required/>
-                        </div>                 
-                    </div>
-                    <br>
-                    <div class="d-flex justify-content-evenly" style="width: 100% !important;">          
-                        <div class="d-flex justify-content-between" style="width: 45% !important;">
-                            <label class="text-center" style="width: 50% !important;">Descripción</label>
-                            <textarea id="input_descripcion_programa" style="width: 50% !important;" placeholder="Inserte una descripción" type="text" required></textarea>
-                        </div>
-                        <div class="d-flex justify-content-between" style="width: 45% !important;">
-                            <label class="text-center" style="width: 50% !important;">Observaciones</label>
-                            <textarea id="input_observaciones_programa" style="width: 50% !important;" placeholder="Observaciones" type="text" required></textarea>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="d-flex justify-content-end" style="width: 100% !important;">          
-                        <div class="d-flex flex-column" style=" width: 74% !important;">
-                            <label class="text-center" style="margin-bottom: 10px; width: 100% !important;">Departamentos</label>
-                            <br>
-                            <select multiple="multiple" id="select_programas">
-                            </select>
-                        </div>
-                    </div>                                                 
-                </div>
-            </div>
-            <!-- BOTONES GUARDAR Y CANCELAR -->
-            <div class="d-flex justify-content-evenly" style="width: 80% !important;  margin-right: 10%;">
-                <button id="boton_insert_update_programa" class="btn btn-success" style="margin-left:75%; margin-right: 50px;" onclick="insert_programa()" >Guardar</button>
-                <button class="btn btn-danger" onclick="borrar_datos_input_programa()">Cancelar</button>
+            <input id="input_id_programa" type="text" hidden />
+            <label class="label1">Clave</label>
+            <input class="input1" id="input_clave_programa" placeholder="Clave" type="text" required />
+
+            <label class="label2">Nombre</label>
+            <input class="input2" id="input_nombre_programa" placeholder="Nombre" type="text" required />
+
+            <label class="label3">Descripción</label>
+            <textarea class="input3" id="input_descripcion_programa" placeholder="Inserte una descripción" type="text" required></textarea>
+
+            <label class="label4" >Observaciones</label>
+            <textarea class="input4" id="input_observaciones_programa"  placeholder="Observaciones" type="text" required></textarea>
+
+            <label class="label5" >Departamentos</label>
+            <div class="input5">
+                <select   multiple="multiple" id="select_programas"></select>
+
             </div>
             
-            <!-- TABLA -->
-            <div class="content-table d-flex justify-content-center mb-3" style="width: 80% !important;">
-                <table id="tabla_programas">
-                    
-                </table>
-            </div>
+
+
+
         </div>
 
-        <!-- FOOTER -->
-        <?php include "../../../views/layout/footer.php" ?>       
-    </div>
-
-    <!-- MODAL BORRAR PROGRAMA -->
+        <!-- MODAL BORRAR PROGRAMA--> 
     <div class="modal fade" id="modal_programa" tabindex="-1" aria-labelledby="modal_programa_label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -119,7 +257,21 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
         </div>
     </div>
 
+
+        <div class="botones2">
+            <button class="btn btn-success">Guardar</button>
+            <button class="btn btn-danger cancelar">Cancelar</button>
+        </div>
+        <div class="contenedor-tabla content-table">
+            <table id="tabla_programas">
+
+            </table>
+
+        </div>
+        <?php include "../../../views/layout/footer.php" ?>
+    </div>
     <script src="../../../lib/multiselect/js/jquery.multi-select.js"></script>
-    <script src="../../../js/programas.js"></script> 
+    <script src="../../../js/programas.js"></script>
 </body>
+
 </html>
