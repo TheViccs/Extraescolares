@@ -10,7 +10,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport">
-    <title>Prtiodos</title>
+    <title>Periodos</title>
     <?php include "../../../views/layout/imports.php" ?>
 </head>
 <style>

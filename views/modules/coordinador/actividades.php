@@ -1,3 +1,9 @@
+<?php
+session_start();
+if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
+    header('Location: ../../layout/login/index.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +21,7 @@
             <h1 class="titulo">Gestión de Actividades</h1>
             <a href="http://localhost/Extraescolares/views/modules/coordinador/coordinador.php"><img class="flecha"  src="../../.././assets/img/back.png"></a>
         </div>
+        <input value="<?php echo $_SESSION['id_programa'] ?>" hidden/>
         <div class="cuadro1">
             
         </div>

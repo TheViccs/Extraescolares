@@ -14,6 +14,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
     <title>Responsables</title>
     <?php include "../../../views/layout/imports.php" ?>
 </head>
+
 <style>
 * {
     font-size: 1rem;
@@ -202,10 +203,11 @@ label {
 </style>
 
 <body>
- <?php include "../../../views/layout/header.php" ?>
+ 
     <div class="contenido2">
-       
-
+  <?php include "../../../views/layout/header.php" ?>     
+<!-- ALERTAS -->
+            <?php include "../../../views/layout/alertas.php" ?>
         <div class="cabecera">
             <h1 class="titulo">Gestionar Responsables</h1>
             <a href="http://localhost/Extraescolares/views/modules/admin/administrador.php"><img class="flecha"
@@ -241,14 +243,16 @@ label {
             <button id="boton_insert_update_responsable" class="btn btn-success" onclick="insert_responsable()">Guardar</button>
             <button class="btn btn-danger" onclick="borrar_datos_input_responsable()">Cancelar</button>
         </div>
+        
+
+        
         <div class="contenedor-tabla content-table">
             <table id="tabla-responsables">
-            
+
             </table>
         </div>
-        <?php include "../../../views/layout/footer.php" ?>
-    </div>
-    <div class="modal fade" id="modal-responsable" tabindex="-1" aria-labelledby="modal-responsable-label"
+
+        <div class="modal fade" id="modal-responsable" tabindex="-1" aria-labelledby="modal-responsable-label"
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -274,6 +278,8 @@ label {
                     </div>
                 </div>
             </div>
+        <?php include "../../../views/layout/footer.php" ?>
+    </div>
     <script src="../../../js/responsables.js"></script>
 </body>
 </html>

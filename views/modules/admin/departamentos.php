@@ -231,8 +231,7 @@ label {
             <label class="label4">Ubicación</label>
             <input class="input4" id="input_ubicacion_departamento" placeholder="Ubicación" type="text" required />
             <label class="label5">Extensión</label>
-            <input class="input5" id="input_extension_departamento" placeholder="Extensión" type="text" required
-                required />
+            <input class="input5" id="input_extension_departamento" placeholder="Extensión" type="text" required />
 
             <!--Cuerto rengolón de divs Jefe de departamento -->
                     <label class="label6">Jefe de Departamento:</label>
