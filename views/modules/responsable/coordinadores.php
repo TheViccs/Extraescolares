@@ -5,44 +5,6 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
 }
 ?>
 
-
-<!-- IMPORTS -->
-<?php include "../../../views/layout/imports.php" ?>
-
-
-
-
-
-
-
-
-
-<!-- ALERTAS -->
-<?php include "../../../views/layout/alertas.php" ?>
-
-<!--
-
-            <input id="input_id_programa_asignar" value="<?php if(!empty($_GET)){echo $_GET["programa"];} ?>" hidden/>
-            <input id="input_id_responsable" value="<?php echo $_SESSION['id_responsable'] ?>" hidden/>
-            
-           
-        -->            
-
-
-<!-- TABLA
-            
-                
-
-
-        
-
-        </div>-->
-<!--
-       
-        
-  
-    -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -174,14 +136,6 @@ body {
     grid-area: input_apMaterno_coordi;
 }
 
-.label5 {
-    grid-area: label_email_coordi;
-    text-align: center;
-}
-
-.input5 {
-    grid-area: input_email_coordi;
-}
 
 .label6 {
     grid-area: label_tel_coordi;
@@ -217,8 +171,8 @@ body {
     grid-template-columns: repeat(9, .3fr);
     grid-template-areas:
         "label_clave_coordi input_clave_coordi input_clave_coordi input_clave_coordi input_clave_coordi input_clave_coordi input_clave_coordi input_clave_coordi input_clave_coordi"
-        "label_nombre_coordi input_nombre_coordi input_nombre_coordi label_apPaterno_coordi label_apPaterno_coordi input_apPaterno_coordi label_apMaterno_coordi label_apMaterno_coordi input_apMaterno_coordi"
-        "label_email_coordi input_email_coordi input_email_coordi label_tel_coordi input_tel_coordi input_tel_coordi label_sexo_coordi input_sexo_coordi input_sexo_coordi"
+        "label_nombre_coordi label_nombre_coordi input_nombre_coordi label_apPaterno_coordi label_apPaterno_coordi input_apPaterno_coordi label_apMaterno_coordi label_apMaterno_coordi input_apMaterno_coordi"
+        "label_tel_coordi input_tel_coordi input_tel_coordi input_tel_coordi input_tel_coordi input_tel_coordi label_sexo_coordi input_sexo_coordi input_sexo_coordi"
         ;
 }
 
@@ -282,8 +236,7 @@ label {
             <input class="input4" id="input_apellido_m_coordinador" type="ApellidoM" placeholder="Apellido Materno"
                 required="false">
             
-            <label class="label5">Email:</label>
-            <input class="input5" id="input_correo_coordinador" type="email" placeholder="Email">
+            
 
             <label class="label6">Telefono:</label>
             <input class="input6" id="input_contacto_coordinador" placeholder="Telefono" type="text" required />

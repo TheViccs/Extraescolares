@@ -112,7 +112,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
         min-width: fit-content;
         grid-gap: 2rem;
         grid-template-columns: repeat(8, .3fr);
-        grid-template-areas: ;
+        
     }
 
     .flecha {

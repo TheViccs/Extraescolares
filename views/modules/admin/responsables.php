@@ -164,7 +164,7 @@ body {
     grid-template-columns: repeat(9, .3fr);
     grid-template-areas:
         "label_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable"
-        "label_nombre_resposable input_nombre_resposable input_nombre_resposable label_apPaterno_resposable label_apPaterno_resposable input_apPaterno_resposable label_apMaterno_resposable label_apMaterno_resposable input_apMaterno_resposable"
+        "label_nombre_resposable label_nombre_resposable input_nombre_resposable label_apPaterno_resposable label_apPaterno_resposable input_apPaterno_resposable label_apMaterno_resposable label_apMaterno_resposable input_apMaterno_resposable"
         "label_email_resposable  input_email_resposable input_email_resposable input_email_resposable input_email_resposable input_email_resposable input_email_resposable input_email_resposable input_email_resposable"
         "label_sexo_resposable input_sexo_resposable input_sexo_resposable input_sexo_resposable input_sexo_resposable input_sexo_resposable input_sexo_resposable input_sexo_resposable input_sexo_resposable"
     ;
