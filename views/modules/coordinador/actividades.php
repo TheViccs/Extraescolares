@@ -39,6 +39,7 @@ body {
     justify-content: end;
     min-height: 60px;
     min-width: fit-content;
+        
 }
 
 .cabecera {
@@ -269,6 +270,10 @@ body {
     grid-area: input_pnombre_actividad;
 
 }
+
+.btn6 {
+    grid-area: btn_padre_actividad;
+}
 .cuadro1 {
     padding: 1rem;
     display: grid;
@@ -284,11 +289,12 @@ body {
     grid-template-areas:
 
         /*PRIMER CUADRO*/
-        "label_nombre_actividad input_nombre_actividad input_nombre_actividad input_nombre_actividad input_nombre_actividad label_creAct_actividad input_creAct_actividad input_creAct_actividad"
-        "label_capMAx_actividad input_capMAx_actividad input_capMAx_actividad  input_capMAx_actividad label_capmini_actividad input_capmini_actividad input_capmini_actividad input_capmini_actividad"
-        "label_desc_actividad input_desc_actividad input_desc_actividad label_bene_actividad label_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad "
+        "label_nombre_actividad input_nombre_actividad input_nombre_actividad input_nombre_actividad label_creAct_actividad input_creAct_actividad input_creAct_actividad input_creAct_actividad"
+        "label_capmini_actividad input_capmini_actividad input_capmini_actividad input_capmini_actividad label_capMAx_actividad input_capMAx_actividad input_capMAx_actividad  input_capMAx_actividad"
+        "label_desc_actividad input_desc_actividad input_desc_actividad input_desc_actividad input_desc_actividad input_desc_actividad input_desc_actividad input_desc_actividad"
+        "label_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad"
         "label_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad"
-        "label_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad"
+        "label_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad btn_padre_actividad"
         ;
 
 }
@@ -363,7 +369,8 @@ body {
     grid-template-columns: repeat(8, .3fr);
     grid-template-areas:
 
-    "label_cenombre_actividad input_cenombre_actividad input_cenombre_actividad label_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad"
+    "label_cenombre_actividad input_cenombre_actividad input_cenombre_actividad input_cenombre_actividad input_cenombre_actividad input_cenombre_actividad input_cenombre_actividad input_cenombre_actividad"
+    "label_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad"
     
     ;
 
@@ -465,7 +472,13 @@ label {
                 placeholder="Total de creditos por esta actividad">
 
             <label class="label3">Actividad padre</label>
-            <input class="input3" id="input_padre_activida" type="text" placeholder="Actividad Padre">
+            <input class="input3" id="input_padre_activida" type="text" placeholder="Actividad Padre" list="select_actividad">
+                <datalist id="select_actividad" style="width: 45% !important;">
+
+                </datalist>
+                <button class="btn6 btn btn-dark" data-bs-toggle="modal" data-bs-target="">+</button>
+
+                
 
             <label class="label4">Capacidad Maxima</label>
             <input class="input4" id="input_cMax_activida" type="text" placeholder="Capacidad Max">
@@ -487,8 +500,10 @@ label {
 
         </div>
         <div class="botones2">
+            
             <button class="btn btn-success">Guardar</button>
             <button class="btn btn-danger cancelar">Cancelar</button>
+            
         </div>
 
         <center>
@@ -500,7 +515,7 @@ label {
         <div class="cuadro2">
             <input id="input_id_material" type="text" hidden />
             <label class="label9">Material</label>
-            <textarea class="input9" id="input_beneficios_actividad" placeholder="Material" type="text"
+            <textarea class="input9" id="input_beneficios_actividad" placeholder="Material con el que la escuela ayudara al alumno para poder llevar a cabo la actividad" type="text"
                 required></textarea>
 
         </div>
@@ -517,8 +532,8 @@ label {
 
         <div class="cuadro3">
             <input id="input_id_materialAlu" type="text" hidden />
-            <label class="label10">Material Alumno</label>
-            <textarea class="input10" id="input_materalAlumno_actividad" placeholder="Material" type="text"
+            <label class="label10">Material</label>
+            <textarea class="input10" id="input_materalAlumno_actividad" placeholder="Material con el que el estudiante debe contar para llevar a cabo la actividad" type="text"
                 required></textarea>
 
         </div>
@@ -535,11 +550,11 @@ label {
 
         <div class="cuadro4">
             <input id="input_id_temas" type="text" hidden />
-            <label class="label11">Material Nombre</label>
+            <label class="label11">Tema</label>
             <input class="input11" id="input_temNombre_activida" type="text" placeholder="Nombre">
 
-            <label class="label12">Semanas de Duración</label>
-            <input class="input12" id="input_temSemanas_activida" type="text" placeholder="Semanas de Duración">
+            <label class="label12">Duración</label>
+            <input class="input12" id="input_temSemanas_activida" type="date" placeholder="Semanas de Duración">
 
             <label class="label13">Descripción</label>
             <textarea class="input13" id="input_temDescripcion_actividad" placeholder="Descripción" type="text"
@@ -553,7 +568,7 @@ label {
 
         <center>
             <div class="cabecera">
-                <h2 class="titulo">Creiterios de Evaluación</h2>
+                <h2 class="titulo">Criterios de Evaluación</h2>
             </div>
         </center>
 
@@ -580,13 +595,13 @@ label {
 
         <div class="cuadro6">
             <input id="input_id_periodoact" type="text" hidden />
-            <label class="label16">Fecha de Inicio</label>
-            <input class="input16" id="input_fechainicio_activida" type="text" placeholder="Inicio de la actividad">
+            <label class="label16">Inicio</label>
+            <input class="input16" id="input_fechainicio_activida" type="date" placeholder="Inicio de la actividad">
 
-            <label class="label17">Fecha de Fin</label>
-            <input class="input17" id="input_fechafin_activida" type="text" placeholder="Fin de la actividad">
+            <label class="label17">Fin</label>
+            <input class="input17" id="input_fechafin_activida" type="date" placeholder="Fin de la actividad">
 
-            <label class="label18">Nombre del Periodo</label>
+            <label class="label18">Periodo</label>
             <input class="input18" id="input_nombresemestre_activida" type="text" placeholder="Nombre del Periodo">
 
             

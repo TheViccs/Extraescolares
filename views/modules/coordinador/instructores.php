@@ -116,21 +116,21 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
         grid-area: input_nombre_instructor;
     }
 
-    .label3{
+    .label4{
         grid-area: label_apellidoM_instructor;
         text-align: center;
     }
 
-    .input3{
+    .input4{
         grid-area: input_apellidoM_instructor;
     }
 
-    .label4{
+    .label3{
         grid-area: label_apellidop_instructor;
         text-align: center;
     }
 
-    .input4{
+    .input3{
         grid-area: input_apellidop_instructor;
     }
 
@@ -166,8 +166,8 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
         grid-template-columns: repeat(9,.3fr);
         grid-template-areas: 
             "label_clave_instructor input_clave_instructor input_clave_instructor input_clave_instructor input_clave_instructor input_clave_instructor input_clave_instructor input_clave_instructor input_clave_instructor"
-            "label_nombre_instructor input_nombre_instructor input_nombre_instructor label_apellidoM_instructor input_apellidoM_instructor input_apellidoM_instructor label_apellidop_instructor input_apellidop_instructor input_apellidop_instructor"
-            "label_email_instructor input_email_instructor input_email_instructor input_email_instructor input_email_instructor label_sexo_instructor  input_sexo_instructor input_sexo_instructor input_sexo_instructor"
+            "label_nombre_instructor input_nombre_instructor input_nombre_instructor label_apellidop_instructor input_apellidop_instructor input_apellidop_instructor label_apellidoM_instructor input_apellidoM_instructor input_apellidoM_instructor"
+            "label_email_instructor input_email_instructor input_email_instructor input_email_instructor input_email_instructor input_email_instructor label_sexo_instructor  input_sexo_instructor input_sexo_instructor"
             ;
     }
 
