@@ -4,35 +4,13 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
     header('Location: ../../layout/login/index.php');
 }
 ?>
-
-
-
-
-
-
-            
-
-            
-            
-
-            
-            <!-- BOTONES GUARDAR Y CANCELAR 
-            <div class="d-flex flex-row-reverse" style="width: 80% !important;  margin-right: 15%;">
-                <button class="btn btn-success" onclick="insert_periodo()" style="margin-left: 50px;">Guardar</button >
-                <button class="btn btn-danger" onclick="borrar_datos_input_periodo()">Cancelar</button >
-            </div>
-
-        </div>
--->
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport">
-    <title>Prtiodos</title>
+    <title>Periodos</title>
     <?php include "../../../views/layout/imports.php" ?>
 </head>
 <style>
@@ -202,7 +180,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
     <!-- ALERTAS -->
     <?php include "../../../views/layout/alertas.php" ?>
         <div class="cabecera">
-            <h1 class="titulo">Gestipnar Periodos</h1>
+            <h1 class="titulo">Gestionar Periodos</h1>
             <a href="http://localhost/Extraescolares/views/modules/admin/administrador.php"><img class="flecha"  src="../../.././assets/img/back.png"></a>
         </div>
         <div class="cuadro1">

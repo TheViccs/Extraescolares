@@ -4,37 +4,6 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
     header('Location: ../../layout/login/index.php');
 }
 ?>
-
-
-
-<!-- FORMULARIO 
-                        
-                            
-                            
-                        
-                            <label class="text-center">Descripción</label>
-                            <textarea id="input_descripcion_programa" placeholder="Inserte una descripción" type="text" required></textarea>
-                        
-                            <label class="text-center" >Observaciones</label>
-                            <textarea id="input_observaciones_programa"  placeholder="Observaciones" type="text" required></textarea>
-                       
-                            <label class="text-center" >Departamentos</label>
-                            <select multiple="multiple" id="select_programas">
-                            </select>
-                        -->
-
-<!-- BOTONES GUARDAR Y CANCELAR 
-                <button id="boton_insert_update_programa" class="btn btn-success" onclick="insert_programa()" >Guardar</button>
-                <button class="btn btn-danger" onclick="borrar_datos_input_programa()">Cancelar</button>
-            </div>-->
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 

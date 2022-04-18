@@ -84,8 +84,7 @@ body {
     display: flex;
     justify-content: center;
     margin-bottom: 2%;
-    width: 80%;
-    border: 1px solid black;
+    width: 100%;
 }
 
 .contenido2 {
@@ -239,7 +238,6 @@ label {
                 <option value="M">Masculino</option>
                 <option value="F">Femenino</option>
             </select>
-
         </div>
         <div class="botones2">
             <button id="boton_insert_update_responsable" class="btn btn-success" onclick="insert_responsable()">Guardar</button>
@@ -266,14 +264,13 @@ label {
                         <div class="modal-body text-center">
                             <div class="w-100">
                                 <h3>Seguro que quiere borrar al Responsable?</h1>
-                                    <p id="p_clave_resposable"></p>
-                                    <p id="p_nombre_resposable"></p>
-                                    <p id="p_sexo_resposable"></p>
-                                    <p id="p_correo_resposable"></p>
-                                    <input id="input_id_responsable_borrar" type="text" hidden />
+                                <p id="p_clave_resposable"></p>
+                                <p id="p_nombre_resposable"></p>
+                                <p id="p_sexo_resposable"></p>
+                                <p id="p_correo_resposable"></p>
+                                <input id="input_id_responsable_borrar" type="text" hidden />
                             </div>
                         </div>
-
                         <div class="modal-footer d-flex justify-content-evenly">
                             <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
                             <button type="button" class="btn btn-danger" onclick="borrar_responsable()">Borrar</button>

@@ -242,7 +242,7 @@ label {
             <input class="input6" id="input_contacto_coordinador" placeholder="Telefono" type="text" required />
 
             <label class="label7">Sexo:</label>
-            <select class="input7" id="select_sexo_responsable">
+            <select class="input7" id="select_sexo_coordinador">
                 <option value="O" disabled selected>Elige...</option>
                 <option value="M">Masculino</option>
                 <option value="F">Femenino</option>
