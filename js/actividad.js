@@ -44,3 +44,21 @@ $('#tabla_avtividad').DataTable({
         }
     },
 });
+
+//INSERT EN DEPARTAMENTO
+function insert_only_departamento(idActividad,idPrograma,nombre,descripcion,competencia,creditos,beneficios,capMax,capMin,inicio,fin,padre){
+    $.ajax({
+        type: "POST",
+        url: path+"insert_departamento.php",  
+        data: {"idActividad": idActividad, "idPrograma": idPrograma, "nombre": nombre, "descripcion": descripcion, "competencia":competencia, "creditos":creditos, "beneficios":beneficios,"capMax":capMax, "capMin":capMin, "inicio":inicio, "fin":fin, "padre": padre} ,                         
+        success: function(res){  
+            //select_departamentos();
+            if(res==="1"){
+                mostrar_alerta(1);
+                //borrar_datos_input_departamento();
+            }else{
+                mostrar_alerta(3);
+            }           
+        }
+    });
+}
