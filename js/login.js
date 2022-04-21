@@ -1,3 +1,12 @@
+
+$('#entra').keypress(function(e){   
+    if(e.which == 13){      
+        alert("entra") ;     
+    }   
+   });    
+    
+
+
 function login(){
     let correo = $("#email" ).val();
     let contrasena = $("#contrasena" ).val();

@@ -20,15 +20,21 @@ if(isset($_SESSION['loggedin'])){
     }
 
     #fondo {
-        background: url("../../../assets/img/Tec-de-Colima.jpeg");
+        background-image: url("../../../assets/img/Tec-de-Colima.jpeg");
+        background-repeat: no-repeat;
+        height: 100%;
         width: 100%;
-        text-align: center;
+        background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+
+
     }
     </style>
 </head>
 
-<body class="d-flex m-0 h-100 w-100" id="fondo">
-    <div class="h-100 d-flex flex-column bg-white w-100">
+<body class="d-flex m-0 h-100 w-100" >
+    <div class="h-100 d-flex flex-column bg-white w-100" id="fondo">
 
         <!-- CONTENT -->
         <div class="d-flex flex-column h-100 w-100 justify-content-center align-items-center">
@@ -41,7 +47,7 @@ if(isset($_SESSION['loggedin'])){
                 </div>
                 <input id="email" type="email" style="max-width:100%" placeholder="Correo/Usuario" />
                 <input id="contrasena" type="password" style="max-width:100%" placeholder="Contraseña" />
-                <button style="max-width:100%; max-height:25%; overflow:hidden" class="btn btn-success"
+                <button id="entra"style="max-width:100%; max-height:25%; overflow:hidden" class="btn btn-success"
                     onclick="login()">Iniciar Sesión</button>
             </div>
         </div>

@@ -455,10 +455,17 @@ label {
             <h1 class="titulo">Gestionar Actividad</h1>
             <a href="#"><img class="flecha" src="../../.././assets/img/back.png"></a>
         </div>
+        
+        <div class="contenedor-tabla content-table" >
+            <div style="overflow: auto;">
+                <table  id="tabla_avtividad"></table>
+            </div>
+            
+        </div>
 
         <center>
             <div class="cabecera">
-                <h2 class="titulo">Actividad</h2>
+                <h2 class="titulo">Agregar Actividad</h2>
             </div>
         </center>
 
@@ -614,11 +621,10 @@ label {
 
 
 
-        <div class="contenedor-tabla content-table">
-
-        </div>
+        
         <?php include "../../../views/layout/footer.php" ?>
     </div>
+    <script src="../../../js/actividad.js"></script>
 
 </body>
 
