@@ -271,8 +271,35 @@ body {
 
 }
 
+.label19 {
+    grid-area: label_materialdado_actividad_add;
+    text-align: center;
+}
+
+
+
+.label20 {
+    grid-area: label_cantidad_material;
+    text-align: center;
+}
+
+.input20 {
+    grid-area: input_cantidad_material;
+
+}
+
 .btn6 {
     grid-area: btn_padre_actividad;
+}
+
+
+
+.btn7 {
+    grid-area: btn_add_actividad;
+}
+
+.btn8 {
+    grid-area: btn_elimaner_material;
 }
 .cuadro1 {
     padding: 1rem;
@@ -312,7 +339,44 @@ body {
     grid-gap: 2rem;
     grid-template-columns: repeat(8, .3fr);
     grid-template-areas:
+    "label_materialdado_actividad_add label_materialdado_actividad_add label_materialdado_actividad_add btn_add_actividad btn_add_actividad btn_add_actividad btn_add_actividad btn_add_actividad"
+}
 
+.cuadro8 {
+    padding: 1rem;
+    display: flex;
+    flex-direction:column;
+    height: auto;
+    flex-shrink: 0;
+    width: 80%;
+    border: 1px solid black;
+    border-radius: 5px;
+    min-height: 20%;
+    min-width: fit-content;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(8, .3fr);
+    grid-template-areas:
+    " input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad"
+    "label_cantidad_material label_cantidad_material  input_cantidad_material input_cantidad_material input_cantidad_material input_cantidad_material input_cantidad_material input_cantidad_material"
+    "btn_elimaner_material btn_elimaner_material btn_elimaner_material btn_elimaner_material btn_elimaner_material btn_elimaner_material btn_elimaner_material btn_elimaner_material"
+    ;
+
+}
+
+.cuadro4 {
+    padding: 1rem;
+    display: grid;
+    height: auto;
+    flex-shrink: 0;
+    width: 80%;
+    border: 1px solid black;
+    border-radius: 5px;
+    min-height: 20%;
+    min-width: fit-content;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(8, .3fr);
+    grid-template-areas:
+    "label_materialdado_actividad_add label_materialdado_actividad_add label_materialdado_actividad_add btn_add_actividad btn_add_actividad btn_add_actividad btn_add_actividad btn_add_actividad"
     "label_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad";
 
 }
@@ -395,23 +459,6 @@ body {
     ;
 
 }
-
-.cuadro7 {
-    padding: 1rem;
-    display: grid;
-    height: auto;
-    flex-shrink: 0;
-    width: 80%;
-    border: 1px solid black;
-    border-radius: 5px;
-    min-height: 20%;
-    min-width: fit-content;
-    grid-gap: 2rem;
-    grid-template-columns: repeat(8, .3fr);
-    grid-template-areas:
-
-   
-    ;
 
 }
 .flecha {
@@ -506,12 +553,7 @@ label {
                 required></textarea>
 
         </div>
-        <div class="botones2">
-            
-            <button class="btn btn-success">Guardar</button>
-            <button class="btn btn-danger cancelar">Cancelar</button>
-            
-        </div>
+        
 
         <center>
             <div class="cabecera">
@@ -519,16 +561,19 @@ label {
             </div>
         </center>
 
-        <div class="cuadro2">
-            <input id="input_id_material" type="text" hidden />
-            <label class="label9">Material</label>
-            <textarea class="input9" id="input_beneficios_actividad" placeholder="Material con el que la escuela ayudara al alumno para poder llevar a cabo la actividad" type="text"
-                required></textarea>
+        <div class="cuadro2" id="cuadro2">
 
-        </div>
-        <div class="botones2">
-            <button class="btn btn-success">Guardar</button>
-            <button class="btn btn-danger cancelar">Cancelar</button>
+            <button class="btn7 btn btn-primary" id="add_Material" data-bs-target="">Agregar Material</button>
+            <label class="label19" >Agregar nuevo matetial</label>
+            <input id="input_id_material" type="text" hidden />
+            
+            <div class="cuadro8">
+                <label class='label9'>Material</label>
+                <textarea class="input9" id="input_material_actividad" placeholder="Material con el que la escuela ayudara al alumno para poder llevar a cabo la actividad" type="text" required></textarea>
+                <label class="label20">Cantidad</label>
+                <input class="input20" id="input_cantidad_material" type="text" placeholder="Cantidad">
+                <button class="btn8 btn-danger cancelar" id="Eliminar_Material">Eliminar Material</button>
+            </div>
         </div>
 
         <center>
@@ -543,10 +588,6 @@ label {
             <textarea class="input10" id="input_materalAlumno_actividad" placeholder="Material con el que el estudiante debe contar para llevar a cabo la actividad" type="text"
                 required></textarea>
 
-        </div>
-        <div class="botones2">
-            <button class="btn btn-success">Guardar</button>
-            <button class="btn btn-danger cancelar">Cancelar</button>
         </div>
 
         <center>
@@ -568,10 +609,6 @@ label {
                 required></textarea>
 
         </div>
-        <div class="botones2">
-            <button class="btn btn-success">Guardar</button>
-            <button class="btn btn-danger cancelar">Cancelar</button>
-        </div>
 
         <center>
             <div class="cabecera">
@@ -588,10 +625,6 @@ label {
             <textarea class="input15" id="input_criterioevaldes_actividad" placeholder="Descripción" type="text"
                 required></textarea>
 
-        </div>
-        <div class="botones2">
-            <button class="btn btn-success">Guardar</button>
-            <button class="btn btn-danger cancelar">Cancelar</button>
         </div>
 
         <center>
@@ -615,8 +648,8 @@ label {
 
         </div>
         <div class="botones2">
-            <button class="btn btn-success">Guardar</button>
-            <button class="btn btn-danger cancelar">Cancelar</button>
+            <button class="btn btn-success">Guardar Todo</button>
+            <button class="btn btn-danger cancelar">Cancelar Actividad</button>
         </div>
 
 
