@@ -460,6 +460,22 @@ body {
 
 }
 
+<<<<<<< HEAD
+=======
+.cuadro7 {
+    padding: 1rem;
+    display: grid;
+    height: auto;
+    flex-shrink: 0;
+    width: 80%;
+    border: 1px solid black;
+    border-radius: 5px;
+    min-height: 20%;
+    min-width: fit-content;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(8, .3fr);
+
+>>>>>>> 5afa990dafcc056468a11e3fba2ba53f6b69810f
 }
 .flecha {
     width: 10%;
