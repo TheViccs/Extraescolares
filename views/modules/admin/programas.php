@@ -11,7 +11,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport">
-    <title>Interfaz</title>
+    <title>Programas</title>
     <?php include "../../../views/layout/imports.php" ?>
 </head>
 <style>
@@ -259,8 +259,8 @@ label {
 
 
         <div class="botones2">
-            <button class="btn btn-success">Guardar</button>
-            <button class="btn btn-danger cancelar">Cancelar</button>
+            <button class="btn btn-success" id="boton_insert_update_programa" onclick="insert_programa()">Guardar</button>
+            <button class="btn btn-danger cancelar" onclick="borrar_datos_input_programa()">Cancelar</button>
         </div>
         <div class="contenedor-tabla content-table">
             <table id="tabla_programas">
@@ -270,6 +270,31 @@ label {
         </div>
         <?php include "../../../views/layout/footer.php" ?>
     </div>
+
+     <!-- MODAL BORRAR PROGRAMA--> 
+     <div class="modal fade" id="modal_departamentos" tabindex="-1" aria-labelledby="modal_departamentos_label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_departamentos_label">Agregar correos a programa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="w-100">
+                        <h6>Ingrese el correo para cada unidad</h1>
+                        <div id="inputs_correo_departamento">
+
+                        </div>
+                    </div>        
+                </div>
+                <div class="modal-footer d-flex justify-content-evenly">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" id="insert_programa_departamento_correos" onclick="insert_programa_departamento_correos()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="../../../lib/multiselect/js/jquery.multi-select.js"></script>
     <script src="../../../js/programas.js"></script>
 </body>

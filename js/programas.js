@@ -88,6 +88,96 @@ function agregar_programas_tabla(programas){
     }
 }
 
+//FUNCION PARA REALIZAR LOS INSERT DE PROGRAMA
+function insert_programa(){
+    //OBTIENE VALORES DE LOS INPUT
+    let clave =  $("#input_clave_programa").val();
+    let nombre = $("#input_nombre_programa").val();
+    let descripcion = $("#input_descripcion_programa").val();
+    let observaciones = $("#input_observaciones_programa").val();
+    //VERIFICA QUE LA CLAVE Y EL NOMBRE NO ESTEN VACIOS
+    if(clave.length !==0 && nombre.length !== 0){
+        //OBTIENE LOS ID DE LOS DEPARTAMENTOS SELECCIONADOS
+        let departamentos = [].map.call($("#select_programas option:selected"),function(departamento){
+            return departamento.id;
+        })
+        //OBTIENE LOS ID Y LOS NOMBRES DE LOS DEPARTAMENTOS SELECCIONADOS
+        let departamentosaux = [].map.call($("#select_programas option:selected"),function(departamento){
+            return [departamento.id, departamento.value];
+        })
+        if(departamentos.length===0){
+            insert_only_programa(clave,nombre,descripcion,observaciones);
+        }else{
+            $("#modal_departamentos_label").text("Agregar correos a programa "+nombre)
+            $("#inputs_correo_departamento").html("");
+            departamentosaux.forEach(departamento => {
+                $("#inputs_correo_departamento").append("<label>Correo "+departamento[1]+"</label><br><input class='correo-departamento' placeholder='Correo'/><br>")
+            });
+            $("#modal_departamentos").modal("show");       
+        }
+    }else{
+        mostrar_alerta(2);
+    }   
+}
+
+function insert_programa_departamento_correos(){
+    let flag = false;
+
+    let correos = [].map.call($(".correo-departamento"),function(correo){
+        if(correo.value.length === 0){
+            flag = true;
+        }
+        return correo.value+"@colima.tecnm.mx";
+    });
+    if(flag){
+        $("#modal_departamentos").modal("hide");
+        mostrar_alerta(2);
+    }else{
+        let clave =  $("#input_clave_programa").val();
+        let nombre = $("#input_nombre_programa").val();
+        let descripcion = $("#input_descripcion_programa").val();
+        let observaciones = $("#input_observaciones_programa").val();
+        let departamentos = [].map.call($("#select_programas option:selected"),function(departamento){
+            return departamento.id;
+        })
+        insert_programa_departamento(clave, nombre, descripcion, observaciones, departamentos, correos);
+    }
+}
+
+//INSERT DE SOLO EL PROGRAMA
+function insert_only_programa(clave, nombre, descripcion, observaciones){
+    $.ajax({
+        type: "POST",
+        url: path+"insert_programa.php",  
+        data: {"clave": clave, "nombre": nombre, "descripcion": descripcion, "observaciones": observaciones} ,                         
+        success: function(res){ 
+            select_programas();
+            if(res==="1"){
+                mostrar_alerta(1);
+                borrar_datos_input_programa();
+            }else{
+                mostrar_alerta(3);
+            }           
+        }
+    });
+}
+
+//INSERT A PROGRAMA Y A DEPARTAMENTO PROGRAMA
+function insert_programa_departamento(clave, nombre, descripcion, observaciones, departamentos, correos){
+    $.ajax({
+        type: "POST",
+        url: path+"insert_programa_departamento.php",  
+        data: {"clave": clave, "nombre": nombre, "descripcion": descripcion, "observaciones": observaciones, "departamentos": departamentos.toString(), "correos": correos.toString()} ,                         
+        success: function(res){  
+            console.log(res);
+            mostrar_alerta(1);
+            select_programas();
+            borrar_datos_input_programa();  
+            $("#modal_departamentos").modal("hide");
+        }
+    });
+}
+
 //SELECT DE PROGRAMA POR ID
 function select_programa_id(id_programa){
     $.ajax({
@@ -110,6 +200,7 @@ function select_programa_id(id_programa){
                 $('#select_programas').multiSelect('deselect_all');
             }
             $("#boton_insert_update_programa").attr("onclick","update_programa()");
+            $("#insert_programa_departamento_correos").attr("onclick","update_programa_departamento_correos()");
         }
     });
 }
@@ -128,11 +219,44 @@ function update_programa(){
         if(departamentos.length===0){
             update_only_programa(id_programa,clave,nombre,descripcion,observaciones);
         }else{
-            update_programa_departamento(id_programa,clave,nombre,descripcion,observaciones,departamentos);
+            let departamentosaux = [].map.call($("#select_programas option:selected"),function(departamento){
+                return [departamento.id, departamento.value];
+            })
+            $("#modal_departamentos_label").text("Agregar correos a programa "+nombre)
+            $("#inputs_correo_departamento").html("");
+            departamentosaux.forEach(departamento => {
+            $("#inputs_correo_departamento").append("<label>Correo "+departamento[1]+"</label><br><input class='correo-departamento' placeholder='Correo'/><br>")
+            });
+            $("#modal_departamentos").modal("show");       
         }
     }else{
         mostrar_alerta(2);
     } 
+}
+
+function update_programa_departamento_correos(){
+    let flag = false;
+    let correos = [].map.call($(".correo-departamento"),function(correo){
+        if(correo.value.length === 0){
+            flag = true;
+        }
+        return correo.value+"@colima.tecnm.mx";
+    });
+
+    if(flag){
+        $("#modal_departamentos").modal("hide");
+        mostrar_alerta(2);
+    }else{
+        let id_programa = $("#input_id_programa").val();
+        let clave =  $("#input_clave_programa").val();
+        let nombre = $("#input_nombre_programa").val();
+        let descripcion = $("#input_descripcion_programa").val();
+        let observaciones = $("#input_observaciones_programa").val();
+        let departamentos = [].map.call($("#select_programas option:selected"),function(departamento){
+            return departamento.id;
+        })
+        update_programa_departamento(id_programa,clave, nombre, descripcion, observaciones, departamentos, correos);
+    }
 }
 
 //UPDATE A DEPARTAMENTO
@@ -142,7 +266,6 @@ function update_only_programa(id_programa,clave,nombre,descripcion,observaciones
         url: path+"update_programa.php",  
         data: {"id_programa":id_programa, "clave":clave, "nombre": nombre, "descripcion": descripcion, "observaciones": observaciones} ,                         
         success: function(res){ 
-            console.log(res);
             select_programas(); 
             if(res==="1"){
                 mostrar_alerta(1);
@@ -155,16 +278,16 @@ function update_only_programa(id_programa,clave,nombre,descripcion,observaciones
 }
 
 //UPDATE A PROGRAMA Y A PROGRAMA-DEPARTAMENTO
-function update_programa_departamento(id_programa,clave,nombre,descripcion,observaciones,departamentos){
+function update_programa_departamento(id_programa,clave,nombre,descripcion,observaciones,departamentos,correos){
     $.ajax({
         type: "POST",
         url: path+"update_programa_departamento.php",  
-        data: {"id_programa":id_programa, "clave":clave , "nombre": nombre, "descripcion": descripcion, "observaciones": observaciones, "departamentos": departamentos.toString()} ,                         
-        success: function(res){ 
-            console.log(res);
-            select_programas(); 
+        data: {"id_programa": id_programa,"clave": clave, "nombre": nombre, "descripcion": descripcion, "observaciones": observaciones, "departamentos": departamentos.toString(), "correos": correos.toString()} ,                         
+        success: function(res){  
             mostrar_alerta(1);
-            borrar_datos_input_programa();
+            select_programas();
+            borrar_datos_input_programa();  
+            $("#modal_departamentos").modal("hide");
         }
     });
 }
@@ -181,60 +304,6 @@ function mostrar_modal_borrar_programa(id_programa,clave, nombre, descripcion){
     $("#input_id_programa_borrar").val(id_programa);
 }
 
-//INSERT DE PROGRAMA
-function insert_programa(){
-    let clave =  $("#input_clave_programa").val();
-    let nombre = $("#input_nombre_programa").val();
-    let descripcion = $("#input_descripcion_programa").val();
-    let observaciones = $("#input_observaciones_programa").val();
-    if(nombre.length !== 0){
-        let departamentos = [].map.call($("#select_programas option:selected"),function(departamento){
-            return departamento.id;
-        })
-        if(departamentos.length===0){
-            insert_only_programa(clave,nombre,descripcion,observaciones);
-        }else{
-            insert_programa_departamento(clave,nombre, descripcion, observaciones, departamentos);
-        }
-    }else{
-        mostrar_alerta(2);
-    }   
-}
-
-
-//INSERT A PROGRAMA
-function insert_only_programa(clave, nombre, descripcion, observaciones){
-    $.ajax({
-        type: "POST",
-        url: path+"insert_programa.php",  
-        data: {"clave": clave, "nombre": nombre, "descripcion": descripcion, "observaciones": observaciones} ,                         
-        success: function(res){ 
-            select_programas();
-            if(res==="1"){
-                mostrar_alerta(1);
-                borrar_datos_input_programa();
-            }else{
-                mostrar_alerta(3);
-            }           
-        }
-    });
-}
-
-//INSERT A PROGRAMA Y A DEPARTAMENTO PROGRAMA
-function insert_programa_departamento(clave, nombre, descripcion, observaciones, departamentos){
-    $.ajax({
-        type: "POST",
-        url: path+"insert_programa_departamento.php",  
-        data: {"clave": clave, "nombre": nombre, "descripcion": descripcion, "observaciones": observaciones, "departamentos": departamentos.toString()} ,                         
-        success: function(res){  
-            mostrar_alerta(1);
-            select_programas();
-            borrar_datos_input_programa();        
-        }
-    });
-}
-
-
 //BORRAR DATOS DE LOS INPUT DEPARTAMENTO
 function borrar_datos_input_programa(){
     $("#input_clave_programa").val("");
@@ -243,6 +312,7 @@ function borrar_datos_input_programa(){
     $("#input_observaciones_programa").val("");
     $('#select_programas').multiSelect('deselect_all');
     $("#boton_insert_update_programa").attr("onclick","insert_programa()");
+    $("#insert_programa_departamento_correos").attr("onclick","insert_programa_departamento_correos()");
 }
 
 //BORRAR PROGRAMA

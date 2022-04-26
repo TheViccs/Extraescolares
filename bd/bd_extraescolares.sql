@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-04-2022 a las 15:06:03
+-- Tiempo de generación: 26-04-2022 a las 16:51:21
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -32,6 +32,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_actividad` (IN `a_id_acti
 START TRANSACTION;
 	UPDATE actividad SET actividad.visible=0 WHERE actividad.id_actividad=a_id_actividad;
     COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_delete_complementos_actividad`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_complementos_actividad` (IN `a_id_actividad` INT)  BEGIN
+START TRANSACTION;
+DELETE FROM material_actividad WHERE id_actividad=a_id_actividad;
+DELETE FROM material_alumno WHERE id_actividad=a_id_actividad;
+DELETE FROM material_actividad WHERE id_actividad=a_id_actividad;
+DELETE FROM tema WHERE id_actividad=a_id_actividad;
+DELETE FROM criterio_evaluacion WHERE id_actividad=a_id_actividad;
+COMMIT;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_delete_coordinador`$$
@@ -71,9 +82,10 @@ START TRANSACTION;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_actividad`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_actividad` (IN `a_nombre` VARCHAR(150), IN `a_descripcion` VARCHAR(200), IN `a_competencia` VARCHAR(200), IN `a_creditos_otorga` INT, IN `a_beneficios` VARCHAR(150), IN `a_capacidad_min` INT, IN `a_capacidad_max` INT, IN `a_id_programa` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_actividad` (IN `a_nombre` VARCHAR(150), IN `a_descripcion` VARCHAR(200), IN `a_competencia` VARCHAR(200), IN `a_creditos_otorga` INT, IN `a_beneficios` VARCHAR(150), IN `a_capacidad_min` INT, IN `a_capacidad_max` INT, IN `a_fecha_incio` DATE, IN `a_fecha_fin` DATE, IN `a_id_programa` INT)  BEGIN
 START TRANSACTION;
-	INSERT INTO actividad (nombre, descripcion, competencia, creditos_otorga, beneficios, capacidad_min, capacidad_max, id_programa) VALUES (a_nombre, a_descripcion, a_competencia, a_creditos_otorga, a_beneficios, a_capacidad_min, a_capacidad_max, a_id_programa);
+	INSERT INTO actividad (nombre, descripcion, competencia, creditos_otorga, beneficios, capacidad_min, capacidad_max, fecha_inicio,fecha_fin,id_programa) VALUES (a_nombre, a_descripcion, a_competencia, a_creditos_otorga, a_beneficios, a_capacidad_min, a_capacidad_max,a_fecha_inicio,a_fecha_fin,a_id_programa);
+    INSERT INTO periodo_actividad (id_periodo,id_actividad) VALUES (periodo_actual(),last_insert_id());
     COMMIT;
 END$$
 
@@ -107,11 +119,20 @@ START TRANSACTION;
     		INSERT INTO coordinador_programa (id_coordinador,id_programa,fecha_inicio) VALUES (c_id,p_id,c_fecha_inicio);
             ELSE
             UPDATE coordinador_programa SET fecha_inicio=c_fecha_inicio WHERE id_coordinador=c_id AND id_programa=p_id;
+            UPDATE departamento_programa SET departamento_programa.contraseña='coordinador1' WHERE departamento_programa.id_programa=p_id;
     	END IF;
     ELSE
     	INSERT INTO coordinador_programa (id_coordinador,id_programa,fecha_inicio) VALUES (c_id,p_id,c_fecha_inicio);
+        UPDATE departamento_programa SET departamento_programa.contraseña='coordinador1' WHERE departamento_programa.id_programa=p_id;
     END IF;
     COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insert_criterio_evaluacion`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_criterio_evaluacion` (IN `c_nombre` VARCHAR(150), IN `c_descripcion` VARCHAR(200), IN `c_id_actividad` INT)  BEGIN
+START TRANSACTION;
+INSERT INTO criterio_evaluacion (nombre,descripcion,id_actividad) VALUES (c_nombre,c_descripcion,c_id_actividad);
+COMMIT;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_departamento`$$
@@ -127,6 +148,20 @@ START TRANSACTION;
 	INSERT INTO departamento (clave,nombre,ubicacion,extension,correo) VALUES (d_clave,d_nombre,d_ubicacion,d_extension,d_correo);
     INSERT INTO departamento_responsable(id_departamento,id_responsable,fecha_inicio)VALUES((SELECT id_departamento FROM departamento WHERE clave=d_clave),r_id,NOW());
     COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insert_material_actividad`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_material_actividad` (IN `m_nombre` VARCHAR(150), IN `m_cantidad` INT, IN `m_id_actividad` INT)  BEGIN
+START TRANSACTION;
+INSERT INTO material_actividad (nombre, cantidad, id_actividad) VALUES (m_nombre,m_cantidad,m_id_actividad);
+COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insert_material_alumno`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_material_alumno` (IN `m_nombre` VARCHAR(150), IN `m_cantidad` INT, IN `m_id_actividad` INT)  BEGIN
+START TRANSACTION;
+INSERT INTO material_alumno (nombre, cantidad, id_actividad) VALUES (m_nombre,m_cantidad,m_id_actividad);
+COMMIT;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_periodo`$$
@@ -152,9 +187,9 @@ COMMIT;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_programa_departamento`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_programa_departamento` (IN `d_id` INT, IN `c_programa` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_programa_departamento` (IN `d_id` INT, IN `c_programa` VARCHAR(12), IN `p_d_correo` VARCHAR(150))  BEGIN
 START TRANSACTION;
-	INSERT INTO departamento_programa(id_programa,id_departamento) VALUES ((SELECT id_programa FROM programa WHERE clave=c_programa),d_id);
+	INSERT INTO departamento_programa(id_programa,id_departamento,correo) VALUES ((SELECT id_programa FROM programa WHERE clave=c_programa),d_id,p_d_correo);
 COMMIT;
 END$$
 
@@ -163,6 +198,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_responsable` (IN `r_clave
 START TRANSACTION;
 	INSERT INTO responsable(clave, nombre, apellido_p, apellido_m,sexo , correo) VALUES (r_clave,r_nombre,r_apellido_p,r_apellido_m,r_sexo,r_correo) ON DUPLICATE KEY UPDATE nombre=r_nombre,apellido_p=r_apellido_p,apellido_m=r_apellido_m, sexo=r_sexo,correo=r_correo;
     COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insert_tema`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_tema` (IN `t_nombre` VARCHAR(150), IN `t_descripcion` VARCHAR(200), IN `t_semanas` INT, IN `t_id_actividad` INT)  BEGIN
+START TRANSACTION;
+INSERT INTO tema (nombre, descripcion, semanas, id_actividad) VALUES (t_nombre,t_descripcion,t_semanas,t_id_actividad);
+COMMIT;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_login`$$
@@ -204,6 +246,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_coordinador_id` (IN `c_id
 	SELECT coordinador.id_coordinador, coordinador.clave, coordinador.nombre, coordinador.apellido_p, coordinador.apellido_m, coordinador.sexo, programa.nombre AS nombre_programa, departamento.nombre AS nombre_departamento FROM coordinador LEFT JOIN coordinador_programa ON coordinador.id_coordinador=coordinador_programa.id_coordinador LEFT JOIN programa ON coordinador_programa.id_programa=programa.id_programa LEFT JOIN departamento_programa ON programa.id_programa=departamento_programa.id_programa LEFT JOIN departamento ON departamento.id_departamento=departamento_programa.id_departamento WHERE coordinador.id_coordinador=c_id_coordinador;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_select_criterios_evaluacion`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_criterios_evaluacion` (IN `a_id_actividad` INT)  BEGIN
+SELECT * FROM criterio_evaluacion WHERE id_actividad=a_id_actividad;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_select_departamentos`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_departamentos` ()  BEGIN
 	SELECT * FROM departamento WHERE departamento.visible=1;
@@ -214,9 +261,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_departamento_id` (IN `d_i
 	SELECT departamento.id_departamento, departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension, departamento.correo, departamento_responsable.id_responsable, responsable.nombre AS nombre_responsable, responsable.apellido_p, responsable.apellido_m FROM departamento LEFT JOIN departamento_responsable ON departamento.id_departamento = departamento_responsable.id_departamento LEFT JOIN responsable ON responsable.id_responsable=departamento_responsable.id_responsable WHERE departamento.id_departamento=d_id_departamento AND departamento_responsable.fecha_fin IS NULL;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_select_materiales_actividad`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_materiales_actividad` (IN `a_id_actividad` INT)  BEGIN
+SELECT * FROM material_actividad WHERE id_actividad=a_id_actividad;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_materiales_alumno`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_materiales_alumno` (IN `a_id_actividad` INT)  BEGIN 
+SELECT * FROM material_alumno WHERE id_actividad=a_id_actividad;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_select_periodo`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_periodo` ()  BEGIN
 	SELECT * FROM periodo ORDER BY id_periodo DESC LIMIT 1;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_periodo_actual`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_periodo_actual` (INOUT `@periodo` INT)  BEGIN
+SELECT id_periodo FROM periodo WHERE NOW()>fecha_inicio_actividades AND NOW()<fecha_fin_actividades;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_programas`$$
@@ -250,6 +312,11 @@ END$$
 DROP PROCEDURE IF EXISTS `sp_select_responsable_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_responsable_id` (IN `r_id_responsable` INT)  BEGIN
 	SELECT responsable.id_responsable, responsable.clave as clave_responsable, responsable.nombre, responsable.apellido_p, responsable.apellido_m, responsable.sexo,responsable.correo AS correo_responsable, departamento.id_departamento, departamento.nombre as nombre_departamento FROM responsable LEFT JOIN departamento_responsable ON responsable.id_responsable=departamento_responsable.id_responsable LEFT JOIN departamento ON departamento_responsable.id_departamento=departamento.id_departamento WHERE responsable.id_responsable=r_id_responsable;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_temas`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_temas` (IN `a_id_actividad` INT)  BEGIN
+SELECT * FROM tema WHERE id_actividad=a_id_actividad;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_update_actividad`$$
@@ -300,9 +367,9 @@ COMMIT;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_update_programa_departamento`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_programa_departamento` (IN `p_id_programa` INT, IN `d_id_departamento` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_programa_departamento` (IN `p_id_programa` INT, IN `d_id_departamento` INT, IN `d_p_correo` VARCHAR(150))  BEGIN
 START TRANSACTION;
-	INSERT INTO departamento_programa (id_programa,id_departamento) VALUES (p_id_programa,d_id_departamento);
+	INSERT INTO departamento_programa (id_programa,id_departamento,correo) VALUES (p_id_programa,d_id_departamento,d_p_correo);
 COMMIT;
 END$$
 
@@ -311,6 +378,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_responsable` (IN `r_id_re
 START TRANSACTION;
 	UPDATE responsable SET clave=r_clave, nombre=r_nombre, apellido_p=r_apellido_p, apellido_m=r_apellido_m, sexo=r_sexo, correo=r_correo WHERE id_responsable=r_id_responsable;
 COMMIT;
+END$$
+
+--
+-- Funciones
+--
+DROP FUNCTION IF EXISTS `periodo_actual`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `periodo_actual` () RETURNS INT(11) BEGIN
+DECLARE periodo INT;
+SET periodo = (SELECT id_periodo FROM periodo WHERE NOW()>fecha_inicio_actividades AND NOW()<fecha_fin_actividades);
+RETURN periodo;
 END$$
 
 DELIMITER ;
@@ -332,6 +409,8 @@ CREATE TABLE `actividad` (
   `video` varchar(150) DEFAULT NULL,
   `capacidad_min` int(11) NOT NULL,
   `capacidad_max` int(11) NOT NULL,
+  `fecha_inicio` date NOT NULL,
+  `fecha_fin` date NOT NULL,
   `actividad_padre` int(11) DEFAULT NULL,
   `visible` tinyint(1) NOT NULL DEFAULT 1,
   `id_programa` int(11) NOT NULL
@@ -407,6 +486,20 @@ INSERT INTO `coordinador_programa` (`id_coordinador`, `id_programa`, `fecha_inic
 (13, 5, '2022-03-17', '2022-03-29'),
 (26, 5, '2022-03-16', '2022-03-29'),
 (13, 5, '2022-03-09', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `criterio_evaluacion`
+--
+
+DROP TABLE IF EXISTS `criterio_evaluacion`;
+CREATE TABLE `criterio_evaluacion` (
+  `id_criterio` int(11) NOT NULL,
+  `nombre` varchar(150) NOT NULL,
+  `descripcion` varchar(200) NOT NULL,
+  `id_actividad` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -515,6 +608,7 @@ DROP TABLE IF EXISTS `material_actividad`;
 CREATE TABLE `material_actividad` (
   `id_material_actividad` int(11) NOT NULL,
   `nombre` varchar(150) NOT NULL,
+  `cantidad` int(11) NOT NULL,
   `id_actividad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -528,6 +622,7 @@ DROP TABLE IF EXISTS `material_alumno`;
 CREATE TABLE `material_alumno` (
   `id_material_alumno` int(11) NOT NULL,
   `nombre` varchar(150) NOT NULL,
+  `cantidad` int(11) NOT NULL,
   `id_actividad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -550,7 +645,8 @@ CREATE TABLE `periodo` (
 --
 
 INSERT INTO `periodo` (`id_periodo`, `nombre`, `fecha_inicio_actividades`, `fecha_fin_actividades`) VALUES
-(2, 'Mar-Mar 2022', '2022-03-08', '2022-03-31');
+(2, 'Mar-Mar 2022', '2022-03-08', '2022-03-31'),
+(3, 'Abr-May 2022', '2022-04-25', '2022-05-25');
 
 -- --------------------------------------------------------
 
@@ -667,6 +763,13 @@ ALTER TABLE `coordinador_programa`
   ADD KEY `id_programa` (`id_programa`);
 
 --
+-- Indices de la tabla `criterio_evaluacion`
+--
+ALTER TABLE `criterio_evaluacion`
+  ADD PRIMARY KEY (`id_criterio`),
+  ADD KEY `id_actividad` (`id_actividad`);
+
+--
 -- Indices de la tabla `departamento`
 --
 ALTER TABLE `departamento`
@@ -764,6 +867,12 @@ ALTER TABLE `coordinador`
   MODIFY `id_coordinador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
+-- AUTO_INCREMENT de la tabla `criterio_evaluacion`
+--
+ALTER TABLE `criterio_evaluacion`
+  MODIFY `id_criterio` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `departamento`
 --
 ALTER TABLE `departamento`
@@ -791,7 +900,7 @@ ALTER TABLE `periodo`
 -- AUTO_INCREMENT de la tabla `programa`
 --
 ALTER TABLE `programa`
-  MODIFY `id_programa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_programa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de la tabla `responsable`
@@ -821,6 +930,12 @@ ALTER TABLE `actividad`
 ALTER TABLE `coordinador_programa`
   ADD CONSTRAINT `coordinador_programa_ibfk_1` FOREIGN KEY (`id_coordinador`) REFERENCES `coordinador` (`id_coordinador`),
   ADD CONSTRAINT `coordinador_programa_ibfk_2` FOREIGN KEY (`id_programa`) REFERENCES `programa` (`id_programa`);
+
+--
+-- Filtros para la tabla `criterio_evaluacion`
+--
+ALTER TABLE `criterio_evaluacion`
+  ADD CONSTRAINT `criterio_evaluacion_ibfk_1` FOREIGN KEY (`id_actividad`) REFERENCES `actividad` (`id_actividad`);
 
 --
 -- Filtros para la tabla `departamento_coordinador`

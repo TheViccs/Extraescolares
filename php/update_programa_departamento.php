@@ -13,17 +13,22 @@ $observaciones = !empty($observaciones) ? "'$observaciones'" : "NULL";
 $departamentos = $_POST['departamentos'];
 $array_departamentos = explode(',',$departamentos);
 
-$sql=("CALL sp_update_programa(".$id_p.",'".$clave."','".$nombre."',$descripcion,$observaciones)");
+$correos = $_POST['correos'];
+$array_correos = explode(',',$correos);
+
+
+$sql=("CALL sp_update_programa(".$id_p.",'".$clave."','".$nombre."',$descripcion, $observaciones)");
 $result = mysqli_query($conn,$sql);
 if($result){
     echo "1";
 }     
 
-foreach ($array_departamentos as $departamento) {
-    $sql=("CALL sp_update_programa_departamento(".$id_p.",".$departamento.")");
+for ($i = 0; $i < count($array_departamentos); ++$i) {
+    $sql=("CALL sp_update_programa_departamento(".$id_p.",".$array_departamentos[$i].",'".$array_correos[$i]."')");
     $result = mysqli_query($conn,$sql);
     if($result){
         echo "1";
     } 
 }    
+
 ?>

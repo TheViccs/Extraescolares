@@ -9,6 +9,8 @@ $descripcion = !empty($descripcion) ? "'$descripcion'" : "NULL";
 $observaciones = !empty($observaciones) ? "'$observaciones'" : "NULL";
 $departamentos = $_POST['departamentos'];
 $array_departamentos = explode(',',$departamentos);
+$correos = $_POST['correos'];
+$array_correos = explode(',',$correos);
 
 $sql=("CALL sp_insert_programa('".$clave."','".$nombre."',$descripcion,$observaciones)");
 $result = mysqli_query($conn,$sql);
@@ -16,8 +18,8 @@ if($result){
     echo "1";
 }     
 
-foreach ($array_departamentos as $departamento) {
-    $sql=("CALL sp_insert_programa_departamento(".$departamento.",'".$clave."')");
+for ($i = 0; $i < count($array_departamentos); ++$i) {
+    $sql=("CALL sp_insert_programa_departamento(".$array_departamentos[$i].",'".$clave."','".$array_correos[$i]."')");
     $result = mysqli_query($conn,$sql);
     if($result){
         echo "1";

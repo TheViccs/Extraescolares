@@ -408,10 +408,6 @@ body {
     min-width: fit-content;
     grid-gap: 2rem;
     grid-template-columns: repeat(8, .3fr);
-    grid-template-areas:
-
-   
-    ;
 
 }
 .flecha {
