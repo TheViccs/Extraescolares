@@ -25,8 +25,8 @@ if(isset($_SESSION['loggedin'])){
         height: 100%;
         width: 100%;
         background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Do not repeat the image */
-  background-size: cover; /* Resize the background image to cover the entire container */
+        background-repeat: no-repeat; /* Do not repeat the image */
+        background-size: cover; /* Resize the background image to cover the entire container */
 
 
     }
