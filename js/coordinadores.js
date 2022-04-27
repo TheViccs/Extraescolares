@@ -82,11 +82,11 @@ mostrar_coordinadores_tabla();
 
 //SELECT DE COORDINADORES
 function select_coordinadores(){
-    let id_responsable = $("#input_id_responsable").val();
+    let id_departamento = $("#input_id_departamento").val();
     $.ajax({
         type: "POST",
-        url: path+"select_coordinadores.php",
-        data: {"id_responsable":id_responsable},                           
+        url: path+"select_coordinadores_departamento_id.php",
+        data: {"id_departamento":id_departamento},                           
         success: function(res){    
             let coordinadores = JSON.parse(res);             
             agregar_coordinadores_tabla(coordinadores);
@@ -123,14 +123,13 @@ function insert_coordinador(){
     let apellido_p = $("#input_apellido_p_coordinador").val();
     let apellido_m = $("#input_apellido_m_coordinador").val();
     let sexo = $("#select_sexo_coordinador").val();
-    let id_responsable = $("#input_id_responsable").val();
-    if(id_responsable.length !== 0 && clave.length !== 0 && nombre.length !== 0 && apellido_p.length !== 0 && apellido_m.length !== 0 && sexo !== null){
+    let id_departamento = $("#input_id_departamento").val();
+    if(id_departamento.length !== 0 && clave.length !== 0 && nombre.length !== 0 && apellido_p.length !== 0 && apellido_m.length !== 0 && sexo !== null){
         $.ajax({
             type: "POST",
             url: path+"insert_coordinador.php",
-            data: {"id_responsable":id_responsable, "clave":clave,"nombre":nombre,"apellido_p":apellido_p,"apellido_m":apellido_m,"sexo":sexo},
+            data: {"id_departamento":id_departamento, "clave":clave,"nombre":nombre,"apellido_p":apellido_p,"apellido_m":apellido_m,"sexo":sexo},
             success: function(res){
-                console.log(res);
                 borrar_datos_input_coordinador();
                 select_coordinadores();
                 if (res === "1") {
@@ -286,9 +285,9 @@ function asignar_responsable(){
             data: {"id_coordinador": id_coordinador, "id_programa": id_programa, "fecha_inicio":fecha_inicio} ,                         
             success: function(res){
                 $("#modal_asignar_coordinador").modal("hide");  
-                console.log(res) 
                 if(res==="1"){
-                    mostrar_alerta(1);
+                    mostrar_alerta(1)
+                    setTimeout(function(){window.location.href = "../../../views/modules/responsable/responsable.php"},2000)
                 }else{
                     mostrar_alerta(3)
                 }

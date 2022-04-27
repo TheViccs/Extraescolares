@@ -213,6 +213,8 @@ label {
 
     <div class="contenido2">
         <?php include "../../../views/layout/header.php" ?>
+        <!-- ALERTAS -->
+        <?php include "../../../views/layout/alertas.php" ?>
         <div class="cabecera">
             <h1 class="titulo">Gestionar Coordinadores</h1>
             <a href="http://localhost/Extraescolares/views/modules/responsable/responsable.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
@@ -220,7 +222,7 @@ label {
         <div class="cuadro1">
 
             <input id="input_id_programa_asignar" value="<?php if(!empty($_GET)){echo $_GET["programa"];} ?>" hidden />
-            <input id="input_id_responsable" value="<?php echo $_SESSION['id_responsable'] ?>" hidden />
+            <input id="input_id_departamento" value="<?php echo $_SESSION['id_departamento'] ?>" hidden />
             <input id="input_id_coordinador" type="text" hidden />
 
             <label class="lable1">Clave:</label>
@@ -302,8 +304,6 @@ label {
                             <p id="p_nombre_coordinador_asignar"></p>
                             <p id="p_sexo_coordinador_asignar"></p>
                             <p id="p_correo_coordinador_asignar"></p>
-                            <label>Correo del programa</label>
-                            <input id="input_correo_coordinador_programa" type="text" style="width:50%"/><br>
                             <label>Fecha de inicio del coordinador</label>
                             <input id="input_fecha_inicio_coordinador_programa" type="date" style="width:50% !important"/>                       
                             <input id="input_asignar_id_coordinador" type="text" hidden/>

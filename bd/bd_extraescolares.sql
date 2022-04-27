@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-04-2022 a las 16:51:21
+-- Tiempo de generación: 27-04-2022 a las 16:34:47
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -97,11 +97,11 @@ START TRANSACTION;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_coordinador`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_coordinador` (IN `c_id_responsable` INT, IN `c_clave` VARCHAR(10), IN `c_nombre` VARCHAR(150), IN `c_apellido_p` VARCHAR(50), IN `c_apellido_m` VARCHAR(50), IN `c_sexo` VARCHAR(1))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_coordinador` (IN `c_id_departamento` INT, IN `c_clave` VARCHAR(10), IN `c_nombre` VARCHAR(150), IN `c_apellido_p` VARCHAR(50), IN `c_apellido_m` VARCHAR(50), IN `c_sexo` VARCHAR(1))  BEGIN
 START TRANSACTION;
 	INSERT INTO coordinador(clave, nombre, apellido_p, apellido_m,sexo) VALUES (c_clave,c_nombre,c_apellido_p,c_apellido_m,c_sexo) ON DUPLICATE KEY UPDATE nombre=c_nombre,apellido_p=c_apellido_p,apellido_m=c_apellido_m, sexo=c_sexo;
     
-    SET @id_departamento = (SELECT id_departamento FROM departamento_responsable WHERE id_responsable=c_id_responsable AND fecha_fin IS NULL LIMIT 1);
+    SET @id_departamento = c_id_departamento;
     SET @id_coordinador = (SELECT id_coordinador FROM coordinador WHERE clave=c_clave);
     
     IF 0 = (SELECT COUNT(*) FROM departamento_coordinador WHERE id_departamento=@id_departamento AND id_coordinador=@id_coordinador AND fecha_fin IS NULL AND visible=1) THEN
@@ -211,8 +211,8 @@ DROP PROCEDURE IF EXISTS `sp_login`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_login` (IN `in_correo` VARCHAR(150), IN `in_contraseña` VARCHAR(12))  BEGIN
 	IF (SELECT COUNT(*) FROM administrador WHERE administrador.usuario=in_correo AND administrador.contraseña=in_contraseña) <> 0 THEN
     	SELECT *,"administrador" as Tipo FROM administrador WHERE administrador.usuario=in_correo AND administrador.contraseña=in_contraseña;
-	ELSEIF (SELECT COUNT(*) FROM responsable WHERE responsable.correo=in_correo AND contraseña=in_contraseña) <> 0 THEN
-		SELECT *,"responsable" as Tipo FROM responsable WHERE responsable.correo=in_correo AND contraseña=in_contraseña;
+	ELSEIF (SELECT COUNT(*) FROM departamento WHERE departamento.correo=in_correo AND contraseña=in_contraseña) <> 0 THEN
+		SELECT *,"responsable" as Tipo FROM departamento WHERE departamento.correo=in_correo AND contraseña=in_contraseña;
     ELSEIF (SELECT COUNT(*) FROM departamento_programa WHERE departamento_programa.correo=in_correo AND departamento_programa.contraseña=in_contraseña) <> 0 THEN
     	SELECT *,"coordinador" as Tipo FROM departamento_programa JOIN coordinador_programa ON departamento_programa.id_programa=coordinador_programa.id_programa JOIN coordinador ON coordinador.id_coordinador=coordinador_programa.id_coordinador WHERE coordinador_programa.fecha_fin IS NULL AND departamento_programa.correo=in_correo AND departamento_programa.contraseña=in_contraseña;
     END IF;
@@ -228,8 +228,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_actividad_id` (IN `a_id_a
     SELECT actividad.id_actividad, actividad.nombre, actividad.descripcion, actividad.competencia, actividad.creditos_otorga, actividad.beneficios, actividad.capacidad_min, actividad.capacidad_max, actividad.id_programa WHERE actividad.id_actividad=a_id_actividad;
 END$$
 
-DROP PROCEDURE IF EXISTS `sp_select_coordinadores`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_coordinadores` (IN `c_id_responsable` INT)  BEGIN
+DROP PROCEDURE IF EXISTS `sp_select_coordinadores_departamento_id`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_coordinadores_departamento_id` (IN `c_id_departamento` INT)  BEGIN
 
 CREATE TEMPORARY TABLE coordinadores_actuales(
 	id_coordinador INT,
@@ -238,7 +238,7 @@ CREATE TEMPORARY TABLE coordinadores_actuales(
 
 INSERT INTO coordinadores_actuales (id_coordinador,id_programa) SELECT id_coordinador, id_programa FROM coordinador_programa WHERE fecha_fin IS NULL;
 
-SELECT coordinador.id_coordinador,coordinador.clave,coordinador.nombre,coordinador.apellido_p,coordinador.apellido_m,coordinador.sexo,departamento_coordinador.id_departamento, coordinadores_actuales.id_programa FROM coordinador JOIN departamento_coordinador ON coordinador.id_coordinador=departamento_coordinador.id_coordinador LEFT JOIN coordinadores_actuales ON coordinadores_actuales.id_coordinador=coordinador.id_coordinador WHERE departamento_coordinador.id_departamento=(SELECT id_departamento FROM departamento_responsable WHERE departamento_responsable.id_responsable=c_id_responsable AND departamento_responsable.fecha_fin IS NULL) and departamento_coordinador.visible = 1;
+SELECT coordinador.id_coordinador,coordinador.clave,coordinador.nombre,coordinador.apellido_p,coordinador.apellido_m,coordinador.sexo,departamento_coordinador.id_departamento, coordinadores_actuales.id_programa FROM coordinador JOIN departamento_coordinador ON coordinador.id_coordinador=departamento_coordinador.id_coordinador LEFT JOIN coordinadores_actuales ON coordinadores_actuales.id_coordinador=coordinador.id_coordinador WHERE departamento_coordinador.id_departamento=c_id_departamento and departamento_coordinador.visible = 1;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_coordinador_id`$$
@@ -286,8 +286,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_programas` ()  BEGIN
 	SELECT * FROM programa WHERE programa.visible=1;
 END$$
 
-DROP PROCEDURE IF EXISTS `sp_select_programas_responsable_id`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_programas_responsable_id` (IN `r_id_responsable` INT)  BEGIN
+DROP PROCEDURE IF EXISTS `sp_select_programas_departamento_id`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_programas_departamento_id` (IN `d_id_departamento` INT)  BEGIN
 
 CREATE TEMPORARY TABLE coordinadores_actuales(
 	id_coordinador INT,
@@ -295,8 +295,8 @@ CREATE TEMPORARY TABLE coordinadores_actuales(
 );
 
 INSERT INTO coordinadores_actuales (id_coordinador,id_programa) SELECT id_coordinador, id_programa FROM coordinador_programa WHERE fecha_fin IS NULL;
-
-	SELECT programa.id_programa,programa.clave,programa.nombre,programa.descripcion,programa.observaciones, departamento_responsable.id_departamento, coordinadores_actuales.id_coordinador FROM responsable JOIN departamento_responsable ON responsable.id_responsable=departamento_responsable.id_responsable JOIN departamento_programa ON departamento_responsable.id_departamento=departamento_programa.id_departamento JOIN programa ON departamento_programa.id_programa=programa.id_programa LEFT JOIN coordinadores_actuales ON programa.id_programa=coordinadores_actuales.id_programa WHERE departamento_responsable.fecha_fin IS NULL AND responsable.id_responsable=r_id_responsable AND programa.visible=1;
+	
+SELECT programa.id_programa,programa.clave,programa.nombre,programa.descripcion,programa.observaciones, departamento.id_departamento, coordinadores_actuales.id_coordinador FROM departamento JOIN departamento_programa ON departamento.id_departamento=departamento_programa.id_departamento JOIN programa ON departamento_programa.id_programa=programa.id_programa LEFT JOIN coordinadores_actuales ON programa.id_programa=coordinadores_actuales.id_programa WHERE departamento.id_departamento=d_id_departamento AND programa.visible=1;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_programa_id`$$
@@ -320,9 +320,9 @@ SELECT * FROM tema WHERE id_actividad=a_id_actividad;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_update_actividad`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_actividad` (IN `a_id_actividad` INT, IN `a_nombre` VARCHAR(150), IN `a_descripcion` VARCHAR(200), IN `a_competencia` VARCHAR(200), IN `a_creditos_otorga` INT, IN `a_beneficios` VARCHAR(150), IN `a_capacidad_min` INT, IN `a_capacidad_max` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_actividad` (IN `a_nombre` VARCHAR(150), IN `a_descripcion` VARCHAR(200), IN `a_competencia` VARCHAR(200), IN `a_creditos_otorga` INT, IN `a_beneficios` VARCHAR(150), IN `a_capacidad_min` INT, IN `a_capacidad_max` INT, IN `a_fecha_incio` DATE, IN `a_fecha_fin` DATE, IN `a_id_actividad` INT)  BEGIN
 START TRANSACTION;
-	UPDATE actividad SET nombre=a_nombre, descripcion=a_descripcion, competencia=a_competencia, creditos_otorga=a_creditos_otorga, beneficios=a_beneficios, capacidad_min=a_capacidad_min, capacidad_max=a_capacidad_max WHERE id_actividad=a_id_actividad;
+	UPDATE actividad SET nombre=a_nombre, descripcion=a_descripcion, competencia=a_competencia, creditos_otorga=a_creditos_otorga, beneficios=a_beneficios, capacidad_min=a_capacidad_min, capacidad_max=a_capacidad_max, fecha_inicio=a_fecha_inicio, fecha_fin=a_fecha_fin WHERE id_actividad=a_id_actividad;
     COMMIT;
 END$$
 
@@ -419,6 +419,18 @@ CREATE TABLE `actividad` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `actividad_evidencia`
+--
+
+DROP TABLE IF EXISTS `actividad_evidencia`;
+CREATE TABLE `actividad_evidencia` (
+  `id_actividad` int(11) DEFAULT NULL,
+  `id_evidencia` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `administrador`
 --
 
@@ -461,7 +473,8 @@ INSERT INTO `coordinador` (`id_coordinador`, `clave`, `nombre`, `apellido_p`, `a
 (7, '212', 'rve', 'ververv', 'erve', 'M', NULL),
 (13, '123', 'AAA', 'AAA', 'AAA', 'M', NULL),
 (15, '324', 'qwd', 'qwd', 'qwd', 'M', NULL),
-(26, '432', 'fege', 'ergr', 'erge', 'M', NULL);
+(26, '432', 'fege', 'ergr', 'erge', 'M', NULL),
+(31, '200', 'Juan', 'Perez', 'Robles', 'M', NULL);
 
 -- --------------------------------------------------------
 
@@ -482,10 +495,20 @@ CREATE TABLE `coordinador_programa` (
 --
 
 INSERT INTO `coordinador_programa` (`id_coordinador`, `id_programa`, `fecha_inicio`, `fecha_fin`) VALUES
-(13, 5, '2022-03-17', '2022-03-29'),
-(13, 5, '2022-03-17', '2022-03-29'),
+(13, 5, '2022-04-27', '2022-03-29'),
+(13, 5, '2022-04-27', '2022-03-29'),
 (26, 5, '2022-03-16', '2022-03-29'),
-(13, 5, '2022-03-09', NULL);
+(13, 5, '2022-04-27', '2022-04-27'),
+(31, 5, '2022-04-27', '2022-04-27'),
+(13, 5, '2022-04-27', '2022-04-27'),
+(31, 5, '2022-04-27', '2022-04-27'),
+(13, 5, '2022-04-27', '2022-04-27'),
+(31, 5, '2022-04-27', '2022-04-27'),
+(13, 5, '2022-04-27', '2022-04-27'),
+(31, 5, '2022-04-27', '2022-04-27'),
+(13, 5, '2022-04-27', '2022-04-27'),
+(31, 5, '2022-04-27', '2022-04-27'),
+(13, 5, '2022-04-27', NULL);
 
 -- --------------------------------------------------------
 
@@ -515,6 +538,7 @@ CREATE TABLE `departamento` (
   `ubicacion` varchar(150) NOT NULL,
   `extension` varchar(12) NOT NULL,
   `correo` varchar(150) NOT NULL,
+  `contraseña` varchar(20) NOT NULL DEFAULT 'responsable1',
   `visible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -522,10 +546,10 @@ CREATE TABLE `departamento` (
 -- Volcado de datos para la tabla `departamento`
 --
 
-INSERT INTO `departamento` (`id_departamento`, `clave`, `nombre`, `ubicacion`, `extension`, `correo`, `visible`) VALUES
-(1, 'D', 'Dirección', ' ', '201', 'direccion@colima.tecnm.mx', 1),
-(2, 'SPB', 'Subdirector de Planeación y Vinculación', ' ', '102', 'subdireccion@colima.tecnm.mx', 1),
-(6, 'DAE', 'Departamento de Actividades Extraescolares', ' ', '108', 'departamento.extraescolares@colima.tecnm.mx', 1);
+INSERT INTO `departamento` (`id_departamento`, `clave`, `nombre`, `ubicacion`, `extension`, `correo`, `contraseña`, `visible`) VALUES
+(1, 'D', 'Dirección', ' ', '201', 'direccion@colima.tecnm.mx', 'responsable1', 1),
+(2, 'SPB', 'Subdirector de Planeación y Vinculación', ' ', '102', 'subdireccion@colima.tecnm.mx', 'responsable1', 1),
+(6, 'DAE', 'Departamento de Actividades Extraescolares', ' ', '108', 'departamento.extraescolares@colima.tecnm.mx', 'responsable1', 1);
 
 -- --------------------------------------------------------
 
@@ -548,7 +572,8 @@ CREATE TABLE `departamento_coordinador` (
 
 INSERT INTO `departamento_coordinador` (`id_departamento`, `id_coordinador`, `fecha_inicio`, `fecha_fin`, `visible`) VALUES
 (6, 13, '2022-03-17', NULL, 1),
-(6, 26, '2022-03-29', '2022-03-29', 0);
+(6, 26, '2022-03-29', '2022-03-29', 0),
+(6, 31, '2022-04-27', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -571,7 +596,8 @@ CREATE TABLE `departamento_programa` (
 INSERT INTO `departamento_programa` (`id_departamento`, `id_programa`, `correo`, `contraseña`) VALUES
 (6, 2, 'coordinacion.deportiva.extraescolares@colima.tecnm.mx', 'coordinador1'),
 (6, 5, 'coordinacion.cultural.extraescolares@colima.tecnm.mx', 'coordinador1'),
-(6, 6, 'coordinacion.civica.extraescolares@colima.tecnm.mx', 'coordinador1');
+(6, 6, 'coordinacion.civica.extraescolares@colima.tecnm.mx', 'coordinador1'),
+(6, 33, 'tutoria.extraescolares@colima.tecnm.mx', 'coordinador1');
 
 -- --------------------------------------------------------
 
@@ -597,6 +623,18 @@ INSERT INTO `departamento_responsable` (`id_departamento`, `id_responsable`, `fe
 (6, 5, '2022-03-09', '2022-03-16'),
 (6, 1, '2022-03-16', '2022-03-16'),
 (6, 5, '2022-03-16', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `evidencia`
+--
+
+DROP TABLE IF EXISTS `evidencia`;
+CREATE TABLE `evidencia` (
+  `id_evidencia` int(11) NOT NULL,
+  `nombre` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -684,7 +722,8 @@ INSERT INTO `programa` (`id_programa`, `clave`, `nombre`, `descripcion`, `observ
 (1, 'PFP', 'Formación profesional', NULL, NULL, 1),
 (2, 'PAD', 'Programa de Actividades Deportivas', NULL, NULL, 1),
 (5, 'PAC', 'Programa de Actividades Culturales', NULL, NULL, 1),
-(6, 'PACIV', 'Programa de Actividades Cívicas', NULL, NULL, 1);
+(6, 'PACIV', 'Programa de Actividades Cívicas', NULL, NULL, 1),
+(33, '500', 'Tutoría', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -701,7 +740,6 @@ CREATE TABLE `responsable` (
   `apellido_m` varchar(50) DEFAULT NULL,
   `sexo` varchar(1) NOT NULL,
   `correo` varchar(150) NOT NULL,
-  `contraseña` varchar(12) NOT NULL DEFAULT 'responsable1',
   `foto` varchar(150) DEFAULT NULL,
   `visible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -710,10 +748,10 @@ CREATE TABLE `responsable` (
 -- Volcado de datos para la tabla `responsable`
 --
 
-INSERT INTO `responsable` (`id_responsable`, `clave`, `nombre`, `apellido_p`, `apellido_m`, `sexo`, `correo`, `contraseña`, `foto`, `visible`) VALUES
-(1, '1', 'Ana Rosa', 'Braña', 'Castillo', 'F', 'ana.braña@colima.tecnm.mx', 'responsable1', NULL, 1),
-(4, '2', 'Pedro Itzvan', 'Silva', 'Medina', 'M', 'pedro.silva@colima.tecnm.mx', 'responsable1', NULL, 1),
-(5, '190', 'Ariel', 'Lira', 'Obando', 'M', 'alira@colima.tecnm.mx', 'responsable1', NULL, 1);
+INSERT INTO `responsable` (`id_responsable`, `clave`, `nombre`, `apellido_p`, `apellido_m`, `sexo`, `correo`, `foto`, `visible`) VALUES
+(1, '1', 'Ana Rosa', 'Braña', 'Castillo', 'F', 'ana.braña@colima.tecnm.mx', NULL, 1),
+(4, '2', 'Pedro Itzvan', 'Silva', 'Medina', 'M', 'pedro.silva@colima.tecnm.mx', NULL, 1),
+(5, '190', 'Ariel', 'Lira', 'Obando', 'M', 'alira@colima.tecnm.mx', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -740,6 +778,13 @@ CREATE TABLE `tema` (
 ALTER TABLE `actividad`
   ADD PRIMARY KEY (`id_actividad`),
   ADD KEY `id_programa` (`id_programa`);
+
+--
+-- Indices de la tabla `actividad_evidencia`
+--
+ALTER TABLE `actividad_evidencia`
+  ADD KEY `id_actividad` (`id_actividad`),
+  ADD KEY `id_evidencia` (`id_evidencia`);
 
 --
 -- Indices de la tabla `administrador`
@@ -796,6 +841,12 @@ ALTER TABLE `departamento_programa`
 ALTER TABLE `departamento_responsable`
   ADD KEY `id_responsable` (`id_responsable`),
   ADD KEY `id_departamento` (`id_departamento`) USING BTREE;
+
+--
+-- Indices de la tabla `evidencia`
+--
+ALTER TABLE `evidencia`
+  ADD PRIMARY KEY (`id_evidencia`);
 
 --
 -- Indices de la tabla `material_actividad`
@@ -864,7 +915,7 @@ ALTER TABLE `administrador`
 -- AUTO_INCREMENT de la tabla `coordinador`
 --
 ALTER TABLE `coordinador`
-  MODIFY `id_coordinador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id_coordinador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `criterio_evaluacion`
@@ -877,6 +928,12 @@ ALTER TABLE `criterio_evaluacion`
 --
 ALTER TABLE `departamento`
   MODIFY `id_departamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT de la tabla `evidencia`
+--
+ALTER TABLE `evidencia`
+  MODIFY `id_evidencia` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `material_actividad`
@@ -900,7 +957,7 @@ ALTER TABLE `periodo`
 -- AUTO_INCREMENT de la tabla `programa`
 --
 ALTER TABLE `programa`
-  MODIFY `id_programa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_programa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `responsable`
@@ -923,6 +980,13 @@ ALTER TABLE `tema`
 --
 ALTER TABLE `actividad`
   ADD CONSTRAINT `actividad_ibfk_1` FOREIGN KEY (`id_programa`) REFERENCES `programa` (`id_programa`);
+
+--
+-- Filtros para la tabla `actividad_evidencia`
+--
+ALTER TABLE `actividad_evidencia`
+  ADD CONSTRAINT `actividad_evidencia_ibfk_1` FOREIGN KEY (`id_actividad`) REFERENCES `actividad` (`id_actividad`),
+  ADD CONSTRAINT `actividad_evidencia_ibfk_2` FOREIGN KEY (`id_evidencia`) REFERENCES `evidencia` (`id_evidencia`);
 
 --
 -- Filtros para la tabla `coordinador_programa`
