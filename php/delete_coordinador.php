@@ -2,9 +2,9 @@
 include('conexion.php');
 
 $id_c = $_POST['id_coordinador'];
-$id_r = $_POST['id_responsable'];
+$id_d = $_POST['id_departamento'];
 
-$sql=("CALL sp_delete_coordinador(".$id_c.",".$id_r.")");
+$sql=("CALL sp_delete_coordinador(".$id_c.",".$id_d.")");
 $result = mysqli_query($conn,$sql);
 if($result){
     echo "1";

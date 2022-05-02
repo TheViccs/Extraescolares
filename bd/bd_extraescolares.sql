@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-04-2022 a las 16:34:47
+-- Tiempo de generación: 02-05-2022 a las 04:28:40
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -42,18 +42,22 @@ DELETE FROM material_alumno WHERE id_actividad=a_id_actividad;
 DELETE FROM material_actividad WHERE id_actividad=a_id_actividad;
 DELETE FROM tema WHERE id_actividad=a_id_actividad;
 DELETE FROM criterio_evaluacion WHERE id_actividad=a_id_actividad;
+CREATE TEMPORARY TABLE evidencias_actuales(
+    id_evidencia INT
+);
+INSERT INTO evidencias_actuales (id_evidencia) SELECT id_evidencia FROM actividad_evidencia WHERE id_actividad=a_id_actividad;
+DELETE FROM actividad_evidencia WHERE id_actividad=a_id_actividad;
+DELETE FROM evidencia WHERE id_actividad=a_id_actividad AND id_evidencia IN (SELECT id_evidencia FROM evidencias_actuales);
 COMMIT;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_delete_coordinador`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_coordinador` (IN `c_id_coordinador` INT(7), IN `c_id_responsable` INT(5))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_coordinador` (IN `c_id_coordinador` INT(7), IN `c_id_departamento` INT(5))  BEGIN
 START TRANSACTION;
 
-SET @departamento = (SELECT id_departamento FROM departamento_responsable WHERE departamento_responsable.id_responsable=c_id_responsable AND departamento_responsable.fecha_fin IS NULL);
-
-	UPDATE departamento_coordinador SET departamento_coordinador.fecha_fin=NOW(), departamento_coordinador.visible=0 WHERE departamento_coordinador.id_coordinador=c_id_coordinador AND departamento_coordinador.id_departamento=@departamento;
+	UPDATE departamento_coordinador SET departamento_coordinador.fecha_fin=NOW(), departamento_coordinador.visible=0 WHERE departamento_coordinador.id_coordinador=c_id_coordinador AND departamento_coordinador.id_departamento=c_id_departamento;
     
-    UPDATE coordinador_programa SET coordinador_programa.fecha_fin=NOW() WHERE coordinador_programa.id_coordinador=c_id_coordinador AND coordinador_programa.id_programa IN (SELECT id_programa FROM departamento_programa WHERE departamento_programa.id_departamento=@departamento);
+    UPDATE coordinador_programa SET coordinador_programa.fecha_fin=NOW() WHERE coordinador_programa.id_coordinador=c_id_coordinador AND coordinador_programa.id_programa IN (SELECT id_programa FROM departamento_programa WHERE departamento_programa.id_departamento=c_id_departamento);
 COMMIT;
 END$$
 
@@ -148,6 +152,29 @@ START TRANSACTION;
 	INSERT INTO departamento (clave,nombre,ubicacion,extension,correo) VALUES (d_clave,d_nombre,d_ubicacion,d_extension,d_correo);
     INSERT INTO departamento_responsable(id_departamento,id_responsable,fecha_inicio)VALUES((SELECT id_departamento FROM departamento WHERE clave=d_clave),r_id,NOW());
     COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insert_evidencia`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_evidencia` (IN `e_nombre` VARCHAR(150), IN `e_id_actividad` INT)  BEGIN
+START TRANSACTION;
+INSERT INTO evidencia (nombre) VALUES (e_nombre);
+INSERT INTO actividad_evidencia (id_actividad,id_evidencia) VALUES (e_id_actividad,last_insert_id());
+COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insert_instructor`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_instructor` (IN `i_nombre` VARCHAR(150), IN `i_apellido_p` VARCHAR(50), IN `i_apellido_m` VARCHAR(50), IN `i_telefono` VARCHAR(10), IN `i_sexo` VARCHAR(1), IN `i_correo` VARCHAR(150), IN `i_id_departamento` INT)  BEGIN
+START TRANSACTION;
+	IF 0 = (SELECT COUNT(*) FROM instructor WHERE nombre=i_nombre AND apellido_p=i_apellido_p AND apellido_m=i_apellido_m AND telefono=i_telefono AND sexo=i_sexo AND correo=i_correo) THEN
+		INSERT INTO instructor(nombre, apellido_p, apellido_m, telefono, sexo, correo) VALUES (i_nombre, i_apellido_p, i_apellido_m, i_telefono, i_sexo, i_correo) ON DUPLICATE KEY UPDATE nombre=i_nombre, apellido_p=i_apellido_p, apellido_m=i_apellido_m, telefono=i_telefono, sexo=i_sexo, correo=i_correo;
+    	INSERT INTO departamento_instructor(id_departamento,id_instructor,fecha_inicio) VALUES (i_id_departamento, last_insert_id(),NOW());
+	ELSE
+		SET @instructor = (SELECT id_instructor FROM instructor WHERE nombre=i_nombre AND apellido_p=i_apellido_p AND apellido_m=i_apellido_m AND telefono=i_telefono AND sexo=i_sexo AND correo=i_correo);
+    	IF 0 = (SELECT COUNT(*) FROM departamento_instructor WHERE id_departamento=i_id_departamento AND id_instructor=@instructor AND fecha_fin IS NULL) THEN
+    		INSERT INTO departamento_instructor (id_departamento,id_instructor,fecha_inicio) VALUES (i_id_departamento,@instructor,NOW());
+    	END IF;
+END IF;
+COMMIT;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_material_actividad`$$
@@ -261,6 +288,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_departamento_id` (IN `d_i
 	SELECT departamento.id_departamento, departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension, departamento.correo, departamento_responsable.id_responsable, responsable.nombre AS nombre_responsable, responsable.apellido_p, responsable.apellido_m FROM departamento LEFT JOIN departamento_responsable ON departamento.id_departamento = departamento_responsable.id_departamento LEFT JOIN responsable ON responsable.id_responsable=departamento_responsable.id_responsable WHERE departamento.id_departamento=d_id_departamento AND departamento_responsable.fecha_fin IS NULL;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_select_instructores_departamento_id`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_instructores_departamento_id` (IN `i_id_departamento` INT)  BEGIN
+SELECT instructor.* FROM instructor JOIN departamento_instructor ON instructor.id_instructor=departamento_instructor.id_instructor WHERE departamento_instructor.id_departamento=i_id_departamento AND departamento_instructor.fecha_fin IS NULL AND departamento_instructor.visible=1;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_instructor_id`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_instructor_id` (IN `i_id_instructor` INT)  BEGIN
+SELECT * FROM instructor WHERE id_instructor = i_id_instructor;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_select_materiales_actividad`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_materiales_actividad` (IN `a_id_actividad` INT)  BEGIN
 SELECT * FROM material_actividad WHERE id_actividad=a_id_actividad;
@@ -356,6 +393,13 @@ START TRANSACTION;
         INSERT INTO departamento_responsable(id_departamento,id_responsable,fecha_inicio) VALUES (d_id_departamento,r_id,NOW());
     END IF; 
     COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_update_instructor`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_instructor` (IN `i_id_instructor` INT, IN `i_nombre` VARCHAR(150), IN `i_apellido_p` VARCHAR(50), IN `i_apellido_m` VARCHAR(50), IN `i_telefono` VARCHAR(10), IN `i_sexo` VARCHAR(1), IN `i_correo` VARCHAR(150))  BEGIN
+START TRANSACTION;
+	UPDATE instructor SET nombre=i_nombre, apellido_p=i_apellido_p, apellido_m=i_apellido_m, telefono=i_telefono, sexo=i_sexo, correo=i_correo WHERE id_instructor=i_id_instructor;
+COMMIT;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_update_programa`$$
@@ -578,6 +622,28 @@ INSERT INTO `departamento_coordinador` (`id_departamento`, `id_coordinador`, `fe
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `departamento_instructor`
+--
+
+DROP TABLE IF EXISTS `departamento_instructor`;
+CREATE TABLE `departamento_instructor` (
+  `id_departamento` int(11) DEFAULT NULL,
+  `id_instructor` int(11) DEFAULT NULL,
+  `fecha_inicio` date NOT NULL,
+  `fecha_fin` date DEFAULT NULL,
+  `visible` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `departamento_instructor`
+--
+
+INSERT INTO `departamento_instructor` (`id_departamento`, `id_instructor`, `fecha_inicio`, `fecha_fin`, `visible`) VALUES
+(1, 6, '2022-04-28', NULL, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `departamento_programa`
 --
 
@@ -635,6 +701,33 @@ CREATE TABLE `evidencia` (
   `id_evidencia` int(11) NOT NULL,
   `nombre` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `instructor`
+--
+
+DROP TABLE IF EXISTS `instructor`;
+CREATE TABLE `instructor` (
+  `id_instructor` int(11) NOT NULL,
+  `nombre` varchar(150) NOT NULL,
+  `apellido_m` varchar(50) NOT NULL,
+  `apellido_p` varchar(50) NOT NULL,
+  `telefono` varchar(10) DEFAULT NULL,
+  `sexo` varchar(1) NOT NULL,
+  `correo` varchar(150) NOT NULL,
+  `contraseña` varchar(20) NOT NULL DEFAULT 'instructor1',
+  `foto` varchar(150) DEFAULT NULL,
+  `visible` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `instructor`
+--
+
+INSERT INTO `instructor` (`id_instructor`, `nombre`, `apellido_m`, `apellido_p`, `telefono`, `sexo`, `correo`, `contraseña`, `foto`, `visible`) VALUES
+(6, 'Juan', 'Robles', 'Perez', '', 'H', 'juan.perez@gmail.com', 'instructor1', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -829,6 +922,13 @@ ALTER TABLE `departamento_coordinador`
   ADD KEY `id_coordinador` (`id_coordinador`);
 
 --
+-- Indices de la tabla `departamento_instructor`
+--
+ALTER TABLE `departamento_instructor`
+  ADD KEY `id_departamento` (`id_departamento`),
+  ADD KEY `id_instructor` (`id_instructor`);
+
+--
 -- Indices de la tabla `departamento_programa`
 --
 ALTER TABLE `departamento_programa`
@@ -847,6 +947,12 @@ ALTER TABLE `departamento_responsable`
 --
 ALTER TABLE `evidencia`
   ADD PRIMARY KEY (`id_evidencia`);
+
+--
+-- Indices de la tabla `instructor`
+--
+ALTER TABLE `instructor`
+  ADD PRIMARY KEY (`id_instructor`);
 
 --
 -- Indices de la tabla `material_actividad`
@@ -936,6 +1042,12 @@ ALTER TABLE `evidencia`
   MODIFY `id_evidencia` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `instructor`
+--
+ALTER TABLE `instructor`
+  MODIFY `id_instructor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT de la tabla `material_actividad`
 --
 ALTER TABLE `material_actividad`
@@ -1007,6 +1119,13 @@ ALTER TABLE `criterio_evaluacion`
 ALTER TABLE `departamento_coordinador`
   ADD CONSTRAINT `departamento_coordinador_ibfk_1` FOREIGN KEY (`id_departamento`) REFERENCES `departamento` (`id_departamento`),
   ADD CONSTRAINT `departamento_coordinador_ibfk_2` FOREIGN KEY (`id_coordinador`) REFERENCES `coordinador` (`id_coordinador`);
+
+--
+-- Filtros para la tabla `departamento_instructor`
+--
+ALTER TABLE `departamento_instructor`
+  ADD CONSTRAINT `departamento_instructor_ibfk_1` FOREIGN KEY (`id_departamento`) REFERENCES `departamento` (`id_departamento`),
+  ADD CONSTRAINT `departamento_instructor_ibfk_2` FOREIGN KEY (`id_instructor`) REFERENCES `instructor` (`id_instructor`);
 
 --
 -- Filtros para la tabla `departamento_programa`

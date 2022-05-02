@@ -247,11 +247,11 @@ function mostrar_modal_borrar_coordinador(id_coordinador, clave, nombre, sexo){
 //BORRAR RESPONSABLE
 function borrar_coordinador(){
     let id_coordinador = $("#input_id_coordinador_borrar").val();
-    let id_responsable = $("#input_id_responsable").val();
+    let id_departamento = $("#input_id_departamento").val();
     $.ajax({
         type: "POST",
         url: path+"delete_coordinador.php",  
-        data: {"id_coordinador": id_coordinador, "id_responsable": id_responsable} ,                         
+        data: {"id_coordinador": id_coordinador, "id_departamento": id_departamento} ,                         
         success: function(res){
             select_coordinadores();
             $("#modal_borrar_coordinador").modal("hide");   
