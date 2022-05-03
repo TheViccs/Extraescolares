@@ -164,9 +164,7 @@ body {
     grid-template-areas:
         "label_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable"
         "label_nombre_resposable label_nombre_resposable input_nombre_resposable label_apPaterno_resposable label_apPaterno_resposable input_apPaterno_resposable label_apMaterno_resposable label_apMaterno_resposable input_apMaterno_resposable"
-        "label_email_resposable  input_email_resposable input_email_resposable input_email_resposable input_email_resposable input_email_resposable input_email_resposable input_email_resposable input_email_resposable"
-        "label_sexo_resposable input_sexo_resposable input_sexo_resposable input_sexo_resposable input_sexo_resposable input_sexo_resposable input_sexo_resposable input_sexo_resposable input_sexo_resposable"
-    ;
+        "label_email_resposable  input_email_resposable input_email_resposable input_email_resposable input_email_resposable label_sexo_resposable input_sexo_resposable input_sexo_resposable input_sexo_resposable";
 }
 
 .flecha {
@@ -239,9 +237,14 @@ label {
                 <option value="F">Femenino</option>
             </select>
         </div>
-        <div class="botones2">
+        <!-- <div class="botones2">
             <button id="boton_insert_update_responsable" class="btn btn-success" onclick="insert_responsable()">Guardar</button>
             <button class="btn btn-danger" onclick="borrar_datos_input_responsable()">Cancelar</button>
+        </div> -->
+
+        <div class="botones2">
+            <button id="boton_insert_update_responsable" class="btn btn-success" onclick="insert_responsable()">Guardar</button>
+            <button class="btn btn-danger cancelar" onclick="borrar_datos_input_responsable()">Cancelar</button>
         </div>
         
 

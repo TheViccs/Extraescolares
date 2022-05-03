@@ -287,6 +287,15 @@ label {
                             <label class="w-50">Correo</label>
                             <input id="input_correo_responsable" class="w-50" type="text" />
                         </div>
+                        <br>
+                        <div class="w-100 d-flex">
+                            <label class="w-50">Sexo</label>
+                            <select class="w-50" id="select_sexo_responsable">
+                                <option value="O" disabled selected>Elige...</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 

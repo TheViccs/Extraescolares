@@ -131,8 +131,8 @@ function insert_coordinador(){
             data: {"id_responsable":id_responsable, "clave":clave,"nombre":nombre,"apellido_p":apellido_p,"apellido_m":apellido_m,"sexo":sexo},
             success: function(res){
                 console.log(res);
-                borrar_datos_input_coordinador();
                 select_coordinadores();
+                borrar_datos_input_coordinador();           
                 if (res === "1") {
                     mostrar_alerta(1);
                 }else{
@@ -152,6 +152,7 @@ function borrar_datos_input_coordinador(){
     $("#input_apellido_p_coordinador").val("");
     $("#input_apellido_m_coordinador").val("");
     $("#select_sexo_coordinador").val("O");
+    $("#input_contacto_coordinador").val("");
     $("#boton_insert_update_coordinador").attr("onclick","insert_responsable()");
 }
 
