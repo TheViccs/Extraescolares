@@ -36,12 +36,14 @@ $('#tabla_programas').DataTable({
 
 //SELECT DE PROGRAMAS
 function select_programas(){
-    let id_responsable = $("#input_id_responsable").val();
+    let id_departamento = $("#input_id_departamento").val();
+    console.log(id_departamento);
     $.ajax({
         type: "POST",
-        url: path+"select_programas_responsable_id.php",  
-        data: {"id_responsable": id_responsable} ,                           
-        success: function(res){    
+        url: path+"select_programas_departamento_id.php",  
+        data: {"id_departamento": id_departamento} ,                           
+        success: function(res){   
+            console.log(res); 
             let programas = JSON.parse(res);             
             agregar_programas_tabla(programas);
         }

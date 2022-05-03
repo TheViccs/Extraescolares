@@ -158,7 +158,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
             </div>
 
          
-            <input id="input_id_responsable" type="text" value="<?php echo $_SESSION['id_responsable'] ?>" hidden />
+            <input id="input_id_departamento" type="text" value="<?php echo $_SESSION['id_departamento'] ?>" hidden/>
 
             <div class="contenedor-tabla content-table">
                 <table id="tabla_programas">

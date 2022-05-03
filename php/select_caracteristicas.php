@@ -1,9 +1,7 @@
 <?php
 include('conexion.php');
 
-$id_a = $_POST['id_actividad'];
-
-$sql=("CALL sp_select_materiales_actividad(".$id_a.")");
+$sql=("CALL sp_select_caracteristicas()");
 $result = mysqli_query($conn,$sql);
 if($result){
     $emparray = array();

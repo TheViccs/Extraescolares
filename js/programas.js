@@ -169,7 +169,6 @@ function insert_programa_departamento(clave, nombre, descripcion, observaciones,
         url: path+"insert_programa_departamento.php",  
         data: {"clave": clave, "nombre": nombre, "descripcion": descripcion, "observaciones": observaciones, "departamentos": departamentos.toString(), "correos": correos.toString()} ,                         
         success: function(res){  
-            console.log(res);
             mostrar_alerta(1);
             select_programas();
             borrar_datos_input_programa();  
