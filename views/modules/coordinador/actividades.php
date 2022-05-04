@@ -412,10 +412,11 @@ body {
     min-height: 20%;
     min-width: fit-content;
     grid-gap: 2rem;
-    grid-template-columns: repeat(8, .3fr);
+    grid-template-columns: repeat(4, .3fr);
     grid-template-areas:
 
-        "label_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad label_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad";
+        "label_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad" 
+        "label_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad";
 
 }
 
