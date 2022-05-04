@@ -547,7 +547,7 @@ ul.navega li {
         <?php include "../../../views/layout/header.php" ?>
         <div class="cabecera">
             <h1 class="titulo">Gestionar Actividad</h1>
-            <a href="#"><img class="flecha" src="../../.././assets/img/back.png"></a>
+            <a href="http://localhost/Extraescolares/views/modules/coordinador/coordinador.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
         </div>
 
         <div class="contenedor-tabla content-table">
