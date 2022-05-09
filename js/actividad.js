@@ -4,6 +4,7 @@ $(document).ready(function() {$('#listaElemento input[type="text"]').val('');})
 var boton = document.getElementById("add_Material");
 boton.addEventListener("click", function () {
     $( "#listaElemento" ).append( "<li id='listaElemento' > <div class='cuadro8' style='margin-top: 10px;'> <label class='label9'>Material</label> <input class='input9' id='input_material_actividad' placeholder='Material' type='text' required></input> <label class='label20'>Cantidad</label> <input class='input20' id='input_cantidad_material' type='text' placeholder='Cantidad'> <button id='Eliminar_Material' onclick='eliminar(this)' class='btn8 btn-danger cancelar'>Eliminar Material</button></div> </li>" );
+    obtenerMateriales();
 }, false);
 
 function eliminar(obj){
@@ -14,6 +15,7 @@ function eliminar(obj){
 var boton = document.getElementById("add_Material_alumnos");
 boton.addEventListener("click", function () {
     $( "#listaElementoAlumno" ).append( "<li id='listaElementoAlumno' > <div class='cuadro8' style='margin-top: 10px;'> <label class='label9'>Material</label> <input class='input9' id='input_material_alumno_actividad' placeholder='Material' type='text' required></input> <label class='label20'>Cantidad</label> <input class='input20' id='input_cantidad_alumno_material' type='text' placeholder='Cantidad'> <button id='Eliminar_Material_alumno' onclick='eliminarME(this)' class='btn8 btn-danger cancelar'>Eliminar Material</button></div> </li>" );
+    obtenerMateriales();
 }, false);
 
 function eliminarME(obj){
@@ -29,9 +31,6 @@ boton.addEventListener("click", function () {
 function eliminarTE(obj){
     $(obj).parent().parent().remove();
 }
-
-
-
 
 
 

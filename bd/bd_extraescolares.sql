@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 03-05-2022 a las 03:42:13
+-- Tiempo de generación: 09-05-2022 a las 16:48:07
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -34,6 +34,13 @@ START TRANSACTION;
     COMMIT;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_delete_actividad_instructor`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_actividad_instructor` (IN `a_id_actividad` INT, IN `a_id_instructor` INT, IN `a_id_evidencia` INT)   BEGIN
+START TRANSACTION;
+DELETE FROM actividad_instructor WHERE id_instructor=a_id_instructor AND id_evidencia=a_id_evidencia AND id_actividad=a_id_actividad;
+COMMIT;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_delete_complementos_actividad`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_complementos_actividad` (IN `a_id_actividad` INT)   BEGIN
 START TRANSACTION;
@@ -46,8 +53,20 @@ CREATE TEMPORARY TABLE evidencias_actuales(
     id_evidencia INT
 );
 INSERT INTO evidencias_actuales (id_evidencia) SELECT id_evidencia FROM actividad_evidencia WHERE id_actividad=a_id_actividad;
-DELETE FROM actividad_evidencia WHERE id_actividad=a_id_actividad;
-DELETE FROM evidencia WHERE id_actividad=a_id_actividad AND id_evidencia IN (SELECT id_evidencia FROM evidencias_actuales);
+DELETE FROM actividad_evidencia WHERE id_actividad=a_id_actividad AND id_evidencia IN (SELECT id_evidencia FROM evidencias_actuales);
+DELETE FROM evidencia WHERE id_evidencia IN (SELECT id_evidencia FROM evidencias_actuales);
+COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_delete_complementos_grupo`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_complementos_grupo` (IN `g_id_grupo` INT)   BEGIN
+START TRANSACTION;
+CREATE TEMPORARY TABLE horarios_actuales(
+    id_horario INT
+);
+INSERT INTO horarios_actuales (id_horario) SELECT id_horario FROM grupo_horario WHERE id_grupo=g_id_grupo;
+DELETE FROM grupo_horario WHERE id_grupo=g_id_grupo AND id_horario IN (SELECT id_horario FROM horarios_actuales);
+DELETE FROM horarios WHERE id_horario IN (SELECT id_horario FROM horarios_actuales);
 COMMIT;
 END$$
 
@@ -74,6 +93,13 @@ DROP PROCEDURE IF EXISTS `sp_delete_grupo`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_grupo` (IN `g_id_grupo` INT)   BEGIN
 START TRANSACTION;
 UPDATE grupo SET visible=0 WHERE grupo.id_grupo=g_id_grupo;
+COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_delete_instructor`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_instructor` (IN `i_id_instructor` INT)   BEGIN
+START TRANSACTION;
+UPDATE instructor SET visible=0 WHERE instructor.id_instructor=i_id_instructor;
 COMMIT;
 END$$
 
@@ -105,6 +131,20 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_actividad_con_padre` (IN 
 START TRANSACTION;
 	INSERT INTO actividad (nombre, descripcion, competencia, creditos_otorga, beneficios, capacidad_min, capacidad_max, actividad_padre,id_programa) VALUES (a_nombre, a_descripcion, a_competencia, a_creditos_otorga, a_beneficios, a_capacidad_min, a_capacidad_max, a_actividad_padre, a_id_programa);
     COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insert_actividad_instructor`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_actividad_instructor` (IN `a_id_actividad` INT, IN `a_id_instructor` INT)   BEGIN
+START TRANSACTION;
+INSERT INTO actividad_instructor (id_actividad, id_instructor) VALUES (a_id_actividad, a_id_instructor);
+COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insert_actividad_instructor_evidencia`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_actividad_instructor_evidencia` (IN `a_id_actividad` INT, IN `a_id_instructor` INT, IN `a_id_evidencia` INT, IN `a_porcentaje` INT)   BEGIN
+START TRANSACTION;
+INSERT INTO actividad_instructor (id_actividad, id_instructor, id_evidencia, porcentaje) VALUES (a_id_actividad, a_id_instructor, a_id_evidencia, a_porcentaje);
+COMMIT;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_caracteristica`$$
@@ -180,6 +220,13 @@ DROP PROCEDURE IF EXISTS `sp_insert_grupo`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_grupo` (IN `g_nombre` VARCHAR(50), IN `g_capacidad_max` INT, IN `g_capacidad_min` INT, IN `g_id_actividad` INT, IN `g_id_lugar` INT, IN `g_id_caracteristica` INT, IN `g_id_instructor` INT)   BEGIN
 START TRANSACTION;
 INSERT INTO grupo (nombre, capacidad_max, capacidad_min, id_actividad, id_lugar, id_caracteristica, id_instructor) VALUES (g_nombre, g_capacidad_max, g_capacidad_min, g_id_actividad, g_id_lugar, g_id_caracteristica, g_id_instructor);
+COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insert_grupo_horario`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_grupo_horario` (IN `h_id_grupo` INT, IN `h_id_horario` INT)   BEGIN
+START TRANSACTION;
+INSERT INTO grupo_horario (id_grupo, id_horario) VALUES (h_id_grupo, h_id_horario);
 COMMIT;
 END$$
 
@@ -291,6 +338,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_actividad_id` (IN `a_id_a
     SELECT actividad.id_actividad, actividad.nombre, actividad.descripcion, actividad.competencia, actividad.creditos_otorga, actividad.beneficios, actividad.capacidad_min, actividad.capacidad_max, actividad.id_programa WHERE actividad.id_actividad=a_id_actividad;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_select_actividad_instructores`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_actividad_instructores` (IN `a_id_actividad` INT)   BEGIN
+SELECT instructor.* FROM actividad_instructor JOIN instructor ON actividad_instructor.id_instructor=instructor.id_instructor WHERE id_actividad=a_id_actividad AND id_evidencia IS NULL AND porcentaje IS NULL;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_caracteristicas`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_caracteristicas` ()   BEGIN
+SELECT * FROM caracteristica;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_select_coordinadores_departamento_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_coordinadores_departamento_id` (IN `c_id_departamento` INT)   BEGIN
 
@@ -344,9 +401,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_instructores_departamento
 SELECT instructor.* FROM instructor JOIN departamento_instructor ON instructor.id_instructor=departamento_instructor.id_instructor WHERE departamento_instructor.id_departamento=i_id_departamento AND departamento_instructor.fecha_fin IS NULL AND departamento_instructor.visible=1;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_select_instructor_evidencias`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_instructor_evidencias` (IN `a_id_actividad` INT, IN `a_id_instructor` INT)   BEGIN
+SELECT evidencia.* FROM actividad_instructor JOIN evidencia ON actividad_instructor.id_evidencia=evidencia.id_evidencia WHERE id_actividad=a_id_actividad AND id_instructor=a_id_instructor; 
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_select_instructor_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_instructor_id` (IN `i_id_instructor` INT)   BEGIN
 SELECT * FROM instructor WHERE id_instructor = i_id_instructor;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_lugares`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_lugares` ()   BEGIN
+SELECT * FROM lugar;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_materiales_actividad`$$
@@ -414,6 +481,13 @@ START TRANSACTION;
     COMMIT;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_update_actividad_instructor`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_actividad_instructor` (IN `a_id_actividad` INT, IN `a_id_instructor` INT, IN `a_id_evidencia` INT, IN `a_porcentaje` INT)   BEGIN
+START TRANSACTION;
+UPDATE actividad_instructor SET porcentaje=a_porcentaje WHERE id_actividad=a_id_actividad AND id_instructor=a_id_instructor AND id_evidencia=a_id_evidencia;
+COMMIT;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_update_coordinador`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_coordinador` (IN `c_id_coordinador` INT, IN `c_clave` VARCHAR(10), IN `c_nombre` VARCHAR(150), IN `c_apellido_p` VARCHAR(50), IN `c_apellido_m` VARCHAR(50), IN `c_sexo` VARCHAR(1))   BEGIN
 START TRANSACTION;
@@ -444,6 +518,13 @@ START TRANSACTION;
         INSERT INTO departamento_responsable(id_departamento,id_responsable,fecha_inicio) VALUES (d_id_departamento,r_id,NOW());
     END IF; 
     COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_update_grupo`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_grupo` (IN `g_nombre` VARCHAR(50), IN `g_capacidad_max` INT, IN `g_capacidad_min` INT, IN `g_id_actividad` INT, IN `g_id_lugar` INT, IN `g_id_caracteristica` INT, IN `g_id_instructor` INT, IN `g_id_grupo` INT)   BEGIN
+START TRANSACTION;
+UPDATE grupo SET nombre=g_nombre, capacidad_max=g_capacidad_max, capacidad_min=g_capacidad_min, id_actividad=g_id_actividad, id_lugar=g_id_lugar, id_caracteristica=g_id_caracteristica, id_instructor=g_id_instructor WHERE id_grupo=g_id_grupo;
+COMMIT;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_update_instructor`$$
@@ -526,6 +607,20 @@ CREATE TABLE `actividad_evidencia` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `actividad_instructor`
+--
+
+DROP TABLE IF EXISTS `actividad_instructor`;
+CREATE TABLE `actividad_instructor` (
+  `id_actividad` int(11) NOT NULL,
+  `id_instructor` int(11) NOT NULL,
+  `id_evidencia` int(11) DEFAULT NULL,
+  `porcentaje` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `administrador`
 --
 
@@ -542,6 +637,34 @@ CREATE TABLE `administrador` (
 
 INSERT INTO `administrador` (`id_admin`, `usuario`, `contraseña`) VALUES
 (1, 'admin@colima.tecnm.mx', '1234');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `alumno`
+--
+
+DROP TABLE IF EXISTS `alumno`;
+CREATE TABLE `alumno` (
+  `id_alumno` int(11) NOT NULL,
+  `nombre` varchar(150) NOT NULL,
+  `apellido_p` varchar(50) NOT NULL,
+  `apellido_m` varchar(50) NOT NULL,
+  `correo` varchar(200) NOT NULL,
+  `contraseña` varchar(20) NOT NULL DEFAULT 'alumno1',
+  `semestre` int(11) NOT NULL,
+  `carrera` varchar(200) NOT NULL,
+  `creditos_totales` int(11) NOT NULL DEFAULT 0,
+  `estatura` float NOT NULL,
+  `peso` float NOT NULL,
+  `tipo_sangre` varchar(2) NOT NULL,
+  `talla` varchar(3) NOT NULL,
+  `telefono` varchar(10) NOT NULL,
+  `alergias` varchar(200) DEFAULT NULL,
+  `enfermedades` varchar(200) DEFAULT NULL,
+  `foto` varchar(250) DEFAULT NULL,
+  `visible` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -1005,11 +1128,25 @@ ALTER TABLE `actividad_evidencia`
   ADD KEY `id_evidencia` (`id_evidencia`);
 
 --
+-- Indices de la tabla `actividad_instructor`
+--
+ALTER TABLE `actividad_instructor`
+  ADD UNIQUE KEY `id_actividad` (`id_actividad`,`id_instructor`,`id_evidencia`),
+  ADD KEY `id_instructor` (`id_instructor`),
+  ADD KEY `id_evidencia` (`id_evidencia`);
+
+--
 -- Indices de la tabla `administrador`
 --
 ALTER TABLE `administrador`
   ADD PRIMARY KEY (`id_admin`),
   ADD UNIQUE KEY `usuario` (`usuario`);
+
+--
+-- Indices de la tabla `alumno`
+--
+ALTER TABLE `alumno`
+  ADD PRIMARY KEY (`id_alumno`);
 
 --
 -- Indices de la tabla `caracteristica`
@@ -1179,6 +1316,12 @@ ALTER TABLE `administrador`
   MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT de la tabla `alumno`
+--
+ALTER TABLE `alumno`
+  MODIFY `id_alumno` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `caracteristica`
 --
 ALTER TABLE `caracteristica`
@@ -1284,6 +1427,14 @@ ALTER TABLE `actividad`
 ALTER TABLE `actividad_evidencia`
   ADD CONSTRAINT `actividad_evidencia_ibfk_1` FOREIGN KEY (`id_actividad`) REFERENCES `actividad` (`id_actividad`),
   ADD CONSTRAINT `actividad_evidencia_ibfk_2` FOREIGN KEY (`id_evidencia`) REFERENCES `evidencia` (`id_evidencia`);
+
+--
+-- Filtros para la tabla `actividad_instructor`
+--
+ALTER TABLE `actividad_instructor`
+  ADD CONSTRAINT `actividad_instructor_ibfk_1` FOREIGN KEY (`id_actividad`) REFERENCES `actividad` (`id_actividad`),
+  ADD CONSTRAINT `actividad_instructor_ibfk_2` FOREIGN KEY (`id_instructor`) REFERENCES `instructor` (`id_instructor`),
+  ADD CONSTRAINT `actividad_instructor_ibfk_3` FOREIGN KEY (`id_evidencia`) REFERENCES `evidencia` (`id_evidencia`);
 
 --
 -- Filtros para la tabla `coordinador_programa`
