@@ -155,15 +155,6 @@ body {
     grid-area: input_desc_actividad;
 }
 
-.label8 {
-    grid-area: label_bene_actividad;
-    text-align: center;
-}
-
-.input8 {
-    grid-area: input_bene_actividad;
-}
-
 .label7 {
     grid-area: label_compe_actividad;
     text-align: center;
@@ -171,6 +162,15 @@ body {
 
 .input7 {
     grid-area: input_compe_actividad;
+}
+
+.label8 {
+    grid-area: label_bene_actividad;
+    text-align: center;
+}
+
+.input8 {
+    grid-area: input_bene_actividad;
 }
 
 .label9 {
@@ -261,74 +261,43 @@ body {
 
 }
 
-.label18 {
-    grid-area: label_pnombre_actividad;
-    text-align: center;
-}
-
-.input18 {
-    grid-area: input_pnombre_actividad;
-
-}
-
 .label19 {
-    grid-area: label_materialdado_actividad_add;
-    text-align: center;
-}
-
-
-
-.label20 {
     grid-area: label_cantidad_material;
     text-align: center;
 }
 
-.input20 {
+.input19 {
     grid-area: input_cantidad_material;
 
 }
 
-.input21 {
-    grid-area: cuadro_material;
-}
-
-.input22 {
-    grid-area: cuadro_tema;
-}
-.label22 {
-    grid-area: label_materialAlum_actividad_add;
+.lable_Agregar {
+    grid-area: label_Agregar_Elemento;
     text-align: center;
 }
 
-.label23 {
-    grid-area: label_tema_add;
-    text-align: center;
-}
-
-.btn6 {
+.btn1 {
     grid-area: btn_padre_actividad;
 }
 
-
-
-.btn7 {
-    grid-area: btn_add_actividad;
+.btn_Agregar {
+    grid-area: btn_Agregar_Elemento;
 }
 
-.btn8 {
-    grid-area: btn_elimaner_material;
+.btn_Eliminar {
+    grid-area: btn_Eliminar_Elemento;
 }
 
-.btn9 {
-    grid-area: btn_add_actividadAlum;
+.cuadro_material_necesario {
+    grid-area: cuadro_material;
 }
 
-.btn10 {
-    grid-area: btn_add_temas;
+.cuadro_temas {
+    grid-area: cuadro_tema;
 }
 
-.btn11 {
-    grid-area: btn_Eliminar_temas;
+.cuadro_criterios{
+    grid-area: cuadro_criteriosE;
 }
 
 .cuadro1 {
@@ -369,7 +338,7 @@ body {
     grid-gap: 2rem;
     grid-template-columns: repeat(5, .3fr);
     grid-template-areas:
-        "label_materialdado_actividad_add btn_add_actividad btn_add_actividad btn_add_actividad btn_add_actividad "
+        "label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento "
         "cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material" 
         ;
 }
@@ -389,7 +358,7 @@ body {
     grid-template-columns: repeat(8, .3fr);
     grid-template-areas:
 
-        "label_materialAlum_actividad_add label_materialAlum_actividad_add btn_add_actividadAlum btn_add_actividadAlum btn_add_actividadAlum btn_add_actividadAlum btn_add_actividadAlum btn_add_actividadAlum"
+        "label_Agregar_Elemento label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
         "cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material";
 
 }
@@ -407,7 +376,7 @@ body {
     grid-gap: 2rem;
     grid-template-columns: repeat(8, .3fr);
     grid-template-areas:
-        "label_materialdado_actividad_add label_materialdado_actividad_add label_materialdado_actividad_add btn_add_actividad btn_add_actividad btn_add_actividad btn_add_actividad btn_add_actividad"
+        "label_Agregar_Elemento label_Agregar_Elemento label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
         "label_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad";
 
 }
@@ -426,9 +395,8 @@ body {
     grid-template-columns: repeat(8, .3fr);
     grid-template-areas:
 
-        "label_cenombre_actividad input_cenombre_actividad input_cenombre_actividad input_cenombre_actividad input_cenombre_actividad input_cenombre_actividad input_cenombre_actividad input_cenombre_actividad"
-        "label_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad"
-
+    "label_Agregar_Elemento label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
+    "cuadro_criteriosE cuadro_criteriosE cuadro_criteriosE cuadro_criteriosE cuadro_criteriosE cuadro_criteriosE cuadro_criteriosE cuadro_criteriosE"
     ;
 
 }
@@ -444,12 +412,11 @@ body {
     min-height: 20%;
     min-width: fit-content;
     grid-gap: 2rem;
-    grid-template-columns: repeat(8, .3fr);
+    grid-template-columns: repeat(4, .3fr);
     grid-template-areas:
 
-        "label_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad label_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad"
-        "label_pnombre_actividad input_pnombre_actividad input_pnombre_actividad input_pnombre_actividad input_pnombre_actividad input_pnombre_actividad input_pnombre_actividad input_pnombre_actividad"
-    ;
+        "label_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad" 
+        "label_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad";
 
 }
 
@@ -470,7 +437,7 @@ body {
         "label_temNombre_actividad label_temNombre_actividad input_temNombre_actividad input_temNombre_actividad input_temNombre_actividad input_temNombre_actividad input_temNombre_actividad input_temNombre_actividad"
         "label_temsema_actividad label_temsema_actividad input_temsema_actividad input_temsema_actividad input_temsema_actividad input_temsema_actividad input_temsema_actividad input_temsema_actividad"
         "label_temdes_actividad label_temdes_actividad input_temsdes_actividad input_temsdes_actividad input_temsdes_actividad input_temsdes_actividad input_temsdes_actividad input_temsdes_actividad"
-        "btn_Eliminar_temas btn_Eliminar_temas btn_Eliminar_temas btn_Eliminar_temas btn_Eliminar_temas btn_Eliminar_temas btn_Eliminar_temas btn_Eliminar_temas"
+        "btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento"
         ;
 }
 
@@ -490,7 +457,7 @@ body {
     grid-template-areas:
         " input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad"
         "label_cantidad_material label_cantidad_material  input_cantidad_material input_cantidad_material input_cantidad_material input_cantidad_material input_cantidad_material input_cantidad_material"
-        "btn_elimaner_material btn_elimaner_material btn_elimaner_material btn_elimaner_material btn_elimaner_material btn_elimaner_material btn_elimaner_material btn_elimaner_material";
+        "btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento";
 }
 
 .cuadro9 {
@@ -507,9 +474,30 @@ body {
     grid-template-columns: repeat(8, .3fr);
     grid-template-areas:
 
-        "label_tema_add label_tema_add btn_add_temas btn_add_temas btn_add_temas btn_add_temas btn_add_temas btn_add_temas"
+        "label_Agregar_Elemento label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
         "cuadro_tema cuadro_tema cuadro_tema cuadro_tema cuadro_tema cuadro_tema cuadro_tema cuadro_tema";
     }
+
+.cuadro10{
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    flex-shrink: 0;
+    width: 80%;
+    border: 1px solid black;
+    border-radius: 5px;
+    min-height: 20%;
+    min-width: fit-content;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(8, .3fr);
+    grid-template-areas:
+        "label_cenombre_actividad input_cenombre_actividad input_cenombre_actividad input_cenombre_actividad input_cenombre_actividad input_cenombre_actividad input_cenombre_actividad input_cenombre_actividad"
+        "label_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad"
+        "btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento"
+        ;
+
+}
 
 
 
@@ -559,7 +547,7 @@ ul.navega li {
         <?php include "../../../views/layout/header.php" ?>
         <div class="cabecera">
             <h1 class="titulo">Gestionar Actividad</h1>
-            <a href="#"><img class="flecha" src="../../.././assets/img/back.png"></a>
+            <a href="http://localhost/Extraescolares/views/modules/coordinador/coordinador.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
         </div>
 
         <div class="contenedor-tabla content-table">
@@ -578,38 +566,38 @@ ul.navega li {
         <div class="cuadro1">
             <input id="input_id_actividad" type="text" hidden />
             <label class="label1">Nombre</label>
-            <input class="input1" id="input_nombre_actividad" type="text" placeholder="Nombre de la actividad">
+            <input class="input1 form-control" id="input_nombre_actividad" type="text" placeholder="Nombre de la actividad">
 
             <label class="label2">Créditos</label>
-            <input class="input2" id="input_credito_activida" type="text"
+            <input class="input2 form-control" id="input_credito_activida" type="text"
                 placeholder="Total de creditos por esta actividad">
 
             <label class="label3">Actividad padre</label>
-            <input class="input3" id="input_padre_activida" type="text" placeholder="Actividad Padre"
+            <input class="input3 form-control" id="input_padre_activida" type="text" placeholder="Actividad Padre"
                 list="select_actividad">
             <datalist id="select_actividad" style="width: 45% !important;">
 
             </datalist>
-            <button class="btn6 btn btn-dark" data-bs-toggle="modal" data-bs-target="">+</button>
+            <button class="btn1 btn btn-dark" data-bs-toggle="modal" data-bs-target="">+</button>
 
 
 
             <label class="label4">Capacidad Maxima</label>
-            <input class="input4" id="input_cMax_activida" type="text" placeholder="Capacidad Max">
+            <input class="input4 form-control" id="input_cMax_activida" type="text" placeholder="Capacidad Max">
 
             <label class="label5">Capacidad Minima</label>
-            <input class="input5" id="input_cMin_activida" type="text" placeholder="Capacidad Minima">
+            <input class="input5 form-control" id="input_cMin_activida" type="text" placeholder="Capacidad Minima">
 
             <label class="label6">Descripción</label>
-            <textarea class="input6" id="input_descripcion_actividad" placeholder="Descripción" type="text"
+            <textarea class="input6 form-control" id="input_descripcion_actividad" placeholder="Descripción" type="text"
                 required></textarea>
 
             <label class="label7">Competencia</label>
-            <textarea class="input7" id="input_competencia_actividad" placeholder="Competencia" type="text"
+            <textarea class="input7 form-control" id="input_competencia_actividad" placeholder="Competencia" type="text"
                 required></textarea>
 
             <label class="label8">Beneficios</label>
-            <textarea class="input8" id="input_beneficios_actividad" placeholder="Beneficios" type="text"
+            <textarea class="input8 form-control" id="input_beneficios_actividad" placeholder="Beneficios" type="text"
                 required></textarea>
 
         </div>
@@ -621,22 +609,22 @@ ul.navega li {
             </div>
         </center>
 
-        <div class="cuadro2" id="cuadro2">
+        <div class="cuadro2">
 
-            <button class="btn7 btn btn-primary" id="add_Material" data-bs-target="">Agregar Material</button>
-            <label class="label19">Agregar nuevo matetial</label>
+            <button class="btn_Agregar btn btn-primary" id="add_Material" data-bs-target="">Agregar Material</button>
+            <label class="lable_Agregar">Agregar nuevo matetial</label>
             <input id="input_id_material" type="text" hidden />
             
-            <div class="input21" >
+            <div class="cuadro_material_necesario" >
                 <center>    
                 <ul style="list-style:none;" id="listaElemento">
                     <li >
                         <div class="cuadro8">
                             <label class='label9'>Material</label>
                             <input class="input9 form-control"  id="input_material_actividad" placeholder="Material" type="text" required></textarea>
-                            <label class="label20">Cantidad</label>
-                            <input class="input20" id="input_cantidad_material" type="text" placeholder="Cantidad">
-                            <button class="btn8 btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material">Eliminar Material</button>
+                            <label class="label19">Cantidad</label>
+                            <input class="input19 form-control" id="input_cantidad_material" type="text" placeholder="Cantidad">
+                            <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material">Eliminar Material</button>
                         </div> 
                     </li>
                 </ul>
@@ -651,20 +639,20 @@ ul.navega li {
         </center>
 
         <div class="cuadro3">
-            <label class="label22">Agregar nuevo matetial</label>
-            <button class="btn9 btn btn-primary" id="add_Material_alumnos" data-bs-target="">Agregar Material</button>
+            <label class="lable_Agregar">Agregar nuevo matetial</label>
+            <button class="btn_Agregar btn btn-primary" id="add_Material_alumnos" data-bs-target="">Agregar Material</button>
             <input id="input_id_material_alumno" type="text" hidden />
 
-            <div class="input21" >
+            <div class="cuadro_material_necesario" >
                 <center>    
                 <ul style="list-style:none;" id="listaElementoAlumno">
                     <li >
                         <div class="cuadro8">
                             <label class='label9'>Material</label>
                             <input class="input9 form-control"  id="input_material_alumno_actividad" placeholder="Material" type="text" required></textarea>
-                            <label class="label20">Cantidad</label>
-                            <input class="input20" id="input_cantidad_alumno_material" type="text" placeholder="Cantidad">
-                            <button class="btn8 btn-danger cancelar" onclick='eliminarME(this)' id="Eliminar_Material_alumno">Eliminar Material</button>
+                            <label class="label19">Cantidad</label>
+                            <input class="input19 form-control" id="input_cantidad_alumno_material" type="text" placeholder="Cantidad">
+                            <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material_alumno">Eliminar Material</button>
                         </div> 
                     </li>
                 </ul>
@@ -682,25 +670,25 @@ ul.navega li {
         </center>
 
         <div class="cuadro9">
-            <label class="label23">Agregar Tema</label>
-            <button class="btn10 btn btn-primary" id="add_Temas" data-bs-target="">Agregar Material</button>
+            <label class="lable_Agregar">Agregar Tema</label>
+            <button class="btn_Agregar btn btn-primary" id="add_Temas" data-bs-target="">Agregar Material</button>
             <input id="input_id_tema" type="text" hidden />
             
-             <div class="input22">
+             <div class="cuadro_temas">
                 <center>
                     <ul style="list-style:none;" id="listaElementoTemas">
                         <li>
                             <div class="cuadro7">
                                 <input id="input_id_temas" type="text" hidden />
                                 <label class="label11">Tema</label>
-                                <input class="input11" id="input_temNombre_activida" type="text" placeholder="Nombre">
+                                <input class="input11 form-control" id="input_temNombre_activida" type="text" placeholder="Nombre">
 
                                 <label class="label12">Duración</label>
-                                <input class="input12" id="input_temSemanas_activida" type="date" placeholder="Semanas de Duración">
+                                <input class="input12 form-control" id="input_temSemanas_activida" type="date" placeholder="Semanas de Duración">
 
                                 <label class="label13">Descripción</label>
-                                <textarea class="input13" id="input_temDescripcion_actividad" placeholder="Descripción" type="text" required></textarea>
-                                <button class="btn8 btn-danger cancelar" onclick='eliminarTE(this)' id="Eliminar_Tema">Eliminar Material</button>
+                                <textarea class="input13 form-control" id="input_temDescripcion_actividad" placeholder="Descripción" type="text" required></textarea>
+                                <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Tema">Eliminar Material</button>
                             </div>
                         </li>
                     </ul>
@@ -717,14 +705,26 @@ ul.navega li {
         </center>
 
         <div class="cuadro5">
-            <input id="input_id_criteriosEvaluacion" type="text" hidden />
-            <label class="label14">Nombre</label>
-            <input class="input14" id="input_criterioevalNombre_activida" type="text" placeholder="Nombre">
+            <label class="lable_Agregar">Agregar Criterioss</label>
+            <button class="btn_Agregar btn btn-primary" id="add_Criterio" data-bs-target="">Agregar Material</button>
+            <input id="input_id_criterios" type="text" hidden />
 
-            <label class="label15">Descripción</label>
-            <textarea class="input15" id="input_criterioevaldes_actividad" placeholder="Descripción" type="text"
-                required></textarea>
+                <div class="cuadro_criterios">
+                    <center>
+                        <ul style="list-style:none;" id="listaElementoCriterios">
+                            <li>
+                                <div class="cuadro10">
+                                    <label class="label14">Nombre</label>
+                                    <input class="input14 form-control" id="input_criterioevalNombre_activida" type="text" placeholder="Nombre">
 
+                                    <label class="label15">Descripción</label>
+                                    <textarea class="input15 form-control" id="input_criterioevaldes_actividad" placeholder="Descripción" type="text" required></textarea>
+                                    <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material">Eliminar Material</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </center>
+                </div>
         </div>
 
         <center>
@@ -733,20 +733,15 @@ ul.navega li {
             </div>
         </center>
 
-        <div class="cuadro6">
+        <div class="cuadro6" style>
             <input id="input_id_periodoact" type="text" hidden />
             <label class="label16">Inicio</label>
-            <input class="input16" id="input_fechainicio_activida" type="date" placeholder="Inicio de la actividad">
+            <input class="input16 form-control" id="input_fechainicio_activida" type="date" placeholder="Inicio de la actividad">
 
             <label class="label17">Fin</label>
-            <input class="input17" id="input_fechafin_activida" type="date" placeholder="Fin de la actividad">
-
-            <label class="label18">Periodo</label>
-            <input class="input18" id="input_nombresemestre_activida" type="text" placeholder="Nombre del Periodo">
-
-
-
+            <input class="input17 form-control " id="input_fechafin_activida" type="date" placeholder="Fin de la actividad">
         </div>
+
         <div class="botones2">
             <button class="btn btn-success">Guardar Todo</button>
             <button class="btn btn-danger cancelar">Cancelar Actividad</button>
