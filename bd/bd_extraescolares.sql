@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 09-05-2022 a las 16:48:07
+-- Tiempo de generación: 11-05-2022 a las 16:47:03
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -27,6 +27,13 @@ DELIMITER $$
 --
 -- Procedimientos
 --
+DROP PROCEDURE IF EXISTS `sp_calificar_alumno`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_calificar_alumno` (IN `d_id_alumno` INT, IN `d_id_grupo` INT, IN `d_id_actividad` INT, IN `d_calificacion_numerica` INT, IN `d_acreditacion` TINYINT(1))   BEGIN
+START TRANSACTION;
+UPDATE detalles_inscripcion SET calificacion_numerica=d_calificacion_numerica, acreditacion=d_acreditacion WHERE id_alumno=d_id_alumno AND id_grupo=d_id_grupo AND id_actividad=d_id_actividad AND id_periodo=periodo_actual();
+COMMIT;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_delete_actividad`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_actividad` (IN `a_id_actividad` INT)   BEGIN
 START TRANSACTION;
@@ -38,6 +45,13 @@ DROP PROCEDURE IF EXISTS `sp_delete_actividad_instructor`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_actividad_instructor` (IN `a_id_actividad` INT, IN `a_id_instructor` INT, IN `a_id_evidencia` INT)   BEGIN
 START TRANSACTION;
 DELETE FROM actividad_instructor WHERE id_instructor=a_id_instructor AND id_evidencia=a_id_evidencia AND id_actividad=a_id_actividad;
+COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_delete_alumno`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_alumno` (IN `a_id_alumno` INT)   BEGIN
+START TRANSACTION;
+UPDATE alumno SET visible = 0 WHERE id_alumno=a_id_alumno;
 COMMIT;
 END$$
 
@@ -87,6 +101,16 @@ START TRANSACTION;
     UPDATE departamento_responsable SET departamento_responsable.fecha_fin=NOW() WHERE departamento_responsable.id_departamento=d_id_departamento;
     UPDATE departamento_coordinador SET departamento_coordinador.fecha_fin=NOW() WHERE departamento_coordinador.id_departamento=d_id_departamento;
     COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_delete_detelles_inscripcion`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_detelles_inscripcion` (IN `d_id_alumno` INT, IN `d_id_grupo` INT, IN `d_id_actividad` INT)   BEGIN
+START TRANSACTION;
+DELETE FROM detalles_inscripcion WHERE id_alumno=d_id_alumno AND id_grupo=d_id_grupo AND id_actividad=d_id_actividad AND id_periodo=periodo_actual();
+SET @carga = (SELECT id_carga FROM carga_complementaria WHERE id_alumno=d_id_alumno AND id_periodo=periodo_actual());
+DELETE FROM carga_actividad WHERE id_carga=@carga AND id_actividad=d_id_actividad;
+DELETE FROM carga_grupo WHERE id_carga=@carga AND id_grupo=d_id_grupo;
+COMMIT;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_delete_grupo`$$
@@ -144,6 +168,13 @@ DROP PROCEDURE IF EXISTS `sp_insert_actividad_instructor_evidencia`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_actividad_instructor_evidencia` (IN `a_id_actividad` INT, IN `a_id_instructor` INT, IN `a_id_evidencia` INT, IN `a_porcentaje` INT)   BEGIN
 START TRANSACTION;
 INSERT INTO actividad_instructor (id_actividad, id_instructor, id_evidencia, porcentaje) VALUES (a_id_actividad, a_id_instructor, a_id_evidencia, a_porcentaje);
+COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insert_alumno`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_alumno` (IN `a_nombre` VARCHAR(150), IN `a_apellido_p` VARCHAR(50), IN `a_apellido_m` VARCHAR(50), IN `a_correo` VARCHAR(200), IN `a_carrera` VARCHAR(200), IN `a_semestre` INT)   BEGIN
+START TRANSACTION;
+INSERT INTO alumno (nombre, apellido_p, apellido_m, correo, carrera, semestre) VALUES (a_nombre, a_apellido_p, a_apellido_m, a_correo, a_carrera, a_semestre);
 COMMIT;
 END$$
 
@@ -343,6 +374,21 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_actividad_instructores` (
 SELECT instructor.* FROM actividad_instructor JOIN instructor ON actividad_instructor.id_instructor=instructor.id_instructor WHERE id_actividad=a_id_actividad AND id_evidencia IS NULL AND porcentaje IS NULL;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_select_alumnos`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_alumnos` ()   BEGIN
+SELECT * FROM alumno WHERE visible = 1;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_alumnos_actividad`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_alumnos_actividad` (IN `d_id_actividad` INT)   BEGIN
+	SELECT alumno.*, detalles_inscripcion.id_grupo FROM detalles_inscripcion JOIN alumno ON detalles_inscripcion.id_alumno=alumno.id_alumno WHERE detalles_inscripcion.id_actividad=d_id_actividad AND alumno.visible=1 AND id_periodo=periodo_actual();
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_alumnos_grupo`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_alumnos_grupo` (IN `a_id_grupo` INT)   BEGIN 
+	SELECT alumno.*, detalles_inscripcion.id_grupo,detalles_inscripcion.id_actividad FROM detalles_inscripcion JOIN alumno ON detalles_inscripcion.id_alumno=alumno.id_alumno WHERE alumno.visible=1 AND detalles_inscripcion.id_grupo=a_id_grupo AND id_periodo=perido_actual();
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_select_caracteristicas`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_caracteristicas` ()   BEGIN
 SELECT * FROM caracteristica;
@@ -485,6 +531,13 @@ DROP PROCEDURE IF EXISTS `sp_update_actividad_instructor`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_actividad_instructor` (IN `a_id_actividad` INT, IN `a_id_instructor` INT, IN `a_id_evidencia` INT, IN `a_porcentaje` INT)   BEGIN
 START TRANSACTION;
 UPDATE actividad_instructor SET porcentaje=a_porcentaje WHERE id_actividad=a_id_actividad AND id_instructor=a_id_instructor AND id_evidencia=a_id_evidencia;
+COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_update_alumno`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_alumno` (IN `a_estatura` FLOAT, IN `a_peso` FLOAT, IN `a_tipo_sangre` VARCHAR(2), IN `a_talla` VARCHAR(3), IN `a_telefono` VARCHAR(10), IN `a_alergias` VARCHAR(200), IN `a_enfermedades` VARCHAR(200), IN `a_id_alumno` INT)   BEGIN
+START TRANSACTION;
+UPDATE alumno SET estatura=a_estatura, peso=a_peso, tipo_sangre=a_tipo_sangre, talla=a_talla, telefono=a_telefono, alergias=a_alergias, enfermedades=a_enfermedades WHERE id_alumno=a_id_alumno;
 COMMIT;
 END$$
 
@@ -655,11 +708,11 @@ CREATE TABLE `alumno` (
   `semestre` int(11) NOT NULL,
   `carrera` varchar(200) NOT NULL,
   `creditos_totales` int(11) NOT NULL DEFAULT 0,
-  `estatura` float NOT NULL,
-  `peso` float NOT NULL,
-  `tipo_sangre` varchar(2) NOT NULL,
-  `talla` varchar(3) NOT NULL,
-  `telefono` varchar(10) NOT NULL,
+  `estatura` float DEFAULT NULL,
+  `peso` float DEFAULT NULL,
+  `tipo_sangre` varchar(2) DEFAULT NULL,
+  `talla` varchar(3) DEFAULT NULL,
+  `telefono` varchar(10) DEFAULT NULL,
   `alergias` varchar(200) DEFAULT NULL,
   `enfermedades` varchar(200) DEFAULT NULL,
   `foto` varchar(250) DEFAULT NULL,
@@ -676,6 +729,43 @@ DROP TABLE IF EXISTS `caracteristica`;
 CREATE TABLE `caracteristica` (
   `id_caracteristica` int(11) NOT NULL,
   `nombre` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `carga_actividad`
+--
+
+DROP TABLE IF EXISTS `carga_actividad`;
+CREATE TABLE `carga_actividad` (
+  `id_carga` int(11) DEFAULT NULL,
+  `id_actividad` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `carga_complementaria`
+--
+
+DROP TABLE IF EXISTS `carga_complementaria`;
+CREATE TABLE `carga_complementaria` (
+  `id_carga` int(11) NOT NULL,
+  `id_alumno` int(11) DEFAULT NULL,
+  `id_periodo` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `carga_grupo`
+--
+
+DROP TABLE IF EXISTS `carga_grupo`;
+CREATE TABLE `carga_grupo` (
+  `id_carga` int(11) DEFAULT NULL,
+  `id_grupo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -739,6 +829,20 @@ INSERT INTO `coordinador_programa` (`id_coordinador`, `id_programa`, `fecha_inic
 (13, 5, '2022-04-27', '2022-04-27'),
 (31, 5, '2022-04-27', '2022-04-27'),
 (13, 5, '2022-04-27', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `criterio_alumno`
+--
+
+DROP TABLE IF EXISTS `criterio_alumno`;
+CREATE TABLE `criterio_alumno` (
+  `desempeño` int(11) DEFAULT NULL,
+  `id_alumno` int(11) DEFAULT NULL,
+  `id_criterio` int(11) DEFAULT NULL,
+  `id_grupo` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -875,6 +979,23 @@ INSERT INTO `departamento_responsable` (`id_departamento`, `id_responsable`, `fe
 (6, 5, '2022-03-09', '2022-03-16'),
 (6, 1, '2022-03-16', '2022-03-16'),
 (6, 5, '2022-03-16', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detalles_inscripcion`
+--
+
+DROP TABLE IF EXISTS `detalles_inscripcion`;
+CREATE TABLE `detalles_inscripcion` (
+  `calificacion_numerica` int(11) NOT NULL DEFAULT 0,
+  `desempeño` int(11) NOT NULL DEFAULT 1,
+  `acreditacion` tinyint(1) NOT NULL DEFAULT 0,
+  `id_alumno` int(11) DEFAULT NULL,
+  `id_grupo` int(11) DEFAULT NULL,
+  `id_actividad` int(11) DEFAULT NULL,
+  `id_periodo` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -1155,6 +1276,28 @@ ALTER TABLE `caracteristica`
   ADD PRIMARY KEY (`id_caracteristica`);
 
 --
+-- Indices de la tabla `carga_actividad`
+--
+ALTER TABLE `carga_actividad`
+  ADD UNIQUE KEY `id_carga` (`id_carga`,`id_actividad`),
+  ADD KEY `id_actividad` (`id_actividad`);
+
+--
+-- Indices de la tabla `carga_complementaria`
+--
+ALTER TABLE `carga_complementaria`
+  ADD PRIMARY KEY (`id_carga`),
+  ADD UNIQUE KEY `id_alumno` (`id_alumno`,`id_periodo`),
+  ADD KEY `id_periodo` (`id_periodo`);
+
+--
+-- Indices de la tabla `carga_grupo`
+--
+ALTER TABLE `carga_grupo`
+  ADD UNIQUE KEY `id_carga` (`id_carga`,`id_grupo`),
+  ADD KEY `id_grupo` (`id_grupo`);
+
+--
 -- Indices de la tabla `coordinador`
 --
 ALTER TABLE `coordinador`
@@ -1167,6 +1310,14 @@ ALTER TABLE `coordinador`
 ALTER TABLE `coordinador_programa`
   ADD KEY `id_coordinador` (`id_coordinador`),
   ADD KEY `id_programa` (`id_programa`);
+
+--
+-- Indices de la tabla `criterio_alumno`
+--
+ALTER TABLE `criterio_alumno`
+  ADD UNIQUE KEY `id_alumno` (`id_alumno`,`id_grupo`,`id_criterio`),
+  ADD KEY `id_criterio` (`id_criterio`),
+  ADD KEY `id_grupo` (`id_grupo`);
 
 --
 -- Indices de la tabla `criterio_evaluacion`
@@ -1209,6 +1360,15 @@ ALTER TABLE `departamento_programa`
 ALTER TABLE `departamento_responsable`
   ADD KEY `id_responsable` (`id_responsable`),
   ADD KEY `id_departamento` (`id_departamento`) USING BTREE;
+
+--
+-- Indices de la tabla `detalles_inscripcion`
+--
+ALTER TABLE `detalles_inscripcion`
+  ADD UNIQUE KEY `id_alumno` (`id_alumno`,`id_actividad`,`id_periodo`),
+  ADD KEY `id_grupo` (`id_grupo`),
+  ADD KEY `id_actividad` (`id_actividad`),
+  ADD KEY `id_periodo` (`id_periodo`);
 
 --
 -- Indices de la tabla `evidencia`
@@ -1328,6 +1488,12 @@ ALTER TABLE `caracteristica`
   MODIFY `id_caracteristica` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `carga_complementaria`
+--
+ALTER TABLE `carga_complementaria`
+  MODIFY `id_carga` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `coordinador`
 --
 ALTER TABLE `coordinador`
@@ -1437,11 +1603,40 @@ ALTER TABLE `actividad_instructor`
   ADD CONSTRAINT `actividad_instructor_ibfk_3` FOREIGN KEY (`id_evidencia`) REFERENCES `evidencia` (`id_evidencia`);
 
 --
+-- Filtros para la tabla `carga_actividad`
+--
+ALTER TABLE `carga_actividad`
+  ADD CONSTRAINT `carga_actividad_ibfk_1` FOREIGN KEY (`id_carga`) REFERENCES `carga_complementaria` (`id_carga`),
+  ADD CONSTRAINT `carga_actividad_ibfk_2` FOREIGN KEY (`id_actividad`) REFERENCES `actividad` (`id_actividad`);
+
+--
+-- Filtros para la tabla `carga_complementaria`
+--
+ALTER TABLE `carga_complementaria`
+  ADD CONSTRAINT `carga_complementaria_ibfk_1` FOREIGN KEY (`id_alumno`) REFERENCES `alumno` (`id_alumno`),
+  ADD CONSTRAINT `carga_complementaria_ibfk_2` FOREIGN KEY (`id_periodo`) REFERENCES `periodo` (`id_periodo`);
+
+--
+-- Filtros para la tabla `carga_grupo`
+--
+ALTER TABLE `carga_grupo`
+  ADD CONSTRAINT `carga_grupo_ibfk_1` FOREIGN KEY (`id_carga`) REFERENCES `carga_complementaria` (`id_carga`),
+  ADD CONSTRAINT `carga_grupo_ibfk_2` FOREIGN KEY (`id_grupo`) REFERENCES `grupo` (`id_grupo`);
+
+--
 -- Filtros para la tabla `coordinador_programa`
 --
 ALTER TABLE `coordinador_programa`
   ADD CONSTRAINT `coordinador_programa_ibfk_1` FOREIGN KEY (`id_coordinador`) REFERENCES `coordinador` (`id_coordinador`),
   ADD CONSTRAINT `coordinador_programa_ibfk_2` FOREIGN KEY (`id_programa`) REFERENCES `programa` (`id_programa`);
+
+--
+-- Filtros para la tabla `criterio_alumno`
+--
+ALTER TABLE `criterio_alumno`
+  ADD CONSTRAINT `criterio_alumno_ibfk_1` FOREIGN KEY (`id_alumno`) REFERENCES `alumno` (`id_alumno`),
+  ADD CONSTRAINT `criterio_alumno_ibfk_2` FOREIGN KEY (`id_criterio`) REFERENCES `criterio_evaluacion` (`id_criterio`),
+  ADD CONSTRAINT `criterio_alumno_ibfk_3` FOREIGN KEY (`id_grupo`) REFERENCES `grupo` (`id_grupo`);
 
 --
 -- Filtros para la tabla `criterio_evaluacion`
@@ -1476,6 +1671,15 @@ ALTER TABLE `departamento_programa`
 ALTER TABLE `departamento_responsable`
   ADD CONSTRAINT `departamento_responsable_ibfk_1` FOREIGN KEY (`id_departamento`) REFERENCES `departamento` (`id_departamento`) ON DELETE CASCADE,
   ADD CONSTRAINT `departamento_responsable_ibfk_2` FOREIGN KEY (`id_responsable`) REFERENCES `responsable` (`id_responsable`);
+
+--
+-- Filtros para la tabla `detalles_inscripcion`
+--
+ALTER TABLE `detalles_inscripcion`
+  ADD CONSTRAINT `detalles_inscripcion_ibfk_1` FOREIGN KEY (`id_alumno`) REFERENCES `alumno` (`id_alumno`),
+  ADD CONSTRAINT `detalles_inscripcion_ibfk_2` FOREIGN KEY (`id_grupo`) REFERENCES `grupo` (`id_grupo`),
+  ADD CONSTRAINT `detalles_inscripcion_ibfk_3` FOREIGN KEY (`id_actividad`) REFERENCES `actividad` (`id_actividad`),
+  ADD CONSTRAINT `detalles_inscripcion_ibfk_4` FOREIGN KEY (`id_periodo`) REFERENCES `periodo` (`id_periodo`);
 
 --
 -- Filtros para la tabla `grupo`
