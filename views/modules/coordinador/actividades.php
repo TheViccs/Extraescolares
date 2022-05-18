@@ -500,9 +500,6 @@ body {
 }
 
 
-
-}
-
 .flecha {
     width: 10%;
     height: 100%;
