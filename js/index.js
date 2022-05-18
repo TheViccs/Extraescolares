@@ -40,7 +40,11 @@ function crear_alerta(tipo){
 //MOSTRAR Y ELIMINAR ALERTA
 function mostrar_alerta(tipo){
     crear_alerta(tipo);
-    $("#alerta").delay(500).slideUp(100, function() {
-        $(this).alert('close');
-    });
+    let contenedorAlertas = document.getElementById("alertas");
+    let alertas = contenedorAlertas.children;
+    for(let alerta of alertas){
+        $(alerta).delay(500).slideUp(100, function() {
+            $(this).alert('close');
+        });
+    }
 }

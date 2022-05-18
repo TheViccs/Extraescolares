@@ -170,7 +170,7 @@ function generar_pdf(id_responsable){
             let responsable = JSON.parse(res)[0];           
             let pdf = new jsPDF();
             let columns = [["Clave","Nombre","Correo","Departamento"]]; 
-            let data = [[responsable.clave_responsable, responsable.nombre+" "+responsable.apellido_p+" "+responsable.apellido_m, responsable.correo, responsable.nombre_departamento]];
+            let data = [[responsable.clave_responsable, responsable.nombre+" "+responsable.apellido_p+" "+responsable.apellido_m, responsable.correo_responsable, responsable.nombre_departamento]];
             pdf.setProperties({
                 title: "Tabla Responsable "+responsable.nombre
             });
