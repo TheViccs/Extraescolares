@@ -326,6 +326,7 @@ body {
 }
 
 .cuadro2 {
+
     padding: 1rem;
     display: grid;
     height: auto;
@@ -346,6 +347,7 @@ body {
 
 .cuadro3 {
     padding: 1rem;
+    
     display: grid;
     height: auto;
     flex-shrink: 0;
@@ -499,7 +501,10 @@ body {
 
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9d8f20c316c4319e6d54ac65f841158c535cc0e8
 .flecha {
     width: 10%;
     height: 100%;
@@ -530,13 +535,43 @@ label {
 .titulo {
     justify-self: center;
     margin-left: auto;
+    
 }
 
 ul.navega li {
   display: inline;
   padding-right: 0.5em;
 }
+
+.menu{
+  display: flex;
+  width: auto;  
+}
+
+.menu p{
+  margin-right: 2rem;
+  cursor: pointer;
+}
+
+[data-content]{
+  display: none;
+}
+
+.active[data-content]{
+    display: block;
+    
+  justify-content: center;
+  align-items: center;
+
+.container{
+    width: 80%
+    text-align: center;
+    
+    
+}
+
 </style>
+
 
 <body>
 
@@ -546,211 +581,234 @@ ul.navega li {
             <h1 class="titulo">Gestionar Actividad</h1>
             <a href="http://localhost/Extraescolares/views/modules/coordinador/coordinador.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
         </div>
+        
 
-        <div class="contenedor-tabla content-table">
-            <div style="overflow: auto;">
-                <table id="tabla_avtividad"></table>
-            </div>
-
-        </div>
-
-        <center>
-            <div class="cabecera">
-                <h2 class="titulo">Agregar Actividad</h2>
-            </div>
-        </center>
-
-        <div class="cuadro1">
-            <input id="input_id_actividad" type="text" hidden />
-            <label class="label1">Nombre</label>
-            <input class="input1 form-control" id="input_nombre_actividad" type="text" placeholder="Nombre de la actividad">
-
-            <label class="label2">Créditos</label>
-            <input class="input2 form-control" id="input_credito_activida" type="text"
-                placeholder="Total de creditos por esta actividad">
-
-            <label class="label3">Actividad padre</label>
-            <input class="input3 form-control" id="input_padre_activida" type="text" placeholder="Actividad Padre"
-                list="select_actividad">
-            <datalist id="select_actividad" style="width: 45% !important;">
-
-            </datalist>
-            <button class="btn1 btn btn-dark" data-bs-toggle="modal" data-bs-target="">+</button>
-
-
-
-            <label class="label4">Capacidad Maxima</label>
-            <input class="input4 form-control" id="input_cMax_activida" type="text" placeholder="Capacidad Max">
-
-            <label class="label5">Capacidad Minima</label>
-            <input class="input5 form-control" id="input_cMin_activida" type="text" placeholder="Capacidad Minima">
-
-            <label class="label6">Descripción</label>
-            <textarea class="input6 form-control" id="input_descripcion_actividad" placeholder="Descripción" type="text"
-                required></textarea>
-
-            <label class="label7">Competencia</label>
-            <textarea class="input7 form-control" id="input_competencia_actividad" placeholder="Competencia" type="text"
-                required></textarea>
-
-            <label class="label8">Beneficios</label>
-            <textarea class="input8 form-control" id="input_beneficios_actividad" placeholder="Beneficios" type="text"
-                required></textarea>
+        <div class="menu">
+            <p data-taget="#principal" id="tapPrincipal">Principal</p>
+            <p data-taget="#agregarActividad">Agregar Atividad</p>
+            <p data-taget="#materialNecesario">Material Necesario</p>
+            <p data-taget="#materialNecesarioEstu">Material Estudiante</p>
+            <p data-taget="#temas">Temas</p>
+            <p data-taget="#criterrios">Criteros</p>
+            <p data-taget="#periodo">Periodo</p>
 
         </div>
 
+        
+        <div class="container">
+            <div data-content id="principal" >
+                <div class="contenedor-tabla content-table">
+                    
+                <center><table id="tabla_avtividad"></table></center>
+                    
 
-        <center>
-            <div class="cabecera">
-                <h2 class="titulo">Material Necesario</h2>
-            </div>
-        </center>
-
-        <div class="cuadro2">
-
-            <button class="btn_Agregar btn btn-primary" id="add_Material" data-bs-target="">Agregar Material</button>
-            <label class="lable_Agregar">Agregar nuevo matetial</label>
-            <input id="input_id_material" type="text" hidden />
-            
-            <div class="cuadro_material_necesario" >
-                <center>    
-                <ul style="list-style:none;" id="listaElemento">
-                    <li >
-                        <div class="cuadro8">
-                            <label class='label9'>Material</label>
-                            <input class="input9 form-control"  id="input_material_actividad" placeholder="Material" type="text" required></textarea>
-                            <label class="label19">Cantidad</label>
-                            <input class="input19 form-control" id="input_cantidad_material" type="text" placeholder="Cantidad">
-                            <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material">Eliminar Material</button>
-                        </div> 
-                    </li>
-                </ul>
-                </center>   
-            </div>
-        </div>
-
-        <center>
-            <div class="cabecera">
-                <h2 class="titulo">Material Por Parte Del Estudiante</h2>
-            </div>
-        </center>
-
-        <div class="cuadro3">
-            <label class="lable_Agregar">Agregar nuevo matetial</label>
-            <button class="btn_Agregar btn btn-primary" id="add_Material_alumnos" data-bs-target="">Agregar Material</button>
-            <input id="input_id_material_alumno" type="text" hidden />
-
-            <div class="cuadro_material_necesario" >
-                <center>    
-                <ul style="list-style:none;" id="listaElementoAlumno">
-                    <li >
-                        <div class="cuadro8">
-                            <label class='label9'>Material</label>
-                            <input class="input9 form-control"  id="input_material_alumno_actividad" placeholder="Material" type="text" required></textarea>
-                            <label class="label19">Cantidad</label>
-                            <input class="input19 form-control" id="input_cantidad_alumno_material" type="text" placeholder="Cantidad">
-                            <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material_alumno">Eliminar Material</button>
-                        </div> 
-                    </li>
-                </ul>
-                </center>   
+                </div>
             </div>
 
-        </div>
+            <div data-content id="agregarActividad">
+                
+                    <div class="cabecera">
+                    <center> <h2 class="titulo">Agregar Actividad</h2> </center>
+                    </div>
+                
 
+                    <center><div class="cuadro1">
+                    <input id="input_id_actividad" type="text" hidden />
+                    <label class="label1">Nombre</label>
+                    <input class="input1 form-control" id="input_nombre_actividad" type="text" placeholder="Nombre de la actividad">
+                    <label class="label2">Créditos</label>
+                    <input class="input2 form-control" id="input_credito_activida" type="text" placeholder="Total de creditos por esta actividad">
+                    <label class="label3">Actividad padre</label>
+                    <input class="input3 form-control" id="input_padre_activida" type="text" placeholder="Actividad Padre" list="select_actividad">
+                    <datalist id="select_actividad" style="width: 45% !important;"> </datalist>
+                    <button class="btn1 btn btn-dark" data-bs-toggle="modal" data-bs-target="">+</button>
+                    <label class="label4">Capacidad Maxima</label>
+                    <input class="input4 form-control" id="input_cMax_activida" type="text" placeholder="Capacidad Max">
+                    <label class="label5">Capacidad Minima</label>
+                    <input class="input5 form-control" id="input_cMin_activida" type="text" placeholder="Capacidad Minima">
+                    <label class="label6">Descripción</label>
+                    <textarea class="input6 form-control" id="input_descripcion_actividad" placeholder="Descripción" type="text" required></textarea>
+                    <label class="label7">Competencia</label>
+                    <textarea class="input7 form-control" id="input_competencia_actividad" placeholder="Competencia" type="text" required></textarea>
+                    <label class="label8">Beneficios</label>
+                    <textarea class="input8 form-control" id="input_beneficios_actividad" placeholder="Beneficios" type="text" required></textarea>
+                </div>
+                <div class="botones2">
+                    <button class="btn btn-success">Guardar Todo</button>
+                    <button class="btn btn-danger cancelar">Cancelar Actividad</button>
+                </div>
+            </div></center>
 
-
-        <center>
-            <div class="cabecera">
-                <h2 class="titulo">Temas</h2>
-            </div>
-        </center>
-
-        <div class="cuadro9">
-            <label class="lable_Agregar">Agregar Tema</label>
-            <button class="btn_Agregar btn btn-primary" id="add_Temas" data-bs-target="">Agregar Material</button>
-            <input id="input_id_tema" type="text" hidden />
-            
-             <div class="cuadro_temas">
+            <div data-content id="materialNecesario">
+                
+                    <div class="cabecera">
+                        <center><h2 class="titulo">Material Necesario</h2></center>
+                    </div>
+                
                 <center>
-                    <ul style="list-style:none;" id="listaElementoTemas">
-                        <li>
-                            <div class="cuadro7">
-                                <input id="input_id_temas" type="text" hidden />
-                                <label class="label11">Tema</label>
-                                <input class="input11 form-control" id="input_temNombre_activida" type="text" placeholder="Nombre">
+                <div class="cuadro2">
 
-                                <label class="label12">Duración</label>
-                                <input class="input12 form-control" id="input_temSemanas_activida" type="date" placeholder="Semanas de Duración">
-
-                                <label class="label13">Descripción</label>
-                                <textarea class="input13 form-control" id="input_temDescripcion_actividad" placeholder="Descripción" type="text" required></textarea>
-                                <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Tema">Eliminar Material</button>
-                            </div>
-                        </li>
-                    </ul>
-                </center>
-
-            </div>          
-
-        </div>
-
-        <center>
-            <div class="cabecera">
-                <h2 class="titulo">Criterios de Evaluación</h2>
+                    <button class="btn_Agregar btn btn-primary" id="add_Material" data-bs-target="">Agregar Material</button>
+                    <label class="lable_Agregar">Agregar nuevo matetial</label>
+                    <input id="input_id_material" type="text" hidden />
+            
+                    <div class="cuadro_material_necesario" >
+                        <center>    
+                            <ul style="list-style:none;" id="listaElemento">
+                                <li >
+                                    <div class="cuadro8">
+                                        <label class='label9'>Material</label>
+                                        <input class="input9 form-control"  id="input_material_actividad" placeholder="Material" type="text" required></textarea>
+                                        <label class="label19">Cantidad</label>
+                                        <input class="input19 form-control" id="input_cantidad_material" type="text" placeholder="Cantidad">
+                                        <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material">Eliminar Material</button>
+                                    </div> 
+                                </li>
+                            </ul>
+                        </center>   
+                    </div>
+                </div>
+                <div class="botones2">
+                    <button class="btn btn-success">Guardar Todo</button>
+                    <button class="btn btn-danger cancelar">Cancelar Actividad</button>
+                </div>
             </div>
-        </center>
+            </center>
 
-        <div class="cuadro5">
-            <label class="lable_Agregar">Agregar Criterioss</label>
-            <button class="btn_Agregar btn btn-primary" id="add_Criterio" data-bs-target="">Agregar Material</button>
-            <input id="input_id_criterios" type="text" hidden />
-
-                <div class="cuadro_criterios">
+            <div data-content id="materialNecesarioEstu">
+                
+                    <div class="cabecera">
+                        <center><h2 class="titulo">Material Por Parte Del Estudiante</h2></center>
+                    </div>
+                
                     <center>
-                        <ul style="list-style:none;" id="listaElementoCriterios">
-                            <li>
-                                <div class="cuadro10">
-                                    <label class="label14">Nombre</label>
-                                    <input class="input14 form-control" id="input_criterioevalNombre_activida" type="text" placeholder="Nombre">
+                <div class="cuadro3">
+                    <label class="lable_Agregar">Agregar nuevo matetial</label>
+                    <button class="btn_Agregar btn btn-primary" id="add_Material_alumnos" data-bs-target="">Agregar Material</button>
+                    <input id="input_id_material_alumno" type="text" hidden />
+            
+                    <div class="cuadro_material_necesario" >
+                        <center>    
+                            <ul style="list-style:none;" id="listaElementoAlumno">
+                                <li >
+                                    <div class="cuadro8">
+                                        <label class='label9'>Material</label>
+                                        <input class="input9 form-control"  id="input_material_alumno_actividad" placeholder="Material" type="text" required></textarea>
+                                        <label class="label19">Cantidad</label>
+                                        <input class="input19 form-control" id="input_cantidad_alumno_material" type="text" placeholder="Cantidad">
+                                        <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material_alumno">Eliminar Material</button>
+                                    </div> 
+                                </li>
+                            </ul>
+                        </center>   
+                    </div>
+                </div>
+                <div class="botones2">
+                    <button class="btn btn-success">Guardar Todo</button>
+                    <button class="btn btn-danger cancelar">Cancelar Actividad</button>
+                </div>
+            </div></center>
 
-                                    <label class="label15">Descripción</label>
-                                    <textarea class="input15 form-control" id="input_criterioevaldes_actividad" placeholder="Descripción" type="text" required></textarea>
-                                    <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material">Eliminar Material</button>
+            <div data-content id="temas">
+            
+                <div class="cabecera">
+                    <center><h2 class="titulo">Temas</h2></center>
+                </div>
+            
+                <center>
+            <div class="cuadro9">
+                <label class="lable_Agregar">Agregar Tema</label>
+                <button class="btn_Agregar btn btn-primary" id="add_Temas" data-bs-target="">Agregar Material</button>
+                <input id="input_id_tema" type="text" hidden />
+            
+                <div class="cuadro_temas">
+                    <center>
+                        <ul style="list-style:none;" id="listaElementoTemas">
+                            <li>
+                                <div class="cuadro7">
+                                    <input id="input_id_temas" type="text" hidden />
+                                    <label class="label11">Tema</label>
+                                    <input class="input11 form-control" id="input_temNombre_activida" type="text" placeholder="Nombre">
+
+                                    <label class="label12">Duración</label>
+                                    <input class="input12 form-control" id="input_temSemanas_activida" type="date" placeholder="Semanas de Duración">
+
+                                    <label class="label13">Descripción</label>
+                                    <textarea class="input13 form-control" id="input_temDescripcion_actividad" placeholder="Descripción" type="text" required></textarea>
+                                    <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Tema">Eliminar Material</button>
                                 </div>
                             </li>
                         </ul>
                     </center>
-                </div>
-        </div>
+                </div>   
+                
 
-        <center>
-            <div class="cabecera">
-                <h2 class="titulo">Periodo de la Actividad</h2>
             </div>
-        </center>
+            <div class="botones2">
+                    <button class="btn btn-success">Guardar Todo</button>
+                    <button class="btn btn-danger cancelar">Cancelar Actividad</button>
+                </div> 
 
-        <div class="cuadro6" style>
-            <input id="input_id_periodoact" type="text" hidden />
-            <label class="label16">Inicio</label>
-            <input class="input16 form-control" id="input_fechainicio_activida" type="date" placeholder="Inicio de la actividad">
+            </div></center>
+                <div data-content id="criterrios">
+                    
+                        <div class="cabecera">
+                            <center><h2 class="titulo">Criterios de Evaluación</h2></center>
+                        </div>
+                        <center>  
+                <div class="cuadro5">
+                    <label class="lable_Agregar">Agregar Criterioss</label>
+                    <button class="btn_Agregar btn btn-primary" id="add_Criterio" data-bs-target="">Agregar Material</button>
+                    <input id="input_id_criterios" type="text" hidden />
 
-            <label class="label17">Fin</label>
-            <input class="input17 form-control " id="input_fechafin_activida" type="date" placeholder="Fin de la actividad">
-        </div>
+                        <div class="cuadro_criterios">
+                            <center>
+                                <ul style="list-style:none;" id="listaElementoCriterios">
+                                    <li>
+                                        <div class="cuadro10">
+                                            <label class="label14">Nombre</label>
+                                            <input class="input14 form-control" id="input_criterioevalNombre_activida" type="text" placeholder="Nombre">
+                                            <label class="label15">Descripción</label>
+                                            <textarea class="input15 form-control" id="input_criterioevaldes_actividad" placeholder="Descripción" type="text" required></textarea>
+                                            <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material">Eliminar Material</button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </center>
+                        </div>
+                </div>
+                <div class="botones2">
+                    <button class="btn btn-success">Guardar Todo</button>
+                    <button class="btn btn-danger cancelar">Cancelar Actividad</button>
+                </div>
+            </div>
+            </center>
 
-        <div class="botones2">
-            <button class="btn btn-success">Guardar Todo</button>
-            <button class="btn btn-danger cancelar">Cancelar Actividad</button>
-        </div>
+            <div data-content id="periodo">
+                
+                    <div class="cabecera">
+                        <center><h2 class="titulo">Periodo de la Actividad</h2></center>
+                    </div>
+                
+                    <center>
+                <div class="cuadro6">
+                    <input id="input_id_periodoact" type="text" hidden />
+                    <label class="label16">Inicio</label>
+                    <input class="input16 form-control" id="input_fechainicio_activida" type="date" placeholder="Inicio de la actividad">
+                    <label class="label17">Fin</label>
+                    <input class="input17 form-control " id="input_fechafin_activida" type="date" placeholder="Fin de la actividad">
+                </div>
 
-
-
+                <div class="botones2">
+                    <button class="btn btn-success">Guardar Todo</button>
+                    <button class="btn btn-danger cancelar">Cancelar Actividad</button>
+                </div>
+            </div>  <center>
+        </div> <!--container-->
 
         <?php include "../../../views/layout/footer.php" ?>
     </div>
     <script src="../../../js/actividad.js"></script>
 
 </body>
-
 </html>

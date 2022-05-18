@@ -33,6 +33,30 @@ function eliminar(obj){
     $(obj).parent().parent().remove();
 }
 
+
+
+
+const tagets = document.querySelectorAll('[data-taget]');
+const content = document.querySelectorAll('[data-content]');
+
+$( document ).ready(function() {
+    $('#tapPrincipal').click()
+    console.log($('#tapPrincipal'));
+  });
+
+tagets.forEach(taget =>{
+    taget.addEventListener('click',() => {
+        content.forEach(c => {
+            c.classList.remove('active')
+        })
+        const t = document.querySelector(taget.dataset.taget);
+        t.classList.add('active')
+
+
+    })
+})
+
+
 //TABLA DE ACTIVIDADES
 $('#tabla_avtividad').DataTable({
     pageLength: 20,
