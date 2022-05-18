@@ -501,6 +501,10 @@ body {
 
 }
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 9d8f20c316c4319e6d54ac65f841158c535cc0e8
 .flecha {
     width: 10%;
     height: 100%;
