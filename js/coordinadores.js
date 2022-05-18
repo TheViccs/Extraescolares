@@ -130,11 +130,7 @@ function insert_coordinador(){
             url: path+"insert_coordinador.php",
             data: {"id_departamento":id_departamento, "clave":clave,"nombre":nombre,"apellido_p":apellido_p,"apellido_m":apellido_m,"sexo":sexo},
             success: function(res){
-<<<<<<< HEAD
                 console.log(res);
-=======
-                borrar_datos_input_coordinador();
->>>>>>> 3396aeeb0db22e1893ff33526cb2e382c8b0462e
                 select_coordinadores();
                 borrar_datos_input_coordinador();           
                 if (res === "1") {

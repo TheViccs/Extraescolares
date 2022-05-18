@@ -579,7 +579,7 @@ ul.navega li {
         </div>
         
 
-        <div class="menu">
+        <div class="menu cabecera">
             <p data-taget="#principal" id="tapPrincipal">Principal</p>
             <p data-taget="#agregarActividad">Agregar Atividad</p>
             <p data-taget="#materialNecesario">Material Necesario</p>
