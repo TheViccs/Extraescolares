@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 11-05-2022 a las 16:47:03
+-- Tiempo de generación: 19-05-2022 a las 04:29:17
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -237,6 +237,29 @@ START TRANSACTION;
 	INSERT INTO departamento (clave,nombre,ubicacion,extension,correo) VALUES (d_clave,d_nombre,d_ubicacion,d_extension,d_correo);
     INSERT INTO departamento_responsable(id_departamento,id_responsable,fecha_inicio)VALUES((SELECT id_departamento FROM departamento WHERE clave=d_clave),r_id,NOW());
     COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insert_detalle_inscripcion_alumno`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_detalle_inscripcion_alumno` (IN `d_id_alumno` INT, IN `d_id_grupo` INT, IN `d_id_actividad` INT)   BEGIN
+START TRANSACTION;
+/*Ver capacidad actual grupo*/
+SET @inscripciones_actuales_grupo = (SELECT total_inscripciones FROM grupo WHERE id_grupo=d_id_grupo);
+SET @capacidad_max_grupo = (SELECT capacidad_max FROM grupo WHERE id_grupo=d_id_grupo);
+/*Ver que el alumno no este inscrito en mas 2 dos actividades por semestre*/
+SET @inscripciones_alumno_semestre_actual = (SELECT COUNT(*) FROM detalles_inscripcion WHERE id_alumno=d_id_alumno AND id_periodo=periodo_actual());
+/*Ver si el alumo ya tienen 5 creditos o 2 creditos en un programa*/
+SET @numero_creditos_alumno = (SELECT creditos_totales FROM alumno WHERE id_alumno=d_id_alumno);
+SET @programa = (SELECT id_programa FROM actividad WHERE id_actividad=d_id_actividad);
+SET @acreditaciones_en_programa_alumno = (SELECT COUNT(*) FROM detalles_inscripcion JOIN actividad ON detalles_inscripcion.id_actividad=actividad.id_actividad WHERE id_alumno=d_id_alumno AND id_programa=@programa AND acreditacion=1);
+SET @constancia = 0;
+IF((@numero_creditos_alumno < 5) AND (@acreditaciones_en_programa_alumno < 2)) THEN
+	SET @constancia = 1;
+END IF;
+/*INSERCION*/
+IF ((@inscripciones_actuales_grupo < @capacidad_max_grupo) AND (@inscripciones_alumno_semestre_actual < 2)) THEN
+	INSERT INTO detalles_inscripcion (constancia, id_alumno, id_grupo, id_actividad, id_periodo) VALUES (@constancia, d_id_alumno, d_id_grupo, d_id_actividad, periodo_actual());
+END IF;
+COMMIT;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_evidencia`$$
@@ -689,7 +712,7 @@ CREATE TABLE `administrador` (
 --
 
 INSERT INTO `administrador` (`id_admin`, `usuario`, `contraseña`) VALUES
-(1, 'admin@colima.tecnm.mx', '1234');
+(1, 'admin', '1234');
 
 -- --------------------------------------------------------
 
@@ -785,17 +808,6 @@ CREATE TABLE `coordinador` (
   `foto` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `coordinador`
---
-
-INSERT INTO `coordinador` (`id_coordinador`, `clave`, `nombre`, `apellido_p`, `apellido_m`, `sexo`, `foto`) VALUES
-(7, '212', 'rve', 'ververv', 'erve', 'M', NULL),
-(13, '123', 'AAA', 'AAA', 'AAA', 'M', NULL),
-(15, '324', 'qwd', 'qwd', 'qwd', 'M', NULL),
-(26, '432', 'fege', 'ergr', 'erge', 'M', NULL),
-(31, '200', 'Juan', 'Perez', 'Robles', 'M', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -809,26 +821,6 @@ CREATE TABLE `coordinador_programa` (
   `fecha_inicio` date NOT NULL,
   `fecha_fin` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `coordinador_programa`
---
-
-INSERT INTO `coordinador_programa` (`id_coordinador`, `id_programa`, `fecha_inicio`, `fecha_fin`) VALUES
-(13, 5, '2022-04-27', '2022-03-29'),
-(13, 5, '2022-04-27', '2022-03-29'),
-(26, 5, '2022-03-16', '2022-03-29'),
-(13, 5, '2022-04-27', '2022-04-27'),
-(31, 5, '2022-04-27', '2022-04-27'),
-(13, 5, '2022-04-27', '2022-04-27'),
-(31, 5, '2022-04-27', '2022-04-27'),
-(13, 5, '2022-04-27', '2022-04-27'),
-(31, 5, '2022-04-27', '2022-04-27'),
-(13, 5, '2022-04-27', '2022-04-27'),
-(31, 5, '2022-04-27', '2022-04-27'),
-(13, 5, '2022-04-27', '2022-04-27'),
-(31, 5, '2022-04-27', '2022-04-27'),
-(13, 5, '2022-04-27', NULL);
 
 -- --------------------------------------------------------
 
@@ -876,15 +868,6 @@ CREATE TABLE `departamento` (
   `visible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `departamento`
---
-
-INSERT INTO `departamento` (`id_departamento`, `clave`, `nombre`, `ubicacion`, `extension`, `correo`, `contraseña`, `visible`) VALUES
-(1, 'D', 'Dirección', ' ', '201', 'direccion@colima.tecnm.mx', 'responsable1', 1),
-(2, 'SPB', 'Subdirector de Planeación y Vinculación', ' ', '102', 'subdireccion@colima.tecnm.mx', 'responsable1', 1),
-(6, 'DAE', 'Departamento de Actividades Extraescolares', ' ', '108', 'departamento.extraescolares@colima.tecnm.mx', 'responsable1', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -899,15 +882,6 @@ CREATE TABLE `departamento_coordinador` (
   `fecha_fin` date DEFAULT NULL,
   `visible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `departamento_coordinador`
---
-
-INSERT INTO `departamento_coordinador` (`id_departamento`, `id_coordinador`, `fecha_inicio`, `fecha_fin`, `visible`) VALUES
-(6, 13, '2022-03-17', NULL, 1),
-(6, 26, '2022-03-29', '2022-03-29', 0),
-(6, 31, '2022-04-27', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -924,13 +898,6 @@ CREATE TABLE `departamento_instructor` (
   `visible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `departamento_instructor`
---
-
-INSERT INTO `departamento_instructor` (`id_departamento`, `id_instructor`, `fecha_inicio`, `fecha_fin`, `visible`) VALUES
-(1, 6, '2022-04-28', NULL, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -944,16 +911,6 @@ CREATE TABLE `departamento_programa` (
   `correo` varchar(150) NOT NULL,
   `contraseña` varchar(20) NOT NULL DEFAULT 'coordinador1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `departamento_programa`
---
-
-INSERT INTO `departamento_programa` (`id_departamento`, `id_programa`, `correo`, `contraseña`) VALUES
-(6, 2, 'coordinacion.deportiva.extraescolares@colima.tecnm.mx', 'coordinador1'),
-(6, 5, 'coordinacion.cultural.extraescolares@colima.tecnm.mx', 'coordinador1'),
-(6, 6, 'coordinacion.civica.extraescolares@colima.tecnm.mx', 'coordinador1'),
-(6, 33, 'tutoria.extraescolares@colima.tecnm.mx', 'coordinador1');
 
 -- --------------------------------------------------------
 
@@ -969,17 +926,6 @@ CREATE TABLE `departamento_responsable` (
   `fecha_fin` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `departamento_responsable`
---
-
-INSERT INTO `departamento_responsable` (`id_departamento`, `id_responsable`, `fecha_inicio`, `fecha_fin`) VALUES
-(1, 1, '2022-03-09', NULL),
-(2, 4, '2022-03-09', NULL),
-(6, 5, '2022-03-09', '2022-03-16'),
-(6, 1, '2022-03-16', '2022-03-16'),
-(6, 5, '2022-03-16', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -991,6 +937,7 @@ CREATE TABLE `detalles_inscripcion` (
   `calificacion_numerica` int(11) NOT NULL DEFAULT 0,
   `desempeño` int(11) NOT NULL DEFAULT 1,
   `acreditacion` tinyint(1) NOT NULL DEFAULT 0,
+  `constancia` tinyint(1) NOT NULL DEFAULT 1,
   `id_alumno` int(11) DEFAULT NULL,
   `id_grupo` int(11) DEFAULT NULL,
   `id_actividad` int(11) DEFAULT NULL,
@@ -1075,13 +1022,6 @@ CREATE TABLE `instructor` (
   `visible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `instructor`
---
-
-INSERT INTO `instructor` (`id_instructor`, `nombre`, `apellido_m`, `apellido_p`, `telefono`, `sexo`, `correo`, `contraseña`, `foto`, `visible`) VALUES
-(6, 'Juan', 'Robles', 'Perez', '', 'H', 'juan.perez@gmail.com', 'instructor1', NULL, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -1140,14 +1080,6 @@ CREATE TABLE `periodo` (
   `fecha_fin_actividades` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `periodo`
---
-
-INSERT INTO `periodo` (`id_periodo`, `nombre`, `fecha_inicio_actividades`, `fecha_fin_actividades`) VALUES
-(2, 'Mar-Mar 2022', '2022-03-08', '2022-03-31'),
-(3, 'Abr-May 2022', '2022-04-25', '2022-05-25');
-
 -- --------------------------------------------------------
 
 --
@@ -1176,17 +1108,6 @@ CREATE TABLE `programa` (
   `visible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `programa`
---
-
-INSERT INTO `programa` (`id_programa`, `clave`, `nombre`, `descripcion`, `observaciones`, `visible`) VALUES
-(1, 'PFP', 'Formación profesional', NULL, NULL, 1),
-(2, 'PAD', 'Programa de Actividades Deportivas', NULL, NULL, 1),
-(5, 'PAC', 'Programa de Actividades Culturales', NULL, NULL, 1),
-(6, 'PACIV', 'Programa de Actividades Cívicas', NULL, NULL, 1),
-(33, '500', 'Tutoría', NULL, NULL, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -1205,15 +1126,6 @@ CREATE TABLE `responsable` (
   `foto` varchar(150) DEFAULT NULL,
   `visible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `responsable`
---
-
-INSERT INTO `responsable` (`id_responsable`, `clave`, `nombre`, `apellido_p`, `apellido_m`, `sexo`, `correo`, `foto`, `visible`) VALUES
-(1, '1', 'Ana Rosa', 'Braña', 'Castillo', 'F', 'ana.braña@colima.tecnm.mx', NULL, 1),
-(4, '2', 'Pedro Itzvan', 'Silva', 'Medina', 'M', 'pedro.silva@colima.tecnm.mx', NULL, 1),
-(5, '190', 'Ariel', 'Lira', 'Obando', 'M', 'alira@colima.tecnm.mx', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1365,7 +1277,7 @@ ALTER TABLE `departamento_responsable`
 -- Indices de la tabla `detalles_inscripcion`
 --
 ALTER TABLE `detalles_inscripcion`
-  ADD UNIQUE KEY `id_alumno` (`id_alumno`,`id_actividad`,`id_periodo`),
+  ADD UNIQUE KEY `id_alumno` (`id_alumno`,`id_actividad`,`id_periodo`,`id_grupo`) USING BTREE,
   ADD KEY `id_grupo` (`id_grupo`),
   ADD KEY `id_actividad` (`id_actividad`),
   ADD KEY `id_periodo` (`id_periodo`);
@@ -1473,7 +1385,7 @@ ALTER TABLE `actividad`
 -- AUTO_INCREMENT de la tabla `administrador`
 --
 ALTER TABLE `administrador`
-  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `alumno`
@@ -1497,7 +1409,7 @@ ALTER TABLE `carga_complementaria`
 -- AUTO_INCREMENT de la tabla `coordinador`
 --
 ALTER TABLE `coordinador`
-  MODIFY `id_coordinador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id_coordinador` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `criterio_evaluacion`
@@ -1509,7 +1421,7 @@ ALTER TABLE `criterio_evaluacion`
 -- AUTO_INCREMENT de la tabla `departamento`
 --
 ALTER TABLE `departamento`
-  MODIFY `id_departamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_departamento` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `evidencia`
@@ -1533,7 +1445,7 @@ ALTER TABLE `horario`
 -- AUTO_INCREMENT de la tabla `instructor`
 --
 ALTER TABLE `instructor`
-  MODIFY `id_instructor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_instructor` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `lugar`
@@ -1557,19 +1469,19 @@ ALTER TABLE `material_alumno`
 -- AUTO_INCREMENT de la tabla `periodo`
 --
 ALTER TABLE `periodo`
-  MODIFY `id_periodo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_periodo` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `programa`
 --
 ALTER TABLE `programa`
-  MODIFY `id_programa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id_programa` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `responsable`
 --
 ALTER TABLE `responsable`
-  MODIFY `id_responsable` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_responsable` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tema`

@@ -36,6 +36,7 @@ function insert_responsable(){
             success: function(res){
                 if(res==="1"){
                     select_responsables();  
+                    $("#input_select_responsables").val(nombre+" "+apellido_p+" "+apellido_m);
                     borrar_datos_input_responsable(); 
                     $("#modal_responsable").modal("hide");
                     mostrar_alerta(1);
@@ -56,6 +57,8 @@ function insert_responsable(){
 function borrar_datos_input_responsable(){
     $("#input_clave_responsable").val("");
     $("#input_nombre_responsable").val("");
+    $("#input_apellido_p_responsable").val("");
+    $("#input_apellido_m_responsable").val("");
     $("#input_correo_responsable").val("");
     $("#select_sexo_responsable").val("O");
 }
