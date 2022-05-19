@@ -82,8 +82,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
         display: flex;
         justify-content: center;
         margin-bottom: 2%;
-        width: 80%;
-        border: 1px solid black;
+        width: 100%;
     }
 
     .dataTable{
@@ -165,7 +164,6 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
         grid-gap: 2rem;
         grid-template-columns: repeat(9,.3fr);
         grid-template-areas: 
-            "label_clave_instructor input_clave_instructor input_clave_instructor input_clave_instructor input_clave_instructor input_clave_instructor input_clave_instructor input_clave_instructor input_clave_instructor"
             "label_nombre_instructor input_nombre_instructor input_nombre_instructor label_apellidop_instructor input_apellidop_instructor input_apellidop_instructor label_apellidoM_instructor input_apellidoM_instructor input_apellidoM_instructor"
             "label_email_instructor input_email_instructor input_email_instructor input_email_instructor input_email_instructor input_email_instructor label_sexo_instructor  input_sexo_instructor input_sexo_instructor"
             ;
@@ -207,16 +205,16 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
 <body>
     
     <div class="contenido2">
-    <?php include "../../../views/layout/header.php" ?>
+        <?php include "../../../views/layout/header.php" ?>
+        <?php include "../../../views/layout/alertas.php" ?>
         <div class="cabecera">
             <h1 class="titulo">Gestionar instructores</h1>
             <a href="http://localhost/Extraescolares/views/modules/coordinador/coordinador.php"><img class="flecha"  src="../../.././assets/img/back.png"></a>
         </div>
+
         <div class="cuadro1">
-            
+            <input id="input_id_departamento" type="text" value=<?php echo $_SESSION['id_departamento'] ?> hidden/>
             <input id="input_id_instructor" type="text" hidden />
-            <label class="label1">Clave</label>
-            <input class="input1" id="input_clave_instructor" type="text" placeholder="Clave">
 
             <label class="label2">Nombre</label>
             <input class="input2" id="input_nombre_instructor" type="Nombre" placeholder="Nombre">
@@ -237,15 +235,17 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
                 <option value="M">Masculino</option>
                 <option value="F">Femenino</option>
             </select>
-
-
         </div>
+
         <div class="botones2">
-            <button class="btn btn-success" onclick="insert_instructor()">Guardar</button>
+            <button class="btn btn-success" onclick="mostrar_modal_insertar_instructor()">Guardar</button>
             <button class="btn btn-danger cancelar" onclick="borrar_datos_input_instructor()">Cancelar</button>
         </div>
-        <div class="contenedor-tabla content-table">
 
+        <div class="contenedor-tabla content-table">
+            <table id="tabla-instructores">
+
+            </table>
         </div>
 
         <div class="modal fade" id="modal-instructor" tabindex="-1" aria-labelledby="modal-instructor-label"
@@ -253,27 +253,56 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modal-instructor-label">Borrar Responsabele de Departamento</h5>
+                        <h5 class="modal-title" id="modal-instructor-label">Borrar Intsructor</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body text-center">
                         <div class="w-100">
                             <h3>Seguro que quiere borrar al instructor?</h1>
-                                <p id="p_clave_instructor"></p>
-                                <p id="p_nombre_instructor"></p>
-                                <p id="p_sexo_instructor"></p>
-                                <p id="p_correo_instructor"></p>
-                                <input id="input_id_instructor_borrar" type="text" hidden />
+                            <p id="p_clave_instructor"></p>
+                            <p id="p_nombre_instructor"></p>
+                            <p id="p_sexo_instructor"></p>
+                            <p id="p_correo_instructor"></p>
+                            <input id="input_id_instructor_borrar" type="text" hidden />
                         </div>
                     </div>
                     <div class="modal-footer d-flex justify-content-evenly">
                         <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-danger" onclick="borrar_responsable()">Borrar</button>
+                        <button type="button" class="btn btn-danger" onclick="borrar_instructor()">Borrar</button>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="modal fade" id="modal_insertar_instructor" tabindex="-1" aria-labelledby="modal_insertar_instructor-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal_insertar_instructor-label">Asignar Coordinador</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <div class="w-100 d-flex flex-column align-items-center">
+                            <h3>Datos del coordinador</h1>
+                            <p id="p_clave_instructor_insertar"></p>
+                            <p id="p_nombre_instructor_insertar"></p>
+                            <p id="p_sexo_instructor_insertar"></p>
+                            <p id="p_correo_instructor_insertar"></p>
+                            <label>Fecha de inicio del instructor</label>
+                            <input id="input_fecha_inicio_instructor" type="date" style="width:50% !important"/> 
+                            <label>Fecha de fin del instructor</label>
+                            <input id="input_fecha_fin_instructor" type="date" style="width:50% !important"/>                       
+                        </div>        
+                    </div>
+                    <div class="modal-footer d-flex justify-content-evenly">
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-secondary" onclick="insert_instructor()">Guardar</button>               
+                    </div>
+                </div>
+            </div>   
+        </div>
         <?php include "../../../views/layout/footer.php" ?>
     </div>
-    
+    <script src="../../../js/instructores.js"></script>
 </body>
 </html>

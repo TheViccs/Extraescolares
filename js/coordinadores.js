@@ -221,7 +221,6 @@ function update_coordinador(){
             url: path+"update_coordinador.php",
             data: {"id_coordinador":id_coordinador,"clave":clave,"nombre":nombre,"apellido_p":apellido_p,"apellido_m":apellido_m,"sexo":sexo},
             success: function(res){
-                console.log(res);
                 borrar_datos_input_coordinador();
                 select_coordinadores();
                 if (res === "1") {
