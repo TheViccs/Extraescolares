@@ -157,7 +157,8 @@ body {
     grid-template-columns: repeat(8, .3fr);
     grid-template-areas:
         "label_clave_programa input_clave_programa label_nombre_programa input_nombre_programa input_nombre_programa input_nombre_programa input_nombre_programa input_nombre_programa"
-        "label_des_programa input_des_programa input_des_programa input_des_programa label_obs_programa input_obs_programa input_obs_programa input_obs_programa"
+        "label_des_programa input_des_programa input_des_programa input_des_programa input_des_programa input_des_programa input_des_programa input_des_programa"
+        "label_obs_programa input_obs_programa input_obs_programa input_obs_programa input_obs_programa input_obs_programa input_obs_programa input_obs_programa"
         "label_dep_programa input_dep_programa input_dep_programa input_dep_programa input_dep_programa input_dep_programa input_dep_programa input_dep_programa"
         ;
 }
@@ -246,6 +247,7 @@ label {
                         <p id="p_clave_programa"></p>
                         <p id="p_nombre_programa"></p>
                         <p id="p_descripcion_programa"></p>
+                        <P id="p_observaciones_programa"></P>
                         <input id="input_id_programa_borrar" type="text" hidden/>
                     </div>        
                 </div>
@@ -262,7 +264,7 @@ label {
             <button class="btn btn-success" id="boton_insert_update_programa" onclick="insert_programa()">Guardar</button>
             <button class="btn btn-danger cancelar" onclick="borrar_datos_input_programa()">Cancelar</button>
         </div>
-        <div class="contenedor-tabla content-table">
+        <div  class="contenedor-tabla content-table">
             <table id="tabla_programas">
 
             </table>

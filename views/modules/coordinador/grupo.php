@@ -150,10 +150,10 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
         min-height: 20%;
         min-width: fit-content;
         grid-gap: 2rem;
-        grid-template-columns: repeat(9,.3fr);
+        grid-template-columns: repeat(8,.3fr);
         grid-template-areas: 
-            "label_nombre_grupo input_nombre_grupo input_nombre_grupo label_capacidadMax_grupo input_capacidadMin_grupo input_capacidadMin_grupo input_capacidadMax_grupo input_capacidadMax_grupo input_capacidadMax_grupo"
-            "label_total_grupo input_total_grupo input_total_grupo input_total_grupo input_total_grupo input_total_grupo label_sexo_instructor  input_sexo_instructor input_sexo_instructor"
+            ""
+            ""
             ;
     }
 

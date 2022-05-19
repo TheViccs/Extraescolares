@@ -162,9 +162,9 @@ body {
     grid-gap: 2rem;
     grid-template-columns: repeat(9, .3fr);
     grid-template-areas:
-        "label_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable"
-        "label_nombre_resposable label_nombre_resposable input_nombre_resposable label_apPaterno_resposable label_apPaterno_resposable input_apPaterno_resposable label_apMaterno_resposable label_apMaterno_resposable input_apMaterno_resposable"
-        "label_email_resposable  input_email_resposable input_email_resposable input_email_resposable input_email_resposable label_sexo_resposable input_sexo_resposable input_sexo_resposable input_sexo_resposable";
+        "label_clave_resposable input_clave_resposable input_clave_resposable label_email_resposable input_email_resposable input_email_resposable label_sexo_resposable  input_sexo_resposable input_sexo_resposable"
+        "label_nombre_resposable input_nombre_resposable input_nombre_resposable label_apPaterno_resposable label_apPaterno_resposable input_apPaterno_resposable label_apMaterno_resposable label_apMaterno_resposable input_apMaterno_resposable"
+        ;
 }
 
 .flecha {
@@ -228,20 +228,20 @@ label {
                 required="false">
 
             <label class="label5">Email</label>
-            <input class="input5" id="input_correo_responsable" type="email" placeholder="Email">
+            <div class="input5" style="margin-bottom: 40px; margin-right:40px;">
+                <input id="input_correo_responsable" type="email" placeholder="Email">
+            <p style="width: 100%; height: 20%;  font-size: 8px; margin-bottom: -100%;">Solo agregue el nombre de usuario</p>
+            </div>
+            
 
             <label class="label6">Sexo</label>
-            <select class="input6" id="select_sexo_responsable">
+            <select class="input6" id="select_sexo_responsable"style="margin-bottom: 50px;">
                 <option value="O" disabled selected>Elige...</option>
                 <option value="M">Masculino</option>
                 <option value="F">Femenino</option>
             </select>
         </div>
-        <!-- <div class="botones2">
-            <button id="boton_insert_update_responsable" class="btn btn-success" onclick="insert_responsable()">Guardar</button>
-            <button class="btn btn-danger" onclick="borrar_datos_input_responsable()">Cancelar</button>
-        </div> -->
-
+        
         <div class="botones2">
             <button id="boton_insert_update_responsable" class="btn btn-success" onclick="insert_responsable()">Guardar</button>
             <button class="btn btn-danger cancelar" onclick="borrar_datos_input_responsable()">Cancelar</button>

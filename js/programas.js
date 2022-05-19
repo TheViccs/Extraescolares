@@ -83,7 +83,7 @@ function agregar_programas_tabla(programas){
     for(let programa of programas){
         tabla.row.add({"clave":programa.clave,"nombre":programa.nombre,"descripcion":programa.descripcion,"observaciones":programa.observaciones,"botoneditar":"<button id='botoneditarprograma"+programa.id_programa+"' class='btn btn-primary'>Editar</button>","botonborrar":"<button id='botonborrarprograma"+programa.id_programa+"' class='btn btn-danger'>Borrar</button>","botonimprimir":"<button id='botonimprimirprograma"+programa.id_programa+"' class='btn btn-dark'>Imprimir</button>"}).draw();
         $("#botoneditarprograma"+programa.id_programa).on( "click", function(){select_programa_id(programa.id_programa)});
-        $("#botonborrarprograma"+programa.id_programa).on( "click", function(){mostrar_modal_borrar_programa(programa.id_programa,programa.clave, programa.nombre, programa.descripcion)});
+        $("#botonborrarprograma"+programa.id_programa).on( "click", function(){mostrar_modal_borrar_programa(programa.id_programa,programa.clave, programa.nombre, programa.descripcion, programa.observaciones)});
         $("#botonimprimirprograma"+programa.id_programa).on( "click", function(){generar_pdf(programa.id_programa)});
     }
 }
@@ -292,7 +292,7 @@ function update_programa_departamento(id_programa,clave,nombre,descripcion,obser
 }
 
 //MOSTRAR MODAL BORRAR PROGRAMA
-function mostrar_modal_borrar_programa(id_programa,clave, nombre, descripcion){
+function mostrar_modal_borrar_programa(id_programa,clave, nombre, descripcion,observaciones){
     $("#modal_programa").modal("show");
     $("#p_clave_programa").text("Clave: "+clave);
     $("#p_nombre_programa").text("Nombre: "+nombre);
@@ -300,6 +300,8 @@ function mostrar_modal_borrar_programa(id_programa,clave, nombre, descripcion){
         descripcion = "N/A";
     }
     $("#p_descripcion_programa").text("Descripción: "+descripcion);
+    $("#p_observaciones_programa").text("Observaciones: "+observaciones);
+
     $("#input_id_programa_borrar").val(id_programa);
 }
 

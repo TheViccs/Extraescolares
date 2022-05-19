@@ -155,8 +155,6 @@ body {
     grid-area: input_sexo_coordi;
 }
 
-
-
 .cuadro1 {
     padding: 1rem;
     display: grid;
@@ -170,9 +168,9 @@ body {
     grid-gap: 2rem;
     grid-template-columns: repeat(9, .3fr);
     grid-template-areas:
-        "label_clave_coordi input_clave_coordi input_clave_coordi input_clave_coordi input_clave_coordi input_clave_coordi input_clave_coordi input_clave_coordi input_clave_coordi"
-        "label_nombre_coordi label_nombre_coordi input_nombre_coordi label_apPaterno_coordi label_apPaterno_coordi input_apPaterno_coordi label_apMaterno_coordi label_apMaterno_coordi input_apMaterno_coordi"
-        "label_tel_coordi input_tel_coordi input_tel_coordi input_tel_coordi input_tel_coordi input_tel_coordi label_sexo_coordi input_sexo_coordi input_sexo_coordi"
+        "label_clave_coordi input_clave_coordi label_tel_coordi input_tel_coordi input_tel_coordi label_sexo_coordi input_sexo_coordi input_sexo_coordi input_sexo_coordi"
+        "label_nombre_coordi input_nombre_coordi input_nombre_coordi label_apPaterno_coordi label_apPaterno_coordi input_apPaterno_coordi label_apMaterno_coordi label_apMaterno_coordi input_apMaterno_coordi"
+        
         ;
 }
 
