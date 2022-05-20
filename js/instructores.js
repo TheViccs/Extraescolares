@@ -62,10 +62,9 @@ function agregar_instructores_tabla(instructores){
     }
 }
 
-//MOSTRAR MODAL BORRAR RESPONSABLE
+//MOSTRAR MODAL BORRAR INSTRUCTOR
 function mostrar_modal_borrar_instructor(id_instructor, nombre, sexo,correo){
-    $("#p_clave_instructor").text("Clave: "+clave);
-    $("#p_nombre_instructor").text("Nombre: "+nombre+" "+apellido_p+" "+apellido_m);
+    $("#p_nombre_instructor").text("Nombre: "+nombre);
     $("#p_sexo_instructor").text("Sexo: "+sexo);
     $("#p_correo_instructor").text("Correo: "+correo);
     $("#input_id_instructor_borrar").val(id_instructor);
@@ -109,7 +108,6 @@ function insert_instructor(){
             url: path+"insert_instructor.php",
             data: {"nombre":nombre,"apellido_p":apellido_p,"apellido_m":apellido_m,"sexo":sexo,"correo":correo + "@colima.tecnm.mx", "fecha_inicio": fecha_inicio, "fecha_fin": fecha_fin, "id_departamento": id_departamento},
             success: function(res){
-                console.log(res);
                 borrar_datos_input_instructor();
                 select_instructores();
                 $("#modal_insertar_instructor").modal("hide");
@@ -126,24 +124,25 @@ function insert_instructor(){
 }
 
 //UPDATE A INSTRUCTOR
-function update_responsable(){
-    let id_responsable = $("#input_id_responsable").val();
-    let clave = $("#input_clave_responsable").val();
-    let nombre = $("#input_nombre_responsable").val();
-    let apellido_p = $("#input_apellido_p_responsable").val();
-    let apellido_m = $("#input_apellido_m_responsable").val();
-    let sexo = $("#select_sexo_responsable").val();
-    let correo = $("#input_correo_responsable").val();
-    if(id_responsable.length !== 0 && clave.length !== 0 && nombre.length !== 0 && apellido_p.length !== 0 && apellido_m.length !== 0 && correo.length !== 0 && sexo!=="O"){
+function update_instructor(){
+    let id_instructor = $("#input_id_instructor").val();
+    let clave = $("#input_clave_instructor").val();
+    let nombre = $("#input_nombre_instructor").val();
+    let apellido_p = $("#input_apellido_p_instructor").val();
+    let apellido_m = $("#input_apellido_m_instructor").val();
+    let sexo = $("#select_sexo_instructor").val();
+    let correo = $("#input_correo_instructor").val();
+    if(id_instructor.length !== 0 && nombre.length !== 0 && apellido_p.length !== 0 && apellido_m.length !== 0 && correo.length !== 0 && sexo!=="O"){
         $.ajax({
             type: "POST",
-            url: path+"update_responsable.php",  
-            data: {"id_responsable": id_responsable, "clave": clave, "nombre": nombre, "apellido_p": apellido_p, "apellido_m": apellido_m, "sexo":sexo,"correo": correo} ,                         
+            url: path+"update_instructor.php",  
+            data: {"id_instructor": id_instructor, "nombre": nombre, "apellido_p": apellido_p, "apellido_m": apellido_m, "sexo":sexo,"correo": correo} ,                         
             success: function(res){ 
-                select_responsables(); 
+                console.log(res);
+                select_instructores(); 
                 if(res==="1"){
                     mostrar_alerta(1);
-                    borrar_datos_input_responsable();
+                    borrar_datos_input_instructor();
                 }else{
                     mostrar_alerta(3);
                 }
@@ -163,20 +162,19 @@ function borrar_datos_input_instructor(){
     $("#input_correo_instructor").val("");
     $("#input_fecha_inicio_instructor").val("");
     $("#input_fecha_fin_instructor").val("");
-    
-    //$("#boton_insert_update_responsable").attr("onclick","insert_responsable()");
+    $("#boton_insert_update_instructor").attr("onclick","mostrar_modal_insertar_instructor()");
 }
 
-//BORRAR RESPONSABLE
-function borrar_responsable(){
-    let id_responsable= $("#input_id_responsable_borrar").val();
+//BORRAR INSTRUCTOR
+function borrar_instructor(){
+    let id_instructor= $("#input_id_instructor_borrar").val();
     $.ajax({
         type: "POST",
-        url: path+"delete_responsable.php",  
-        data: {"id_responsable": id_responsable} ,                         
+        url: path+"delete_instructor.php",  
+        data: {"id_instructor": id_instructor} ,                         
         success: function(res){
-            select_responsables();
-            $("#modal-responsable").modal("hide");   
+            select_instructores();
+            $("#modal-instructor").modal("hide");   
             if(res==="1"){
                 mostrar_alerta(1);
             }else{
@@ -187,20 +185,20 @@ function borrar_responsable(){
 }
 
 //IMPRIMIR PDF DEPARTAMENTO
-function generar_pdf(id_responsable){
+function generar_pdf(id_instructor){
     $.ajax({
         type: "POST",
-        data: {"id_responsable": id_responsable},
-        url: path+"select_responsable_id.php",                           
+        data: {"id_instructor": id_instructor},
+        url: path+"select_instructor_id.php",                           
         success: function(res){   
-            let responsable = JSON.parse(res)[0];           
+            let instructor = JSON.parse(res)[0];           
             let pdf = new jsPDF();
-            let columns = [["Clave","Nombre","Correo","Departamento"]]; 
-            let data = [[responsable.clave_responsable, responsable.nombre+" "+responsable.apellido_p+" "+responsable.apellido_m, responsable.correo_responsable, responsable.nombre_departamento]];
+            let columns = [["Nombre","Correo"]]; 
+            let data = [[instructor.nombre+" "+instructor.apellido_p+" "+instructor.apellido_m, instructor.correo]];
             pdf.setProperties({
-                title: "Tabla Responsable "+responsable.nombre
+                title: "Tabla Instructor "+instructor.nombre
             });
-            let texto = "Responsable "+responsable.nombre;
+            let texto = "Instructor "+instructor.nombre;
             let x = (pdf.internal.pageSize.width/2) - (pdf.getTextWidth(texto)/2)
             pdf.text(texto,x,15);
             pdf.autoTable({
@@ -215,22 +213,21 @@ function generar_pdf(id_responsable){
 }
 
 
-//SELECT DE RESPONSABLE POR ID
-function select_instructor_id(id_responsable){
+//SELECT DE instructor POR ID
+function select_instructor_id(id_instructor){
     $.ajax({
         type: "POST",
-        data: {"id_responsable": id_responsable},
-        url: path+"select_responsable_id.php",                           
+        data: {"id_instructor": id_instructor},
+        url: path+"select_instructor_id.php",                           
         success: function(res){    
-            let responsable = JSON.parse(res)[0];
-            $("#input_id_responsable").val(responsable.id_responsable);                
-            $("#input_clave_responsable").val(responsable.clave_responsable);
-            $("#input_nombre_responsable").val(responsable.nombre);
-            $("#input_apellido_p_responsable").val(responsable.apellido_p);
-            $("#input_apellido_m_responsable").val(responsable.apellido_m);
-            $("#select_sexo_responsable").val(responsable.sexo);
-            $("#input_correo_responsable").val(responsable.correo_responsable);
-            $("#boton_insert_update_responsable").attr("onclick","update_responsable()");
+            let instructor = JSON.parse(res)[0];
+            $("#input_id_instructor").val(instructor.id_instructor);                
+            $("#input_nombre_instructor").val(instructor.nombre);
+            $("#input_apellido_p_instructor").val(instructor.apellido_p);
+            $("#input_apellido_m_instructor").val(instructor.apellido_m);
+            $("#select_sexo_instructor").val(instructor.sexo);
+            $("#input_correo_instructor").val(instructor.correo);
+            $("#boton_insert_update_instructor").attr("onclick","update_instructor()");
         }
     });
 }

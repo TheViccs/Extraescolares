@@ -10,7 +10,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport">
-    <title>instructores</title>
+    <title>Instructores</title>
     <?php include "../../../views/layout/imports.php" ?>
 </head>
 <style>
@@ -95,15 +95,6 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
         flex-direction: column;
         align-items: center;
         min-width: fit-content;
-    }
-
-    .label1{
-        grid-area: label_clave_instructor;
-        text-align: center;
-    }
-
-    .input1{
-        grid-area: input_clave_instructor;
     }
 
     .label2{
@@ -238,7 +229,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
         </div>
 
         <div class="botones2">
-            <button class="btn btn-success" onclick="mostrar_modal_insertar_instructor()">Guardar</button>
+            <button class="btn btn-success" id="boton_insert_update_instructor" onclick="mostrar_modal_insertar_instructor()">Guardar</button>
             <button class="btn btn-danger cancelar" onclick="borrar_datos_input_instructor()">Cancelar</button>
         </div>
 

@@ -161,6 +161,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
         border-radius: 5px;
         min-height: 20%;
         min-width: fit-content;
+        max-width: 80%;
         grid-gap: 2rem;
         grid-template-columns: repeat(9, .3fr);
         grid-template-areas:

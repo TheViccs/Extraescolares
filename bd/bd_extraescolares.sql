@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 19-05-2022 a las 04:29:17
+-- Tiempo de generación: 20-05-2022 a las 03:23:05
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -258,6 +258,7 @@ END IF;
 /*INSERCION*/
 IF ((@inscripciones_actuales_grupo < @capacidad_max_grupo) AND (@inscripciones_alumno_semestre_actual < 2)) THEN
 	INSERT INTO detalles_inscripcion (constancia, id_alumno, id_grupo, id_actividad, id_periodo) VALUES (@constancia, d_id_alumno, d_id_grupo, d_id_actividad, periodo_actual());
+    UPDATE grupo SET grupo.total_inscripciones = grupo.total_inscripciones + 1 WHERE grupo.id_grupo = d_id_grupo;
 END IF;
 COMMIT;
 END$$
@@ -293,15 +294,15 @@ COMMIT;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_instructor`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_instructor` (IN `i_nombre` VARCHAR(150), IN `i_apellido_p` VARCHAR(50), IN `i_apellido_m` VARCHAR(50), IN `i_telefono` VARCHAR(10), IN `i_sexo` VARCHAR(1), IN `i_correo` VARCHAR(150), IN `i_id_departamento` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_instructor` (IN `i_nombre` VARCHAR(150), IN `i_apellido_p` VARCHAR(50), IN `i_apellido_m` VARCHAR(50), IN `i_sexo` VARCHAR(1), IN `i_correo` VARCHAR(150), IN `i_fecha_inicio` DATE, IN `i_fecha_fin` DATE, IN `i_id_departamento` INT)   BEGIN
 START TRANSACTION;
-	IF 0 = (SELECT COUNT(*) FROM instructor WHERE nombre=i_nombre AND apellido_p=i_apellido_p AND apellido_m=i_apellido_m AND telefono=i_telefono AND sexo=i_sexo AND correo=i_correo) THEN
-		INSERT INTO instructor(nombre, apellido_p, apellido_m, telefono, sexo, correo) VALUES (i_nombre, i_apellido_p, i_apellido_m, i_telefono, i_sexo, i_correo) ON DUPLICATE KEY UPDATE nombre=i_nombre, apellido_p=i_apellido_p, apellido_m=i_apellido_m, telefono=i_telefono, sexo=i_sexo, correo=i_correo;
-    	INSERT INTO departamento_instructor(id_departamento,id_instructor,fecha_inicio) VALUES (i_id_departamento, last_insert_id(),NOW());
+	IF 0 = (SELECT COUNT(*) FROM instructor WHERE nombre=i_nombre AND apellido_p=i_apellido_p AND apellido_m=i_apellido_m AND sexo=i_sexo AND correo=i_correo) THEN
+		INSERT INTO instructor(nombre, apellido_p, apellido_m, sexo, correo) VALUES (i_nombre, i_apellido_p, i_apellido_m, i_sexo, i_correo) ON DUPLICATE KEY UPDATE nombre=i_nombre, apellido_p=i_apellido_p, apellido_m=i_apellido_m, sexo=i_sexo, correo=i_correo;
+    	INSERT INTO departamento_instructor(id_departamento,id_instructor,fecha_inicio,fecha_fin) VALUES (i_id_departamento, last_insert_id(),i_fecha_inicio,i_fecha_fin);
 	ELSE
-		SET @instructor = (SELECT id_instructor FROM instructor WHERE nombre=i_nombre AND apellido_p=i_apellido_p AND apellido_m=i_apellido_m AND telefono=i_telefono AND sexo=i_sexo AND correo=i_correo);
-    	IF 0 = (SELECT COUNT(*) FROM departamento_instructor WHERE id_departamento=i_id_departamento AND id_instructor=@instructor AND fecha_fin IS NULL) THEN
-    		INSERT INTO departamento_instructor (id_departamento,id_instructor,fecha_inicio) VALUES (i_id_departamento,@instructor,NOW());
+		SET @instructor = (SELECT id_instructor FROM instructor WHERE nombre=i_nombre AND apellido_p=i_apellido_p AND apellido_m=i_apellido_m AND sexo=i_sexo AND correo=i_correo);
+    	IF 0 = (SELECT COUNT(*) FROM departamento_instructor WHERE id_departamento=i_id_departamento AND id_instructor=@instructor AND fecha_fin > NOW()) THEN
+    		INSERT INTO departamento_instructor (id_departamento,id_instructor,fecha_inicio,fecha_fin) VALUES (i_id_departamento,@instructor,i_fecha_inicio,i_fecha_fin);
     	END IF;
 END IF;
 COMMIT;
@@ -467,7 +468,7 @@ END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_instructores_departamento_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_instructores_departamento_id` (IN `i_id_departamento` INT)   BEGIN
-SELECT instructor.* FROM instructor JOIN departamento_instructor ON instructor.id_instructor=departamento_instructor.id_instructor WHERE departamento_instructor.id_departamento=i_id_departamento AND departamento_instructor.fecha_fin IS NULL AND departamento_instructor.visible=1;
+SELECT instructor.* FROM instructor JOIN departamento_instructor ON instructor.id_instructor=departamento_instructor.id_instructor WHERE departamento_instructor.id_departamento=i_id_departamento AND departamento_instructor.fecha_fin > NOW() AND departamento_instructor.visible=1 AND instructor.visible=1;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_instructor_evidencias`$$
@@ -604,9 +605,9 @@ COMMIT;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_update_instructor`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_instructor` (IN `i_id_instructor` INT, IN `i_nombre` VARCHAR(150), IN `i_apellido_p` VARCHAR(50), IN `i_apellido_m` VARCHAR(50), IN `i_telefono` VARCHAR(10), IN `i_sexo` VARCHAR(1), IN `i_correo` VARCHAR(150))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_instructor` (IN `i_id_instructor` INT, IN `i_nombre` VARCHAR(150), IN `i_apellido_p` VARCHAR(50), IN `i_apellido_m` VARCHAR(50), IN `i_sexo` VARCHAR(1), IN `i_correo` VARCHAR(150))   BEGIN
 START TRANSACTION;
-	UPDATE instructor SET nombre=i_nombre, apellido_p=i_apellido_p, apellido_m=i_apellido_m, telefono=i_telefono, sexo=i_sexo, correo=i_correo WHERE id_instructor=i_id_instructor;
+	UPDATE instructor SET nombre=i_nombre, apellido_p=i_apellido_p, apellido_m=i_apellido_m, sexo=i_sexo, correo=i_correo WHERE id_instructor=i_id_instructor;
 COMMIT;
 END$$
 
@@ -712,7 +713,7 @@ CREATE TABLE `administrador` (
 --
 
 INSERT INTO `administrador` (`id_admin`, `usuario`, `contraseña`) VALUES
-(1, 'admin', '1234');
+(1, 'admin@colima.tecnm.mx', '1234');
 
 -- --------------------------------------------------------
 
@@ -1014,7 +1015,6 @@ CREATE TABLE `instructor` (
   `nombre` varchar(150) NOT NULL,
   `apellido_m` varchar(50) NOT NULL,
   `apellido_p` varchar(50) NOT NULL,
-  `telefono` varchar(10) DEFAULT NULL,
   `sexo` varchar(1) NOT NULL,
   `correo` varchar(150) NOT NULL,
   `contraseña` varchar(20) NOT NULL DEFAULT 'instructor1',
