@@ -67,6 +67,7 @@
         }
 
         .contenedor-actividades {
+            padding: 8px;
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -130,6 +131,7 @@
             align-items: center;
             border: 1px solid black;
             border-radius: 10px;
+            padding: 8px;
         }
 
         .contenedor-grupo {
@@ -138,7 +140,6 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border: 1px solid black;
             border-radius: 10px;
         }
 
@@ -159,8 +160,59 @@
 
         .descripcion-grupo {
             width: 100%;
-            height: 300px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            align-items: center;
         }
+
+        .tabla-grupo-horario{
+            width: 100%;
+        }
+
+        .tabla-grupo-horario tr{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 50px;
+        }
+
+        .tabla-grupo-horario tbody tr{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .tabla-grupo-horario tbody th{
+            border: 1px solid lightgray;
+            height: 50px;
+            width: 100%;
+        }
+
+        .boton-registarse-grupo{
+            border-radius: 10px;
+            background-color: green;
+        }
+
+        .boton-registarse-grupo{
+            border-radius: 10px;
+            background-color: rgb(80, 200, 100);
+        }
+        
+        .lleno{
+            background-color: rgb(250, 60, 60) !important;
+        }
+
+        .boton-registarse-grupo:hover {
+            background-color: orange;
+        }
+
+        .contenedor-grupo-caracteristica{
+            display: flex;
+            justify-content: center;
+        }
+
     </style>
 </head>
 
@@ -195,13 +247,13 @@
 
         const crearProgramas = () => {
             let programas = [{
-                id_programa: "1",
+                id_programa: 1,
                 nombre: "Deportivo"
             }, {
-                id_programa: "2",
+                id_programa: 2,
                 nombre: "Cultural"
             }, {
-                id_programa: "3",
+                id_programa: 3,
                 nombre: "Academico"
             }]
             let main = document.getElementsByClassName("main")[0];
@@ -228,37 +280,37 @@
 
         const crearActividades = () => {
             let actividades = [{
-                id_actividad: "1",
+                id_actividad: 1,
                 nombre: "Futbol",
                 descripcion: "eferf efr ferferf erferf erferfe erfer ferferf erferferf erferfr rferf rfrfre rferferf erferf erfer erfee rferf erfe rferferf",
                 competencia: "eferf efr ferferf erferf erferfe erfer ferferf erferferf erferfr rferf rfrfre rferferf erferf erfer erfee rferf erfe rferferf",
                 creditos_otorga: 1,
                 beneficios: "eferf efr ferferf erferf erferfe erfer ferferf erferferf erferfr rferf rfrfre rferferf erferf erfer erfee rferf erfe rferferf",
-                id_programa: "1"
+                id_programa: 1
             }, {
-                id_actividad: "2",
+                id_actividad: 2,
                 nombre: "Basquetbol",
                 descripcion: "",
                 competencia: "",
                 creditos_otorga: 1,
                 beneficios: "",
-                id_programa: "1"
+                id_programa: 1
             }, {
-                id_actividad: "3",
+                id_actividad: 3,
                 nombre: "Danza",
                 descripcion: "",
                 competencia: "",
                 creditos_otorga: 1,
                 beneficios: "",
-                id_programa: "2"
+                id_programa: 2
             }, {
-                id_actividad: "4",
+                id_actividad: 4,
                 nombre: "Tutoria",
                 descripcion: "",
                 competencia: "",
                 creditos_otorga: 1,
                 beneficios: "",
-                id_programa: "3"
+                id_programa: 3
             }]
             actividades.forEach(actividad => {
                 let programa = document.querySelector("#programa" + actividad.id_programa);
@@ -346,21 +398,53 @@
 
         const crearGrupos = () => {
             let grupos = [{
-                id_grupo: "1",
+                id_grupo: 1,
                 nombre: "A",
-                id_actividad: "1"
+                total_inscripciones: 40,
+                capacidad_max: 40,
+                id_caracteristica: 1,
+                nombre_caracteristica: "Recreativo",
+                id_lugar: 1,
+                nombre_lugar: "Canchas techadas",
+                id_instructor: 1,
+                nombre_instructor: "Juan Perez",
+                id_actividad: 1
             }, {
-                id_grupo: "2",
+                id_grupo: 2,
                 nombre: "B",
-                id_actividad: "1"
+                total_inscripciones: 10,
+                capacidad_max: 40,
+                id_caracteristica: 2,
+                nombre_caracteristica: "Selección",
+                id_lugar: 1,
+                nombre_lugar: "Canchas techadas",
+                id_instructor: 1,
+                nombre_instructor: "Juan Perez",
+                id_actividad: 1
             }, {
-                id_grupo: "3",
+                id_grupo: 3,
                 nombre: "A",
-                id_actividad: "2"
+                total_inscripciones: 10,
+                capacidad_max: 40,
+                id_caracteristica: 1,
+                nombre_caracteristica: "Recreativo",
+                id_lugar: 1,
+                nombre_lugar: "Canchas techadas",
+                id_instructor: 1,
+                nombre_instructor: "Juan Perez",
+                id_actividad: 2
             }, {
-                id_grupo: "4",
+                id_grupo: 4,
                 nombre: "A",
-                id_actividad: "3"
+                total_inscripciones: 10,
+                capacidad_max: 40,
+                id_caracteristica: 1,
+                nombre_caracteristica: "Recreativo",
+                id_lugar: 1,
+                nombre_lugar: "Canchas techadas",
+                id_instructor: 1,
+                nombre_instructor: "Juan Perez",
+                id_actividad: 3
             }]
             grupos.forEach(grupo => {
                 let actividad = document.querySelector("#actividad" + grupo.id_actividad);
@@ -370,14 +454,73 @@
                 divTitulo.classList.add("contenedor-grupo-titulo");
                 divTitulo.setAttribute("onclick", "mostrarContenido()");
                 let h3 = document.createElement("h3");
-                h3.textContent = "Grupo " + grupo.nombre;
+                h3.textContent = "Grupo " + grupo.nombre+ " - "+grupo.nombre_caracteristica;
                 divTitulo.appendChild(h3);
                 let divContenido = document.createElement("div")
                 divContenido.classList.add("descripcion-grupo");
                 divContenido.id = "grupo" + grupo.id_grupo;
                 divContenido.setAttribute("hidden", true);
-                actividad.appendChild(divTitulo);
-                actividad.appendChild(divContenido);
+                const diasSemana = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sábado"];
+                let tabla = document.createElement("table");
+                tabla.classList.add("tabla-grupo-horario");
+                let thead = document.createElement("thead");
+                let trthead = document.createElement("tr");
+                diasSemana.forEach(dia => {
+                    let th = document.createElement("th");
+                    th.textContent = dia;
+                    trthead.appendChild(th);
+                });
+                thead.appendChild(trthead);
+
+                let tbody = document.createElement("tbody");
+                let trtbody = document.createElement("tr");
+                diasSemana.forEach(dia => {
+                    let th = document.createElement("th");
+                    th.textContent = "";
+                    trtbody.appendChild(th);
+                });
+                tbody.appendChild(trtbody);
+                tabla.appendChild(thead);
+                tabla.appendChild(tbody);
+                divContenido.appendChild(tabla);
+
+                let divDescripcion = document.createElement("div");
+                divDescripcion.classList.add();
+                let divContenedorLugar = document.createElement("div");
+                divContenedorLugar.classList.add("contenedor-grupo-caracteristica");
+                let tituloLugar = document.createElement("h5");
+                tituloLugar.textContent = "Descripción"
+                let lugar = document.createElement("p");
+                lugar.textContent = grupo.nombre_lugar;
+                divContenedorLugar.appendChild(tituloLugar);
+                divContenedorLugar.appendChild(lugar);
+                let divContenedorInstructor = document.createElement("div");
+                divContenedorInstructor.classList.add("contenedor-grupo-caracteristica");
+                let tituloInstructor = document.createElement("h5");
+                tituloInstructor.textContent = "Instructor"
+                let instructor = document.createElement("p");
+                instructor.textContent = grupo.nombre_instructor;
+                divContenedorInstructor.appendChild(tituloInstructor);
+                divContenedorInstructor.appendChild(instructor);
+                divDescripcion.appendChild(divContenedorLugar);
+                divDescripcion.appendChild(divContenedorInstructor);
+                divContenido.appendChild(divDescripcion);
+
+                let cupo = document.createElement("h3");
+                cupo.textContent = "Espacio disponible: "+(grupo.capacidad_max-grupo.total_inscripciones);
+                divContenido.appendChild(cupo);
+
+                let boton = document.createElement("button");
+                boton.textContent = "Registrarse";
+                boton.classList.add("boton-registarse-grupo");
+                if(grupo.total_inscripciones === grupo.capacidad_max){
+                    boton.classList.add("lleno");
+                }
+                divContenido.appendChild(boton);
+                
+                divContenedor.appendChild(divTitulo);
+                divContenedor.appendChild(divContenido);
+                actividad.appendChild(divContenedor);
             });
         }
         crearGrupos();
