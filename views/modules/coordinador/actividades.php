@@ -427,7 +427,7 @@ body {
     display: grid;
     height: auto;
     flex-shrink: 0;
-    width: 80%;
+    width: auto;
     border: 1px solid black;
     border-radius: 5px;
     min-height: 20%;
@@ -445,7 +445,7 @@ body {
     display: grid;
     height: auto;
     flex-shrink: 0;
-    width: 80%;
+    width: auto;
     border: 1px solid black;
     border-radius: 5px;
     min-height: 20%;
@@ -461,7 +461,7 @@ body {
     display: grid;
     height: auto;
     flex-shrink: 0;
-    width: 80%;
+    width: auto;
     border: 1px solid black;
     border-radius: 5px;
     min-height: 20%;
@@ -479,7 +479,7 @@ body {
     display: grid;
     height: auto;
     flex-shrink: 0;
-    width: 80%;
+    width: auto;
     border: 1px solid black;
     border-radius: 5px;
     min-height: 20%;
