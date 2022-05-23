@@ -138,6 +138,7 @@ body {
 
 .input5 {
     grid-area: input_email_resposable;
+    
 }
 
 .label6 {
@@ -228,14 +229,14 @@ label {
                 required="false">
 
             <label class="label5">Email</label>
-            <div class="input5" style="margin-bottom: 40px; margin-right:40px;">
+            <div class="input5" style="height:auto; margin-bottom: 40px; margin-right:40px;">
                 <input id="input_correo_responsable" type="email" placeholder="Email">
             <p style="width: 100%; height: 20%;  font-size: 8px; margin-bottom: -100%;">Solo agregue el nombre de usuario</p>
             </div>
             
 
             <label class="label6">Sexo</label>
-            <select class="input6" id="select_sexo_responsable"style="margin-bottom: 50px;">
+            <select class="input6" id="select_sexo_responsable" style="margin-bottom: 50px;">
                 <option value="O" disabled selected>Elige...</option>
                 <option value="M">Masculino</option>
                 <option value="F">Femenino</option>

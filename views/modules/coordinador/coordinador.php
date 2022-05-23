@@ -34,7 +34,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
                         <a href="./instructores.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/3410/3410674.png"/><span>Gestionar Instructores</span></a>
                     </li>
                     <li>
-                        <a href="./grupo.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons.flaticon.com/png/512/2936/premium/2936748.png?token=exp=1652795379~hmac=5f7bf4b012593c9820417caf1384e2fc"/><span>Gestionar Grupos</span></a>
+                        <a href="./grupo.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/1624/1624273.png"/><span>Gestionar Grupos</span></a>
                     </li>
 
                 </ul>

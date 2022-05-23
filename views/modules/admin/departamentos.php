@@ -286,6 +286,8 @@ label {
                         <div class="w-100 d-flex">
                             <label class="w-50">Correo</label>
                             <input id="input_correo_responsable" class="w-50" type="text" />
+                              
+                                                       
                         </div>
                         <br>
                         <div class="w-100 d-flex">

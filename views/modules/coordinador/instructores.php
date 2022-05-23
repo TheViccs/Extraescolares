@@ -165,9 +165,8 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
         grid-gap: 2rem;
         grid-template-columns: repeat(9,.3fr);
         grid-template-areas: 
-            "label_clave_instructor input_clave_instructor input_clave_instructor input_clave_instructor input_clave_instructor input_clave_instructor input_clave_instructor input_clave_instructor input_clave_instructor"
+            "label_clave_instructor input_clave_instructor label_email_instructor input_email_instructor input_email_instructor label_sexo_instructor input_sexo_instructor input_sexo_instructor input_sexo_instructor"
             "label_nombre_instructor input_nombre_instructor input_nombre_instructor label_apellidop_instructor input_apellidop_instructor input_apellidop_instructor label_apellidoM_instructor input_apellidoM_instructor input_apellidoM_instructor"
-            "label_email_instructor input_email_instructor input_email_instructor input_email_instructor input_email_instructor input_email_instructor label_sexo_instructor  input_sexo_instructor input_sexo_instructor"
             ;
     }
 
@@ -228,11 +227,15 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
             <input class="input4" id="input_apellido_m_instructor" type="ApellidoM" placeholder="Apellido Materno" required="false">
                             
             <label class="label5">Email</label>
-            <input class="input5" id="input_correo_instructor" type="email" placeholder="Email">
+            <div class="input5">
+              <input id="input_correo_instructor" type="email" placeholder="Email">  
+              <p style="width: 100%; height: 20%;  font-size: 8px; margin-bottom: -100%;">Solo agregue el nombre de usuario</p>
+            </div>
+            
                             
 
             <label class="label6">Sexo</label>
-            <select class="input6" id="select_sexo_instructor">
+            <select class="input6" id="select_sexo_instructor" style="margin-bottom: 50px;">
                 <option value="O" disabled selected>Elige...</option>
                 <option value="M">Masculino</option>
                 <option value="F">Femenino</option>

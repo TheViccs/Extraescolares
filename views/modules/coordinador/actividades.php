@@ -337,10 +337,10 @@ body {
     min-height: 20%;
     min-width: fit-content;
     grid-gap: 2rem;
-    grid-template-columns: repeat(5, .3fr);
+    grid-template-columns: repeat(8, .3fr);
     grid-template-areas:
-        "label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento "
-        "cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material" 
+        "label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
+        "cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material" 
         ;
 }
 
@@ -379,7 +379,7 @@ body {
     grid-template-columns: repeat(8, .3fr);
     grid-template-areas:
         "label_Agregar_Elemento label_Agregar_Elemento label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
-        "label_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad";
+        "label_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad label_cantidad_material input_cantidad_material input_cantidad_material btn_Eliminar_Elemento btn_Eliminar_Elemento";
 
 }
 
@@ -424,8 +424,7 @@ body {
 
 .cuadro7 {
     padding: 1rem;
-    display: flex;
-    flex-direction: column;
+    display: grid;
     height: auto;
     flex-shrink: 0;
     width: 80%;
@@ -436,17 +435,14 @@ body {
     grid-gap: 2rem;
     grid-template-columns: repeat(8, .3fr);
     grid-template-areas:
-        "label_temNombre_actividad label_temNombre_actividad input_temNombre_actividad input_temNombre_actividad input_temNombre_actividad input_temNombre_actividad input_temNombre_actividad input_temNombre_actividad"
-        "label_temsema_actividad label_temsema_actividad input_temsema_actividad input_temsema_actividad input_temsema_actividad input_temsema_actividad input_temsema_actividad input_temsema_actividad"
+        "label_temNombre_actividad   input_temNombre_actividad input_temNombre_actividad label_temsema_actividad input_temsema_actividad input_temsema_actividad btn_Eliminar_Elemento btn_Eliminar_Elemento"
         "label_temdes_actividad label_temdes_actividad input_temsdes_actividad input_temsdes_actividad input_temsdes_actividad input_temsdes_actividad input_temsdes_actividad input_temsdes_actividad"
-        "btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento"
         ;
 }
 
 .cuadro8 {
     padding: 1rem;
-    display: flex;
-    flex-direction: column;
+    display: grid;
     height: auto;
     flex-shrink: 0;
     width: 80%;
@@ -455,11 +451,9 @@ body {
     min-height: 20%;
     min-width: fit-content;
     grid-gap: 2rem;
-    grid-template-columns: repeat(8, .3fr);
+    grid-template-columns: repeat(9, .3fr);
     grid-template-areas:
-        " input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad"
-        "label_cantidad_material label_cantidad_material  input_cantidad_material input_cantidad_material input_cantidad_material input_cantidad_material input_cantidad_material input_cantidad_material"
-        "btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento";
+        "label_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad label_cantidad_material input_cantidad_material input_cantidad_material btn_Eliminar_Elemento btn_Eliminar_Elemento";
 }
 
 .cuadro9 {
@@ -482,8 +476,7 @@ body {
 
 .cuadro10{
     padding: 1rem;
-    display: flex;
-    flex-direction: column;
+    display: grid;
     height: auto;
     flex-shrink: 0;
     width: 80%;
@@ -492,19 +485,15 @@ body {
     min-height: 20%;
     min-width: fit-content;
     grid-gap: 2rem;
-    grid-template-columns: repeat(8, .3fr);
+    grid-template-columns: repeat(5, .3fr);
     grid-template-areas:
-        "label_cenombre_actividad input_cenombre_actividad input_cenombre_actividad input_cenombre_actividad input_cenombre_actividad input_cenombre_actividad input_cenombre_actividad input_cenombre_actividad"
-        "label_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad"
-        "btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento"
+        "label_cenombre_actividad input_cenombre_actividad input_cenombre_actividad btn_Eliminar_Elemento btn_Eliminar_Elemento"
+        "label_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad input_cedes_actividad"
+        
         ;
 
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 9d8f20c316c4319e6d54ac65f841158c535cc0e8
 .flecha {
     width: 10%;
     height: 100%;
