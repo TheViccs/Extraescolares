@@ -551,12 +551,11 @@ ul.navega li {
     
   justify-content: center;
   align-items: center;
+}
 
 .container{
-    width: 80%
+    width: 80%;
     text-align: center;
-    
-    
 }
 
 </style>
@@ -566,6 +565,7 @@ ul.navega li {
 
     <div class="contenido2">
         <?php include "../../../views/layout/header.php" ?>
+        <?php include "../../../views/layout/alertas.php" ?>
         <div class="cabecera">
             <h1 class="titulo">Gestionar Actividad</h1>
             <a href="http://localhost/Extraescolares/views/modules/coordinador/coordinador.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
@@ -574,7 +574,7 @@ ul.navega li {
 
         <div class="menu cabecera">
             <p data-taget="#principal" id="tapPrincipal">Principal</p>
-            <p data-taget="#agregarActividad">Agregar Atividad</p>
+            <p data-taget="#agregarActividad">Agregar Actividad</p>
             <p data-taget="#materialNecesario">Material Necesario</p>
             <p data-taget="#materialNecesarioEstu">Material Estudiante</p>
             <p data-taget="#temas">Temas</p>
@@ -588,7 +588,7 @@ ul.navega li {
             <div data-content id="principal" >
                 <div class="contenedor-tabla content-table">
                     
-                <center><table id="tabla_avtividad"></table></center>
+                <center><table id="tabla_actividad"></table></center>
                     
 
                 </div>
@@ -602,19 +602,20 @@ ul.navega li {
                 
 
                     <center><div class="cuadro1">
-                    <input id="input_id_actividad" type="text" hidden />
+                    <input id="input_id_actividad" type="text"  />
+                    <input id="input_id_programa" type="text" value=<?php echo $_SESSION['id_programa']?> hidden />
                     <label class="label1">Nombre</label>
                     <input class="input1 form-control" id="input_nombre_actividad" type="text" placeholder="Nombre de la actividad">
                     <label class="label2">Créditos</label>
-                    <input class="input2 form-control" id="input_credito_activida" type="text" placeholder="Total de creditos por esta actividad">
+                    <input class="input2 form-control" id="input_creditos_actividad" type="number" placeholder="Total de creditos por esta actividad">
                     <label class="label3">Actividad padre</label>
-                    <input class="input3 form-control" id="input_padre_activida" type="text" placeholder="Actividad Padre" list="select_actividad">
+                    <input class="input3 form-control" id="input_padre_actividad" type="text" placeholder="Actividad Padre" list="select_actividad">
                     <datalist id="select_actividad" style="width: 45% !important;"> </datalist>
                     <button class="btn1 btn btn-dark" data-bs-toggle="modal" data-bs-target="">+</button>
                     <label class="label4">Capacidad Maxima</label>
-                    <input class="input4 form-control" id="input_cMax_activida" type="text" placeholder="Capacidad Max">
+                    <input class="input4 form-control" id="input_cMax_actividad" type="number" placeholder="Capacidad Max">
                     <label class="label5">Capacidad Minima</label>
-                    <input class="input5 form-control" id="input_cMin_activida" type="text" placeholder="Capacidad Minima">
+                    <input class="input5 form-control" id="input_cMin_actividad" type="number" placeholder="Capacidad Minima">
                     <label class="label6">Descripción</label>
                     <textarea class="input6 form-control" id="input_descripcion_actividad" placeholder="Descripción" type="text" required></textarea>
                     <label class="label7">Competencia</label>
@@ -623,8 +624,8 @@ ul.navega li {
                     <textarea class="input8 form-control" id="input_beneficios_actividad" placeholder="Beneficios" type="text" required></textarea>
                 </div>
                 <div class="botones2">
-                    <button class="btn btn-success">Guardar Todo</button>
-                    <button class="btn btn-danger cancelar">Cancelar Actividad</button>
+                    <button class="btn btn-success" id="btn_insert_update_actividad" onclick="insert_actividad()">Guardar Actividad</button>
+                    <button class="btn btn-danger cancelar" onclick="borrar_datos_input_actividad()">Cancelar</button>
                 </div>
             </div></center>
 
@@ -647,9 +648,9 @@ ul.navega li {
                                 <li >
                                     <div class="cuadro8">
                                         <label class='label9'>Material</label>
-                                        <input class="input9 form-control"  id="input_material_actividad" placeholder="Material" type="text" required></textarea>
+                                        <input class="input9 form-control input_material_actividad"  id="input_material_actividad" placeholder="Material" type="text" required></textarea>
                                         <label class="label19">Cantidad</label>
-                                        <input class="input19 form-control" id="input_cantidad_material" type="text" placeholder="Cantidad">
+                                        <input class="input19 form-control input_cantidad_material" id="input_cantidad_material" type="text" placeholder="Cantidad">
                                         <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material">Eliminar Material</button>
                                     </div> 
                                 </li>
@@ -658,8 +659,8 @@ ul.navega li {
                     </div>
                 </div>
                 <div class="botones2">
-                    <button class="btn btn-success">Guardar Todo</button>
-                    <button class="btn btn-danger cancelar">Cancelar Actividad</button>
+                    <button class="btn btn-success" onclick="insertar_material_actividad()">Guardar Material</button>
+                    <button class="btn btn-danger cancelar" onclick="borrar_materiales_actividad()">Cancelar</button>
                 </div>
             </div>
             </center>
@@ -682,9 +683,9 @@ ul.navega li {
                                 <li >
                                     <div class="cuadro8">
                                         <label class='label9'>Material</label>
-                                        <input class="input9 form-control"  id="input_material_alumno_actividad" placeholder="Material" type="text" required></textarea>
+                                        <input class="input9 form-control input_material_alumno_actividad"  id="input_material_alumno_actividad" placeholder="Material" type="text" required></textarea>
                                         <label class="label19">Cantidad</label>
-                                        <input class="input19 form-control" id="input_cantidad_alumno_material" type="text" placeholder="Cantidad">
+                                        <input class="input19 form-control input_cantidad_alumno_material" id="input_cantidad_alumno_material" type="text" placeholder="Cantidad">
                                         <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material_alumno">Eliminar Material</button>
                                     </div> 
                                 </li>
@@ -693,8 +694,8 @@ ul.navega li {
                     </div>
                 </div>
                 <div class="botones2">
-                    <button class="btn btn-success">Guardar Todo</button>
-                    <button class="btn btn-danger cancelar">Cancelar Actividad</button>
+                    <button class="btn btn-success" onclick="insertar_material_alumno()">Guardar Material</button>
+                    <button class="btn btn-danger cancelar" onclick="borrar_materiales_alumno()">Cancelar</button>
                 </div>
             </div></center>
 
@@ -717,13 +718,13 @@ ul.navega li {
                                 <div class="cuadro7">
                                     <input id="input_id_temas" type="text" hidden />
                                     <label class="label11">Tema</label>
-                                    <input class="input11 form-control" id="input_temNombre_activida" type="text" placeholder="Nombre">
+                                    <input class="input11 form-control input_temNombre_activida" id="input_temNombre_activida" type="text" placeholder="Nombre">
 
                                     <label class="label12">Duración</label>
-                                    <input class="input12 form-control" id="input_temSemanas_activida" type="date" placeholder="Semanas de Duración">
+                                    <input class="input12 form-control input_temSemanas_activida" id="input_temSemanas_activida" type="number" placeholder="Semanas de Duración">
 
                                     <label class="label13">Descripción</label>
-                                    <textarea class="input13 form-control" id="input_temDescripcion_actividad" placeholder="Descripción" type="text" required></textarea>
+                                    <textarea class="input13 form-control input_temDescripcion_actividad" id="input_temDescripcion_actividad" placeholder="Descripción" type="text" required></textarea>
                                     <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Tema">Eliminar Material</button>
                                 </div>
                             </li>
@@ -734,8 +735,8 @@ ul.navega li {
 
             </div>
             <div class="botones2">
-                    <button class="btn btn-success">Guardar Todo</button>
-                    <button class="btn btn-danger cancelar">Cancelar Actividad</button>
+                    <button class="btn btn-success" onclick="insertar_temas()">Guardar Temas</button>
+                    <button class="btn btn-danger cancelar" onclick="borrar_temas()">Cancelar</button>
                 </div> 
 
             </div></center>
@@ -756,9 +757,9 @@ ul.navega li {
                                     <li>
                                         <div class="cuadro10">
                                             <label class="label14">Nombre</label>
-                                            <input class="input14 form-control" id="input_criterioevalNombre_activida" type="text" placeholder="Nombre">
+                                            <input class="input14 form-control input_criterioevalNombre_activida" id="input_criterioevalNombre_activida" type="text" placeholder="Nombre">
                                             <label class="label15">Descripción</label>
-                                            <textarea class="input15 form-control" id="input_criterioevaldes_actividad" placeholder="Descripción" type="text" required></textarea>
+                                            <textarea class="input15 form-control input_criterioevaldes_actividad" id="input_criterioevaldes_actividad" placeholder="Descripción" type="text" required></textarea>
                                             <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material">Eliminar Material</button>
                                         </div>
                                     </li>
@@ -767,8 +768,8 @@ ul.navega li {
                         </div>
                 </div>
                 <div class="botones2">
-                    <button class="btn btn-success">Guardar Todo</button>
-                    <button class="btn btn-danger cancelar">Cancelar Actividad</button>
+                    <button class="btn btn-success" onclick="insertar_criterios_evaluacion()">Guardar Criterios</button>
+                    <button class="btn btn-danger cancelar" onclick="borrar_criterios_evaluacion()">Cancelar</button>
                 </div>
             </div>
             </center>
@@ -783,9 +784,9 @@ ul.navega li {
                 <div class="cuadro6">
                     <input id="input_id_periodoact" type="text" hidden />
                     <label class="label16">Inicio</label>
-                    <input class="input16 form-control" id="input_fechainicio_activida" type="date" placeholder="Inicio de la actividad">
+                    <input class="input16 form-control" id="input_fechainicio_actividad" type="date" placeholder="Inicio de la actividad">
                     <label class="label17">Fin</label>
-                    <input class="input17 form-control " id="input_fechafin_activida" type="date" placeholder="Fin de la actividad">
+                    <input class="input17 form-control " id="input_fechafin_actividad" type="date" placeholder="Fin de la actividad">
                 </div>
 
                 <div class="botones2">
@@ -795,6 +796,36 @@ ul.navega li {
             </div>  <center>
         </div> <!--container-->
 
+        <div class="modal fade" id="modal_borrar_actividad" tabindex="-1" aria-labelledby="modal_borrar_actividad_label"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal_borrar_actividad_label">Borrar Actividad</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <div class="w-100">
+                            <h3>Seguro que quiere borrar la actividad?</h1>
+                            <p id="p_nombre_actividad"></p>
+                            <p id="p_descripcion_actividad"></p>
+                            <p id="p_competencia_actividad"></p>
+                            <p id="p_creditos_actividad"></p>
+                            <p id="p_beneficios_actividad"></p>
+                            <p id="p_capacidad_min_actividad"></p>
+                            <p id="p_capacidad_max_actividad"></p>
+                            <p id="p_fecha_inicio_actividad"></p>
+                            <p id="p_fecha_fin_actividad"></p>
+                            <input id="input_id_actividad_borrar" type="text" hidden />
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-evenly">
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger" onclick="borrar_actividad()">Borrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <?php include "../../../views/layout/footer.php" ?>
     </div>
     <script src="../../../js/actividad.js"></script>

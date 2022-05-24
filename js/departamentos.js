@@ -316,7 +316,6 @@ function generar_pdf(id_departamento){
             let departamento = JSON.parse(res)[0];           
             let pdf = new jsPDF();
             let columns = [["Clave", "Nombre", "Ubicación", "Extensión","Responsable"]];
-            console.log(departamento.nombre_responsable);
             let data = [[departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension, departamento.nombre_responsable+" "+departamento.apellido_p+" "+departamento.apellido_m]];
             pdf.setProperties({
                 title: "Tabla Departamento "+departamento.nombre
