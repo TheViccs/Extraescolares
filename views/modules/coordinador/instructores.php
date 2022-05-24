@@ -99,47 +99,63 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
 
     .label2{
         grid-area: label_nombre_instructor;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .input2{
         grid-area: input_nombre_instructor;
+        width: 100%;
     }
 
     .label4{
         grid-area: label_apellidoM_instructor;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .input4{
         grid-area: input_apellidoM_instructor;
+        width: 100%;
     }
 
     .label3{
         grid-area: label_apellidop_instructor;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .input3{
         grid-area: input_apellidop_instructor;
+        width: 100%;
     }
 
     .label5{
         grid-area: label_email_instructor;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .input5{
         grid-area: input_email_instructor;
+        width: 100%;
     }
 
     .label6{
         grid-area: label_sexo_instructor;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .input6{
         grid-area: input_sexo_instructor;
+        height: 35px;
+        width: 100%;
     }
 
     .cuadro1{
@@ -155,11 +171,8 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
         grid-gap: 2rem;
         grid-template-columns: repeat(9,.3fr);
         grid-template-areas: 
-<<<<<<< HEAD
-            "label_clave_instructor input_clave_instructor label_email_instructor input_email_instructor input_email_instructor label_sexo_instructor input_sexo_instructor input_sexo_instructor input_sexo_instructor"
-=======
->>>>>>> 43d40b2851a8b42bc3547565be3202602b81b12a
             "label_nombre_instructor input_nombre_instructor input_nombre_instructor label_apellidop_instructor input_apellidop_instructor input_apellidop_instructor label_apellidoM_instructor input_apellidoM_instructor input_apellidoM_instructor"
+            "label_email_instructor input_email_instructor input_email_instructor label_sexo_instructor input_sexo_instructor input_sexo_instructor . . ."
             ;
     }
 
@@ -228,7 +241,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
                             
 
             <label class="label6">Sexo</label>
-            <select class="input6" id="select_sexo_instructor" style="margin-bottom: 50px;">
+            <select class="input6" id="select_sexo_instructor">
                 <option value="O" disabled selected>Elige...</option>
                 <option value="M">Masculino</option>
                 <option value="F">Femenino</option>

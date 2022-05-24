@@ -99,7 +99,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
 
     .label1 {
         grid-area: label_clave_resposable;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .input1 {
@@ -108,7 +110,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
 
     .label2 {
         grid-area: label_nombre_resposable;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .input2 {
@@ -117,7 +121,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
 
     .label3 {
         grid-area: label_apPaterno_resposable;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .input3 {
@@ -126,62 +132,46 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
 
     .label4 {
         grid-area: label_apMaterno_resposable;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .input4 {
         grid-area: input_apMaterno_resposable;
     }
 
-<<<<<<< HEAD
-.input5 {
-    grid-area: input_email_resposable;
-    
-}
-=======
     .label5 {
         grid-area: label_email_resposable;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
->>>>>>> 43d40b2851a8b42bc3547565be3202602b81b12a
 
     .input5 {
         grid-area: input_email_resposable;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
     }
 
     .label6 {
-        grid-area: label_sexo_resposable;
-        text-align: center;
+        grid-area: label_sexo_responsable;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-<<<<<<< HEAD
-.cuadro1 {
-    padding: 1rem;
-    display: grid;
-    height: auto;
-    flex-shrink: 0;
-    width: 80%;
-    border: 1px solid black;
-    border-radius: 5px;
-    min-height: 20%;
-    min-width: fit-content;
-    grid-gap: 2rem;
-    grid-template-columns: repeat(9, .3fr);
-    grid-template-areas:
-        "label_clave_resposable input_clave_resposable input_clave_resposable label_email_resposable input_email_resposable input_email_resposable label_sexo_resposable  input_sexo_resposable input_sexo_resposable"
-        "label_nombre_resposable input_nombre_resposable input_nombre_resposable label_apPaterno_resposable label_apPaterno_resposable input_apPaterno_resposable label_apMaterno_resposable label_apMaterno_resposable input_apMaterno_resposable"
-        ;
-}
-=======
     .input6 {
         grid-area: input_sexo_resposable;
+        height: 35px;
     }
->>>>>>> 43d40b2851a8b42bc3547565be3202602b81b12a
 
     .cuadro1 {
         padding: 1rem;
         display: grid;
         height: auto;
+        align-content: center;
         flex-shrink: 0;
         width: 80%;
         border: 1px solid black;
@@ -192,9 +182,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
         grid-gap: 2rem;
         grid-template-columns: repeat(9, .3fr);
         grid-template-areas:
-            "label_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable input_clave_resposable"
-            "label_nombre_resposable label_nombre_resposable input_nombre_resposable label_apPaterno_resposable label_apPaterno_resposable input_apPaterno_resposable label_apMaterno_resposable label_apMaterno_resposable input_apMaterno_resposable"
-            "label_email_resposable  input_email_resposable input_email_resposable input_email_resposable input_email_resposable label_sexo_resposable input_sexo_resposable input_sexo_resposable input_sexo_resposable";
+            "label_clave_resposable input_clave_resposable label_email_resposable input_email_resposable input_email_resposable input_email_resposable label_sexo_responsable input_sexo_resposable input_sexo_resposable"
+            "label_nombre_resposable input_nombre_resposable input_nombre_resposable label_apPaterno_resposable input_apPaterno_resposable input_apPaterno_resposable label_apMaterno_resposable input_apMaterno_resposable input_apMaterno_resposable"
+        ;
     }
 
     .flecha {
@@ -256,30 +246,23 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
             <input class="input4" id="input_apellido_m_responsable" type="ApellidoM" placeholder="Apellido Materno" required="false">
 
             <label class="label5">Email</label>
-            <div class="input5" style="height:auto; margin-bottom: 40px; margin-right:40px;">
+            <div class="input5">
                 <input id="input_correo_responsable" type="email" placeholder="Email">
-            <p style="width: 100%; height: 20%;  font-size: 8px; margin-bottom: -100%;">Solo agregue el nombre de usuario</p>
+                <p style="width: 100%; height: 20%;  font-size: 11px;">Solo agregue el nombre de usuario</p>
             </div>
             
 
             <label class="label6">Sexo</label>
-            <select class="input6" id="select_sexo_responsable" style="margin-bottom: 50px;">
+            <select class="input6" id="select_sexo_responsable">
                 <option value="O" disabled selected>Elige...</option>
                 <option value="M">Masculino</option>
                 <option value="F">Femenino</option>
             </select>
         </div>
-<<<<<<< HEAD
-        
-=======
-
->>>>>>> 43d40b2851a8b42bc3547565be3202602b81b12a
         <div class="botones2">
             <button id="boton_insert_update_responsable" class="btn btn-success" onclick="insert_responsable()">Guardar</button>
             <button class="btn btn-danger cancelar" onclick="borrar_datos_input_responsable()">Cancelar</button>
         </div>
-
-
 
         <div class="contenedor-tabla content-table">
             <table id="tabla-responsables">

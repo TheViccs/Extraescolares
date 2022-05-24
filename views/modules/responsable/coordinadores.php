@@ -84,8 +84,7 @@ body {
     display: flex;
     justify-content: center;
     margin-bottom: 2%;
-    width: 80%;
-    border: 1px solid black;
+    width: 100%;
 }
 
 .dataTable {
@@ -102,57 +101,76 @@ body {
 
 .label1 {
     grid-area: label_clave_coordi;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .input1 {
     grid-area: input_clave_coordi;
+    width: 100%;
 }
 
 .label2 {
     grid-area: label_nombre_coordi;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .input2 {
     grid-area: input_nombre_coordi;
+    width: 100%;
 }
 
 .label3 {
     grid-area: label_apPaterno_coordi;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .input3 {
     grid-area: input_apPaterno_coordi;
+    width: 100%;
 }
 
 .label4 {
     grid-area: label_apMaterno_coordi;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .input4 {
     grid-area: input_apMaterno_coordi;
+    width: 100%;
 }
 
 
 .label6 {
     grid-area: label_tel_coordi;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .input6 {
     grid-area: input_tel_coordi;
+    width: 100%;
 }
 
 .label7 {
     grid-area: label_sexo_coordi;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .input7 {
     grid-area: input_sexo_coordi;
+    width: 100%;
+    height: 35px;
 }
 
 .cuadro1 {
@@ -168,9 +186,8 @@ body {
     grid-gap: 2rem;
     grid-template-columns: repeat(9, .3fr);
     grid-template-areas:
-        "label_clave_coordi input_clave_coordi label_tel_coordi input_tel_coordi input_tel_coordi label_sexo_coordi input_sexo_coordi input_sexo_coordi input_sexo_coordi"
-        "label_nombre_coordi input_nombre_coordi input_nombre_coordi label_apPaterno_coordi label_apPaterno_coordi input_apPaterno_coordi label_apMaterno_coordi label_apMaterno_coordi input_apMaterno_coordi"
-        
+        "label_clave_coordi input_clave_coordi input_clave_coordi label_sexo_coordi input_sexo_coordi input_sexo_coordi label_nombre_coordi input_nombre_coordi input_nombre_coordi"
+        "label_apPaterno_coordi label_apPaterno_coordi input_apPaterno_coordi input_apPaterno_coordi label_apMaterno_coordi label_apMaterno_coordi input_apMaterno_coordi input_apMaterno_coordi ."
         ;
 }
 
@@ -235,11 +252,6 @@ label {
             <label class="label4">Apellido Materno:</label>
             <input class="input4" id="input_apellido_m_coordinador" type="ApellidoM" placeholder="Apellido Materno"
                 required="false">
-            
-            
-
-            <label class="label6">Telefono:</label>
-            <input class="input6" id="input_contacto_coordinador" placeholder="Telefono" type="text" required />
 
             <label class="label7">Sexo:</label>
             <select class="input7" id="select_sexo_coordinador">
