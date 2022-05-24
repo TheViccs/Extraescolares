@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 20-05-2022 a las 03:23:05
+-- Tiempo de generación: 24-05-2022 a las 11:06:37
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -94,6 +94,13 @@ START TRANSACTION;
 COMMIT;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_delete_criterios_evaluacion`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_criterios_evaluacion` (IN `a_id_actividad` INT)   BEGIN
+START TRANSACTION;
+DELETE FROM criterio_evaluacion WHERE criterio_evaluacion.id_actividad=a_id_actividad;
+COMMIT;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_delete_departamento`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_departamento` (IN `d_id_departamento` INT)   BEGIN
 START TRANSACTION;
@@ -127,6 +134,20 @@ UPDATE instructor SET visible=0 WHERE instructor.id_instructor=i_id_instructor;
 COMMIT;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_delete_materiales_actividad`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_materiales_actividad` (IN `a_id_actividad` INT)   BEGIN
+START TRANSACTION;
+DELETE FROM material_actividad WHERE material_actividad.id_actividad=a_id_actividad;
+COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_delete_materiales_alumno`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_materiales_alumno` (IN `a_id_actividad` INT)   BEGIN
+START TRANSACTION;
+DELETE FROM material_alumno WHERE material_alumno.id_actividad=a_id_actividad;
+COMMIT;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_delete_programa`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_programa` (IN `p_id_programa` INT)   BEGIN
 START TRANSACTION;
@@ -142,10 +163,17 @@ START TRANSACTION;
     COMMIT;
 END$$
 
-DROP PROCEDURE IF EXISTS `sp_insert_actividad`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_actividad` (IN `a_nombre` VARCHAR(150), IN `a_descripcion` VARCHAR(200), IN `a_competencia` VARCHAR(200), IN `a_creditos_otorga` INT, IN `a_beneficios` VARCHAR(150), IN `a_capacidad_min` INT, IN `a_capacidad_max` INT, IN `a_fecha_incio` DATE, IN `a_fecha_fin` DATE, IN `a_id_programa` INT)   BEGIN
+DROP PROCEDURE IF EXISTS `sp_delete_temas`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_temas` (IN `a_id_actividad` INT)   BEGIN
 START TRANSACTION;
-	INSERT INTO actividad (nombre, descripcion, competencia, creditos_otorga, beneficios, capacidad_min, capacidad_max, fecha_inicio,fecha_fin,id_programa) VALUES (a_nombre, a_descripcion, a_competencia, a_creditos_otorga, a_beneficios, a_capacidad_min, a_capacidad_max,a_fecha_inicio,a_fecha_fin,a_id_programa);
+DELETE FROM tema WHERE tema.id_actividad=a_id_actividad;
+COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insert_actividad`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_actividad` (IN `a_nombre` VARCHAR(150), IN `a_descripcion` VARCHAR(200), IN `a_competencia` VARCHAR(200), IN `a_creditos_otorga` INT, IN `a_beneficios` VARCHAR(150), IN `a_capacidad_min` INT, IN `a_capacidad_max` INT, IN `a_fecha_inicio` DATE, IN `a_fecha_fin` DATE, IN `a_id_programa` INT, IN `a_actividad_padre` INT)   BEGIN
+START TRANSACTION;
+	INSERT INTO actividad (nombre, descripcion, competencia, creditos_otorga, beneficios, capacidad_min, capacidad_max, fecha_inicio,fecha_fin,id_programa, actividad_padre) VALUES (a_nombre, a_descripcion, a_competencia, a_creditos_otorga, a_beneficios, a_capacidad_min, a_capacidad_max,a_fecha_inicio,a_fecha_fin,a_id_programa,a_actividad_padre);
     INSERT INTO periodo_actividad (id_periodo,id_actividad) VALUES (periodo_actual(),last_insert_id());
     COMMIT;
 END$$
@@ -390,7 +418,7 @@ END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_actividad_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_actividad_id` (IN `a_id_actividad` INT)   BEGIN
-    SELECT actividad.id_actividad, actividad.nombre, actividad.descripcion, actividad.competencia, actividad.creditos_otorga, actividad.beneficios, actividad.capacidad_min, actividad.capacidad_max, actividad.id_programa WHERE actividad.id_actividad=a_id_actividad;
+    SELECT actividad.id_actividad, actividad.nombre, actividad.descripcion, actividad.competencia, actividad.creditos_otorga, actividad.beneficios, actividad.capacidad_min, actividad.capacidad_max, actividad.id_programa, actividad.actividad_padre, actividad.fecha_inicio, actividad.fecha_fin FROM actividad WHERE actividad.id_actividad=a_id_actividad;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_actividad_instructores`$$
@@ -545,9 +573,9 @@ SELECT * FROM tema WHERE id_actividad=a_id_actividad;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_update_actividad`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_actividad` (IN `a_nombre` VARCHAR(150), IN `a_descripcion` VARCHAR(200), IN `a_competencia` VARCHAR(200), IN `a_creditos_otorga` INT, IN `a_beneficios` VARCHAR(150), IN `a_capacidad_min` INT, IN `a_capacidad_max` INT, IN `a_fecha_incio` DATE, IN `a_fecha_fin` DATE, IN `a_id_actividad` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_actividad` (IN `a_nombre` VARCHAR(150), IN `a_descripcion` VARCHAR(200), IN `a_competencia` VARCHAR(200), IN `a_creditos_otorga` INT, IN `a_beneficios` VARCHAR(150), IN `a_capacidad_min` INT, IN `a_capacidad_max` INT, IN `a_fecha_inicio` DATE, IN `a_fecha_fin` DATE, IN `a_actividad_padre` INT, IN `a_id_actividad` INT)   BEGIN
 START TRANSACTION;
-	UPDATE actividad SET nombre=a_nombre, descripcion=a_descripcion, competencia=a_competencia, creditos_otorga=a_creditos_otorga, beneficios=a_beneficios, capacidad_min=a_capacidad_min, capacidad_max=a_capacidad_max, fecha_inicio=a_fecha_inicio, fecha_fin=a_fecha_fin WHERE id_actividad=a_id_actividad;
+	UPDATE actividad SET nombre=a_nombre, descripcion=a_descripcion, competencia=a_competencia, creditos_otorga=a_creditos_otorga, beneficios=a_beneficios, capacidad_min=a_capacidad_min, capacidad_max=a_capacidad_max, fecha_inicio=a_fecha_inicio, fecha_fin=a_fecha_fin, actividad_padre=a_actividad_padre WHERE id_actividad=a_id_actividad;
     COMMIT;
 END$$
 
@@ -668,6 +696,21 @@ CREATE TABLE `actividad` (
   `visible` tinyint(1) NOT NULL DEFAULT 1,
   `id_programa` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `actividad`
+--
+
+INSERT INTO `actividad` (`id_actividad`, `nombre`, `descripcion`, `competencia`, `creditos_otorga`, `beneficios`, `video`, `capacidad_min`, `capacidad_max`, `fecha_inicio`, `fecha_fin`, `actividad_padre`, `visible`, `id_programa`) VALUES
+(1, 'Futbol', ' ', ' ', 1, ' ', NULL, 10, 40, '2022-05-24', '2022-05-30', NULL, 1, 1),
+(2, 'Danza', ' ', ' ', 1, ' ', NULL, 10, 40, '2022-05-24', '2022-05-29', NULL, 1, 1),
+(3, 'Semana del Tec', ' ', ' ', 1, ' ', NULL, 50, 150, '2022-05-25', '2022-05-31', NULL, 1, 1),
+(4, 'Carrera', ' ', ' ', 1, ' ', NULL, 50, 150, '2022-05-26', '2022-05-31', 3, 1, 1),
+(5, 'Tutoria', ' ', ' ', 1, ' ', NULL, 10, 40, '2022-05-26', '2022-05-28', NULL, 1, 1),
+(6, 'Bachata', ' ', ' ', 1, ' ', NULL, 10, 40, '2022-05-26', '2022-05-31', NULL, 1, 1),
+(7, 'Basquet', ' ', ' ', 1, ' ', NULL, 10, 40, '2022-05-25', '2022-05-27', NULL, 1, 1),
+(8, 'Guitarra', ' ', ' ', 1, ' ', NULL, 10, 20, '2022-05-25', '2022-05-26', NULL, 1, 1),
+(9, 'Volley', ' ', ' ', 2, ' ', NULL, 10, 20, '2022-05-25', '2022-05-28', NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -809,6 +852,13 @@ CREATE TABLE `coordinador` (
   `foto` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `coordinador`
+--
+
+INSERT INTO `coordinador` (`id_coordinador`, `clave`, `nombre`, `apellido_p`, `apellido_m`, `sexo`, `foto`) VALUES
+(1, '001', 'Juan', 'Perez', 'Robles', 'M', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -822,6 +872,13 @@ CREATE TABLE `coordinador_programa` (
   `fecha_inicio` date NOT NULL,
   `fecha_fin` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `coordinador_programa`
+--
+
+INSERT INTO `coordinador_programa` (`id_coordinador`, `id_programa`, `fecha_inicio`, `fecha_fin`) VALUES
+(1, 1, '2022-05-11', NULL);
 
 -- --------------------------------------------------------
 
@@ -851,6 +908,13 @@ CREATE TABLE `criterio_evaluacion` (
   `id_actividad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `criterio_evaluacion`
+--
+
+INSERT INTO `criterio_evaluacion` (`id_criterio`, `nombre`, `descripcion`, `id_actividad`) VALUES
+(3, 'Partido', 'Goles en el partido', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -869,6 +933,13 @@ CREATE TABLE `departamento` (
   `visible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `departamento`
+--
+
+INSERT INTO `departamento` (`id_departamento`, `clave`, `nombre`, `ubicacion`, `extension`, `correo`, `contraseña`, `visible`) VALUES
+(1, 'DSIS', 'Departamento de Sistemas', 'Edificio R', '097', 'sistemas@colima.tecnm.mx', 'responsable1', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -883,6 +954,13 @@ CREATE TABLE `departamento_coordinador` (
   `fecha_fin` date DEFAULT NULL,
   `visible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `departamento_coordinador`
+--
+
+INSERT INTO `departamento_coordinador` (`id_departamento`, `id_coordinador`, `fecha_inicio`, `fecha_fin`, `visible`) VALUES
+(1, 1, '2022-05-23', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -913,6 +991,13 @@ CREATE TABLE `departamento_programa` (
   `contraseña` varchar(20) NOT NULL DEFAULT 'coordinador1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `departamento_programa`
+--
+
+INSERT INTO `departamento_programa` (`id_departamento`, `id_programa`, `correo`, `contraseña`) VALUES
+(1, 1, 'formacion.sistemas@colima.tecnm.mx', 'coordinador1');
+
 -- --------------------------------------------------------
 
 --
@@ -926,6 +1011,13 @@ CREATE TABLE `departamento_responsable` (
   `fecha_inicio` date DEFAULT NULL,
   `fecha_fin` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `departamento_responsable`
+--
+
+INSERT INTO `departamento_responsable` (`id_departamento`, `id_responsable`, `fecha_inicio`, `fecha_fin`) VALUES
+(1, 1, '2022-05-23', NULL);
 
 -- --------------------------------------------------------
 
@@ -1052,6 +1144,13 @@ CREATE TABLE `material_actividad` (
   `id_actividad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `material_actividad`
+--
+
+INSERT INTO `material_actividad` (`id_material_actividad`, `nombre`, `cantidad`, `id_actividad`) VALUES
+(7, 'balones', 7, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -1065,6 +1164,13 @@ CREATE TABLE `material_alumno` (
   `cantidad` int(11) NOT NULL,
   `id_actividad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `material_alumno`
+--
+
+INSERT INTO `material_alumno` (`id_material_alumno`, `nombre`, `cantidad`, `id_actividad`) VALUES
+(3, 'Balon', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1080,6 +1186,13 @@ CREATE TABLE `periodo` (
   `fecha_fin_actividades` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `periodo`
+--
+
+INSERT INTO `periodo` (`id_periodo`, `nombre`, `fecha_inicio_actividades`, `fecha_fin_actividades`) VALUES
+(1, 'May-May 2022', '2022-05-12', '2022-05-31');
+
 -- --------------------------------------------------------
 
 --
@@ -1091,6 +1204,21 @@ CREATE TABLE `periodo_actividad` (
   `id_periodo` int(11) NOT NULL,
   `id_actividad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `periodo_actividad`
+--
+
+INSERT INTO `periodo_actividad` (`id_periodo`, `id_actividad`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(1, 6),
+(1, 7),
+(1, 8),
+(1, 9);
 
 -- --------------------------------------------------------
 
@@ -1107,6 +1235,13 @@ CREATE TABLE `programa` (
   `observaciones` varchar(150) DEFAULT NULL,
   `visible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `programa`
+--
+
+INSERT INTO `programa` (`id_programa`, `clave`, `nombre`, `descripcion`, `observaciones`, `visible`) VALUES
+(1, '001', 'Formacion Integral', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1127,6 +1262,13 @@ CREATE TABLE `responsable` (
   `visible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `responsable`
+--
+
+INSERT INTO `responsable` (`id_responsable`, `clave`, `nombre`, `apellido_p`, `apellido_m`, `sexo`, `correo`, `foto`, `visible`) VALUES
+(1, '001', 'Ma Elena', 'Martinez', 'Duran', 'F', 'elena.ma@colima.tecnm.mx', NULL, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -1141,6 +1283,13 @@ CREATE TABLE `tema` (
   `semanas` int(11) NOT NULL,
   `id_actividad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tema`
+--
+
+INSERT INTO `tema` (`id_tema`, `nombre`, `descripcion`, `semanas`, `id_actividad`) VALUES
+(4, 'Portero', 'Aprender a parar penalties', 5, 1);
 
 --
 -- Índices para tablas volcadas
@@ -1379,7 +1528,7 @@ ALTER TABLE `tema`
 -- AUTO_INCREMENT de la tabla `actividad`
 --
 ALTER TABLE `actividad`
-  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `administrador`
@@ -1409,19 +1558,19 @@ ALTER TABLE `carga_complementaria`
 -- AUTO_INCREMENT de la tabla `coordinador`
 --
 ALTER TABLE `coordinador`
-  MODIFY `id_coordinador` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_coordinador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `criterio_evaluacion`
 --
 ALTER TABLE `criterio_evaluacion`
-  MODIFY `id_criterio` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_criterio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `departamento`
 --
 ALTER TABLE `departamento`
-  MODIFY `id_departamento` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_departamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `evidencia`
@@ -1457,37 +1606,37 @@ ALTER TABLE `lugar`
 -- AUTO_INCREMENT de la tabla `material_actividad`
 --
 ALTER TABLE `material_actividad`
-  MODIFY `id_material_actividad` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_material_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `material_alumno`
 --
 ALTER TABLE `material_alumno`
-  MODIFY `id_material_alumno` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_material_alumno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `periodo`
 --
 ALTER TABLE `periodo`
-  MODIFY `id_periodo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_periodo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `programa`
 --
 ALTER TABLE `programa`
-  MODIFY `id_programa` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_programa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `responsable`
 --
 ALTER TABLE `responsable`
-  MODIFY `id_responsable` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_responsable` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `tema`
 --
 ALTER TABLE `tema`
-  MODIFY `id_tema` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_tema` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
