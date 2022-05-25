@@ -3,7 +3,7 @@ $(document).ready(function() {$('#listaElemento input[type="text"]').val('');})
 //Agregar Material Dado por la escuela
 var boton = document.getElementById("add_Material");
 boton.addEventListener("click", function () {
-    $( "#listaElemento" ).append( "<li id='listaElemento' > <div class='cuadro8' style='margin-top: 10px;'> <label class='label9'>Material</label> <input class='input9 form-control input_material_actividad' id='input_material_actividad' placeholder='Material' type='text' required></input> <label class='label20'>Cantidad</label> <input class='input20 input_cantidad_material' id='input_cantidad_material' type='text' placeholder='Cantidad'> <button id='Eliminar_Material' onclick='eliminar(this)' class='btn8 btn-danger cancelar'>Eliminar Material</button></div> </li>" );
+    $( "#listaElemento" ).append( "<li id='listaElemento' > <div class='cuadro8' style='margin-top:10px;'> <label class='label9'>Material</label> <input class='input9 form-control input_material_actividad'  id='input_material_actividad' placeholder='Material' type='text' required> <label class='label19'>Cantidad</label> <input class='input19 form-control input_cantidad_material' id='input_cantidad_material' type='number' value='0'> <button class='btn_Eliminar btn-danger cancelar' onclick='eliminar(this)' id='Eliminar_Material'>Eliminar Material</button> </div>  </li>" );
 }, false);
 
 function eliminar(obj){
@@ -13,13 +13,13 @@ function eliminar(obj){
 //Agregar Material por parte del estudiamte
 var boton = document.getElementById("add_Material_alumnos");
 boton.addEventListener("click", function () {
-    $( "#listaElementoAlumno" ).append( "<li id='listaElementoAlumno' > <div class='cuadro8' style='margin-top: 10px;'> <label class='label9'>Material</label> <input class='input9 form-control input_material_alumno_actividad' id='input_material_alumno_actividad' placeholder='Material' type='text' required></input> <label class='label20'>Cantidad</label> <input class='input20 form-control input_cantidad_alumno_material' id='input_cantidad_alumno_material' type='text' placeholder='Cantidad'> <button id='Eliminar_Material_alumno' onclick='eliminar(this)' class='btn8 btn-danger cancelar'>Eliminar Material</button></div> </li>" );
+    $( "#listaElementoAlumno" ).append( "<li id='listaElementoAlumno' > <div class='cuadro8' style='margin-top:10px;'> <label class='label9'>Material</label> <input class='input9 form-control input_material_alumno_actividad' id='input_material_alumno_actividad' placeholder='Material' type='text' required> <label class='label19'> Cantidad </label> <input class='input19 form-control input_cantidad_alumno_material' id='input_cantidad_alumno_material' type='number' value='0'> <button class='btn_Eliminar btn-danger cancelar' onclick='eliminar(this)' id='Eliminar_Material_alumno'>Eliminar Material</button> </div> </li>" );
 }, false);
 
 //Agregar Tema
 var boton = document.getElementById("add_Temas");
 boton.addEventListener("click", function () {
-    $( "#listaElementoTemas" ).append( "<li> <div class= 'cuadro7' style='margin-top: 10px;'> <input id='input_id_temas' type='text' hidden /> <label class='label11'>Tema</label> <input class='input11 form-control input_temNombre_activida' id='input_temNombre_activida' type='text' placeholder='Nombre'> <label class='label12'>Duración</label> <input class='input12 input_temSemanas_activida' id='input_temSemanas_activida' type='number' placeholder='Semanas de Duración'> <label class='label13'>Descripción</label> <textarea class='input13 input_temDescripcion_actividad' id='input_temDescripcion_actividad' placeholder='Descripción' type='text' required></textarea> <button class='btn8 btn-danger cancelar' onclick='eliminar(this)' id='Eliminar_Tema'>Eliminar Material</button> </div> </li>" );
+    $( "#listaElementoTemas" ).append( "<li> <div class='cuadro7' style='margin-top:10px;'> <input id='input_id_temas' type='text' hidden /> <label class='label11'>Tema</label> <input class='input11 form-control input_temNombre_activida' id='input_temNombre_activida' type='text' placeholder='Nombre'> <label class='label12'>Duración</label> <input class='input12 form-control input_temSemanas_activida' id='input_temSemanas_activida' type='number' placeholder='Semanas de Duración'> <label class='label13'>Descripción</label> <textarea class='input13 form-control input_temDescripcion_actividad' id='input_temDescripcion_actividad' placeholder='Descripción' type='text' required></textarea> <button class='btn_Eliminar btn-danger cancelar' onclick='eliminar(this)' id='Eliminar_Tema'>Eliminar Material</button> </div> </li>" );
 }, false);
 
 //Agregar Criterio
