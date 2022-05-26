@@ -7,6 +7,8 @@ if(isset($_SESSION['loggedin'])){
         header('Location: ../../modules/responsable/responsable.php');
     }else if($_SESSION['Tipo']=="coordinador"){
         header('Location: ../../modules/coordinador/coordinador.php');
+    }else if($_SESSION['Tipo']=="alumno"){
+        header('Location: ../../modules/alumno/alumno.php');
     }
 }else{
     header('Location: ../../layout/login/inicio_sesion.php');

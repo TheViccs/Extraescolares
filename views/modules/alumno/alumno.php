@@ -1,3 +1,9 @@
+<?php
+session_start();
+if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="alumno"){
+    header('Location: ../../layout/login/index.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -116,7 +122,9 @@
             align-items: center;
             border: 1px solid black;
             border-radius: 10px;
-            background-color: lightgray;
+            background-color: rgb(30, 110, 240);
+            color: white;
+            text-shadow: -1px 1px 1px black;
         }
 
         .contenedor-actividades-titulo:hover {
@@ -188,7 +196,11 @@
             border: 1px solid lightgray;
             height: 50px;
             width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+        
 
         .boton-registarse-grupo{
             border-radius: 10px;
@@ -211,7 +223,32 @@
         .contenedor-grupo-caracteristica{
             display: flex;
             justify-content: center;
+            align-items: center;
         }
+
+        .contenedor-grupo-caracteristica > h5{
+            margin-right: 5px;
+        }
+
+        .contenedor-grupo-caracteristica > *{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        .contenedor-caracteristicas{
+            margin-bottom: 10px;
+            margin-top: 10px;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dia-horario{
+            background-color: rgba(50,200,250,0.3);
+        }
+        
 
     </style>
 </head>
@@ -225,6 +262,7 @@
         <div class="d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height: calc(100% - 137px) !important; overflow-y:auto;">
             <div class="content">
                 <h1>Actividades</h1>
+                <input id="id_alumno"  hidden/>
                 <div class="main">
                     
 
@@ -257,6 +295,7 @@
                 nombre: "Academico"
             }]
             let main = document.getElementsByClassName("main")[0];
+            main.innerHTML = "";
             programas.forEach(programa => {
                 let divContenedor = document.createElement("div");
                 divContenedor.classList.add("contenedor-programa");
@@ -460,7 +499,7 @@
                 divContenido.classList.add("descripcion-grupo");
                 divContenido.id = "grupo" + grupo.id_grupo;
                 divContenido.setAttribute("hidden", true);
-                const diasSemana = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sábado"];
+                const diasSemana = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
                 let tabla = document.createElement("table");
                 tabla.classList.add("tabla-grupo-horario");
                 let thead = document.createElement("thead");
@@ -477,6 +516,7 @@
                 diasSemana.forEach(dia => {
                     let th = document.createElement("th");
                     th.textContent = "";
+                    th.id = dia+grupo.id_grupo; 
                     trtbody.appendChild(th);
                 });
                 tbody.appendChild(trtbody);
@@ -485,11 +525,11 @@
                 divContenido.appendChild(tabla);
 
                 let divDescripcion = document.createElement("div");
-                divDescripcion.classList.add();
+                divDescripcion.classList.add("contenedor-caracteristicas");
                 let divContenedorLugar = document.createElement("div");
                 divContenedorLugar.classList.add("contenedor-grupo-caracteristica");
                 let tituloLugar = document.createElement("h5");
-                tituloLugar.textContent = "Descripción"
+                tituloLugar.textContent = "Lugar: "
                 let lugar = document.createElement("p");
                 lugar.textContent = grupo.nombre_lugar;
                 divContenedorLugar.appendChild(tituloLugar);
@@ -497,7 +537,7 @@
                 let divContenedorInstructor = document.createElement("div");
                 divContenedorInstructor.classList.add("contenedor-grupo-caracteristica");
                 let tituloInstructor = document.createElement("h5");
-                tituloInstructor.textContent = "Instructor"
+                tituloInstructor.textContent = "Instructor: "
                 let instructor = document.createElement("p");
                 instructor.textContent = grupo.nombre_instructor;
                 divContenedorInstructor.appendChild(tituloInstructor);
@@ -524,6 +564,43 @@
             });
         }
         crearGrupos();
+
+        const ponerHorarios = () => {
+            let horarios = [{
+                id_grupo: 1,
+                id_horario: 1,
+                dia: "Lunes",
+                hora_inicio: "19:00",
+                hora_fin: "20:00"
+            }, {
+                id_grupo: 1,
+                id_horario: 2,
+                dia: "Miércoles",
+                hora_inicio: "19:00",
+                hora_fin: "20:00"
+            }, {
+                id_grupo: 1,
+                id_horario: 3,
+                dia: "Viernes",
+                hora_inicio: "19:00",
+                hora_fin: "20:00"
+            }, {
+                id_grupo: 2,
+                id_horario: 4,
+                dia: "Lunes",
+                hora_inicio: "19:00",
+                hora_fin: "20:00"
+            }]
+
+            horarios.forEach(horario => {
+                console.log("");
+                console.log("");
+                let cuadroDia = document.querySelector("#"+horario.dia+horario.id_grupo);
+                cuadroDia.classList.add("dia-horario");
+                cuadroDia.textContent = horario.hora_inicio+" - "+horario.hora_fin;
+            })
+        }
+        ponerHorarios();
     </script>
 </body>
 

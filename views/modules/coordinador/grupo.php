@@ -10,7 +10,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport">
-    <title>instructores</title>
+    <title>Grupos</title>
     <?php include "../../../views/layout/imports.php" ?>
 </head>
 <style>
@@ -129,16 +129,58 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
     
 
     .label4{
-        grid-area: label_total_grupo;
+        grid-area: label_instructor_grupo;
         text-align: center;
     }
 
     .input4{
-        grid-area: input_total_grupo;
+        grid-area: input_instructor_grupo;
     }
 
+    .btn1{
+        grid-area: btn_instructor_grupo;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 33px;
+    }
+
+    .label5{
+        grid-area: label_caracteristica_grupo;
+        text-align: center;
+    }
+
+    .input5{
+        grid-area: input_caracteristica_grupo;
+    }
+
+    .btn2{
+        grid-area: btn_caracteristica_grupo;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 33px;
+    }
+
+    .label6{
+        grid-area: label_lugar_grupo;
+        text-align: center;
+    }
+
+    .input6{
+        grid-area: input_lugar_grupo;
+    }
+
+    .btn1{
+        grid-area: btn_lugar_grupo;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 33px;
+    }
     
 
+    
     .cuadro1{
         padding: 1rem;
         display: grid;
@@ -150,11 +192,11 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
         min-height: 20%;
         min-width: fit-content;
         grid-gap: 2rem;
-        grid-template-columns: repeat(8,.3fr);
+        grid-template-columns: repeat(9,.3fr);
         grid-template-areas: 
-            ""
-            ""
-            ;
+            "label_nombre_grupo input_nombre_grupo input_nombre_grupo label_capacidadMin_grupo input_capacidadMin_grupo input_capacidadMin_grupo label_capacidadMax_grupo input_capacidadMax_grupo input_capacidadMax_grupo"
+            "label_instructor_grupo input_instructor_grupo input_instructor_grupo input_instructor_grupo input_instructor_grupo input_instructor_grupo input_instructor_grupo input_instructor_grupo btn_instructor_grupo"
+            "label_caracteristica_grupo input_caracteristica_grupo input_caracteristica_grupo btn_caracteristica_grupo label_lugar_grupo input_lugar_grupo input_lugar_grupo btn_lugar_grupo .";
     }
 
     .flecha{
@@ -194,9 +236,10 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
     
     <div class="contenido2">
     <?php include "../../../views/layout/header.php" ?>
+    <?php include "../../../views/layout/alertas.php" ?>
         <div class="cabecera">
-            <h1 class="titulo">Gestionar instructores</h1>
-            <a href="#"><img class="flecha"  src="../../.././assets/img/back.png"></a>
+            <h1 class="titulo">Gestionar grupos</h1>
+            <a href="http://localhost/Extraescolares/views/modules/coordinador/coordinador.php"><img class="flecha"  src="../../.././assets/img/back.png"></a>
         </div>
         <div class="cuadro1">
             
@@ -206,17 +249,25 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
             <input class="input1" id="input_nombre_grupo" type="Nombre" placeholder="Nombre">
                            
             <label class="label2">Capacidad Minima</label>
-            <input class="input2" id="input_cMin_grupo" type="capacidadMinima" placeholder="Capacidad Minima">
+            <input class="input2" type="number" id="input_cMin_grupo" type="capacidadMinima" placeholder="Capacidad Minima">
                            
             <label class="label3">Capacidad Maxima</label>
-            <input class="input3" id="input_cMax_grupo" type="capacidadMaxima" placeholder="Capacidad Maxima">
-                            
-            <label class="label4">Total de Inscipciones</label>
-            <input class="input4" id="input_inscrip_grupo" type="inscripciones" placeholder="Numero de inscripciones">
-                            
+            <input class="input3" type="number" id="input_cMax_grupo" type="capacidadMaxima" placeholder="Capacidad Maxima">
+                                        
+            <label class="label4">Instructor</label>
+            <input class="input4 form-control" id="input_padre_actividad" type="text" placeholder="Instructor" list="select_instructor">
+            <datalist id="select_instructor" style="width: 45% !important;"> </datalist>
+            <button class="btn1 btn btn-dark" data-bs-toggle="modal" data-bs-target="">+</button>
 
-            
+            <label class="label5">Característica</label>
+            <input class="input5 form-control" id="input_padre_actividad" type="text" placeholder="Característica" list="select_caracteristica">
+            <datalist id="select_caracteristica" style="width: 45% !important;"> </datalist>
+            <button class="btn2 btn btn-dark" data-bs-toggle="modal" data-bs-target="">+</button>
 
+            <label class="label6">Lugar</label>
+            <input class="input6 form-control" id="input_padre_actividad" type="text" placeholder="Lugar" list="select_lugar">
+            <datalist id="select_lugar" style="width: 45% !important;"> </datalist>
+            <button class="btn3 btn btn-dark" data-bs-toggle="modal" data-bs-target="">+</button>
 
         </div>
         <div class="botones2">

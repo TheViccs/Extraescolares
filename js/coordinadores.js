@@ -287,8 +287,8 @@ function asignar_responsable(){
             success: function(res){
                 $("#modal_asignar_coordinador").modal("hide");  
                 if(res==="1"){
-                    mostrar_alerta(1)
-                    setTimeout(function(){window.location.href = "../../../views/modules/responsable/responsable.php"},2000)
+                    mostrar_alerta(1);
+                    setTimeout(function(){window.location.href = "../../../views/modules/responsable/responsable.php"},1500)
                 }else{
                     mostrar_alerta(3)
                 }

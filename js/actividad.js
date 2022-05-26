@@ -3,7 +3,7 @@ $(document).ready(function() {$('#listaElemento input[type="text"]').val('');})
 //Agregar Material Dado por la escuela
 var boton = document.getElementById("add_Material");
 boton.addEventListener("click", function () {
-    $( "#listaElemento" ).append( "<li id='listaElemento' > <div class='cuadro8' style='margin-top: 10px;'> <label class='label9'>Material</label> <input class='input9 form-control input_material_actividad' id='input_material_actividad' placeholder='Material' type='text' required></input> <label class='label20'>Cantidad</label> <input class='input20 input_cantidad_material' id='input_cantidad_material' type='text' placeholder='Cantidad'> <button id='Eliminar_Material' onclick='eliminar(this)' class='btn8 btn-danger cancelar'>Eliminar Material</button></div> </li>" );
+    $( "#listaElemento" ).append( "<li id='listaElemento' > <div class='cuadro8' style='margin-top: 10px;'> <label class='label9'>Material</label> <input class='input9 form-control input_material_actividad' id='input_material_actividad' placeholder='Material' type='text' required></input> <label class='label19'>Cantidad</label> <input class='input19 input_cantidad_material' id='input_cantidad_material' type='text' placeholder='Cantidad'> <button id='Eliminar_Material' onclick='eliminar(this)' class='btn_Eliminar btn-danger cancelar'>Eliminar Material</button></div> </li>" );
 }, false);
 
 function eliminar(obj){
@@ -13,7 +13,7 @@ function eliminar(obj){
 //Agregar Material por parte del estudiamte
 var boton = document.getElementById("add_Material_alumnos");
 boton.addEventListener("click", function () {
-    $( "#listaElementoAlumno" ).append( "<li id='listaElementoAlumno' > <div class='cuadro8' style='margin-top: 10px;'> <label class='label9'>Material</label> <input class='input9 form-control input_material_alumno_actividad' id='input_material_alumno_actividad' placeholder='Material' type='text' required></input> <label class='label20'>Cantidad</label> <input class='input20 form-control input_cantidad_alumno_material' id='input_cantidad_alumno_material' type='text' placeholder='Cantidad'> <button id='Eliminar_Material_alumno' onclick='eliminar(this)' class='btn8 btn-danger cancelar'>Eliminar Material</button></div> </li>" );
+    $( "#listaElementoAlumno" ).append( "<li id='listaElementoAlumno' > <div class='cuadro8' style='margin-top: 10px;'> <label class='label9'>Material</label> <input class='input9 form-control input_material_alumno_actividad' id='input_material_alumno_actividad' placeholder='Material' type='text' required></input> <label class='label19'>Cantidad</label> <input class='inpu19 form-control input_cantidad_alumno_material' id='input_cantidad_alumno_material' type='text' placeholder='Cantidad'> <button id='Eliminar_Material_alumno' onclick='eliminar(this)' class='btn_Eliminar btn-danger cancelar'>Eliminar Material</button></div> </li>" );
 }, false);
 
 //Agregar Tema
@@ -66,13 +66,14 @@ $('#tabla_actividad').DataTable({
         { data: "competencia", title: 'Competencia' },
         { data: "creditos", title: 'Creditos' },
         { data: "beneficios", title: 'Beneficios' },
-        { data: "capMax", title: 'CapMax' },
         { data: "capMin", title: 'CapMin' },
+        { data: "capMax", title: 'CapMax' },
         { data: "inicio", title: 'Inicio' },
         { data: "fin", title: 'Fin' },
         { data: "botoneditar", title: 'Editar' },
         { data: "botonborrar", title: 'Borrar' },
-        { data: "botonimprimir", title: 'Imprimir' }
+        { data: "botonimprimir", title: 'Imprimir' },
+        { data: "botongrupos", title: 'Crear Grupos' }
     ],
     "columnDefs": [
         { "orderable": false, "targets": [9, 10, 11] },
@@ -120,10 +121,11 @@ function agregar_actividades_tabla(actividades){
     let tabla = $("#tabla_actividad").DataTable();
     tabla.rows().remove().draw();
     for(let actividad of actividades){
-        tabla.row.add({"nombre":actividad.nombre, "descripcion":actividad.descripcion,"competencia":actividad.competencia ,"creditos":actividad.creditos_otorga,"beneficios":actividad.beneficios,"capMin":actividad.capacidad_min,"capMax":actividad.capacidad_max,"inicio":actividad.fecha_inicio,"fin":actividad.fecha_fin,"botoneditar":"<button id='botoneditar"+ actividad.id_actividad+"'class='btn btn-primary'> Editar </button>", "botonborrar": "<button id='botonborrar"+actividad.id_actividad+"'class='btn btn-danger' >Borrar</button>", "botonimprimir":"<button id='botonimprimir"+actividad.id_actividad+"' class= 'btn btn-dark'>Imprimir</button>"}).draw();
+        tabla.row.add({"nombre":actividad.nombre, "descripcion":actividad.descripcion,"competencia":actividad.competencia ,"creditos":actividad.creditos_otorga,"beneficios":actividad.beneficios,"capMin":actividad.capacidad_min,"capMax":actividad.capacidad_max,"inicio":actividad.fecha_inicio,"fin":actividad.fecha_fin,"botoneditar":"<button id='botoneditar"+ actividad.id_actividad+"'class='btn btn-primary'> Editar </button>", "botonborrar": "<button id='botonborrar"+actividad.id_actividad+"'class='btn btn-danger' >Borrar</button>", "botonimprimir":"<button id='botonimprimir"+actividad.id_actividad+"' class= 'btn btn-dark'>Imprimir</button>","botongrupos": "<button id='botongrupos"+actividad.id_actividad+"' class= 'btn btn-dark'>Crear Grupos</button>"}).draw();
         $("#botoneditar"+actividad.id_actividad).on( "click", function(){select_actividad_id(actividad.id_actividad)});
         $("#botonborrar"+actividad.id_actividad).on( "click", function(){mostrar_modal_borrar_actividad(actividad.id_actividad, actividad.nombre, actividad.descripcion, actividad.competencia, actividad.creditos_otorga, actividad.beneficios,actividad.capacidad_min,actividad.capacidad_max,actividad.fecha_inicio,actividad.fecha_fin)});
         $("#botonimprimir"+actividad.id_actividad).on( "click", function(){generar_pdf(actividad.id_actividad)});
+        $("#botongrupos"+actividad.id_actividad).on( "click", function(){crear_grupos(actividad.id_actividad)});
     }
 }
 
@@ -295,7 +297,7 @@ function insertar_material_alumno(){
 
 function borrar_materiales_alumno(){
     $( "#listaElementoAlumno" ).html("");
-    $( "#listaElementoAlumno" ).append( "<li id='listaElementoAlumno' > <div class='cuadro8' style='margin-top: 10px;'> <label class='label9'>Material</label> <input class='input9 form-control input_material_alumno_actividad' id='input_material_alumno_actividad' placeholder='Material' type='text' required></input> <label class='label20'>Cantidad</label> <input class='input20 form-control input_cantidad_alumno_material' id='input_cantidad_alumno_material' type='text' placeholder='Cantidad'> <button id='Eliminar_Material_alumno' onclick='eliminar(this)' class='btn8 btn-danger cancelar'>Eliminar Material</button></div> </li>" );
+    $( "#listaElementoAlumno" ).append( "<li id='listaElementoAlumno' > <div class='cuadro8' style='margin-top: 10px;'> <label class='label9'>Material</label> <input class='input9 form-control input_material_alumno_actividad' id='input_material_alumno_actividad' placeholder='Material' type='text' required></input> <label class='label19'>Cantidad</label> <input class='inpu19 form-control input_cantidad_alumno_material' id='input_cantidad_alumno_material' type='text' placeholder='Cantidad'> <button id='Eliminar_Material_alumno' onclick='eliminar(this)' class='btn_Eliminar btn-danger cancelar'>Eliminar Material</button></div> </li>" );
 }
 
 function insertar_temas(){
@@ -415,7 +417,7 @@ function select_materiales_actividad(id_actividad){
             let materiales = JSON.parse(res);
             $( "#listaElemento" ).html("");
             materiales.forEach(material => {
-                $( "#listaElemento" ).append( "<li id='listaElemento' > <div class='cuadro8' style='margin-top: 10px;'> <label class='label9'>Material</label> <input class='input9 form-control input_material_actividad' id='input_material_actividad' placeholder='Material' type='text' value='"+material.nombre+"' required></input> <label class='label20'>Cantidad</label> <input class='input20 input_cantidad_material' id='input_cantidad_material' type='text' placeholder='Cantidad' value='"+material.cantidad+"'> <button id='Eliminar_Material' onclick='eliminar(this)' class='btn8 btn-danger cancelar'>Eliminar Material</button></div> </li>" );
+                $( "#listaElemento" ).append( "<li id='listaElemento' > <div class='cuadro8' style='margin-top: 10px;'> <label class='label9'>Material</label> <input class='input9 form-control input_material_actividad' id='input_material_actividad' placeholder='Material' type='text' value='"+material.nombre+"' required></input> <label class='label19'>Cantidad</label> <input class='input19 input_cantidad_material' id='input_cantidad_material' type='text' placeholder='Cantidad' value='"+material.cantidad+"'> <button id='Eliminar_Material' onclick='eliminar(this)' class='btn_Eliminar btn-danger cancelar'>Eliminar Material</button></div> </li>" );
             });
         }
     });
@@ -430,7 +432,7 @@ function select_materiales_alumno(id_actividad){
             let materiales = JSON.parse(res);
             $( "#listaElementoAlumno" ).html("");
             materiales.forEach(material => {
-                $("#listaElementoAlumno").append( "<li id='listaElementoAlumno' > <div class='cuadro8' style='margin-top: 10px;'> <label class='label9'>Material</label> <input class='input9 form-control input_material_alumno_actividad' id='input_material_alumno_actividad' placeholder='Material' type='text' value='"+material.nombre+"' required></input> <label class='label20'>Cantidad</label> <input class='input20 form-control input_cantidad_alumno_material' id='input_cantidad_alumno_material' type='text' placeholder='Cantidad' value='"+material.cantidad+"'> <button id='Eliminar_Material_alumno' onclick='eliminar(this)' class='btn8 btn-danger cancelar'>Eliminar Material</button></div> </li>" );
+                $("#listaElementoAlumno").append( "<li id='listaElementoAlumno' > <div class='cuadro8' style='margin-top: 10px;'> <label class='label9'>Material</label> <input class='input9 form-control input_material_alumno_actividad' id='input_material_alumno_actividad' placeholder='Material' type='text' value='"+material.nombre+"' required></input> <label class='label19'>Cantidad</label> <input class='input19 form-control input_cantidad_alumno_material' id='input_cantidad_alumno_material' type='text' placeholder='Cantidad' value='"+material.cantidad+"'> <button id='Eliminar_Material_alumno' onclick='eliminar(this)' class='btn_Eliminar btn-danger cancelar'>Eliminar Material</button></div> </li>" );
             });
         }
     });
@@ -537,4 +539,8 @@ function generar_pdf(id_actividad){
             window.open(URL.createObjectURL(blob));          
         }
     });
+}
+
+function crear_grupos(id_actividad){
+    window.location.href = "../../../views/modules/coordinador/grupo.php?actividad="+id_actividad;
 }

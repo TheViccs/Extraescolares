@@ -17,6 +17,13 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
+                                <?php
+                                    if(isset($_SESSION['id_alumno'])){
+                                ?>
+                                        <li><a class="dropdown-item" href="../alumno/carga.php">Mi Carga Complementaria</a></li>
+                                <?php
+                                    }
+                                ?>
                                 <li><a class="dropdown-item" href="#">Cambiar Contraseña</a></li>
                                 <li><a class="dropdown-item" onclick="salir()">Salir</a></li>
                             </ul>

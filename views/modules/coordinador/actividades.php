@@ -85,11 +85,14 @@ body {
     justify-content: center;
     margin-bottom: 2%;
     width: 80%;
-    border: 1px solid black;
 }
 
 .dataTable {
     overflow-x: auto !important;
+}
+
+.dataTables_wrapper{
+    overflow-x: auto;
 }
 
 .contenido2 {
@@ -547,10 +550,11 @@ ul.navega li {
 }
 
 .active[data-content]{
-    display: block;
-    
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
 }
 
 .container{
@@ -602,7 +606,7 @@ ul.navega li {
                 
 
                     <center><div class="cuadro1">
-                    <input id="input_id_actividad" type="text"  />
+                    <input id="input_id_actividad" type="text"  hidden/>
                     <input id="input_id_programa" type="text" value=<?php echo $_SESSION['id_programa']?> hidden />
                     <label class="label1">Nombre</label>
                     <input class="input1 form-control" id="input_nombre_actividad" type="text" placeholder="Nombre de la actividad">
