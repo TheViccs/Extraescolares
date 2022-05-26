@@ -446,17 +446,17 @@ body {
 .cuadro8 {
     padding: 1rem;
     display: grid;
-    height: auto;
+    height: 60%;
     flex-shrink: 0;
-    width: auto;
+    width: 60%;
     border: 1px solid black;
     border-radius: 5px;
     min-height: 20%;
     min-width: fit-content;
     grid-gap: 2rem;
-    grid-template-columns: repeat(9, .3fr);
+    grid-template-columns: repeat(10, .3fr);
     grid-template-areas:
-        "label_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad label_cantidad_material input_cantidad_material input_cantidad_material btn_Eliminar_Elemento btn_Eliminar_Elemento";
+        "label_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad label_cantidad_material input_cantidad_material input_cantidad_material btn_Eliminar_Elemento  btn_Eliminar_Elemento";
 }
 
 .cuadro9 {
@@ -606,20 +606,21 @@ ul.navega li {
                 
 
                     <center><div class="cuadro1">
-                    <input id="input_id_actividad" type="text"  hidden/>
+            
+                    <input id="input_id_actividad" type="text" hidden />
                     <input id="input_id_programa" type="text" value=<?php echo $_SESSION['id_programa']?> hidden />
                     <label class="label1">Nombre</label>
                     <input class="input1 form-control" id="input_nombre_actividad" type="text" placeholder="Nombre de la actividad">
                     <label class="label2">Créditos</label>
-                    <input class="input2 form-control" id="input_creditos_actividad" type="number" placeholder="Total de creditos por esta actividad">
+                    <input class="input2 form-control" id="input_creditos_actividad" type="number" value="1">
                     <label class="label3">Actividad padre</label>
                     <input class="input3 form-control" id="input_padre_actividad" type="text" placeholder="Actividad Padre" list="select_actividad">
                     <datalist id="select_actividad" style="width: 45% !important;"> </datalist>
                     <button class="btn1 btn btn-dark" data-bs-toggle="modal" data-bs-target="">+</button>
                     <label class="label4">Capacidad Maxima</label>
-                    <input class="input4 form-control" id="input_cMax_actividad" type="number" placeholder="Capacidad Max">
+                    <input class="input4 form-control" id="input_cMax_actividad" type="number" value="0">
                     <label class="label5">Capacidad Minima</label>
-                    <input class="input5 form-control" id="input_cMin_actividad" type="number" placeholder="Capacidad Minima">
+                    <input class="input5 form-control" id="input_cMin_actividad" type="number" value="0">
                     <label class="label6">Descripción</label>
                     <textarea class="input6 form-control" id="input_descripcion_actividad" placeholder="Descripción" type="text" required></textarea>
                     <label class="label7">Competencia</label>
@@ -652,9 +653,9 @@ ul.navega li {
                                 <li >
                                     <div class="cuadro8">
                                         <label class='label9'>Material</label>
-                                        <input class="input9 form-control input_material_actividad"  id="input_material_actividad" placeholder="Material" type="text" required></textarea>
+                                        <input class="input9 form-control input_material_actividad"  id="input_material_actividad" placeholder="Material" type="text" required>
                                         <label class="label19">Cantidad</label>
-                                        <input class="input19 form-control input_cantidad_material" id="input_cantidad_material" type="text" placeholder="Cantidad">
+                                        <input class="input19 form-control input_cantidad_material" id="input_cantidad_material" type="number" value="0">
                                         <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material">Eliminar Material</button>
                                     </div> 
                                 </li>
@@ -689,7 +690,7 @@ ul.navega li {
                                         <label class='label9'>Material</label>
                                         <input class="input9 form-control input_material_alumno_actividad"  id="input_material_alumno_actividad" placeholder="Material" type="text" required></textarea>
                                         <label class="label19">Cantidad</label>
-                                        <input class="input19 form-control input_cantidad_alumno_material" id="input_cantidad_alumno_material" type="text" placeholder="Cantidad">
+                                        <input class="input19 form-control input_cantidad_alumno_material" id="input_cantidad_alumno_material" type="number" value="0">
                                         <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material_alumno">Eliminar Material</button>
                                     </div> 
                                 </li>
@@ -719,7 +720,7 @@ ul.navega li {
                     <center>
                         <ul style="list-style:none;" id="listaElementoTemas">
                             <li>
-                                <div class="cuadro7">
+                                <div class="cuadro7" style="margin-top:10px;">
                                     <input id="input_id_temas" type="text" hidden />
                                     <label class="label11">Tema</label>
                                     <input class="input11 form-control input_temNombre_activida" id="input_temNombre_activida" type="text" placeholder="Nombre">
