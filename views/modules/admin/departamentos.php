@@ -219,8 +219,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
             <label class="label1">Clave: </label>
             <input class="input1" id="input_clave_departamento" placeholder="Clave" type="text" required />
 
-            <label class="label2">Correo</label>
-            <input class="input2" id="input_correo_departamento" placeholder="Correo" type="text" required />
+            <label class="label2">Email</label>
+            <div class="input2">
+              <input id="input_correo_departamento" type="email" placeholder="Email">  
+              <p style="width: 100%; height: 20%;  font-size: 8px; margin-bottom: -100%;">Solo agregue el nombre de usuario</p>
+            </div>
+
 
             <!--Segundo rengolón de divs Nombre-->
             <label class="label3">Nombre</label>

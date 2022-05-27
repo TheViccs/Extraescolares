@@ -261,7 +261,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
             <div class="contenido2">
                 <div class="cabecera">
                     <h1 class="titulo">Mi Carga Complementaria</h1>
-                    <a href="alumno.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
+                    <a href="home_Alumno.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
                 </div>
                 <div class="contenido-carga">
                     <div class="periodo">
