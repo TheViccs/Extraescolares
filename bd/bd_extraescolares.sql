@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 26-05-2022 a las 22:04:29
+-- Tiempo de generación: 27-05-2022 a las 23:42:07
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -124,6 +124,14 @@ DROP PROCEDURE IF EXISTS `sp_delete_grupo`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_grupo` (IN `g_id_grupo` INT)   BEGIN
 START TRANSACTION;
 UPDATE grupo SET visible=0 WHERE grupo.id_grupo=g_id_grupo;
+COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_delete_horario`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_horario` (IN `h_id_horario` INT)   BEGIN
+START TRANSACTION;
+DELETE FROM grupo_horario WHERE id_horario = h_id_horario;
+DELETE FROM horario WHERE id_horario = h_id_horario;
 COMMIT;
 END$$
 
@@ -487,17 +495,22 @@ END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_grupo_actividad_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_grupo_actividad_id` (IN `g_id_actividad` INT)   BEGIN
-SELECT * FROM grupo WHERE grupo.id_actividad=g_id_actividad AND grupo.visible=1;
+SELECT grupo.*, instructor.nombre as nombre_instructor, instructor.apellido_p, instructor.apellido_m, lugar.nombre as nombre_lugar, caracteristica.nombre as nombre_caracteristica FROM grupo LEFT JOIN lugar ON grupo.id_lugar=lugar.id_lugar LEFT JOIN caracteristica ON grupo.id_caracteristica=caracteristica.id_caracteristica LEFT JOIN instructor ON grupo.id_instructor=instructor.id_instructor WHERE grupo.id_actividad=g_id_actividad AND grupo.visible=1;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_grupo_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_grupo_id` (IN `g_id_grupo` INT)   BEGIN
-SELECT * FROM grupo WHERE grupo.id_grupo=g_id_grupo;
+SELECT grupo.*, instructor.nombre as nombre_instructor, instructor.apellido_p, instructor.apellido_m, lugar.nombre as nombre_lugar, caracteristica.nombre as nombre_caracteristica FROM grupo LEFT JOIN lugar ON grupo.id_lugar=lugar.id_lugar LEFT JOIN caracteristica ON grupo.id_caracteristica=caracteristica.id_caracteristica LEFT JOIN instructor ON grupo.id_instructor=instructor.id_instructor WHERE grupo.id_grupo=g_id_grupo;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_horarios_grupo_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_horarios_grupo_id` (IN `g_id_grupo` INT)   BEGIN
-SELECT horario.*, grupo_horario.id_grupo FROM grupo_horario JOIN grupo ON grupo_horario.id_grupo=grupo.id_grupo WHERE grupo_horario.id_grupo=g_id_grupo;
+SELECT horario.*, grupo_horario.id_grupo FROM grupo_horario JOIN grupo ON grupo_horario.id_grupo=grupo.id_grupo JOIN horario ON grupo_horario.id_horario=horario.id_horario WHERE grupo_horario.id_grupo=g_id_grupo;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_horario_id`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_horario_id` (IN `h_id_horario` INT)   BEGIN
+SELECT * FROM horario WHERE id_horario = h_id_horario;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_instructores_departamento_id`$$
@@ -632,10 +645,15 @@ START TRANSACTION;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_update_grupo`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_grupo` (IN `g_nombre` VARCHAR(50), IN `g_capacidad_max` INT, IN `g_capacidad_min` INT, IN `g_id_actividad` INT, IN `g_id_lugar` INT, IN `g_id_caracteristica` INT, IN `g_id_instructor` INT, IN `g_id_grupo` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_grupo` (IN `g_id_grupo` INT, IN `g_nombre` VARCHAR(50), IN `g_capacidad_max` INT, IN `g_capacidad_min` INT, IN `g_id_lugar` INT, IN `g_id_caracteristica` INT, IN `g_id_instructor` INT)   BEGIN
 START TRANSACTION;
-UPDATE grupo SET nombre=g_nombre, capacidad_max=g_capacidad_max, capacidad_min=g_capacidad_min, id_actividad=g_id_actividad, id_lugar=g_id_lugar, id_caracteristica=g_id_caracteristica, id_instructor=g_id_instructor WHERE id_grupo=g_id_grupo;
+UPDATE grupo SET nombre=g_nombre, capacidad_max=g_capacidad_max, capacidad_min=g_capacidad_min, id_lugar=g_id_lugar, id_caracteristica=g_id_caracteristica, id_instructor=g_id_instructor WHERE id_grupo=g_id_grupo;
 COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_update_horario`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_horario` (IN `h_dia` VARCHAR(20), IN `h_hora_inicio` TIME, IN `h_hora_fin` TIME, IN `h_id_horario` INT)   BEGIN
+UPDATE horario SET dia = h_dia, hora_inicio = h_hora_inicio, hora_fin = h_hora_fin WHERE id_horario = h_id_horario;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_update_instructor`$$
@@ -802,6 +820,14 @@ CREATE TABLE `caracteristica` (
   `id_caracteristica` int(11) NOT NULL,
   `nombre` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `caracteristica`
+--
+
+INSERT INTO `caracteristica` (`id_caracteristica`, `nombre`) VALUES
+(1, 'Selección'),
+(4, 'Recreativo');
 
 -- --------------------------------------------------------
 
@@ -981,6 +1007,14 @@ CREATE TABLE `departamento_instructor` (
   `visible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `departamento_instructor`
+--
+
+INSERT INTO `departamento_instructor` (`id_departamento`, `id_instructor`, `fecha_inicio`, `fecha_fin`, `visible`) VALUES
+(1, 1, '2022-08-15', '2022-12-19', 1),
+(1, 3, '2022-08-15', '2022-12-19', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -1075,6 +1109,14 @@ CREATE TABLE `grupo` (
   `id_instructor` int(11) DEFAULT NULL
 ) ;
 
+--
+-- Volcado de datos para la tabla `grupo`
+--
+
+INSERT INTO `grupo` (`id_grupo`, `nombre`, `capacidad_max`, `capacidad_min`, `total_inscripciones`, `visible`, `id_actividad`, `id_lugar`, `id_caracteristica`, `id_instructor`) VALUES
+(1, 'A', 40, 20, 0, 1, 1, 1, 1, 1),
+(2, 'B', 40, 20, 0, 1, 1, 1, 4, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -1086,6 +1128,14 @@ CREATE TABLE `grupo_horario` (
   `id_grupo` int(11) DEFAULT NULL,
   `id_horario` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `grupo_horario`
+--
+
+INSERT INTO `grupo_horario` (`id_grupo`, `id_horario`) VALUES
+(1, 2),
+(1, 3);
 
 -- --------------------------------------------------------
 
@@ -1100,6 +1150,14 @@ CREATE TABLE `horario` (
   `hora_inicio` time NOT NULL,
   `hora_fin` time NOT NULL
 ) ;
+
+--
+-- Volcado de datos para la tabla `horario`
+--
+
+INSERT INTO `horario` (`id_horario`, `dia`, `hora_inicio`, `hora_fin`) VALUES
+(2, 'Martes', '17:00:00', '18:00:00'),
+(3, 'Miércoles', '16:00:00', '17:00:00');
 
 -- --------------------------------------------------------
 
@@ -1120,6 +1178,14 @@ CREATE TABLE `instructor` (
   `visible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `instructor`
+--
+
+INSERT INTO `instructor` (`id_instructor`, `nombre`, `apellido_m`, `apellido_p`, `sexo`, `correo`, `contraseña`, `foto`, `visible`) VALUES
+(1, 'José Ricardo', 'Candor', 'Baeza', 'M', 'jricardobzc@colima.tecnm.mx', 'instructor1', NULL, 1),
+(3, 'Victor Hugo', 'Ramos', 'Del Rio', 'M', 'victorhugo@colima.tecnm.mx', 'instructor1', NULL, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -1135,6 +1201,14 @@ CREATE TABLE `lugar` (
   `foto_1` varchar(200) DEFAULT NULL,
   `foto_2` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `lugar`
+--
+
+INSERT INTO `lugar` (`id_lugar`, `nombre`, `capacidad_max`, `observaciones`, `foto_1`, `foto_2`) VALUES
+(1, 'Cancha de Futbol', 100, NULL, NULL, NULL),
+(3, 'Canchas Techadas', 100, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1227,7 +1301,8 @@ CREATE TABLE `programa` (
 INSERT INTO `programa` (`id_programa`, `clave`, `nombre`, `descripcion`, `observaciones`, `visible`) VALUES
 (1, 'PDEP', 'Programa Deportivo', NULL, NULL, 1),
 (2, 'PCUL', 'Programa Cultural', NULL, NULL, 1),
-(3, 'PCIV', 'Programa Cívico', NULL, NULL, 1);
+(3, 'PCIV', 'Programa Cívico', NULL, NULL, 1),
+(4, 'PTUT', 'Programa Tutorías', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1525,7 +1600,7 @@ ALTER TABLE `alumno`
 -- AUTO_INCREMENT de la tabla `caracteristica`
 --
 ALTER TABLE `caracteristica`
-  MODIFY `id_caracteristica` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_caracteristica` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `carga_complementaria`
@@ -1573,13 +1648,13 @@ ALTER TABLE `horario`
 -- AUTO_INCREMENT de la tabla `instructor`
 --
 ALTER TABLE `instructor`
-  MODIFY `id_instructor` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_instructor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `lugar`
 --
 ALTER TABLE `lugar`
-  MODIFY `id_lugar` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_lugar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `material_actividad`
@@ -1603,7 +1678,7 @@ ALTER TABLE `periodo`
 -- AUTO_INCREMENT de la tabla `programa`
 --
 ALTER TABLE `programa`
-  MODIFY `id_programa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_programa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `responsable`

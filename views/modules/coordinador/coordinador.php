@@ -34,9 +34,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
                     <li>
                         <a href="./instructores.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/3410/3410674.png" /><span>Gestionar Instructores</span></a>
                     </li>
-                    <li>
-                        <a href="./grupos.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/1624/1624273.png" /><span>Gestionar Grupos</span></a>
-                    </li>
                 </ul>
             </div>
         </div>
