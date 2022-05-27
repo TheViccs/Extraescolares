@@ -542,5 +542,5 @@ function generar_pdf(id_actividad){
 }
 
 function crear_grupos(id_actividad){
-    window.location.href = "../../../views/modules/coordinador/grupo.php?actividad="+id_actividad;
+    window.location.href = "../../../views/modules/coordinador/grupos.php?actividad="+id_actividad;
 }

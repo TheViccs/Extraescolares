@@ -1,48 +1,46 @@
 <?php
 session_start();
-if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
+if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
     header('Location: ../../layout/login/index.php');
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Extraescolares</title>
-    
+    <title>SiGAC</title>
     <!-- IMPORTS -->
     <?php include "../../../views/layout/imports.php" ?>
-
 </head>
-<body>  
-    <div class="content h-100 w-100 d-flex flex-column bg-white">
+
+<body>
+    <div class="contenedor_principal">
         <!-- HEADER -->
         <?php include "../../../views/layout/header.php" ?>
-
-        <!-- CONTENT -->    
-        <div class="box d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height:calc(100% - 120px) !important; overflow-y:auto;"> 
-            <div class="menu h-100 p-3 " style="min-height:fit-content">
-                <ul class="contenedor-menu w-90 h-100 text-center" style="min-height:fit-content">
+        <!-- MENU DE ADMINISTRADOR -->
+        <div class="contendor_menu_principal">
+            <div class="menu">
+                <ul class="contenedor_menu">
                     <li>
-                        <a href="./periodos.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/2370/2370264.png"/><span>Gestionar Periodos</span></a>
+                        <a href="./periodos.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/2370/2370264.png" /><span>Gestionar Periodos</span></a>
                     </li>
                     <li>
-                        <a href="./departamentos.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/921/921296.png"/><span>Gestionar Unidades Responsables</span></a>
+                        <a href="./departamentos.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/921/921296.png" /><span>Gestionar Unidades Responsables</span></a>
                     </li>
                     <li>
-                        <a href="./responsables.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/4395/4395348.png"/><span>Gestionar Responsables</span></a>
+                        <a href="./responsables.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/4395/4395348.png" /><span>Gestionar Responsables</span></a>
                     </li>
                     <li>
-                        <a href="./programas.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/1032/1032432.png"/><span>Gestionar Programas</span></a>
+                        <a href="./programas.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/1032/1032432.png" /><span>Gestionar Programas</span></a>
                     </li>
                 </ul>
             </div>
         </div>
-
         <!-- FOOTER -->
-       <?php include "../../../views/layout/footer.php" ?>
+        <?php include "../../../views/layout/footer.php" ?>
     </div>
 </body>
+
 </html>

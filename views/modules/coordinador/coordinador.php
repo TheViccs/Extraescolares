@@ -9,7 +9,6 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Extraescolares</title>
     
     <!-- IMPORTS -->
@@ -24,7 +23,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
         <?php include "../../../views/layout/header.php" ?>
         <?php include "../../../views/layout/alertas.php" ?>
         <!-- CONTENT -->    
-        <div class="d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height: calc(100% - 137px) !important; overflow-y:auto; margin-top: 20px;"> 
+        <div class="d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height: calc(100% - 137px) !important; overflow-y:auto;"> 
             <div class="menu h-100 p-3">
                 <ul class="contenedor-menu w-90 h-100 text-center">
                     <li>
@@ -34,7 +33,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
                         <a href="./instructores.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/3410/3410674.png"/><span>Gestionar Instructores</span></a>
                     </li>
                     <li>
-                        <a href="./grupo.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/1624/1624273.png"/><span>Gestionar Grupos</span></a>
+                        <a href="./grupos.php"><img class="icono" style="width: 50px; height: 50px;" src="https://cdn-icons-png.flaticon.com/512/1624/1624273.png"/><span>Gestionar Grupos</span></a>
                     </li>
 
                 </ul>
