@@ -11,15 +11,18 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>SiGAC</title>
+
     <!-- IMPORTS -->
     <?php include "../../../views/layout/imports.php" ?>
+    
 </head>
 
 <body>
-    <div class="contenedor_principal">
+    <div class="contenedor_principal_menu">
         <!-- HEADER -->
         <?php include "../../../views/layout/header.php" ?>
-        <!-- MENU DE ADMINISTRADOR -->
+
+        <!-- MENÚ DE ADMINISTRADOR -->
         <div class="contendor_menu_principal">
             <div class="menu">
                 <ul class="contenedor_menu">
@@ -38,6 +41,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
                 </ul>
             </div>
         </div>
+
         <!-- FOOTER -->
         <?php include "../../../views/layout/footer.php" ?>
     </div>

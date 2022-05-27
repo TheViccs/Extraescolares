@@ -11,8 +11,12 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport">
-    <title>Interfaz</title>
+    <title>SiGAC</title>
+
+    <!-- IMPORTS -->
     <?php include "../../../views/layout/imports.php" ?>
+
+
 </head>
 <style>
 * {
@@ -564,12 +568,15 @@ ul.navega li {
 
 </style>
 
-
 <body>
-
-    <div class="contenido2">
+    <div class="contenedor_principal_insercion">
+        <!-- HEADER -->
         <?php include "../../../views/layout/header.php" ?>
+        
+        <!-- ALERTAS -->
         <?php include "../../../views/layout/alertas.php" ?>
+
+        <!-- CABECERA -->
         <div class="cabecera">
             <h1 class="titulo">Gestionar Actividad</h1>
             <a href="http://localhost/Extraescolares/views/modules/coordinador/coordinador.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
@@ -584,7 +591,6 @@ ul.navega li {
             <p data-taget="#temas">Temas</p>
             <p data-taget="#criterrios">Criteros</p>
             <p data-taget="#periodo">Periodo</p>
-
         </div>
 
         

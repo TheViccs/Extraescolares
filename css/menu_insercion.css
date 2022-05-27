@@ -1,0 +1,78 @@
+/* ESTILOS DEL MENÚ PRINCIPAL PARA INTERFACES DE INSERCIÓN */
+
+.cabecera {
+    display: flex;
+    margin-top: 2%;
+    justify-content: center;
+    height: 15%;
+    width: 100%;
+    min-height: 60px;
+    min-width: fit-content;
+}
+
+.cabecera a {
+    height: 100%;
+    margin-left: auto;
+    margin-right: 5%;
+    justify-self: end;
+}
+
+.cancelar {
+    margin-left: 2%;
+}
+
+.contenedor_botones_insercion {
+    display: flex;
+    width: 80%;
+    height: 20%;
+    align-items: center;
+    justify-content: end;
+    min-height: 60px;
+    min-width: fit-content;
+}
+
+.contenedor_inputs_insercion{
+    padding: 1rem;
+    display: grid;
+    height: auto;
+    flex-shrink: 0;
+    width: 80%;
+    border: 1px solid black;
+    border-radius: 5px;
+    min-height: 20%;
+    min-width: fit-content;
+    grid-gap: 2rem;
+}
+
+.contenedor_principal_insercion{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: fit-content;
+}
+
+.contenedor_tabla_insercion {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2%;
+    width: 100%;
+    box-sizing: contenedor_tabla;
+}
+
+.contenedor_correo_descripcion{
+    display: flex;
+    flex-direction: column;
+}
+
+.descripcion_insercion_correo{
+    font-size: 11px !important;
+    margin: 0 !important;
+}
+
+.flecha {
+    width: 10%;
+    height: 100%;
+    min-width: 30px;
+    max-height: 30px;
+}

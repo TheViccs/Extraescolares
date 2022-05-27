@@ -15,6 +15,7 @@
 <link href="../../../lib/multiselect/css/multi-select.css" media="screen" rel="stylesheet" type="text/css">
 <link href="../../../css/index.css" rel="stylesheet">
 <link href="../../../css/menu_principal.css" rel="stylesheet">
+<link href="../../../css/menu_insercion.css" rel="stylesheet">
 
 
 

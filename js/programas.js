@@ -111,7 +111,7 @@ function insert_programa(){
             $("#modal_departamentos_label").text("Agregar correos a programa "+nombre)
             $("#inputs_correo_departamento").html("");
             departamentosaux.forEach(departamento => {
-                $("#inputs_correo_departamento").append("<label>Correo "+departamento[1]+"</label><br><input class='correo-departamento' placeholder='Correo'/><br>")
+                $("#inputs_correo_departamento").append("<label>Correo "+departamento[1]+"</label><br><div class='contenedor_correo_descripcion'><input class='correo-departamento' placeholder='Correo'/><p class='descripcion_insercion_correo'>Solo agregue el nombre de usuario</p></div><br>")
             });
             $("#modal_departamentos").modal("show");       
         }

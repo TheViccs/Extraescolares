@@ -1,212 +1,102 @@
 <?php
 session_start();
-if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="administrador"){
+if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
     header('Location: ../../layout/login/index.php');
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport">
-    <title>Periodos</title>
+    <title>SiGAC</title>
+
+    <!-- IMPORTS -->
     <?php include "../../../views/layout/imports.php" ?>
+
 </head>
 <style>
-    *{
-        font-size: 1rem;
-    }
-
-    html{
-        height: 100vh;
-        width: 100vw;
-    }
-
-    body{
-        height: 100%;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .botones2{
-        display: flex;
-        width: 80%;
-        height: 20%;
-        align-items: center;
-        justify-content: end;
-        min-height: 60px;
-        min-width: fit-content;
-    }
-
-    .cabecera{
-        display: flex;
-        margin-top: 2%;
-        justify-content: center;
-        height: 15%;
-        width: 100%;
-        min-height: 60px;
-        min-width: fit-content;
-    }
-
-    .cabecera a{
-        height: 100%;
-        margin-left: auto;
-        margin-right: 5%;
-        justify-self: end;
-    }
-
-    .cancelar{
-        margin-left: 2%;
-    }
-
-    .contenedor-inputs2{
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        min-height: fit-content;
-        width: 100%;
-    }
-
-    .contenedor-inputs3{
-        display: flex;
-        width: 50%;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        align-items: center;
-        min-height: fit-content;
-    }
-
-    .contenedor-tabla{
-        display: flex;
-        justify-content: center;
-        margin-bottom: 2%;
-        width: 80%;
-        border: 1px solid black;
-    }
-
-    .contenido2{
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-width: fit-content;
-    }
-
-    .label1{
+    .label_fecha_inicio_periodo {
         grid-area: label_fecha_inicio_periodo;
         text-align: center;
     }
 
-    .input1{
+    .input_fecha_inicio_periodo {
         grid-area: input_fecha_inicio_periodo;
     }
 
-    .label2{
+    .label_fecha_fin_periodo {
         grid-area: label_fecha_fin_periodo;
         text-align: center;
     }
 
-    .input2{
+    .input_fecha_fin_periodo {
         grid-area: input_fecha_fin_periodo;
     }
 
-    .label3{
+    .label_nombre_periodo {
         grid-area: label_nombre_periodo;
         text-align: center;
     }
 
-    .input3{
+    .input_nombre_periodo {
         grid-area: input_nombre_periodo;
     }
 
 
 
-    .cuadro1{
-        padding: 1rem;
-        display: grid;
-        height: auto;
-        flex-shrink: 0;
-        width: 80%;
-        border: 1px solid black;
-        border-radius: 5px;
-        min-height: 20%;
-        min-width: fit-content;
-        grid-gap: 2rem;
-        grid-template-columns: repeat(8,.3fr);
-        grid-template-areas: 
+    .contenedor_inputs_insercion {
+        grid-template-columns: repeat(8, .3fr);
+        grid-template-areas:
             "label_fecha_inicio_periodo label_fecha_inicio_periodo input_fecha_inicio_periodo input_fecha_inicio_periodo label_fecha_fin_periodo label_fecha_fin_periodo input_fecha_fin_periodo input_fecha_fin_periodo"
-            "label_nombre_periodo label_nombre_periodo input_nombre_periodo input_nombre_periodo input_nombre_periodo input_nombre_periodo input_nombre_periodo input_nombre_periodo" ;
+            "label_nombre_periodo label_nombre_periodo input_nombre_periodo input_nombre_periodo input_nombre_periodo input_nombre_periodo input_nombre_periodo input_nombre_periodo";
     }
-
-    .flecha{
-        width: 10%;
-        height: 100%;
-        min-width: 30px;
-        max-height: 30px;
-    }
-
-    .footer{
-        width: auto;
-        min-width: fit-content;
-        margin-top: auto;
-        justify-self: end;
-    }
-
-    .header{
-        width: auto;
-        min-width: fit-content;
-    }
-
-    input{
-        height: 2rem;
-    }
-
-    label{
-        height: 2rem;
-    }
-
-    .titulo{
-        justify-self: center;
-        margin-left: auto;
-    }
-
 </style>
+
 <body>
-    
-    <div class="contenido2">
-    <?php include "../../../views/layout/header.php" ?>
-    <!-- ALERTAS -->
-    <?php include "../../../views/layout/alertas.php" ?>
+
+    <div class="contenedor_principal_insercion">
+        <!-- HEADER -->
+        <?php include "../../../views/layout/header.php" ?>
+
+        <!-- ALERTAS -->
+        <?php include "../../../views/layout/alertas.php" ?>
+
+        <!-- CABECERA -->
         <div class="cabecera">
             <h1 class="titulo">Gestionar Periodos</h1>
-            <a href="http://localhost/Extraescolares/views/modules/admin/administrador.php"><img class="flecha"  src="../../.././assets/img/back.png"></a>
+            <a href="http://localhost/Extraescolares/views/modules/admin/administrador.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
         </div>
-        <div class="cuadro1">
+
+        <!-- FORMULARIO PARA INSERCIÓN -->
+        <div class="contenedor_inputs_insercion">
 
             <!--Primer regnglon de  divs Fecha inicio y Fecha fin-->
-            <input id="input_id_periodo" type="text" hidden/>
-                <label class="label1" >Fecha inicio de actividades</label>
-                <input class="input1" id="input_inicio_actividades" type="date" required>
-                    
-                <label class="label2" >Fecha fin de actividades</label>
-                <input class="input2"id="input_fin_actividades" type="date" required>
-                    
- 
-                <label class="label3">Nombre del periodo</label>
-                <input class="input3" id="input_nombre_periodo" type="text"  disabled required>
+            <input id="input_id_periodo" type="text" hidden />
+            <label class="label_fecha_inicio_periodo">Fecha inicio de actividades</label>
+            <input class="input_fecha_inicio_periodo" id="input_inicio_actividades" type="date" required>
+
+            <label class="label_fecha_fin_periodo">Fecha fin de actividades</label>
+            <input class="input_fecha_fin_periodo" id="input_fin_actividades" type="date" required>
+
+
+            <label class="label_nombre_periodo">Nombre del periodo</label>
+            <input class="input_nombre_periodo" id="input_nombre_periodo" type="text" disabled required>
         </div>
-        <div class="botones2">
-            <button class="btn btn-success"  onclick="insert_periodo()">Guardar</button>
+
+        <!-- BOTONES INSERCION -->
+        <div class="contenedor_botones_insercion">
+            <button class="btn btn-success" onclick="insert_periodo()">Guardar</button>
             <button class="btn btn-danger cancelar" onclick="borrar_datos_input_periodo()">Cancelar</button>
-
         </div>
 
+        <!-- FOOTER -->
         <?php include "../../../views/layout/footer.php" ?>
     </div>
 
     <script src="../../../js/periodos.js"></script>
-    
+
 </body>
+
 </html>

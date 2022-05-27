@@ -1,266 +1,150 @@
 <?php
 session_start();
-if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
+if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
     header('Location: ../../layout/login/index.php');
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport">
-    <title>Instructores</title>
+    <title>SiGAC</title>
+
+    <!-- IMPORTS -->
     <?php include "../../../views/layout/imports.php" ?>
+
 </head>
 <style>
-    *{
-        font-size: 1rem;
-    }
 
-    html{
-        height: 100%;
-        width: 100%;
-    }
-
-    body{
-        height: 100%;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .botones2{
-        display: flex;
-        width: 80%;
-        height: 20%;
-        align-items: center;
-        justify-content: end;
-        min-height: 60px;
-        min-width: fit-content;
-    }
-
-    .cabecera{
-        display: flex;
-        margin-top: 2%;
-        justify-content: center;
-        height: 15%;
-        width: 100%;
-        min-height: 60px;
-        min-width: fit-content;
-    }
-
-    .cabecera a{
-        height: 100%;
-        margin-left: auto;
-        margin-right: 5%;
-        justify-self: end;
-    }
-
-    .cancelar{
-        margin-left: 2%;
-    }
-
-    .contenedor-inputs2{
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        min-height: fit-content;
-        width: 100%;
-    }
-
-    .contenedor-inputs3{
-        display: flex;
-        width: 50%;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        align-items: center;
-        min-height: fit-content;
-    }
-
-    .contenedor-tabla{
-        display: flex;
-        justify-content: center;
-        margin-bottom: 2%;
-        width: 100%;
-    }
-
-    .dataTable{
-        overflow-x: auto !important;
-    }
-
-    .contenido2{
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-width: fit-content;
-    }
-
-    .label2{
+    .label_nombre_instructor {
         grid-area: label_nombre_instructor;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
-    .input2{
+    .input_nombre_instructor {
         grid-area: input_nombre_instructor;
-        width: 100%;
     }
 
-    .label4{
+    .label_apellido_m_instructor {
         grid-area: label_apellidoM_instructor;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
-    .input4{
+    .input_apellido_m_instructor {
         grid-area: input_apellidoM_instructor;
-        width: 100%;
     }
 
-    .label3{
+    .label_apellido_p_instructor {
         grid-area: label_apellidop_instructor;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
-    .input3{
+    .input_apellido_p_instructor {
         grid-area: input_apellidop_instructor;
-        width: 100%;
     }
 
-    .label5{
+    .label_correo_instructor {
         grid-area: label_email_instructor;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
-    .input5{
+    .input_correo_instructor {
         grid-area: input_email_instructor;
-        width: 100%;
     }
 
-    .label6{
+    .label_sexo_instructor {
         grid-area: label_sexo_instructor;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
-    .input6{
+    .input_sexo_instructor {
         grid-area: input_sexo_instructor;
         height: 35px;
-        width: 100%;
     }
 
-    .cuadro1{
-        padding: 1rem;
-        display: grid;
-        height: auto;
-        flex-shrink: 0;
-        width: 80%;
-        border: 1px solid black;
-        border-radius: 5px;
-        min-height: 20%;
-        min-width: fit-content;
-        grid-gap: 2rem;
-        grid-template-columns: repeat(9,.3fr);
-        grid-template-areas: 
+    .contenedor_inputs_insercion {
+        grid-template-columns: repeat(9, .3fr);
+        grid-template-areas:
             "label_nombre_instructor input_nombre_instructor input_nombre_instructor label_apellidop_instructor input_apellidop_instructor input_apellidop_instructor label_apellidoM_instructor input_apellidoM_instructor input_apellidoM_instructor"
-            "label_email_instructor input_email_instructor input_email_instructor label_sexo_instructor input_sexo_instructor input_sexo_instructor . . ."
-            ;
+            "label_email_instructor input_email_instructor input_email_instructor input_email_instructor label_sexo_instructor input_sexo_instructor input_sexo_instructor . ."
+        ;
     }
-
-    .flecha{
-        width: 10%;
-        height: 100%;
-        min-width: 30px;
-        max-height: 30px;
-    }
-
-    .footer{
-        width: auto;
-        min-width: fit-content;
-        margin-top: auto;
-        justify-self: end;
-    }
-
-    .header{
-        width: auto;
-        min-width: fit-content;
-    }
-
-    input{
-        height: 2rem;
-    }
-
-    label{
-        height: 2rem;
-    }
-
-    .titulo{
-        justify-self: center;
-        margin-left: auto;
-    }
-
 </style>
+
 <body>
-    
-    <div class="contenido2">
+    <div class="contenedor_principal_insercion">
+        
+        <!-- HEADER -->
         <?php include "../../../views/layout/header.php" ?>
+
+        <!-- ALERTAS -->
         <?php include "../../../views/layout/alertas.php" ?>
+
+        <!-- CABECERA -->
         <div class="cabecera">
             <h1 class="titulo">Gestionar instructores</h1>
-            <a href="http://localhost/Extraescolares/views/modules/coordinador/coordinador.php"><img class="flecha"  src="../../.././assets/img/back.png"></a>
+            <a href="http://localhost/Extraescolares/views/modules/coordinador/coordinador.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
         </div>
 
-        <div class="cuadro1">
-            <input id="input_id_departamento" type="text" value=<?php echo $_SESSION['id_departamento'] ?> hidden/>
+        <!-- FORMULARIO PARA INSERCIÓN -->
+        <div class="contenedor_inputs_insercion">
+
+            <input id="input_id_departamento" type="text" value=<?php echo $_SESSION['id_departamento'] ?> hidden />
             <input id="input_id_instructor" type="text" hidden />
 
-            <label class="label2">Nombre</label>
-            <input class="input2" id="input_nombre_instructor" type="Nombre" placeholder="Nombre">
-                           
-            <label class="label3">Apellido Paterno</label>
-            <input class="input3" id="input_apellido_p_instructor" type="ApellidoP" placeholder="Apellido Paterno">
-                           
-            <label class="label4">Apellido Materno</label>
-            <input class="input4" id="input_apellido_m_instructor" type="ApellidoM" placeholder="Apellido Materno" required="false">
-                            
-            <label class="label5">Email</label>
-            <div class="input5">
-              <input id="input_correo_instructor" type="email" placeholder="Email">  
-              <p style="width: 100%; height: 20%;  font-size: 8px; margin-bottom: -100%;">Solo agregue el nombre de usuario</p>
-            </div>
-            
-                            
+            <label class="label_nombre_instructor">Nombre</label>
+            <input class="input_nombre_instructor" id="input_nombre_instructor" type="Nombre" placeholder="Nombre">
 
-            <label class="label6">Sexo</label>
-            <select class="input6" id="select_sexo_instructor">
+            <label class="label_apellido_p_instructor">Apellido Paterno</label>
+            <input class="input_apellido_p_instructor" id="input_apellido_p_instructor" type="ApellidoP" placeholder="Apellido Paterno">
+
+            <label class="label_apellido_m_instructor">Apellido Materno</label>
+            <input class="input_apellido_m_instructor" id="input_apellido_m_instructor" type="ApellidoM" placeholder="Apellido Materno" required="false">
+
+            <label class="label_correo_instructor">Email</label>
+            <div class="input_correo_instructor contenedor_correo_descripcion">
+                <input id="input_correo_instructor" type="email" placeholder="Email">
+                <p class="descripcion_insercion_correo">Solo agregue el nombre de usuario</p>
+            </div>
+
+            <label class="label_sexo_instructor">Sexo</label>
+            <select class="input_sexo_instructor" id="select_sexo_instructor">
                 <option value="O" disabled selected>Elige...</option>
                 <option value="M">Masculino</option>
                 <option value="F">Femenino</option>
             </select>
+
         </div>
 
-        <div class="botones2">
+        <!-- BOTONES INSERCION -->
+        <div class="contenedor_botones_insercion">
             <button class="btn btn-success" id="boton_insert_update_instructor" onclick="mostrar_modal_insertar_instructor()">Guardar</button>
             <button class="btn btn-danger cancelar" onclick="borrar_datos_input_instructor()">Cancelar</button>
         </div>
 
-        <div class="contenedor-tabla content-table">
-            <table id="tabla-instructores">
-
-            </table>
+        <!-- TABLA CONTENIDO -->
+        <div class="contenedor_tabla_insercion">
+            <table id="tabla-instructores"></table>
         </div>
 
-        <div class="modal fade" id="modal-instructor" tabindex="-1" aria-labelledby="modal-instructor-label"
-            aria-hidden="true">
+        <!-- FOOTER -->
+        <?php include "../../../views/layout/footer.php" ?>
+    </div>
+
+    <!-- MODAL BORRAR INSTRUCTOR -->
+    <div class="modal fade" id="modal-instructor" tabindex="-1" aria-labelledby="modal-instructor-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -270,11 +154,11 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
                     <div class="modal-body text-center">
                         <div class="w-100">
                             <h3>Seguro que quiere borrar al instructor?</h1>
-                            <p id="p_clave_instructor"></p>
-                            <p id="p_nombre_instructor"></p>
-                            <p id="p_sexo_instructor"></p>
-                            <p id="p_correo_instructor"></p>
-                            <input id="input_id_instructor_borrar" type="text" hidden />
+                                <p id="p_clave_instructor"></p>
+                                <p id="p_nombre_instructor"></p>
+                                <p id="p_sexo_instructor"></p>
+                                <p id="p_correo_instructor"></p>
+                                <input id="input_id_instructor_borrar" type="text" hidden />
                         </div>
                     </div>
                     <div class="modal-footer d-flex justify-content-evenly">
@@ -285,6 +169,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
             </div>
         </div>
 
+        <!-- MODAL INSERTAR INSTRUCTOR -->
         <div class="modal fade" id="modal_insertar_instructor" tabindex="-1" aria-labelledby="modal_insertar_instructor-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -295,25 +180,26 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="coordinador"){
                     <div class="modal-body text-center">
                         <div class="w-100 d-flex flex-column align-items-center">
                             <h3>Datos del coordinador</h1>
-                            <p id="p_clave_instructor_insertar"></p>
-                            <p id="p_nombre_instructor_insertar"></p>
-                            <p id="p_sexo_instructor_insertar"></p>
-                            <p id="p_correo_instructor_insertar"></p>
-                            <label>Fecha de inicio del instructor</label>
-                            <input id="input_fecha_inicio_instructor" type="date" style="width:50% !important"/> 
-                            <label>Fecha de fin del instructor</label>
-                            <input id="input_fecha_fin_instructor" type="date" style="width:50% !important"/>                       
-                        </div>        
+                                <p id="p_clave_instructor_insertar"></p>
+                                <p id="p_nombre_instructor_insertar"></p>
+                                <p id="p_sexo_instructor_insertar"></p>
+                                <p id="p_correo_instructor_insertar"></p>
+                                <label>Fecha de inicio del instructor</label>
+                                <input id="input_fecha_inicio_instructor" type="date" style="width:50% !important" />
+                                <label>Fecha de fin del instructor</label>
+                                <input id="input_fecha_fin_instructor" type="date" style="width:50% !important" />
+                        </div>
                     </div>
                     <div class="modal-footer d-flex justify-content-evenly">
                         <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-secondary" onclick="insert_instructor()">Guardar</button>               
+                        <button type="button" class="btn btn-secondary" onclick="insert_instructor()">Guardar</button>
                     </div>
                 </div>
-            </div>   
+            </div>
         </div>
-        <?php include "../../../views/layout/footer.php" ?>
-    </div>
+
     <script src="../../../js/instructores.js"></script>
+
 </body>
+
 </html>
