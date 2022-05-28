@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 28-05-2022 a las 19:08:41
+-- Tiempo de generación: 28-05-2022 a las 19:31:15
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -525,7 +525,7 @@ END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_detalles_inscripcion_alumno_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_detalles_inscripcion_alumno_id` (IN `d_id_alumno` INT)   BEGIN
-	 SELECT detalles_inscripcion.*, periodo.fecha_fin_actividades, periodo.nombre as nombre_periodo, actividad.nombre,actividad.creditos_otorga,actividad.fecha_fin FROM detalles_inscripcion JOIN actividad ON detalles_inscripcion.id_actividad=actividad.id_actividad JOIN periodo ON detalles_inscripcion.id_periodo=periodo.id_periodo WHERE id_alumno = 1;
+	 SELECT detalles_inscripcion.*, periodo.fecha_fin_actividades, periodo.nombre as nombre_periodo, actividad.nombre,actividad.creditos_otorga,actividad.fecha_fin FROM detalles_inscripcion JOIN actividad ON detalles_inscripcion.id_actividad=actividad.id_actividad JOIN periodo ON detalles_inscripcion.id_periodo=periodo.id_periodo WHERE id_alumno = d_id_alumno;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_grupos`$$
@@ -863,7 +863,8 @@ CREATE TABLE `alumno` (
 --
 
 INSERT INTO `alumno` (`id_alumno`, `nombre`, `apellido_p`, `apellido_m`, `correo`, `contraseña`, `semestre`, `carrera`, `creditos_totales`, `estatura`, `peso`, `tipo_sangre`, `talla`, `telefono`, `alergias`, `enfermedades`, `foto`, `visible`) VALUES
-(1, 'José Ricardo', 'Baeza', 'Candor', '17460069@colima.tecnm.mx', 'alumno1', 10, 'Ing. en Sistemas Computacionales', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+(1, 'José Ricardo', 'Baeza', 'Candor', '17460069@colima.tecnm.mx', 'alumno1', 10, 'Ing. en Sistemas Computacionales', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2, 'Victor Hugo', 'Del Rio', 'Ramos', '17460066@colima.tecnm.mx', 'alumno1', 10, 'Ing. en Sistemas Computacionales', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1731,7 +1732,7 @@ ALTER TABLE `administrador`
 -- AUTO_INCREMENT de la tabla `alumno`
 --
 ALTER TABLE `alumno`
-  MODIFY `id_alumno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_alumno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `caracteristica`
