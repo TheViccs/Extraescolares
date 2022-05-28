@@ -87,6 +87,7 @@ function crear_actividades(actividades) {
         divBotonGrupos.classList.add("contenedor-actividad-boton");
         let boton = document.createElement("button");
         boton.textContent = "Mostrar grupos";
+        boton.classList.add("btn")
         boton.classList.add("boton-mostrar-grupos");
         boton.onclick = function () {
             let contenedorGrupos = document.getElementById("actividad" + actividad.id_actividad);
@@ -194,6 +195,7 @@ function crear_grupos(grupos) {
             mostart_modal_inscripcion(grupo.id_actividad, grupo.id_grupo);
         }
         boton.textContent = "Registrarse";
+        boton.classList.add("btn")
         boton.classList.add("boton-registarse-grupo");
         if (grupo.total_inscripciones === grupo.capacidad_max) {
             boton.classList.add("lleno");

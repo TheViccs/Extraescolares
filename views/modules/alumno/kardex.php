@@ -249,6 +249,10 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
             margin-bottom: 20px;
             padding: 5px;
         }
+        
+        .tbody_actividades_kardex th{
+            height: 30px;
+        }
 
         .periodo *{
             display: flex;
@@ -256,6 +260,31 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
             align-items: center ;
             margin: 0;
             margin-right: 10px;
+        }
+
+        .cursando{
+            background-color: rgb(250, 200 ,100);
+        }
+
+        .acreditada{
+            background-color: rgb(110, 200 ,140);
+        }
+
+        .reprobada{
+            background-color: rgb(200, 100 ,100);
+        }
+
+        .descripcion-colores{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 50%;
+        }
+
+        .cuadro-color{
+            height: 30px;
+            width: 30px;
         }
 
     </style>
@@ -270,7 +299,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
         <div class="d-flex flex-column align-items-center bg-white" style="width: 100% !important; min-height: calc(100% - 137px) !important; overflow-y:auto;">
             <div class="contenido2">
                 <div class="cabecera">
-                    <h1 class="titulo">Mi Carga Complementaria</h1>
+                    <h1 class="titulo">Mi Kárdex</h1>
                     <a href="alumno.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
                 </div>
                 <div class="contenido-carga">
@@ -279,85 +308,39 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
                     <div class="periodo">
                         <h5>Periodo</h5>
                         <p id="periodo_actual"></p>
-                        <h5>Actividades</h5>
-                        <p id="numero_actividades_alumno"></p>
+                        <h5>Actividades Acreditadas</h5>
+                        <p id="actividades_acreditadas_alumno"></p>
                         <h5>Usuario</h5>
                         <p id="alumno"></p>
+                    </div>
+                    <div class="descripcion-colores">
+                        <div class="cuadro-color acreditada"></div><p>Acreditada</p>
+                        <div class="cuadro-color cursando"></div><p>Cursando</p>
+                        <div class="cuadro-color reprobada"></div><p>No Acreditada</p>
                     </div>
                     <div class="contenedor-tabla-carga-alumno">
                         <table class="tabla-carga-alumno">
                             <thead>
                                 <tr>
                                     <th>
-                                        Actividad
+                                        [Créditos] <br> Actividad
                                     </th>
                                     <th>
-                                        Grupo
+                                        Periodo
                                     </th>
                                     <th>
-                                        Instructor
+                                        Calificación
                                     </th>
                                     <th>
-                                        Lugar
-                                    </th>
-                                    <th>
-                                        Lunes
-                                    </th>
-                                    <th>
-                                        Martes
-                                    </th>
-                                    <th>
-                                        Miércoles
-                                    </th>
-                                    <th>
-                                        Jueves
-                                    </th>
-                                    <th>
-                                        Viernes
-                                    </th>
-                                    <th>
-                                        Sábado
+                                        Estatus
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody id="tbody_actividades_carga_complementaria">
-                                <tr>
-                                    <th>
-                                        Actividad
-                                    </th>
-                                    <th>
-                                        Grupo
-                                    </th>
-                                    <th>
-                                        Instructor
-                                    </th>
-                                    <th>
-                                        Lugar
-                                    </th>
-                                    <th>
-                                        Lunes
-                                    </th>
-                                    <th>
-                                        Martes
-                                    </th>
-                                    <th>
-                                        Miércoles
-                                    </th>
-                                    <th>
-                                        Jueves
-                                    </th>
-                                    <th>
-                                        Viernes
-                                    </th>
-                                    <th>
-                                        Sábado
-                                    </th>
-                                </tr>
+                            <tbody class="tbody_actividades_kardex" id="tbody_actividades_kardex">
+                                
                             </tbody>
                         </table>
                     </div>
-                    <br>
-                    <button class="btn btn-primary" onclick="generar_pdf(<?php echo $_SESSION['id_alumno'] ?>)">Imprimir Carga</button>
                 </div>
             </div>
         </div>
@@ -367,7 +350,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
 
     </div>
 
-    <script src="../../../js/carga.js"></script>
+    <script src="../../../js/kardex.js"></script>
 
 </body>
 

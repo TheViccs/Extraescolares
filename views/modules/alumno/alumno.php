@@ -32,7 +32,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
                         <a href="http://localhost/Extraescolares/views/modules/alumno/grupos.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/1198/1198416.png" /><span>Actividades</span></a>
                     </li>
                     <li>
-                        <a href="#"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/901/901533.png" /><span>Kardex</span></a>
+                        <a href="http://localhost/Extraescolares/views/modules/alumno/kardex.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/901/901533.png" /><span>Kárdex</span></a>
                     </li>
                     <li>
                         <a href="http://localhost/Extraescolares/views/modules/alumno/carga.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/1092/1092004.png" /><span>Carga Complementaria</span></a>

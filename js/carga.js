@@ -130,10 +130,6 @@ function generar_pdf(id_alumno){
                     pdf.setProperties({
                         title: "Carga Académica"
                     });
-                    toDataUrl('../../../assets/img/user.png', function(base64Img){
-    console.log(base64Img);})
-                        let logo = "";
-                        //pdf.addImage(img, 'JPG', 15, 40,148,210);
                     let nombre_institucion = "Tecnológico Nacional de México Campus Colima";
                     let x_nombre_institucion = (pdf.internal.pageSize.width/2) - (pdf.getTextWidth(nombre_institucion)/2);
                     let texto = "Carga Académica";
@@ -154,39 +150,5 @@ function generar_pdf(id_alumno){
 
 }
 
-function toDataUrl(src, callback, outputFormat) {
-    // Create an Image object
-    var img = new Image();
-    // Add CORS approval to prevent a tainted canvas
-    img.crossOrigin = 'Anonymous';
-    img.onload = function() {
-      // Create an html canvas element
-      var canvas = document.createElement('CANVAS');
-      // Create a 2d context
-      var ctx = canvas.getContext('2d');
-      var dataURL;
-      // Resize the canavas to the original image dimensions
-      canvas.height = this.naturalHeight;
-      canvas.width = this.naturalWidth;
-      // Draw the image to a canvas
-      ctx.drawImage(this, 0, 0);
-      // Convert the canvas to a data url
-      dataURL = canvas.toDataURL(outputFormat);
-      // Return the data url via callback
-      callback(dataURL);
-      // Mark the canvas to be ready for garbage 
-      // collection
-      canvas = null;
-    };
-    // Load the image
-    img.src = src;
-    // make sure the load event fires for cached images too
-    if (img.complete || img.complete === undefined) {
-      // Flush cache
-      img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
-      // Try again
-      img.src = src;
-    }
-  }
 
   

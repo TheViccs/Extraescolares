@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 28-05-2022 a las 10:55:53
+-- Tiempo de generación: 28-05-2022 a las 19:08:41
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -445,6 +445,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_actividades` ()   BEGIN
 SELECT actividad.* FROM actividad JOIN periodo_actividad ON actividad.id_actividad=periodo_actividad.id_actividad WHERE periodo_actividad.id_periodo=periodo_actual() AND actividad.visible=1 AND actividad.fecha_inicio > NOW();
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_select_actividades_acreditadas_alumno_id`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_actividades_acreditadas_alumno_id` (IN `d_id_alumno` INT)   BEGIN
+SELECT COUNT(*) as actividades_acreditadas FROM detalles_inscripcion WHERE id_alumno=1 AND acreditacion=1;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_select_actividades_programa_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_actividades_programa_id` (IN `a_id_programa` INT)   BEGIN
 	SELECT * FROM actividad WHERE actividad.visible=1 AND actividad.id_programa=a_id_programa;
@@ -516,6 +521,11 @@ END$$
 DROP PROCEDURE IF EXISTS `sp_select_departamento_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_departamento_id` (IN `d_id_departamento` INT)   BEGIN
 	SELECT departamento.id_departamento, departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension, departamento.correo, departamento_responsable.id_responsable, responsable.nombre AS nombre_responsable, responsable.apellido_p, responsable.apellido_m FROM departamento LEFT JOIN departamento_responsable ON departamento.id_departamento = departamento_responsable.id_departamento LEFT JOIN responsable ON responsable.id_responsable=departamento_responsable.id_responsable WHERE departamento.id_departamento=d_id_departamento AND departamento_responsable.fecha_fin IS NULL;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_detalles_inscripcion_alumno_id`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_detalles_inscripcion_alumno_id` (IN `d_id_alumno` INT)   BEGIN
+	 SELECT detalles_inscripcion.*, periodo.fecha_fin_actividades, periodo.nombre as nombre_periodo, actividad.nombre,actividad.creditos_otorga,actividad.fecha_fin FROM detalles_inscripcion JOIN actividad ON detalles_inscripcion.id_actividad=actividad.id_actividad JOIN periodo ON detalles_inscripcion.id_periodo=periodo.id_periodo WHERE id_alumno = 1;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_grupos`$$
@@ -1112,7 +1122,8 @@ CREATE TABLE `departamento_programa` (
 INSERT INTO `departamento_programa` (`id_departamento`, `id_programa`, `correo`, `contraseña`) VALUES
 (1, 1, 'coordinacion.deportiva@colima.tecnm.mx', 'coordinador1'),
 (1, 2, 'coordinacion.cultural@colima.tecnm.mx', 'coordinador1'),
-(1, 3, 'coordinacion.civica@colima.tecnm.mx', 'coordinador1');
+(1, 3, 'coordinacion.civica@colima.tecnm.mx', 'coordinador1'),
+(1, 5, 'coordinacion.ejemplo@colima.tecnm.mx', 'coordinador1');
 
 -- --------------------------------------------------------
 
@@ -1420,7 +1431,8 @@ INSERT INTO `programa` (`id_programa`, `clave`, `nombre`, `descripcion`, `observ
 (1, 'PDEP', 'Programa Deportivo', NULL, NULL, 1),
 (2, 'PCUL', 'Programa Cultural', NULL, NULL, 1),
 (3, 'PCIV', 'Programa Cívico', NULL, NULL, 1),
-(4, 'PTUT', 'Programa Tutorías', NULL, NULL, 1);
+(4, 'PTUT', 'Programa Tutorías', NULL, NULL, 1),
+(5, 'PEjemplo', 'Programa de Ejemplo', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1803,7 +1815,7 @@ ALTER TABLE `periodo`
 -- AUTO_INCREMENT de la tabla `programa`
 --
 ALTER TABLE `programa`
-  MODIFY `id_programa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_programa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `responsable`
