@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 28-05-2022 a las 19:31:15
+-- Tiempo de generación: 28-05-2022 a las 19:37:46
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -294,7 +294,7 @@ SET @inscripciones_alumno_semestre_actual = (SELECT COUNT(*) FROM detalles_inscr
 SET @numero_creditos_alumno = (SELECT creditos_totales FROM alumno WHERE id_alumno=d_id_alumno);
 SET @programa = (SELECT id_programa FROM actividad WHERE id_actividad=d_id_actividad);
 SET @acreditaciones_en_programa_alumno = (SELECT COUNT(*) FROM detalles_inscripcion JOIN actividad ON detalles_inscripcion.id_actividad=actividad.id_actividad WHERE id_alumno=d_id_alumno AND id_programa=@programa AND acreditacion=1);
-SET @inscripciones_en_actividad = (SELECT COUNT(*) FROM detalles_inscripcion WHERE id_actividad=d_id_actividad);
+SET @inscripciones_en_actividad = (SELECT COUNT(*) FROM detalles_inscripcion WHERE id_actividad=d_id_actividad AND id_alumno=d_id_alumno);
 SET @constancia = 0;
 IF((@numero_creditos_alumno < 5) AND (@acreditaciones_en_programa_alumno < 2)) THEN
 	SET @constancia = 1;
@@ -904,7 +904,8 @@ CREATE TABLE `carga_actividad` (
 
 INSERT INTO `carga_actividad` (`id_carga`, `id_actividad`) VALUES
 (2, 1),
-(2, 2);
+(2, 2),
+(18, 2);
 
 -- --------------------------------------------------------
 
@@ -924,7 +925,8 @@ CREATE TABLE `carga_complementaria` (
 --
 
 INSERT INTO `carga_complementaria` (`id_carga`, `id_alumno`, `id_periodo`) VALUES
-(2, 1, 1);
+(2, 1, 1),
+(18, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -944,7 +946,8 @@ CREATE TABLE `carga_grupo` (
 
 INSERT INTO `carga_grupo` (`id_carga`, `id_grupo`) VALUES
 (2, 1),
-(2, 3);
+(2, 3),
+(18, 3);
 
 -- --------------------------------------------------------
 
@@ -1171,7 +1174,8 @@ CREATE TABLE `detalles_inscripcion` (
 
 INSERT INTO `detalles_inscripcion` (`calificacion_numerica`, `desempeño`, `acreditacion`, `constancia`, `id_alumno`, `id_grupo`, `id_actividad`, `id_periodo`) VALUES
 (0, 1, 0, 1, 1, 1, 1, 1),
-(0, 1, 0, 1, 1, 3, 2, 1);
+(0, 1, 0, 1, 1, 3, 2, 1),
+(0, 1, 0, 1, 2, 3, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -1212,7 +1216,7 @@ CREATE TABLE `grupo` (
 INSERT INTO `grupo` (`id_grupo`, `nombre`, `capacidad_max`, `capacidad_min`, `total_inscripciones`, `visible`, `id_actividad`, `id_lugar`, `id_caracteristica`, `id_instructor`) VALUES
 (1, 'A', 40, 20, 1, 1, 1, 1, 1, 1),
 (2, 'B', 40, 20, 0, 1, 1, 1, 4, 3),
-(3, 'A', 40, 20, 1, 1, 2, 3, 4, 3);
+(3, 'A', 40, 20, 2, 1, 2, 3, 4, 3);
 
 -- --------------------------------------------------------
 
@@ -1744,7 +1748,7 @@ ALTER TABLE `caracteristica`
 -- AUTO_INCREMENT de la tabla `carga_complementaria`
 --
 ALTER TABLE `carga_complementaria`
-  MODIFY `id_carga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_carga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `coordinador`

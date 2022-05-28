@@ -57,8 +57,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
                         <p>¿Realmente deseas registarte en esta actividad?<br>
                            Una vez inscrito no podrás quitar tu registro
                     </p>
-                    <input id="id_actividad_inscribirse"/>
-                    <input id="id_grupo_inscribirse"/>
+                    <input id="id_actividad_inscribirse" hidden/>
+                    <input id="id_grupo_inscribirse" hidden/>
                     </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-evenly">
