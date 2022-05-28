@@ -106,7 +106,7 @@ function select_actividades(){
     $.ajax({
         type: "POST",
         data: {"id_programa": id_programa},
-        url: path+"select_actividades.php",                           
+        url: path+"select_actividades_programa_id.php",                           
         success: function(res){    
             let actividades = JSON.parse(res);
             agregar_actividades_tabla(actividades);
@@ -163,12 +163,13 @@ function insert_actividad(){
             success: function(res){
                 borrar_datos_input_actividad();
                 select_actividades();
+                $("#input_id_actividad").val(parseInt(JSON.parse(res)[0].id_actividad_insertada));
                 content.forEach(c => {
                     c.classList.remove('active')
                 })
                 const t = document.querySelector("#materialNecesario");
                 t.classList.add('active')
-                if (res === "1") {
+                if (Number.isInteger(parseInt(JSON.parse(res)[0].id_actividad_insertada))) {
                     mostrar_alerta(1);
                 }else{
                     mostrar_alerta(3);

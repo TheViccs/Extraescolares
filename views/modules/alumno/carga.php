@@ -209,24 +209,34 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
         }
 
         .tabla-carga-alumno {
+            min-height: fit-content;
             width: 80%;
+            max-width: 80%;
         }
 
         .tabla-carga-alumno tr {
             display: flex;
             justify-content: space-around;
             align-items: center;
-            height: 50px;
+            height: 100%;
         }
 
         .tabla-carga-alumno th {
             display: flex;
             justify-content: center;
             align-items: center;
+            width: 100%;
+            height: 60px;
         }
 
         .tabla-carga-alumno tbody {
             border: 1px solid black;
+            min-height: fit-content;
+        }
+
+        .tabla-carga-alumno tbody th{
+            font-size: 15px;
+            font-weight: 400;
         }
 
         .periodo{
@@ -261,16 +271,19 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
             <div class="contenido2">
                 <div class="cabecera">
                     <h1 class="titulo">Mi Carga Complementaria</h1>
-                    <a href="home_Alumno.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
+                    <a href="alumno.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
                 </div>
                 <div class="contenido-carga">
+                <input id="id_alumno" value="<?php echo $_SESSION['id_alumno'] ?>" hidden />
+                <input id="correo_alumno" value="<?php echo $_SESSION['correo'] ?>" hidden />
                     <div class="periodo">
                         <h5>Periodo</h5>
-                        <p>Jul-Ago 2022</p>
+                        <p id="periodo_actual">Jul-Ago 2022</p>
                         <h5>Actividades</h5>
-                        <p>1</p>
+                        <p id="numero_actividades_alumno">1</p>
                         <h5>Usuario</h5>
-                        <p>17460069</p>
+                        <p id="alumno">17460069</p>
+                        <button onclick="generar_pdf(<?php echo $_SESSION['id_alumno'] ?>)">Generar</button>
                     </div>
                     <div class="contenedor-tabla-carga-alumno">
                         <table class="tabla-carga-alumno">
@@ -308,7 +321,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="tbody_actividades_carga_complementaria">
                                 <tr>
                                     <th>
                                         Actividad
@@ -350,7 +363,11 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
 
         <!-- FOOTER -->
         <?php include "../../../views/layout/footer.php" ?>
+
     </div>
+
+    <script src="../../../js/carga.js"></script>
+
 </body>
 
 </html>

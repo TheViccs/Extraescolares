@@ -16,8 +16,16 @@ $actividad_padre = !empty($actividad_padre) ? "'$actividad_padre'" : "NULL";
 
 $sql=("CALL sp_insert_actividad('".$nombre."','".$descripcion."','".$competencia."','".$creditos."','".$beneficios."',".$capacidad_min.",".$capacidad_max.",'".$fecha_inicio."','".$fecha_fin."',".$id_p.",$actividad_padre)");
 $result = mysqli_query($conn,$sql);
+
 if($result){
-    echo "1";
-}     
+    $emparray = array();
+    while($row =mysqli_fetch_assoc($result))
+    {
+        $emparray[] = $row;
+    }
+    echo json_encode($emparray, JSON_UNESCAPED_UNICODE);
+}else{
+    echo "0";
+}   
 
 ?>

@@ -1,7 +1,9 @@
 <?php
 include('conexion.php');
 
-$sql=("CALL sp_select_actividades()");
+$id_a = $_POST['id_alumno'];
+
+$sql=("CALL sp_select_horarios_carga_complementaria_alumno_id(".$id_a.")");
 $result = mysqli_query($conn,$sql);
 if($result){
     $emparray = array();

@@ -16,6 +16,7 @@
 <link href="../../../css/index.css" rel="stylesheet">
 <link href="../../../css/menu_principal.css" rel="stylesheet">
 <link href="../../../css/menu_insercion.css" rel="stylesheet">
+<link href="../../../css/menu_alumno.css" rel="stylesheet">
 
 
 

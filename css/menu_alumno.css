@@ -1,0 +1,234 @@
+.main {
+    width: 100% !important;
+    height: auto;
+    display: inline-grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-gap: 10px;
+    align-items: center;
+    justify-items: center;
+}
+
+.boton-mostrar-grupos {
+    border-radius: 10px;
+}
+
+.boton-mostrar-grupos:hover {
+    background-color: orange;
+}
+
+.content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-y: auto;
+}
+
+.contenedor-programa {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.contenedor-programa-titulo {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.titulo-programa {
+    padding-left: 20px;
+}
+
+
+.contenedor-programa-titulo:hover {
+    cursor: pointer;
+}
+
+.contenedor-actividades {
+    padding: 8px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.contenedor-actividad {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-auto-rows: auto;
+    justify-items: center;
+    align-items: center;
+}
+
+.contenedor-actividad-caracteristicas {
+    width: 80%;
+    padding-top: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor-actividad-boton {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 8px;
+}
+
+.contenedor-actividades-titulo {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: rgb(30, 110, 240);
+    color: white;
+    text-shadow: -1px 1px 1px black;
+}
+
+.contenedor-actividades-titulo:hover {
+    cursor: pointer;
+}
+
+.contenedor-grupos {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 8px;
+}
+
+.contenedor-grupo {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.contenedor-grupo-titulo {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.contenedor-grupo-titulo:hover{
+    cursor: pointer;
+}
+
+.descripcion-grupo {
+    width: 100%;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+.tabla-grupo-horario{
+    width: 100%;
+}
+
+.tabla-grupo-horario tr{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 50px;
+}
+
+.tabla-grupo-horario tbody tr{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.tabla-grupo-horario tbody th{
+    border: 1px solid lightgray;
+    height: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.boton-registarse-grupo{
+    border-radius: 10px;
+    background-color: green;
+}
+
+.boton-registarse-grupo{
+    border-radius: 10px;
+    background-color: rgb(80, 200, 100);
+}
+
+.lleno{
+    background-color: rgb(250, 60, 60) !important;
+}
+
+.boton-registarse-grupo:hover {
+    background-color: orange;
+}
+
+.contenedor-grupo-caracteristica{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor-grupo-caracteristica > h5{
+    margin-right: 5px;
+}
+
+.contenedor-grupo-caracteristica > *{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+.contenedor-caracteristicas{
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.dia-horario{
+    background-color: rgba(50,200,250,0.3);
+}

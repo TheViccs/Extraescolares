@@ -93,7 +93,7 @@ function borrar_datos_input_horario(){
     $("#select_dia_grupo").val("O");
     $("#input_hora_inicio_grupo").val("");
     $("#input_hora_fin_grupo").val("");
-    $("#boton_insert_update_horario").attr("onclick","insert_instructor()");
+    $("#boton_insert_update_horario").attr("onclick","insert_horario()");
 }
 
 //SELECT DE HORARIO POR ID

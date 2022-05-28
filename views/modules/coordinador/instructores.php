@@ -17,7 +17,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
 
 </head>
 <style>
-
     .label_nombre_instructor {
         grid-area: label_nombre_instructor;
         display: flex;
@@ -85,7 +84,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
 
 <body>
     <div class="contenedor_principal_insercion">
-        
+
         <!-- HEADER -->
         <?php include "../../../views/layout/header.php" ?>
 
@@ -145,58 +144,58 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
 
     <!-- MODAL BORRAR INSTRUCTOR -->
     <div class="modal fade" id="modal-instructor" tabindex="-1" aria-labelledby="modal-instructor-label" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modal-instructor-label">Borrar Instructor</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-instructor-label">Borrar Instructor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="w-100">
+                        <h3>Seguro que quiere borrar al instructor?</h1>
+                            <p id="p_clave_instructor"></p>
+                            <p id="p_nombre_instructor"></p>
+                            <p id="p_sexo_instructor"></p>
+                            <p id="p_correo_instructor"></p>
+                            <input id="input_id_instructor_borrar" type="text" hidden />
                     </div>
-                    <div class="modal-body text-center">
-                        <div class="w-100">
-                            <h3>Seguro que quiere borrar al instructor?</h1>
-                                <p id="p_clave_instructor"></p>
-                                <p id="p_nombre_instructor"></p>
-                                <p id="p_sexo_instructor"></p>
-                                <p id="p_correo_instructor"></p>
-                                <input id="input_id_instructor_borrar" type="text" hidden />
-                        </div>
-                    </div>
-                    <div class="modal-footer d-flex justify-content-evenly">
-                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-danger" onclick="borrar_instructor()">Borrar</button>
-                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-evenly">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" onclick="borrar_instructor()">Borrar</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- MODAL INSERTAR INSTRUCTOR -->
-        <div class="modal fade" id="modal_insertar_instructor" tabindex="-1" aria-labelledby="modal_insertar_instructor-label" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modal_insertar_instructor-label">Asignar Coordinador</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- MODAL INSERTAR INSTRUCTOR -->
+    <div class="modal fade" id="modal_insertar_instructor" tabindex="-1" aria-labelledby="modal_insertar_instructor-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_insertar_instructor-label">Insertar Instructor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="w-100 d-flex flex-column align-items-center">
+                        <h3>Datos del instructor</h3>
+                        <p id="p_clave_instructor_insertar"></p>
+                        <p id="p_nombre_instructor_insertar"></p>
+                        <p id="p_sexo_instructor_insertar"></p>
+                        <p id="p_correo_instructor_insertar"></p>
+                        <label>Fecha de inicio del instructor</label>
+                        <input id="input_fecha_inicio_instructor" type="date" style="width:50% !important" />
+                        <label>Fecha de fin del instructor</label>
+                        <input id="input_fecha_fin_instructor" type="date" style="width:50% !important" />
                     </div>
-                    <div class="modal-body text-center">
-                        <div class="w-100 d-flex flex-column align-items-center">
-                            <h3>Datos del coordinador</h1>
-                                <p id="p_clave_instructor_insertar"></p>
-                                <p id="p_nombre_instructor_insertar"></p>
-                                <p id="p_sexo_instructor_insertar"></p>
-                                <p id="p_correo_instructor_insertar"></p>
-                                <label>Fecha de inicio del instructor</label>
-                                <input id="input_fecha_inicio_instructor" type="date" style="width:50% !important" />
-                                <label>Fecha de fin del instructor</label>
-                                <input id="input_fecha_fin_instructor" type="date" style="width:50% !important" />
-                        </div>
-                    </div>
-                    <div class="modal-footer d-flex justify-content-evenly">
-                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-secondary" onclick="insert_instructor()">Guardar</button>
-                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-evenly">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-secondary" onclick="insert_instructor()">Guardar</button>
                 </div>
             </div>
         </div>
+    </div>
 
     <script src="../../../js/instructores.js"></script>
 

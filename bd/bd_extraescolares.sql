@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 27-05-2022 a las 23:42:07
+-- Tiempo de generación: 28-05-2022 a las 10:55:53
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -110,6 +110,11 @@ START TRANSACTION;
     COMMIT;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_delete_detalle_inscripcion`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_detalle_inscripcion` (IN `d_id_alumno` INT, IN `d_id_grupo` INT, IN `d_id_actividad` INT)   BEGIN
+
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_delete_detelles_inscripcion`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_detelles_inscripcion` (IN `d_id_alumno` INT, IN `d_id_grupo` INT, IN `d_id_actividad` INT)   BEGIN
 START TRANSACTION;
@@ -182,7 +187,9 @@ DROP PROCEDURE IF EXISTS `sp_insert_actividad`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_actividad` (IN `a_nombre` VARCHAR(150), IN `a_descripcion` VARCHAR(200), IN `a_competencia` VARCHAR(200), IN `a_creditos_otorga` INT, IN `a_beneficios` VARCHAR(150), IN `a_capacidad_min` INT, IN `a_capacidad_max` INT, IN `a_fecha_inicio` DATE, IN `a_fecha_fin` DATE, IN `a_id_programa` INT, IN `a_actividad_padre` INT)   BEGIN
 START TRANSACTION;
 	INSERT INTO actividad (nombre, descripcion, competencia, creditos_otorga, beneficios, capacidad_min, capacidad_max, fecha_inicio,fecha_fin,id_programa, actividad_padre) VALUES (a_nombre, a_descripcion, a_competencia, a_creditos_otorga, a_beneficios, a_capacidad_min, a_capacidad_max,a_fecha_inicio,a_fecha_fin,a_id_programa,a_actividad_padre);
+    SET @actividad = last_insert_id();
     INSERT INTO periodo_actividad (id_periodo,id_actividad) VALUES (periodo_actual(),last_insert_id());
+    SELECT @actividad as id_actividad_insertada;
     COMMIT;
 END$$
 
@@ -287,18 +294,26 @@ SET @inscripciones_alumno_semestre_actual = (SELECT COUNT(*) FROM detalles_inscr
 SET @numero_creditos_alumno = (SELECT creditos_totales FROM alumno WHERE id_alumno=d_id_alumno);
 SET @programa = (SELECT id_programa FROM actividad WHERE id_actividad=d_id_actividad);
 SET @acreditaciones_en_programa_alumno = (SELECT COUNT(*) FROM detalles_inscripcion JOIN actividad ON detalles_inscripcion.id_actividad=actividad.id_actividad WHERE id_alumno=d_id_alumno AND id_programa=@programa AND acreditacion=1);
+SET @inscripciones_en_actividad = (SELECT COUNT(*) FROM detalles_inscripcion WHERE id_actividad=d_id_actividad);
 SET @constancia = 0;
 IF((@numero_creditos_alumno < 5) AND (@acreditaciones_en_programa_alumno < 2)) THEN
 	SET @constancia = 1;
 END IF;
 /*INSERCION*/
-IF ((@inscripciones_actuales_grupo < @capacidad_max_grupo) AND (@inscripciones_alumno_semestre_actual < 2)) THEN
+IF ((@inscripciones_actuales_grupo < @capacidad_max_grupo) AND (@inscripciones_alumno_semestre_actual < 2) AND (@inscripciones_en_actividad < 1)) THEN
 	INSERT INTO detalles_inscripcion (constancia, id_alumno, id_grupo, id_actividad, id_periodo) VALUES (@constancia, d_id_alumno, d_id_grupo, d_id_actividad, periodo_actual());
     UPDATE grupo SET grupo.total_inscripciones = grupo.total_inscripciones + 1 WHERE grupo.id_grupo = d_id_grupo;
-    INSERT INTO carga_complementaria (id_alumno, id_periodo) VALUES (d_id_alumno, periodo_actual());
-    SET @carga = (SELECT LAST_INSERT_ID());
+    IF 1 > (SELECT COUNT(*) FROM carga_complementaria WHERE id_alumno=d_id_alumno AND id_periodo=periodo_actual()) THEN
+    	INSERT INTO carga_complementaria (id_alumno, id_periodo) VALUES (d_id_alumno, periodo_actual());
+    END IF;
+    SET @carga = (SELECT id_carga FROM carga_complementaria WHERE id_alumno=d_id_alumno AND id_periodo=periodo_actual());
     INSERT INTO carga_grupo(id_carga, id_grupo) VALUES (@carga,d_id_grupo);
     INSERT INTO carga_actividad (id_carga, id_actividad) VALUES (@carga, d_id_actividad);
+    SET @mensaje = "INSERTADO";
+    SELECT @mensaje as mensaje;
+ELSE 
+ 	SET @mensaje = "HUBO UN ERROR";
+	SELECT @mensaje as mensaje;
 END IF;
 COMMIT;
 END$$
@@ -426,7 +441,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_login` (IN `in_correo` VARCHAR(1
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_actividades`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_actividades` (IN `a_id_programa` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_actividades` ()   BEGIN
+SELECT actividad.* FROM actividad JOIN periodo_actividad ON actividad.id_actividad=periodo_actividad.id_actividad WHERE periodo_actividad.id_periodo=periodo_actual() AND actividad.visible=1 AND actividad.fecha_inicio > NOW();
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_actividades_programa_id`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_actividades_programa_id` (IN `a_id_programa` INT)   BEGIN
 	SELECT * FROM actividad WHERE actividad.visible=1 AND actividad.id_programa=a_id_programa;
 END$$
 
@@ -458,6 +478,11 @@ END$$
 DROP PROCEDURE IF EXISTS `sp_select_caracteristicas`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_caracteristicas` ()   BEGIN
 SELECT * FROM caracteristica;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_carga_complementaria_alumno_id`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_carga_complementaria_alumno_id` (IN `c_id_alumno` INT)   BEGIN
+SELECT actividad.nombre as nombre_actividad, instructor.nombre as nombre_instructor, instructor.apellido_p, instructor.apellido_m, lugar.nombre as nombre_lugar, grupo.* FROM carga_complementaria JOIN carga_grupo ON carga_complementaria.id_carga=carga_grupo.id_carga JOIN grupo ON grupo.id_grupo=carga_grupo.id_grupo JOIN actividad ON grupo.id_actividad = actividad.id_actividad JOIN instructor ON grupo.id_instructor=instructor.id_instructor JOIN lugar ON grupo.id_lugar=lugar.id_lugar WHERE carga_complementaria.id_alumno=c_id_alumno AND carga_complementaria.id_periodo=periodo_actual();
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_coordinadores_departamento_id`$$
@@ -493,6 +518,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_departamento_id` (IN `d_i
 	SELECT departamento.id_departamento, departamento.clave, departamento.nombre, departamento.ubicacion, departamento.extension, departamento.correo, departamento_responsable.id_responsable, responsable.nombre AS nombre_responsable, responsable.apellido_p, responsable.apellido_m FROM departamento LEFT JOIN departamento_responsable ON departamento.id_departamento = departamento_responsable.id_departamento LEFT JOIN responsable ON responsable.id_responsable=departamento_responsable.id_responsable WHERE departamento.id_departamento=d_id_departamento AND departamento_responsable.fecha_fin IS NULL;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_select_grupos`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_grupos` ()   BEGIN
+SELECT grupo.*, instructor.nombre as nombre_instructor, instructor.apellido_p, instructor.apellido_m, lugar.nombre as nombre_lugar, caracteristica.nombre as nombre_caracteristica FROM grupo LEFT JOIN lugar ON grupo.id_lugar=lugar.id_lugar LEFT JOIN caracteristica ON grupo.id_caracteristica=caracteristica.id_caracteristica LEFT JOIN instructor ON grupo.id_instructor=instructor.id_instructor JOIN actividad ON grupo.id_actividad=actividad.id_actividad JOIN periodo_actividad ON actividad.id_actividad = periodo_actividad.id_actividad WHERE grupo.visible=1 AND periodo_actividad.id_periodo=periodo_actual() AND actividad.visible=1 AND actividad.fecha_inicio > NOW();
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_select_grupo_actividad_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_grupo_actividad_id` (IN `g_id_actividad` INT)   BEGIN
 SELECT grupo.*, instructor.nombre as nombre_instructor, instructor.apellido_p, instructor.apellido_m, lugar.nombre as nombre_lugar, caracteristica.nombre as nombre_caracteristica FROM grupo LEFT JOIN lugar ON grupo.id_lugar=lugar.id_lugar LEFT JOIN caracteristica ON grupo.id_caracteristica=caracteristica.id_caracteristica LEFT JOIN instructor ON grupo.id_instructor=instructor.id_instructor WHERE grupo.id_actividad=g_id_actividad AND grupo.visible=1;
@@ -501,6 +531,16 @@ END$$
 DROP PROCEDURE IF EXISTS `sp_select_grupo_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_grupo_id` (IN `g_id_grupo` INT)   BEGIN
 SELECT grupo.*, instructor.nombre as nombre_instructor, instructor.apellido_p, instructor.apellido_m, lugar.nombre as nombre_lugar, caracteristica.nombre as nombre_caracteristica FROM grupo LEFT JOIN lugar ON grupo.id_lugar=lugar.id_lugar LEFT JOIN caracteristica ON grupo.id_caracteristica=caracteristica.id_caracteristica LEFT JOIN instructor ON grupo.id_instructor=instructor.id_instructor WHERE grupo.id_grupo=g_id_grupo;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_horarios`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_horarios` ()   BEGIN
+SELECT horario.*, grupo_horario.id_grupo FROM horario JOIN grupo_horario ON horario.id_horario=grupo_horario.id_horario JOIN grupo ON grupo_horario.id_grupo=grupo.id_grupo JOIN actividad ON grupo.id_actividad=actividad.id_actividad JOIN periodo_actividad ON actividad.id_actividad=periodo_actividad.id_actividad WHERE grupo.visible=1 AND periodo_actividad.id_periodo=periodo_actual() AND actividad.visible=1 AND actividad.fecha_inicio > NOW();
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_horarios_carga_complementaria_alumno_id`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_horarios_carga_complementaria_alumno_id` (IN `c_id_alumno` INT)   BEGIN
+SELECT horario.* ,grupo.id_grupo FROM carga_complementaria JOIN carga_grupo ON carga_complementaria.id_carga=carga_grupo.id_carga JOIN grupo ON grupo.id_grupo=carga_grupo.id_grupo JOIN actividad ON grupo.id_actividad = actividad.id_actividad JOIN instructor ON grupo.id_instructor=instructor.id_instructor JOIN lugar ON grupo.id_lugar=lugar.id_lugar JOIN grupo_horario ON grupo.id_grupo=grupo_horario.id_grupo JOIN horario ON grupo_horario.id_horario=horario.id_horario WHERE carga_complementaria.id_alumno=c_id_alumno AND carga_complementaria.id_periodo=periodo_actual();
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_horarios_grupo_id`$$
@@ -726,7 +766,13 @@ CREATE TABLE `actividad` (
 --
 
 INSERT INTO `actividad` (`id_actividad`, `nombre`, `descripcion`, `competencia`, `creditos_otorga`, `beneficios`, `video`, `capacidad_min`, `capacidad_max`, `fecha_inicio`, `fecha_fin`, `actividad_padre`, `visible`, `id_programa`) VALUES
-(1, 'Futbol Soccer', 'Ejemplo', 'Ejemplo', 1, 'Ejemplo', NULL, 20, 40, '2022-08-22', '2022-12-12', NULL, 1, 1);
+(1, 'Futbol Soccer', 'Ejemplo', 'Ejemplo', 1, 'Ejemplo', NULL, 20, 40, '2022-08-22', '2022-12-12', NULL, 1, 1),
+(2, 'Basquetbol', 'Ejemplo2', 'Ejemplo2', 1, 'Ejemplo2', NULL, 20, 40, '2022-08-22', '2022-12-19', NULL, 1, 1),
+(8, 'Volley', 'Ejemplo3', 'Ejemplo3', 1, 'Ejemplo3', NULL, 20, 40, '2022-08-22', '2022-12-19', NULL, 1, 1),
+(9, 'Atletismo', 'Ejemplo4', 'Ejemplo4', 1, 'Ejemplo4', NULL, 20, 40, '2022-08-22', '2022-12-19', NULL, 1, 1),
+(10, 'Futbol Americano', 'Ejemplo5', 'Ejemplo5', 1, 'Ejemplo5', NULL, 20, 40, '2022-08-22', '2022-12-19', NULL, 1, 1),
+(11, 'Ciclismo', 'Ejemplo7', 'Ejemplo7', 1, 'Ejemplo7', NULL, 20, 40, '2022-08-22', '2022-12-19', NULL, 1, 1),
+(12, 'Beisbol', 'Ejemplo8', 'Ejemplo8', 1, 'Ejemplo8', NULL, 20, 40, '2022-08-22', '2022-12-19', NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -841,6 +887,14 @@ CREATE TABLE `carga_actividad` (
   `id_actividad` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `carga_actividad`
+--
+
+INSERT INTO `carga_actividad` (`id_carga`, `id_actividad`) VALUES
+(2, 1),
+(2, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -854,6 +908,13 @@ CREATE TABLE `carga_complementaria` (
   `id_periodo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `carga_complementaria`
+--
+
+INSERT INTO `carga_complementaria` (`id_carga`, `id_alumno`, `id_periodo`) VALUES
+(2, 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -865,6 +926,14 @@ CREATE TABLE `carga_grupo` (
   `id_carga` int(11) DEFAULT NULL,
   `id_grupo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `carga_grupo`
+--
+
+INSERT INTO `carga_grupo` (`id_carga`, `id_grupo`) VALUES
+(2, 1),
+(2, 3);
 
 -- --------------------------------------------------------
 
@@ -942,6 +1011,13 @@ CREATE TABLE `criterio_evaluacion` (
   `descripcion` varchar(200) NOT NULL,
   `id_actividad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `criterio_evaluacion`
+--
+
+INSERT INTO `criterio_evaluacion` (`id_criterio`, `nombre`, `descripcion`, `id_actividad`) VALUES
+(1, 'Partido', 'Se hará un partido y el que gane pasa', 12);
 
 -- --------------------------------------------------------
 
@@ -1077,6 +1153,14 @@ CREATE TABLE `detalles_inscripcion` (
   `id_periodo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `detalles_inscripcion`
+--
+
+INSERT INTO `detalles_inscripcion` (`calificacion_numerica`, `desempeño`, `acreditacion`, `constancia`, `id_alumno`, `id_grupo`, `id_actividad`, `id_periodo`) VALUES
+(0, 1, 0, 1, 1, 1, 1, 1),
+(0, 1, 0, 1, 1, 3, 2, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -1114,8 +1198,9 @@ CREATE TABLE `grupo` (
 --
 
 INSERT INTO `grupo` (`id_grupo`, `nombre`, `capacidad_max`, `capacidad_min`, `total_inscripciones`, `visible`, `id_actividad`, `id_lugar`, `id_caracteristica`, `id_instructor`) VALUES
-(1, 'A', 40, 20, 0, 1, 1, 1, 1, 1),
-(2, 'B', 40, 20, 0, 1, 1, 1, 4, 3);
+(1, 'A', 40, 20, 1, 1, 1, 1, 1, 1),
+(2, 'B', 40, 20, 0, 1, 1, 1, 4, 3),
+(3, 'A', 40, 20, 1, 1, 2, 3, 4, 3);
 
 -- --------------------------------------------------------
 
@@ -1135,7 +1220,12 @@ CREATE TABLE `grupo_horario` (
 
 INSERT INTO `grupo_horario` (`id_grupo`, `id_horario`) VALUES
 (1, 2),
-(1, 3);
+(1, 3),
+(2, 4),
+(2, 5),
+(2, 6),
+(2, 7),
+(3, 8);
 
 -- --------------------------------------------------------
 
@@ -1157,7 +1247,12 @@ CREATE TABLE `horario` (
 
 INSERT INTO `horario` (`id_horario`, `dia`, `hora_inicio`, `hora_fin`) VALUES
 (2, 'Martes', '17:00:00', '18:00:00'),
-(3, 'Miércoles', '16:00:00', '17:00:00');
+(3, 'Miércoles', '16:00:00', '17:00:00'),
+(4, 'Lunes', '08:00:00', '09:00:00'),
+(5, 'Martes', '08:00:00', '09:00:00'),
+(6, 'Jueves', '17:30:00', '18:30:00'),
+(7, 'Viernes', '20:30:00', '21:30:00'),
+(8, 'Lunes', '04:00:00', '05:00:00');
 
 -- --------------------------------------------------------
 
@@ -1224,6 +1319,16 @@ CREATE TABLE `material_actividad` (
   `id_actividad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `material_actividad`
+--
+
+INSERT INTO `material_actividad` (`id_material_actividad`, `nombre`, `cantidad`, `id_actividad`) VALUES
+(1, 'Balones', 5, 2),
+(2, 'Conos', 5, 2),
+(3, 'Bat', 10, 12),
+(4, 'Pelotas', 50, 12);
+
 -- --------------------------------------------------------
 
 --
@@ -1237,6 +1342,13 @@ CREATE TABLE `material_alumno` (
   `cantidad` int(11) NOT NULL,
   `id_actividad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `material_alumno`
+--
+
+INSERT INTO `material_alumno` (`id_material_alumno`, `nombre`, `cantidad`, `id_actividad`) VALUES
+(1, 'Bat', 1, 12);
 
 -- --------------------------------------------------------
 
@@ -1276,7 +1388,13 @@ CREATE TABLE `periodo_actividad` (
 --
 
 INSERT INTO `periodo_actividad` (`id_periodo`, `id_actividad`) VALUES
-(1, 1);
+(1, 1),
+(1, 2),
+(1, 8),
+(1, 9),
+(1, 10),
+(1, 11),
+(1, 12);
 
 -- --------------------------------------------------------
 
@@ -1346,6 +1464,13 @@ CREATE TABLE `tema` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Volcado de datos para la tabla `tema`
+--
+
+INSERT INTO `tema` (`id_tema`, `nombre`, `descripcion`, `semanas`, `id_actividad`) VALUES
+(1, 'Batear', 'Como aprender a batear', 5, 12);
+
+--
 -- Índices para tablas volcadas
 --
 
@@ -1402,8 +1527,8 @@ ALTER TABLE `carga_actividad`
 --
 ALTER TABLE `carga_complementaria`
   ADD PRIMARY KEY (`id_carga`),
-  ADD UNIQUE KEY `id_alumno` (`id_alumno`,`id_periodo`),
-  ADD KEY `id_periodo` (`id_periodo`);
+  ADD KEY `id_periodo` (`id_periodo`),
+  ADD KEY `id_alumno` (`id_alumno`) USING BTREE;
 
 --
 -- Indices de la tabla `carga_grupo`
@@ -1480,7 +1605,7 @@ ALTER TABLE `departamento_responsable`
 -- Indices de la tabla `detalles_inscripcion`
 --
 ALTER TABLE `detalles_inscripcion`
-  ADD UNIQUE KEY `id_alumno` (`id_alumno`,`id_actividad`,`id_periodo`,`id_grupo`) USING BTREE,
+  ADD UNIQUE KEY `id_alumno` (`id_alumno`,`id_grupo`,`id_actividad`,`id_periodo`) USING BTREE,
   ADD KEY `id_grupo` (`id_grupo`),
   ADD KEY `id_actividad` (`id_actividad`),
   ADD KEY `id_periodo` (`id_periodo`);
@@ -1582,7 +1707,7 @@ ALTER TABLE `tema`
 -- AUTO_INCREMENT de la tabla `actividad`
 --
 ALTER TABLE `actividad`
-  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `administrador`
@@ -1606,7 +1731,7 @@ ALTER TABLE `caracteristica`
 -- AUTO_INCREMENT de la tabla `carga_complementaria`
 --
 ALTER TABLE `carga_complementaria`
-  MODIFY `id_carga` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_carga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `coordinador`
@@ -1618,7 +1743,7 @@ ALTER TABLE `coordinador`
 -- AUTO_INCREMENT de la tabla `criterio_evaluacion`
 --
 ALTER TABLE `criterio_evaluacion`
-  MODIFY `id_criterio` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_criterio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `departamento`
@@ -1660,13 +1785,13 @@ ALTER TABLE `lugar`
 -- AUTO_INCREMENT de la tabla `material_actividad`
 --
 ALTER TABLE `material_actividad`
-  MODIFY `id_material_actividad` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_material_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `material_alumno`
 --
 ALTER TABLE `material_alumno`
-  MODIFY `id_material_alumno` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_material_alumno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `periodo`
@@ -1690,17 +1815,11 @@ ALTER TABLE `responsable`
 -- AUTO_INCREMENT de la tabla `tema`
 --
 ALTER TABLE `tema`
-  MODIFY `id_tema` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_tema` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas
 --
-
---
--- Filtros para la tabla `actividad`
---
-ALTER TABLE `actividad`
-  ADD CONSTRAINT `actividad_ibfk_1` FOREIGN KEY (`id_programa`) REFERENCES `programa` (`id_programa`);
 
 --
 -- Filtros para la tabla `actividad_evidencia`
@@ -1794,7 +1913,8 @@ ALTER TABLE `detalles_inscripcion`
   ADD CONSTRAINT `detalles_inscripcion_ibfk_1` FOREIGN KEY (`id_alumno`) REFERENCES `alumno` (`id_alumno`),
   ADD CONSTRAINT `detalles_inscripcion_ibfk_2` FOREIGN KEY (`id_grupo`) REFERENCES `grupo` (`id_grupo`),
   ADD CONSTRAINT `detalles_inscripcion_ibfk_3` FOREIGN KEY (`id_actividad`) REFERENCES `actividad` (`id_actividad`),
-  ADD CONSTRAINT `detalles_inscripcion_ibfk_4` FOREIGN KEY (`id_periodo`) REFERENCES `periodo` (`id_periodo`);
+  ADD CONSTRAINT `detalles_inscripcion_ibfk_4` FOREIGN KEY (`id_periodo`) REFERENCES `periodo` (`id_periodo`),
+  ADD CONSTRAINT `detalles_inscripcion_ibfk_5` FOREIGN KEY (`id_alumno`) REFERENCES `alumno` (`id_alumno`);
 
 --
 -- Filtros para la tabla `grupo`

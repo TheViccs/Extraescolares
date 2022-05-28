@@ -1,7 +1,9 @@
 <?php
 include('conexion.php');
 
-$sql=("CALL sp_select_actividades()");
+$id_p = $_POST['id_programa'];
+
+$sql=("CALL sp_select_actividades_programa_id(".$id_p.")");
 $result = mysqli_query($conn,$sql);
 if($result){
     $emparray = array();

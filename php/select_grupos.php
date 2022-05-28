@@ -1,7 +1,7 @@
 <?php
 include('conexion.php');
 
-$sql=("CALL sp_select_actividades()");
+$sql=("CALL sp_select_grupos()");
 $result = mysqli_query($conn,$sql);
 if($result){
     $emparray = array();
