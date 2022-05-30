@@ -24,7 +24,7 @@
                                 <?php
                                     }
                                 ?>
-                                <li><a class="dropdown-item" href="#">Cambiar Contraseña</a></li>
+                                <li><a class="dropdown-item" href="http://localhost/Extraescolares/views/layout/login/password.php">Cambiar Contraseña</a></li>
                                 <li><a class="dropdown-item" onclick="salir()">Salir</a></li>
                             </ul>
                         </div>
