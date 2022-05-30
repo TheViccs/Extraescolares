@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 28-05-2022 a las 19:37:46
+-- Tiempo de generación: 30-05-2022 a las 16:04:33
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -437,6 +437,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_login` (IN `in_correo` VARCHAR(1
     	SELECT *,"coordinador" as Tipo FROM departamento_programa JOIN coordinador_programa ON departamento_programa.id_programa=coordinador_programa.id_programa JOIN coordinador ON coordinador.id_coordinador=coordinador_programa.id_coordinador WHERE coordinador_programa.fecha_fin IS NULL AND departamento_programa.correo=in_correo AND departamento_programa.contraseña=in_contraseña;
     ELSEIF (SELECT COUNT(*) FROM alumno WHERE alumno.correo=in_correo AND alumno.contraseña=in_contraseña) <> 0 THEN
     	SELECT alumno.*,"alumno" as Tipo FROM alumno WHERE alumno.correo=in_correo AND alumno.contraseña=in_contraseña AND visible=1;
+   	ELSEIF (SELECT COUNT(*) FROM instructor WHERE instructor.correo=in_correo AND instructor.contraseña=in_contraseña) <> 0 THEN
+    	SELECT instructor.*,"instructor" as Tipo FROM instructor WHERE instructor.correo=in_correo AND instructor.contraseña=in_contraseña AND visible=1;
     END IF;
 END$$
 
@@ -771,19 +773,6 @@ CREATE TABLE `actividad` (
   `id_programa` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `actividad`
---
-
-INSERT INTO `actividad` (`id_actividad`, `nombre`, `descripcion`, `competencia`, `creditos_otorga`, `beneficios`, `video`, `capacidad_min`, `capacidad_max`, `fecha_inicio`, `fecha_fin`, `actividad_padre`, `visible`, `id_programa`) VALUES
-(1, 'Futbol Soccer', 'Ejemplo', 'Ejemplo', 1, 'Ejemplo', NULL, 20, 40, '2022-08-22', '2022-12-12', NULL, 1, 1),
-(2, 'Basquetbol', 'Ejemplo2', 'Ejemplo2', 1, 'Ejemplo2', NULL, 20, 40, '2022-08-22', '2022-12-19', NULL, 1, 1),
-(8, 'Volley', 'Ejemplo3', 'Ejemplo3', 1, 'Ejemplo3', NULL, 20, 40, '2022-08-22', '2022-12-19', NULL, 1, 1),
-(9, 'Atletismo', 'Ejemplo4', 'Ejemplo4', 1, 'Ejemplo4', NULL, 20, 40, '2022-08-22', '2022-12-19', NULL, 1, 1),
-(10, 'Futbol Americano', 'Ejemplo5', 'Ejemplo5', 1, 'Ejemplo5', NULL, 20, 40, '2022-08-22', '2022-12-19', NULL, 1, 1),
-(11, 'Ciclismo', 'Ejemplo7', 'Ejemplo7', 1, 'Ejemplo7', NULL, 20, 40, '2022-08-22', '2022-12-19', NULL, 1, 1),
-(12, 'Beisbol', 'Ejemplo8', 'Ejemplo8', 1, 'Ejemplo8', NULL, 20, 40, '2022-08-22', '2022-12-19', NULL, 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -878,14 +867,6 @@ CREATE TABLE `caracteristica` (
   `nombre` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `caracteristica`
---
-
-INSERT INTO `caracteristica` (`id_caracteristica`, `nombre`) VALUES
-(1, 'Selección'),
-(4, 'Recreativo');
-
 -- --------------------------------------------------------
 
 --
@@ -897,15 +878,6 @@ CREATE TABLE `carga_actividad` (
   `id_carga` int(11) DEFAULT NULL,
   `id_actividad` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `carga_actividad`
---
-
-INSERT INTO `carga_actividad` (`id_carga`, `id_actividad`) VALUES
-(2, 1),
-(2, 2),
-(18, 2);
 
 -- --------------------------------------------------------
 
@@ -920,14 +892,6 @@ CREATE TABLE `carga_complementaria` (
   `id_periodo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `carga_complementaria`
---
-
-INSERT INTO `carga_complementaria` (`id_carga`, `id_alumno`, `id_periodo`) VALUES
-(2, 1, 1),
-(18, 2, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -939,15 +903,6 @@ CREATE TABLE `carga_grupo` (
   `id_carga` int(11) DEFAULT NULL,
   `id_grupo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `carga_grupo`
---
-
-INSERT INTO `carga_grupo` (`id_carga`, `id_grupo`) VALUES
-(2, 1),
-(2, 3),
-(18, 3);
 
 -- --------------------------------------------------------
 
@@ -1026,13 +981,6 @@ CREATE TABLE `criterio_evaluacion` (
   `id_actividad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `criterio_evaluacion`
---
-
-INSERT INTO `criterio_evaluacion` (`id_criterio`, `nombre`, `descripcion`, `id_actividad`) VALUES
-(1, 'Partido', 'Se hará un partido y el que gane pasa', 12);
-
 -- --------------------------------------------------------
 
 --
@@ -1097,14 +1045,6 @@ CREATE TABLE `departamento_instructor` (
   `visible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `departamento_instructor`
---
-
-INSERT INTO `departamento_instructor` (`id_departamento`, `id_instructor`, `fecha_inicio`, `fecha_fin`, `visible`) VALUES
-(1, 1, '2022-08-15', '2022-12-19', 1),
-(1, 3, '2022-08-15', '2022-12-19', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -1168,15 +1108,6 @@ CREATE TABLE `detalles_inscripcion` (
   `id_periodo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `detalles_inscripcion`
---
-
-INSERT INTO `detalles_inscripcion` (`calificacion_numerica`, `desempeño`, `acreditacion`, `constancia`, `id_alumno`, `id_grupo`, `id_actividad`, `id_periodo`) VALUES
-(0, 1, 0, 1, 1, 1, 1, 1),
-(0, 1, 0, 1, 1, 3, 2, 1),
-(0, 1, 0, 1, 2, 3, 2, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -1209,15 +1140,6 @@ CREATE TABLE `grupo` (
   `id_instructor` int(11) DEFAULT NULL
 ) ;
 
---
--- Volcado de datos para la tabla `grupo`
---
-
-INSERT INTO `grupo` (`id_grupo`, `nombre`, `capacidad_max`, `capacidad_min`, `total_inscripciones`, `visible`, `id_actividad`, `id_lugar`, `id_caracteristica`, `id_instructor`) VALUES
-(1, 'A', 40, 20, 1, 1, 1, 1, 1, 1),
-(2, 'B', 40, 20, 0, 1, 1, 1, 4, 3),
-(3, 'A', 40, 20, 2, 1, 2, 3, 4, 3);
-
 -- --------------------------------------------------------
 
 --
@@ -1229,19 +1151,6 @@ CREATE TABLE `grupo_horario` (
   `id_grupo` int(11) DEFAULT NULL,
   `id_horario` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `grupo_horario`
---
-
-INSERT INTO `grupo_horario` (`id_grupo`, `id_horario`) VALUES
-(1, 2),
-(1, 3),
-(2, 4),
-(2, 5),
-(2, 6),
-(2, 7),
-(3, 8);
 
 -- --------------------------------------------------------
 
@@ -1256,19 +1165,6 @@ CREATE TABLE `horario` (
   `hora_inicio` time NOT NULL,
   `hora_fin` time NOT NULL
 ) ;
-
---
--- Volcado de datos para la tabla `horario`
---
-
-INSERT INTO `horario` (`id_horario`, `dia`, `hora_inicio`, `hora_fin`) VALUES
-(2, 'Martes', '17:00:00', '18:00:00'),
-(3, 'Miércoles', '16:00:00', '17:00:00'),
-(4, 'Lunes', '08:00:00', '09:00:00'),
-(5, 'Martes', '08:00:00', '09:00:00'),
-(6, 'Jueves', '17:30:00', '18:30:00'),
-(7, 'Viernes', '20:30:00', '21:30:00'),
-(8, 'Lunes', '04:00:00', '05:00:00');
 
 -- --------------------------------------------------------
 
@@ -1289,14 +1185,6 @@ CREATE TABLE `instructor` (
   `visible` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `instructor`
---
-
-INSERT INTO `instructor` (`id_instructor`, `nombre`, `apellido_m`, `apellido_p`, `sexo`, `correo`, `contraseña`, `foto`, `visible`) VALUES
-(1, 'José Ricardo', 'Candor', 'Baeza', 'M', 'jricardobzc@colima.tecnm.mx', 'instructor1', NULL, 1),
-(3, 'Victor Hugo', 'Ramos', 'Del Rio', 'M', 'victorhugo@colima.tecnm.mx', 'instructor1', NULL, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -1313,14 +1201,6 @@ CREATE TABLE `lugar` (
   `foto_2` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `lugar`
---
-
-INSERT INTO `lugar` (`id_lugar`, `nombre`, `capacidad_max`, `observaciones`, `foto_1`, `foto_2`) VALUES
-(1, 'Cancha de Futbol', 100, NULL, NULL, NULL),
-(3, 'Canchas Techadas', 100, NULL, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -1335,16 +1215,6 @@ CREATE TABLE `material_actividad` (
   `id_actividad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `material_actividad`
---
-
-INSERT INTO `material_actividad` (`id_material_actividad`, `nombre`, `cantidad`, `id_actividad`) VALUES
-(1, 'Balones', 5, 2),
-(2, 'Conos', 5, 2),
-(3, 'Bat', 10, 12),
-(4, 'Pelotas', 50, 12);
-
 -- --------------------------------------------------------
 
 --
@@ -1358,13 +1228,6 @@ CREATE TABLE `material_alumno` (
   `cantidad` int(11) NOT NULL,
   `id_actividad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `material_alumno`
---
-
-INSERT INTO `material_alumno` (`id_material_alumno`, `nombre`, `cantidad`, `id_actividad`) VALUES
-(1, 'Bat', 1, 12);
 
 -- --------------------------------------------------------
 
@@ -1398,19 +1261,6 @@ CREATE TABLE `periodo_actividad` (
   `id_periodo` int(11) NOT NULL,
   `id_actividad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `periodo_actividad`
---
-
-INSERT INTO `periodo_actividad` (`id_periodo`, `id_actividad`) VALUES
-(1, 1),
-(1, 2),
-(1, 8),
-(1, 9),
-(1, 10),
-(1, 11),
-(1, 12);
 
 -- --------------------------------------------------------
 
@@ -1479,13 +1329,6 @@ CREATE TABLE `tema` (
   `semanas` int(11) NOT NULL,
   `id_actividad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `tema`
---
-
-INSERT INTO `tema` (`id_tema`, `nombre`, `descripcion`, `semanas`, `id_actividad`) VALUES
-(1, 'Batear', 'Como aprender a batear', 5, 12);
 
 --
 -- Índices para tablas volcadas
@@ -1724,7 +1567,7 @@ ALTER TABLE `tema`
 -- AUTO_INCREMENT de la tabla `actividad`
 --
 ALTER TABLE `actividad`
-  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `administrador`
@@ -1742,13 +1585,13 @@ ALTER TABLE `alumno`
 -- AUTO_INCREMENT de la tabla `caracteristica`
 --
 ALTER TABLE `caracteristica`
-  MODIFY `id_caracteristica` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_caracteristica` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `carga_complementaria`
 --
 ALTER TABLE `carga_complementaria`
-  MODIFY `id_carga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_carga` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `coordinador`
@@ -1760,7 +1603,7 @@ ALTER TABLE `coordinador`
 -- AUTO_INCREMENT de la tabla `criterio_evaluacion`
 --
 ALTER TABLE `criterio_evaluacion`
-  MODIFY `id_criterio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_criterio` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `departamento`
@@ -1790,25 +1633,25 @@ ALTER TABLE `horario`
 -- AUTO_INCREMENT de la tabla `instructor`
 --
 ALTER TABLE `instructor`
-  MODIFY `id_instructor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_instructor` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `lugar`
 --
 ALTER TABLE `lugar`
-  MODIFY `id_lugar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_lugar` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `material_actividad`
 --
 ALTER TABLE `material_actividad`
-  MODIFY `id_material_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_material_actividad` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `material_alumno`
 --
 ALTER TABLE `material_alumno`
-  MODIFY `id_material_alumno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_material_alumno` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `periodo`
@@ -1832,7 +1675,7 @@ ALTER TABLE `responsable`
 -- AUTO_INCREMENT de la tabla `tema`
 --
 ALTER TABLE `tema`
-  MODIFY `id_tema` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_tema` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
