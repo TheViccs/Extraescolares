@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "instructor") {
+    header('Location: ../../layout/login/index.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
