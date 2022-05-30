@@ -8,6 +8,8 @@ function mostrarContenido() {
 }
 
 
+
+
 function crear_programas(programas) {
     let main = document.getElementById("contenedor_programas");
     main.innerHTML = "";
@@ -33,6 +35,7 @@ function crear_programas(programas) {
 
 
 function crear_actividades(actividades) {
+    console.log(actividades);
     actividades.forEach(actividad => {
         let programa = document.querySelector("#programa" + actividad.id_programa);
         let divContenedor = document.createElement("div");
@@ -238,6 +241,7 @@ function select_actividades() {
         type: "GET",
         url: path + "select_actividades.php",
         success: function (res) {
+            console.log(res);
             let actividades = JSON.parse(res);
             crear_actividades(actividades);
             select_grupos();

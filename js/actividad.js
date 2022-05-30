@@ -1,5 +1,7 @@
 $(document).ready(function() {$('#listaElemento input[type="text"]').val('');})
 
+console.log("Entra");
+
 //Agregar Material Dado por la escuela
 var boton = document.getElementById("add_Material");
 boton.addEventListener("click", function () {
