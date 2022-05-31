@@ -327,8 +327,10 @@ body {
         "label_desc_actividad input_desc_actividad input_desc_actividad input_desc_actividad input_desc_actividad input_desc_actividad input_desc_actividad input_desc_actividad"
         "label_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad"
         "label_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad"
+        "label_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad" 
+        "label_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad"
         "label_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad btn_padre_actividad"
-    ;
+        ;
 
 }
 
@@ -346,8 +348,9 @@ body {
     grid-gap: 2rem;
     grid-template-columns: repeat(8, .3fr);
     grid-template-areas:
-        "label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
         "cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material" 
+        "label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
+
         ;
 }
 
@@ -367,8 +370,10 @@ body {
     grid-template-columns: repeat(8, .3fr);
     grid-template-areas:
 
+        "cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material"
         "label_Agregar_Elemento label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
-        "cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material";
+
+        ;
 
 }
 
@@ -385,8 +390,10 @@ body {
     grid-gap: 2rem;
     grid-template-columns: repeat(8, .3fr);
     grid-template-areas:
+        "label_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad label_cantidad_material input_cantidad_material input_cantidad_material btn_Eliminar_Elemento btn_Eliminar_Elemento"
         "label_Agregar_Elemento label_Agregar_Elemento label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
-        "label_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad label_cantidad_material input_cantidad_material input_cantidad_material btn_Eliminar_Elemento btn_Eliminar_Elemento";
+
+        ;
 
 }
 
@@ -404,28 +411,10 @@ body {
     grid-template-columns: repeat(8, .3fr);
     grid-template-areas:
 
-    "label_Agregar_Elemento label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
     "cuadro_criteriosE cuadro_criteriosE cuadro_criteriosE cuadro_criteriosE cuadro_criteriosE cuadro_criteriosE cuadro_criteriosE cuadro_criteriosE"
+    "label_Agregar_Elemento label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
+
     ;
-
-}
-
-.cuadro6 {
-    padding: 1rem;
-    display: grid;
-    height: auto;
-    flex-shrink: 0;
-    width: 80%;
-    border: 1px solid black;
-    border-radius: 5px;
-    min-height: 20%;
-    min-width: fit-content;
-    grid-gap: 2rem;
-    grid-template-columns: repeat(4, .3fr);
-    grid-template-areas:
-
-        "label_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad" 
-        "label_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad";
 
 }
 
@@ -477,8 +466,9 @@ body {
     grid-template-columns: repeat(8, .3fr);
     grid-template-areas:
 
+        "cuadro_tema cuadro_tema cuadro_tema cuadro_tema cuadro_tema cuadro_tema cuadro_tema cuadro_tema"
         "label_Agregar_Elemento label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
-        "cuadro_tema cuadro_tema cuadro_tema cuadro_tema cuadro_tema cuadro_tema cuadro_tema cuadro_tema";
+;
     }
 
 .cuadro10{
@@ -590,8 +580,7 @@ ul.navega li {
             <p data-taget="#materialNecesarioEstu">Material Estudiante</p>
             <p data-taget="#temas">Temas</p>
             <p data-taget="#criterrios">Criteros</p>
-            <p data-taget="#periodo">Periodo</p>
-        </div>
+         </div>
 
         
         <div class="container">
@@ -624,15 +613,21 @@ ul.navega li {
                     <datalist id="select_actividad" style="width: 45% !important;"> </datalist>
                     <button class="btn1 btn btn-dark" data-bs-toggle="modal" data-bs-target="">+</button>
                     <label class="label4">Capacidad Maxima</label>
-                    <input class="input4 form-control" id="input_cMax_actividad" type="number" value="0">
+                    <input class="input4 form-control" id="input_cMax_actividad" type="number" placeholder="Capacidad Maxima">
                     <label class="label5">Capacidad Minima</label>
-                    <input class="input5 form-control" id="input_cMin_actividad" type="number" value="0">
+                    <input class="input5 form-control" id="input_cMin_actividad" type="number" placeholder="Capacidad Minima">
                     <label class="label6">Descripción</label>
                     <textarea class="input6 form-control" id="input_descripcion_actividad" placeholder="Descripción" type="text" required></textarea>
                     <label class="label7">Competencia</label>
                     <textarea class="input7 form-control" id="input_competencia_actividad" placeholder="Competencia" type="text" required></textarea>
                     <label class="label8">Beneficios</label>
                     <textarea class="input8 form-control" id="input_beneficios_actividad" placeholder="Beneficios" type="text" required></textarea>
+                    <label class="label16">Inicio</label>
+                    <input class="input16 form-control" id="input_fechainicio_actividad" type="date" placeholder="Inicio de la actividad">
+                    <label class="label17">Fin</label>
+                    <input class="input17 form-control " id="input_fechafin_actividad" type="date" placeholder="Fin de la actividad">
+
+                
                 </div>
                 <div class="botones2">
                     <button class="btn btn-success" id="btn_insert_update_actividad" onclick="insert_actividad()">Guardar Actividad</button>
@@ -784,27 +779,6 @@ ul.navega li {
                 </div>
             </div>
             </center>
-
-            <div data-content id="periodo">
-                
-                    <div class="cabecera">
-                        <center><h2 class="titulo">Periodo de la Actividad</h2></center>
-                    </div>
-                
-                    <center>
-                <div class="cuadro6">
-                    <input id="input_id_periodoact" type="text" hidden />
-                    <label class="label16">Inicio</label>
-                    <input class="input16 form-control" id="input_fechainicio_actividad" type="date" placeholder="Inicio de la actividad">
-                    <label class="label17">Fin</label>
-                    <input class="input17 form-control " id="input_fechafin_actividad" type="date" placeholder="Fin de la actividad">
-                </div>
-
-                <div class="botones2">
-                    <button class="btn btn-success">Guardar Todo</button>
-                    <button class="btn btn-danger cancelar">Cancelar Actividad</button>
-                </div>
-            </div>  <center>
         </div> <!--container-->
 
         <div class="modal fade" id="modal_borrar_actividad" tabindex="-1" aria-labelledby="modal_borrar_actividad_label"

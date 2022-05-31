@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <!-- FOOTER      http://localhost/Extraescolares/views/modules/instructores/home.php     -->
+        <!-- FOOTER -->
         <?php include "../../../views/layout/footer.php" ?>
     </div>
 </body>

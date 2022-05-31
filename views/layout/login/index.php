@@ -10,7 +10,7 @@ if(isset($_SESSION['loggedin'])){
     }else if($_SESSION['Tipo']=="alumno"){
         header('Location: ../../modules/alumno/alumno.php');
     }else if($_SESSION['Tipo']=="instructor"){
-        header('Location: ../../modules/instructor/alumno.php');
+        header('Location: ../../modules/instructores/home.php');
     }
 }else{
     header('Location: ../../layout/login/inicio_sesion.php');
