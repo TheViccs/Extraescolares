@@ -86,6 +86,20 @@ function crear_actividades(actividades) {
         divContenedorCreditos.appendChild(tituloCreditos);
         divContenedorCreditos.appendChild(creditos);
 
+        let tieneVideo = (actividad.video !== null)
+        let divContenedorVideos;
+        if(tieneVideo){
+        divContenedorVideos = document.createElement("div");
+        divContenedorVideos.classList.add("contenedor-actividad-video");
+        let tituloVideo = document.createElement("h5");
+        tituloVideo.textContent = "Video de Actividad"
+        let video = document.createElement("video");
+        video.controls = true;
+        actividad.video===null ? video.src = "" : video.src = actividad.video
+        divContenedorVideos.appendChild(tituloVideo);
+        divContenedorVideos.appendChild(video);
+        }
+
         let divBotonGrupos = document.createElement("div");
         divBotonGrupos.classList.add("contenedor-actividad-boton");
         let boton = document.createElement("button");
@@ -104,10 +118,24 @@ function crear_actividades(actividades) {
         }
         divBotonGrupos.appendChild(boton);
 
+        let divContenedorMateriales = document.createElement("div");
+        divContenedorMateriales.classList.add("contenedor-actividad-materiales")
+        let titleMateriales = document.createElement("h5");
+        titleMateriales.textContent = "Materiales Necesarios"
+        let ulMateriales = document.createElement("ul");
+        ulMateriales.id = "materiales"+actividad.id_actividad
+        divContenedorMateriales.appendChild(titleMateriales);
+        divContenedorMateriales.appendChild(ulMateriales);
+
         contenedorActividad.appendChild(divContenedorDescripcion);
         contenedorActividad.appendChild(divContenedorCompetencia);
         contenedorActividad.appendChild(divContenedorBeneficios);
         contenedorActividad.appendChild(divContenedorCreditos);
+        contenedorActividad.appendChild(divContenedorMateriales);
+        if(tieneVideo){
+            contenedorActividad.appendChild(divContenedorVideos);
+        }
+        
         contenedorActividad.appendChild(divBotonGrupos);
 
         let divContenido = document.createElement("div")
@@ -220,6 +248,15 @@ function crear_horarios(horarios){
     })
 }
 
+function crear_materiales(materiales){
+    materiales.forEach(material => {
+        let ulMateriales = document.querySelector("#materiales" + material.id_actividad);
+        let li = document.createElement("li");
+        li.textContent = material.nombre +": "+material.cantidad
+        ulMateriales.appendChild(li);
+    });
+}
+
 function select_programas() {
     $.ajax({
         type: "GET",
@@ -244,6 +281,19 @@ function select_actividades() {
             console.log(res);
             let actividades = JSON.parse(res);
             crear_actividades(actividades);
+            select_materiales_alumno();
+        }
+    });
+}
+
+function select_materiales_alumno() {
+    $.ajax({
+        type: "GET",
+        url: path + "select_materiales.php",
+        success: function (res) {
+            let materiales = JSON.parse(res);
+            console.log(materiales);
+            crear_materiales(materiales);
             select_grupos();
         }
     });

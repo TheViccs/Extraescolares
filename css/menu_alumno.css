@@ -84,9 +84,23 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: justify;
 }
 
 .contenedor-actividad-boton {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 5;
+    grid-row-end: 6;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 8px;
+}
+
+.contenedor-actividad-materiales{
     grid-column-start: 1;
     grid-column-end: 3;
     grid-row-start: 3;
@@ -97,6 +111,25 @@
     justify-content: center;
     align-items: center;
     padding-bottom: 8px;
+}
+
+.contenedor-actividad-video {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 4;
+    grid-row-end: 5;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+video{
+    width: 500px;
 }
 
 .contenedor-actividades-titulo {
