@@ -307,6 +307,14 @@ body {
     grid-area: cuadro_criteriosE;
 }
 
+.label_video_actividad{
+    grid-area: label_video_actividad;
+}
+
+.input_video_actividad{
+    grid-area: input_video_actividad;
+}
+
 .cuadro1 {
     padding: 1rem;
     display: grid;
@@ -329,6 +337,7 @@ body {
         "label_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad"
         "label_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad" 
         "label_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad"
+        "label_video_actividad label_video_actividad input_video_actividad input_video_actividad input_video_actividad input_video_actividad input_video_actividad input_video_actividad"
         "label_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad btn_padre_actividad"
         ;
 
@@ -626,8 +635,8 @@ ul.navega li {
                     <input class="input16 form-control" id="input_fechainicio_actividad" type="date" placeholder="Inicio de la actividad">
                     <label class="label17">Fin</label>
                     <input class="input17 form-control " id="input_fechafin_actividad" type="date" placeholder="Fin de la actividad">
-
-                
+                    <label class="label_video_actividad">Video de Actividad</label>
+                    <input class="input_video_actividad" id="input_video_actividad" type="file" accept="video/mp4,video/x-m4v,video/*"/>
                 </div>
                 <div class="botones2">
                     <button class="btn btn-success" id="btn_insert_update_actividad" onclick="insert_actividad()">Guardar Actividad</button>
