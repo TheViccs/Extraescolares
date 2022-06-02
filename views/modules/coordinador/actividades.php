@@ -340,7 +340,7 @@ body {
     display: grid;
     height: auto;
     flex-shrink: 0;
-    width: 80%;
+    width: auto;
     border: 1px solid black;
     border-radius: 5px;
     min-height: 20%;
@@ -349,7 +349,7 @@ body {
     grid-template-columns: repeat(8, .3fr);
     grid-template-areas:
         "cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material" 
-        "label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
+        "label_Agregar_Elemento label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
 
         ;
 }
@@ -426,13 +426,14 @@ body {
     width: auto;
     border: 1px solid black;
     border-radius: 5px;
-    min-height: 20%;
+    min-height: 80%;
     min-width: fit-content;
     grid-gap: 2rem;
     grid-template-columns: repeat(8, .3fr);
     grid-template-areas:
-        "label_temNombre_actividad   input_temNombre_actividad input_temNombre_actividad label_temsema_actividad input_temsema_actividad input_temsema_actividad btn_Eliminar_Elemento btn_Eliminar_Elemento"
+        "label_temNombre_actividad input_temNombre_actividad input_temNombre_actividad input_temNombre_actividad label_temsema_actividad input_temsema_actividad input_temsema_actividad input_temsema_actividad  "
         "label_temdes_actividad label_temdes_actividad input_temsdes_actividad input_temsdes_actividad input_temsdes_actividad input_temsdes_actividad input_temsdes_actividad input_temsdes_actividad"
+        "btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento"
         ;
 }
 
@@ -689,7 +690,7 @@ ul.navega li {
                                 <li >
                                     <div class="cuadro8">
                                         <label class='label9'>Material</label>
-                                        <input class="input9 form-control input_material_alumno_actividad"  id="input_material_alumno_actividad" placeholder="Material" type="text" required></textarea>
+                                        <input class="input9 form-control input_material_alumno_actividad"  id="input_material_alumno_actividad" placeholder="Material" type="text" required></input>
                                         <label class="label19">Cantidad</label>
                                         <input class="input19 form-control input_cantidad_alumno_material" id="input_cantidad_alumno_material" type="number" value="0">
                                         <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material_alumno">Eliminar Material</button>
@@ -728,6 +729,12 @@ ul.navega li {
 
                                     <label class="label12">Duración</label>
                                     <input class="input12 form-control input_temSemanas_activida" id="input_temSemanas_activida" type="number" placeholder="Semanas de Duración">
+
+                                    <!-- <div class="contenedor_input_correo_departamento contenedor_correo_descripcion">
+                                        <input class="input12 form-control input_temSemanas_activida" id="input_temSemanas_activida" type="number" placeholder="Semanas de Duración">
+                                        <p class="descripcion_insercion_correo">Solo agregue el nombre de usuario</p>
+                                    </div> -->
+
 
                                     <label class="label13">Descripción</label>
                                     <textarea class="input13 form-control input_temDescripcion_actividad" id="input_temDescripcion_actividad" placeholder="Descripción" type="text" required></textarea>
