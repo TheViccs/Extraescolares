@@ -3,12 +3,9 @@ include('conexion.php');
  
 $nombre = $_POST['nombre'];
 $descripcion = $_POST['descripcion'];
-$descripcion = !empty($descripcion) ? "'$descripcion'" : "NULL";
 $competencia = $_POST['competencia'];
-$competencia = !empty($competencia) ? "'$competencia'" : "NULL";
 $creditos = $_POST['creditos'];
 $beneficios = $_POST['beneficios'];
-$beneficios = !empty($beneficios) ? "'$beneficios'" : "NULL";
 $capacidad_min = $_POST['capacidad_min'];
 $capacidad_max = $_POST['capacidad_max'];
 $fecha_inicio = $_POST['fecha_inicio'];
@@ -31,7 +28,7 @@ if(isset($_FILES['video']['tmp_name'])) {
     $url = !empty($img) ? "'$img'" : "NULL";
 }
 
-$sql=("CALL sp_insert_actividad('".$nombre."',$descripcion,$competencia,'".$creditos."',$beneficios,".$capacidad_min.",".$capacidad_max.",'".$fecha_inicio."','".$fecha_fin."',".$id_p.",$actividad_padre,$url)");
+$sql=("CALL sp_insert_actividad('".$nombre."','".$descripcion."','".$competencia."','".$creditos."','".$beneficios."',".$capacidad_min.",".$capacidad_max.",'".$fecha_inicio."','".$fecha_fin."',".$id_p.",$actividad_padre,$url)");
 $result = mysqli_query($conn,$sql);
 
 if($result){

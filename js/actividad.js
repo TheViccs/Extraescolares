@@ -149,7 +149,20 @@ function insert_actividad(){
     let fecha_inicio = $("#input_fechainicio_actividad").val();
     let fecha_fin = $("#input_fechafin_actividad").val();
     let id_programa = $("#input_id_programa").val();
-    if(nombre.length !== 0 && creditos.length !== 0 && capacidad_max.length !== 0 && capacidad_min.length !== 0 && descripcion.length !== 0 && competencia.length !== 0 && beneficios.length !== 0 && fecha_inicio.length !== 0 && fecha_fin.length !== 0 && id_programa.length !== 0){
+    let video = $("#input_video_actividad")[0].files[0];
+    let form_data = new FormData();
+    form_data.append("nombre",nombre);
+    form_data.append("creditos",creditos);
+    form_data.append("capacidad_max",capacidad_max);
+    form_data.append("capacidad_min",capacidad_min);
+    form_data.append("descripcion",descripcion);
+    form_data.append("competencia",competencia);
+    form_data.append("beneficios",beneficios);
+    form_data.append("fecha_inicio",fecha_inicio);
+    form_data.append("fecha_fin",fecha_fin);
+    form_data.append("id_programa",id_programa);
+
+    if(nombre.length !== 0 && creditos.length !== 0 && capacidad_max.length !== 0 && capacidad_min.length !== 0 && fecha_inicio.length !== 0 && fecha_fin.length !== 0 && id_programa.length !== 0){
         let val = $("#input_padre_actividad").val(); 
         let id_actividad = $("#select_actividad option[value='"+val+"']").attr("id");
         let actividad_padre;
@@ -158,11 +171,17 @@ function insert_actividad(){
         }else{
             actividad_padre = "";
         }
+        form_data.append("video",video);
+
+        form_data.append("actividad_padre",actividad_padre);
         $.ajax({
             type: "POST",
             url: path+"insert_actividad.php",
-            data: {"nombre": nombre, "descripcion":descripcion, "competencia":competencia, "creditos":creditos, "beneficios":beneficios, "capacidad_max":capacidad_max, "capacidad_min": capacidad_min, "fecha_inicio":fecha_inicio, "fecha_fin":fecha_fin, "id_programa":id_programa, "actividad_padre": actividad_padre},
+            data: form_data,
+            contentType: false,
+            processData:false,
             success: function(res){
+                console.log(res);
                 borrar_datos_input_actividad();
                 select_actividades();
                 $("#input_id_actividad").val(parseInt(JSON.parse(res)[0].id_actividad_insertada));
@@ -483,7 +502,19 @@ function update_actividad(){
     let beneficios = $("#input_beneficios_actividad").val();
     let fecha_inicio = $("#input_fechainicio_actividad").val();
     let fecha_fin = $("#input_fechafin_actividad").val();
-    if(id_actividad.length !== 0 && nombre.length !== 0 && creditos.length !== 0 && capacidad_max.length !== 0 && capacidad_min.length !== 0 && descripcion.length !== 0 && competencia.length !== 0 && beneficios.length !== 0 && fecha_inicio.length !== 0 && fecha_fin.length !== 0){
+    let video = $("#input_video_actividad")[0].files[0];
+    let form_data = new FormData();
+    form_data.append("nombre",nombre);
+    form_data.append("creditos",creditos);
+    form_data.append("capacidad_max",capacidad_max);
+    form_data.append("capacidad_min",capacidad_min);
+    form_data.append("descripcion",descripcion);
+    form_data.append("competencia",competencia);
+    form_data.append("beneficios",beneficios);
+    form_data.append("fecha_inicio",fecha_inicio);
+    form_data.append("fecha_fin",fecha_fin);
+    form_data.append("id_actividad",id_actividad);
+    if(id_actividad.length !== 0 && nombre.length !== 0 && creditos.length !== 0 && capacidad_max.length !== 0 && capacidad_min.length !== 0 && fecha_inicio.length !== 0 && fecha_fin.length !== 0){
         let val = $("#input_padre_actividad").val(); 
         let id_actividad_padre = $("#select_actividad option[value='"+val+"']").attr("id");
         let actividad_padre;
@@ -492,10 +523,14 @@ function update_actividad(){
         }else{
             actividad_padre = "";
         }
+        form_data.append("actividad_padre",actividad_padre);
+        form_data.append("video",video);
         $.ajax({
             type: "POST",
             url: path+"update_actividad.php",
-            data: {"id_actividad":id_actividad,"nombre": nombre, "descripcion":descripcion, "competencia":competencia, "creditos":creditos, "beneficios":beneficios, "capacidad_max":capacidad_max, "capacidad_min": capacidad_min, "fecha_inicio":fecha_inicio, "fecha_fin":fecha_fin, "actividad_padre": actividad_padre},
+            contentType: false,
+            processData:false,
+            data: form_data,
             success: function(res){
                 console.log(res);
                 borrar_datos_input_actividad();
