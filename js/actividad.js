@@ -161,7 +161,6 @@ function insert_actividad(){
     form_data.append("fecha_inicio",fecha_inicio);
     form_data.append("fecha_fin",fecha_fin);
     form_data.append("id_programa",id_programa);
-
     if(nombre.length !== 0 && creditos.length !== 0 && capacidad_max.length !== 0 && capacidad_min.length !== 0 && fecha_inicio.length !== 0 && fecha_fin.length !== 0 && id_programa.length !== 0){
         let val = $("#input_padre_actividad").val(); 
         let id_actividad = $("#select_actividad option[value='"+val+"']").attr("id");
@@ -172,8 +171,8 @@ function insert_actividad(){
             actividad_padre = "";
         }
         form_data.append("video",video);
-
         form_data.append("actividad_padre",actividad_padre);
+        console.log(form_data);
         $.ajax({
             type: "POST",
             url: path+"insert_actividad.php",
@@ -333,7 +332,7 @@ function insertar_temas(){
     }
     let tema_vacio = false;
     array_temas.forEach(tema => tema.includes("") ? tema_vacio=true : null);
-    if(!tema_vacio && id_actividad.length!==0){
+    if(!tema_vacio && id_actividad.length!==0 && duracion_temas.length!==0){
         $.ajax({
             type: "POST",
             url: path+"insert_temas.php",  

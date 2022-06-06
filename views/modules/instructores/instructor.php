@@ -29,14 +29,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "instructor") {
             <div class="menu">
                 <ul class="contenedor_menu">
                     <li>
-                        <a href=""><img class="icono" src="https://cdn-icons.flaticon.com/png/512/3527/premium/3527500.png?token=exp=1653776440~hmac=8c9d9cf0e358c318afa08d09b6813029" /><span>Calificar</span></a>
-                    </li>
-                    
+                        <a href="./grupos.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/978/978012.png" /><span>Mis grupos</span></a>
+                    </li>         
                 </ul>
             </div>
         </div>
 
-        <!-- FOOTER      http://localhost/Extraescolares/views/modules/instructores/home.php     -->
+        <!-- FOOTER   -->
         <?php include "../../../views/layout/footer.php" ?>
     </div>
 </body>

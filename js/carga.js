@@ -23,7 +23,7 @@ function agregar_actividades(carga){
         let thviernes = document.createElement("th");
         thviernes.id = "Viernes"+actividad.id_grupo;
         let thsabado = document.createElement("th");
-        thsabado.id = "Sabado"+actividad.id_grupo;
+        thsabado.id = "Sábado"+actividad.id_grupo;
         tr.append(thactividad);
         tr.append(thgrupo);
         tr.append(thinstructor);

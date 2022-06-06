@@ -86,6 +86,27 @@ function crear_actividades(actividades) {
         divContenedorCreditos.appendChild(tituloCreditos);
         divContenedorCreditos.appendChild(creditos);
 
+        let divContenedorMateriales = document.createElement("div");
+        divContenedorMateriales.classList.add("contenedor-actividad-caracteristicas")
+        let titleMateriales = document.createElement("h5");
+        titleMateriales.textContent = "Materiales Necesarios"
+        let ulMateriales = document.createElement("ul");
+        ulMateriales.id = "materiales"+actividad.id_actividad
+        divContenedorMateriales.appendChild(titleMateriales);
+        divContenedorMateriales.appendChild(ulMateriales);
+
+        let divContenedorFechas = document.createElement("div");
+        divContenedorFechas.classList.add("contenedor-actividad-caracteristicas")
+        let titleFechas = document.createElement("h5");
+        titleFechas.textContent = "Fechas de Actividad"
+        let fecha_inicio = document.createElement("p");
+        let fecha_fin = document.createElement("p");
+        fecha_inicio.textContent = "Fecha de Inicio: "+actividad.fecha_inicio;
+        fecha_fin.textContent = "Fecha de Fin: "+actividad.fecha_fin;
+        divContenedorFechas.appendChild(titleFechas);
+        divContenedorFechas.appendChild(fecha_inicio);
+        divContenedorFechas.appendChild(fecha_fin);
+
         let tieneVideo = (actividad.video !== null)
         let divContenedorVideos;
         if(tieneVideo){
@@ -118,20 +139,12 @@ function crear_actividades(actividades) {
         }
         divBotonGrupos.appendChild(boton);
 
-        let divContenedorMateriales = document.createElement("div");
-        divContenedorMateriales.classList.add("contenedor-actividad-materiales")
-        let titleMateriales = document.createElement("h5");
-        titleMateriales.textContent = "Materiales Necesarios"
-        let ulMateriales = document.createElement("ul");
-        ulMateriales.id = "materiales"+actividad.id_actividad
-        divContenedorMateriales.appendChild(titleMateriales);
-        divContenedorMateriales.appendChild(ulMateriales);
-
         contenedorActividad.appendChild(divContenedorDescripcion);
         contenedorActividad.appendChild(divContenedorCompetencia);
         contenedorActividad.appendChild(divContenedorBeneficios);
         contenedorActividad.appendChild(divContenedorCreditos);
         contenedorActividad.appendChild(divContenedorMateriales);
+        contenedorActividad.appendChild(divContenedorFechas);
         if(tieneVideo){
             contenedorActividad.appendChild(divContenedorVideos);
         }

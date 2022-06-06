@@ -7,7 +7,7 @@ $('#tabla-instructores').DataTable({
         {data: "correo", title: 'Correo'},
         {data: "botoneditar", title: 'Editar'},
         {data: "botonborrar", title: 'Borrar'},
-        {data: "botonimprimir", title: 'Impirmir'}
+        {data: "botonimprimir", title: 'Imprimir'}
     ],
     "columnDefs": [
         { "orderable": false, "targets": [3,4,5] },
