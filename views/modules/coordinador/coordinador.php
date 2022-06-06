@@ -34,6 +34,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
                     <li>
                         <a href="./instructores.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/3410/3410674.png" /><span>Gestionar Instructores</span></a>
                     </li>
+                    <li>
+                        <a href="./agregar_estudiante.php"><img class="icono" src="https://cdn-icons.flaticon.com/png/512/863/premium/863864.png?token=exp=1654521857~hmac=be1e22b20f3a7d2b222893f4fc2578d0" /><span>Gestionar Instructores</span></a>
+                    </li>
                 </ul>
             </div>
         </div>
