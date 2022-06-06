@@ -2,6 +2,7 @@ $('#tabla-directivos').DataTable({
     pageLength: 20,
     caseInsen: false,
     columns: [
+        {data: "clave", title: 'Clave'},
         {data: "nombre", title: 'Nombre'},
         {data: "sexo", title: 'Sexo'},
         {data: "correo", title: 'Correo'},
@@ -10,7 +11,7 @@ $('#tabla-directivos').DataTable({
         {data: "botonimprimir", title: 'Imprimir'}
     ],
     "columnDefs": [
-        { "orderable": false, "targets": [3,4,5] },
+        { "orderable": false, "targets": [4,5,6] },
     ],
     lengthChange: false,
     language: {
@@ -40,7 +41,6 @@ function select_directivos(){
         type: "GET",
         url: path+"select_directivos.php",                    
         success: function(res){    
-            console.log(res);
             let directivos = JSON.parse(res);             
             agregar_directivos_tabla(directivos);
         }
@@ -54,7 +54,7 @@ function agregar_directivos_tabla(directivos){
     let tabla = $("#tabla-directivos").DataTable();
     tabla.rows().remove().draw();
     for(let directivo of directivos){
-        tabla.row.add({"nombre":directivo.nombre+" "+directivo.apellido_p+" "+directivo.apellido_m,"sexo":directivo.sexo ,"correo":directivo.correo,"botoneditar":"<button id='botoneditardirectivo"+ directivo.id_directivo+"'class='btn btn-primary'> Editar </button>", "botonborrar": "<button id='botonborrardirectivo"+directivo.id_directivo+"'class='btn btn-danger' >Borrar</button>", "botonimprimir":"<button id='botonimprimir"+directivo.id_directivo+"' class= 'btn btn-dark'>Imprimir</button>"}).draw();
+        tabla.row.add({"clave":directivo.clave,"nombre":directivo.nombre+" "+directivo.apellido_p+" "+directivo.apellido_m,"sexo":directivo.sexo ,"correo":directivo.correo,"botoneditar":"<button id='botoneditardirectivo"+ directivo.id_directivo+"'class='btn btn-primary'> Editar </button>", "botonborrar": "<button id='botonborrardirectivo"+directivo.id_directivo+"'class='btn btn-danger' >Borrar</button>", "botonimprimir":"<button id='botonimprimir"+directivo.id_directivo+"' class= 'btn btn-dark'>Imprimir</button>"}).draw();
         $("#botoneditardirectivo"+directivo.id_directivo).on( "click", function(){select_directivo_id(directivo.id_directivo)});
         $("#botonborrardirectivo"+directivo.id_directivo).on( "click", function(){mostrar_modal_borrar_directivo(directivo.id_directivo, directivo.nombre+" "+directivo.apellido_p+" "+directivo.apellido_m, directivo.sexo, directivo.correo)});
         $("#botonimprimir"+directivo.id_directivo).on( "click", function(){generar_pdf(directivo.id_directivo)});
@@ -93,24 +93,22 @@ function mostrar_modal_insertar_directivo(){
 
 //INSERTAR directivo
 function insert_directivo(){
+    let clave = $("#input_clave_directivo").val();
     let nombre = $("#input_nombre_directivo").val();
     let apellido_p = $("#input_apellido_p_directivo").val();
     let apellido_m = $("#input_apellido_m_directivo").val();
     let sexo = $("#select_sexo_directivo").val();
     let correo = $("#input_correo_directivo").val();
-    let fecha_inicio = $("#input_fecha_inicio_directivo").val();
-    let fecha_fin = $("#input_fecha_fin_directivo").val();
-    let id_departamento = $("#input_id_departamento").val();
-    if(nombre.length !== 0 && apellido_p.length !== 0 && apellido_m.length !== 0 && correo.length !== 0 && sexo!==null && fecha_inicio.length!==0 && fecha_fin.length!==0 && id_departamento.length !== 0){
+    if(clave.length !== 0 && nombre.length !== 0 && apellido_p.length !== 0 && apellido_m.length !== 0 && correo.length !== 0 && sexo!==null){
         $.ajax({
             type: "POST",
             url: path+"insert_directivo.php",
-            data: {"nombre":nombre,"apellido_p":apellido_p,"apellido_m":apellido_m,"sexo":sexo,"correo":correo + "@colima.tecnm.mx", "fecha_inicio": fecha_inicio, "fecha_fin": fecha_fin, "id_departamento": id_departamento},
+            data: {"clave":clave,"nombre":nombre,"apellido_p":apellido_p,"apellido_m":apellido_m,"sexo":sexo,"correo":correo + "@colima.tecnm.mx"},
             success: function(res){
-                borrar_datos_input_directivo();
+                console.log(res);
                 select_directivos();
-                $("#modal_insertar_directivo").modal("hide");
                 if (res === "1") {
+                    borrar_datos_input_directivo();
                     mostrar_alerta(1);
                 }else{
                     mostrar_alerta(3);
@@ -154,13 +152,12 @@ function update_directivo(){
 
 //LIMPIAR CAJAS DE TEXTO
 function borrar_datos_input_directivo(){
+    $("#input_clave_directivo").val("");
     $("#input_nombre_directivo").val("");
     $("#input_apellido_p_directivo").val("");
     $("#input_apellido_m_directivo").val("");
     $("#select_sexo_directivo").val("O");
     $("#input_correo_directivo").val("");
-    $("#input_fecha_inicio_directivo").val("");
-    $("#input_fecha_fin_directivo").val("");
     $("#boton_insert_update_directivo").attr("onclick","mostrar_modal_insertar_directivo()");
 }
 

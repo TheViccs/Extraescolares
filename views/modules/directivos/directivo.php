@@ -22,6 +22,7 @@
         <div class="contendor_menu_principal">
             <div class="menu">
                 <ul class="contenedor_menu">
+                    <p><?php echo $_SESSION['id_directivo'] ?></p>
                     <li>
                         <a href=""><img class="icono" src="https://cdn-icons-png.flaticon.com/512/944/944053.png" /><span>Reportes</span></a>
                     </li>

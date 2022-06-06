@@ -11,7 +11,10 @@ if(isset($_SESSION['loggedin'])){
         header('Location: ../../modules/alumno/alumno.php');
     }else if($_SESSION['Tipo']=="instructor"){
         header('Location: ../../modules/instructores/instructor.php');
+    }else if($_SESSION['Tipo']=="directivo"){
+        header('Location: ../../modules/directivos/directivo.php');
     }
+    
 }else{
     header('Location: ../../layout/login/inicio_sesion.php');
 }
