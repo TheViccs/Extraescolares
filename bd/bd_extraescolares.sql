@@ -3,11 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
-<<<<<<< HEAD
 -- Tiempo de generación: 30-05-2022 a las 16:04:33
-=======
--- Tiempo de generación: 06-06-2022 a las 15:24:26
->>>>>>> 751cc975cecf604aa46dae5b69bf6788849ec7d4
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -803,21 +799,12 @@ DELIMITER ;
 DROP TABLE IF EXISTS `actividad`;
 CREATE TABLE `actividad` (
   `id_actividad` int(11) NOT NULL,
-<<<<<<< HEAD
   `nombre` varchar(150) NOT NULL,
   `descripcion` varchar(200) NOT NULL,
   `competencia` varchar(200) NOT NULL,
   `creditos_otorga` int(11) NOT NULL,
   `beneficios` varchar(150) NOT NULL,
   `video` varchar(150) DEFAULT NULL,
-=======
-  `nombre` varchar(200) NOT NULL,
-  `descripcion` varchar(1000) DEFAULT NULL,
-  `competencia` varchar(1000) DEFAULT NULL,
-  `creditos_otorga` int(11) NOT NULL,
-  `beneficios` varchar(1000) DEFAULT NULL,
-  `video` varchar(200) DEFAULT NULL,
->>>>>>> 751cc975cecf604aa46dae5b69bf6788849ec7d4
   `capacidad_min` int(11) NOT NULL,
   `capacidad_max` int(11) NOT NULL,
   `fecha_inicio` date NOT NULL,
@@ -827,20 +814,6 @@ CREATE TABLE `actividad` (
   `id_programa` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-<<<<<<< HEAD
-=======
---
--- Volcado de datos para la tabla `actividad`
---
-
-INSERT INTO `actividad` (`id_actividad`, `nombre`, `descripcion`, `competencia`, `creditos_otorga`, `beneficios`, `video`, `capacidad_min`, `capacidad_max`, `fecha_inicio`, `fecha_fin`, `actividad_padre`, `visible`, `id_programa`) VALUES
-(1, 'Futbol Soccer', 'Actividad fisica deportiva que implica la practica y desarrollo de destrezas motrices, asi como las habilidades socio-afectivas, como la coperacion, comunicaci ón y trabajo en equipo, favoreciendo la ', 'Desarrollar habilidades físicas, técnicas y psicológicas a través de la practica de futbol soccer ', 1, 'Pendiente', '../../../assets/videos/1654110192.5251-intro 5 segundos.mp4', 20, 40, '2022-09-05', '2022-12-12', NULL, 1, 1),
-(2, 'Dibujo y pintura (Básico)', 'Pendiente', 'Pendiente', 1, 'Pendiente', NULL, 15, 30, '2022-09-05', '2022-12-12', NULL, 1, 2),
-(3, 'Dibujo y pintura (Intermedio)', 'Pendiente', 'Pendiente', 1, 'Pendiente', NULL, 15, 30, '2022-09-05', '2022-12-12', NULL, 1, 2),
-(5, 'Escolta', NULL, NULL, 1, NULL, NULL, 6, 20, '2022-06-15', '2022-06-30', NULL, 1, 3),
-(6, 'Escolta2', NULL, NULL, 1, NULL, NULL, 6, 20, '2022-06-15', '2022-06-29', NULL, 1, 3);
-
->>>>>>> 751cc975cecf604aa46dae5b69bf6788849ec7d4
 -- --------------------------------------------------------
 
 --
@@ -1215,18 +1188,6 @@ CREATE TABLE `detalles_inscripcion` (
   `id_periodo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-<<<<<<< HEAD
-=======
---
--- Volcado de datos para la tabla `detalles_inscripcion`
---
-
-INSERT INTO `detalles_inscripcion` (`calificacion_numerica`, `desempeño`, `acreditacion`, `constancia`, `id_alumno`, `id_grupo`, `id_actividad`, `id_periodo`) VALUES
-(10, 4, 1, 1, 1, 1, 1, 1),
-(0, 1, 0, 1, 1, 6, 2, 1),
-(0, 1, 0, 1, 2, 8, 3, 1);
-
->>>>>>> 751cc975cecf604aa46dae5b69bf6788849ec7d4
 -- --------------------------------------------------------
 
 --
@@ -1399,20 +1360,6 @@ CREATE TABLE `periodo_actividad` (
   `id_actividad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-<<<<<<< HEAD
-=======
---
--- Volcado de datos para la tabla `periodo_actividad`
---
-
-INSERT INTO `periodo_actividad` (`id_periodo`, `id_actividad`) VALUES
-(1, 1),
-(1, 2),
-(1, 3),
-(1, 5),
-(1, 6);
-
->>>>>>> 751cc975cecf604aa46dae5b69bf6788849ec7d4
 -- --------------------------------------------------------
 
 --
@@ -1730,11 +1677,7 @@ ALTER TABLE `tema`
 -- AUTO_INCREMENT de la tabla `actividad`
 --
 ALTER TABLE `actividad`
-<<<<<<< HEAD
   MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT;
-=======
-  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
->>>>>>> 751cc975cecf604aa46dae5b69bf6788849ec7d4
 
 --
 -- AUTO_INCREMENT de la tabla `administrador`
