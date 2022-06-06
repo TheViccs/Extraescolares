@@ -7,7 +7,7 @@ $criterios = $_POST['criterios'];
 $array_criterios = json_decode($criterios);
 $calificacion_numerica = $_POST['calificacion_numerica'];
 $acreditado = $_POST['acreditado'];
-$promedio = $_POST['promedio'];
+$desempeño = $_POST['desempeño'];
 
 foreach($array_criterios as $fila){
     $sql=("CALL sp_insert_criterio_alumno(".$id_a.",".$id_g.",".$fila[0].",".$fila[1].")");
@@ -17,8 +17,9 @@ foreach($array_criterios as $fila){
     }
 }
 
-$sql=("CALL sp_calificar_alumno(".$id_a.",".$id_g.",".$calificacion_numerica.",".$acreditado.",".$promedio.")");
+$sql=("CALL sp_calificar_alumno(".$id_a.",".$id_g.",".$calificacion_numerica.",".$acreditado.",'".$desempeño."')");
 $result = mysqli_query($conn,$sql);
+echo $result;
 if($result){
     echo "1";
 }

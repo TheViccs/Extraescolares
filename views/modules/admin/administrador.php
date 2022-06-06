@@ -39,7 +39,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
                         <a href="./programas.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/1032/1032432.png" /><span>Gestionar Programas</span></a>
                     </li>
                     <li>
-                        <a href="./directivos.php"><img class="icono" src="https://cdn-icons.flaticon.com/png/512/2887/premium/2887367.png?token=exp=1654521663~hmac=f92d142581c841eccbcf945c404d3a21" /><span>Gestionar Directivos</span></a>
+                        <a href="./directivos.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/1556/1556322.png" /><span>Gestionar Directivos</span></a>
                     </li>
                 </ul>
             </div>
