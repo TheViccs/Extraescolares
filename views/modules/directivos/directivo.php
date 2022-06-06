@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "directivo") {
+    header('Location: ../../layout/login/index.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,7 +28,6 @@
         <div class="contendor_menu_principal">
             <div class="menu">
                 <ul class="contenedor_menu">
-                    <p><?php echo $_SESSION['clave'] ?></p>
                     <li>
                         <a href=""><img class="icono" src="https://cdn-icons-png.flaticon.com/512/944/944053.png" /><span>Reportes</span></a>
                     </li>
