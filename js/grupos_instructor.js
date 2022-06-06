@@ -52,7 +52,7 @@ function agregar_grupos_tabla(grupos){
     let tabla = $("#tabla_grupos").DataTable();
     tabla.rows().remove().draw();
     for(let grupo of grupos){
-        tabla.row.add({"nombre_actividad":grupo.nombre_actividad, "nombre_grupo":grupo.nombre,"total_inscripciones":grupo.total_inscripciones, "botonimprimir":"<button id='botonimprimirgrupo"+ grupo.id_grupo+"'class='btn btn-primary'> Imprimir Lista </button>", "botoncalificar": "<button id='botoncalificar"+grupo.id_grupo+"'class='btn btn-danger' >Calificar Alumnos</button>"}).draw();
+        tabla.row.add({"nombre_actividad":grupo.nombre_actividad, "nombre_grupo":grupo.nombre,"total_inscripciones":grupo.total_inscripciones, "botonimprimir":"<button id='botonimprimirgrupo"+ grupo.id_grupo+"'class='btn btn-primary'> Imprimir Lista </button>", "botoncalificar": "<button id='botoncalificar"+grupo.id_grupo+"'class='btn btn-danger' >Ver Alumnos</button>"}).draw();
         $("#botoncalificar"+grupo.id_grupo).on( "click", function(){calificar_grupo(grupo.id_grupo)});
     }
 }

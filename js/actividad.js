@@ -332,7 +332,7 @@ function insertar_temas(){
     }
     let tema_vacio = false;
     array_temas.forEach(tema => tema.includes("") ? tema_vacio=true : null);
-    if(!tema_vacio && id_actividad.length!==0){
+    if(!tema_vacio && id_actividad.length!==0 && duracion_temas.length!==0){
         $.ajax({
             type: "POST",
             url: path+"insert_temas.php",  
