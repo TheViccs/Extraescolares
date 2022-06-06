@@ -132,7 +132,7 @@ function select_calificacion_alumno(){
         success: function(res){    
             let calificacion = JSON.parse(res)[0];
             console.log(calificacion)
-            document.getElementById("calificacion_numerica_alumno").value = calificacion.calificacion_numerica
+            document.getElementById("calificacion_numerica_alumno").value = calificacion.calificacion_numerica;
             document.getElementById("boolean_acreditado_alumno").checked = (calificacion.acreditacion === "1");
         }
     });
