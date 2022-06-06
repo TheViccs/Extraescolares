@@ -50,6 +50,17 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
         grid-area: input_apellidop_directivo;
     }
 
+    .label_clave_directivo {
+        grid-area: label_clave_directivo;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .input_clave_directivo {
+        grid-area: input_clave_directivo;
+    }
+
     .label_correo_directivo {
         grid-area: label_email_directivo;
         display: flex;
@@ -77,7 +88,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
         grid-template-columns: repeat(9, .3fr);
         grid-template-areas:
             "label_nombre_directivo input_nombre_directivo input_nombre_directivo label_apellidop_directivo input_apellidop_directivo input_apellidop_directivo label_apellidoM_directivo input_apellidoM_directivo input_apellidoM_directivo"
-            "label_email_directivo input_email_directivo input_email_directivo input_email_directivo label_sexo_directivo input_sexo_directivo input_sexo_directivo . ."
+            "label_clave_directivo input_clave_directivo label_email_directivo input_email_directivo input_email_directivo input_email_directivo label_sexo_directivo input_sexo_directivo input_sexo_directivo"
         ;
     }
 </style>
@@ -106,10 +117,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
             <input class="input_nombre_directivo" id="input_nombre_directivo" type="Nombre" placeholder="Nombre">
 
             <label class="label_apellido_p_directivo">Apellido Paterno</label>
-            <input class="input_apellido_p_directivo" id="input_apellido_p_directivo" type="ApellidoP" placeholder="Apellido Paterno">
+            <input class="input_apellido_p_directivo" id="input_apellido_p_directivo" type="text" placeholder="Apellido Paterno">
 
             <label class="label_apellido_m_directivo">Apellido Materno</label>
-            <input class="input_apellido_m_directivo" id="input_apellido_m_directivo" type="ApellidoM" placeholder="Apellido Materno" required="false">
+            <input class="input_apellido_m_directivo" id="input_apellido_m_directivo" type="text" placeholder="Apellido Materno" required="false">
+
+            <label class="label_clave_directivo">Clave</label>
+            <input class="input_clave_directivo" id="input_clave_directivo" type="text" placeholder="Clave" required="false">
 
             <label class="label_correo_directivo">Email</label>
             <div class="input_correo_directivo contenedor_correo_descripcion">
