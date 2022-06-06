@@ -62,9 +62,10 @@ tagets.forEach(taget =>{
 $('#tabla_actividad').DataTable({
     pageLength: 20,
     caseInsen: false,
+    scrollY: true,
     columns: [
         { data: "nombre", title: 'Nombre' },
-        { data: "descripcion", title: 'Descripcion' },
+        { data: "descripcion", title: 'Descripcion'},
         { data: "competencia", title: 'Competencia' },
         { data: "creditos", title: 'Creditos' },
         { data: "beneficios", title: 'Beneficios' },
