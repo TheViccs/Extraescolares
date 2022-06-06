@@ -29,10 +29,15 @@ function crear_kardex(kardex){
         let estatus = "";
         let tr = document.createElement("tr");
         if(moment(actividad.fecha_fin_actividades) > moment()){
-            tr.classList.add("cursando")
-            estatus = "Cursando";
+            if(actividad.acreditacion==="1"){
+                tr.classList.add("acreditada")
+                estatus = "Acreditada";
+            }else{
+                tr.classList.add("cursando")
+                estatus = "Cursando";
+            }        
         }else{
-            if(actividad.acreditacion===1){
+            if(actividad.acreditacion==="1"){
                 tr.classList.add("acreditada")
                 estatus = "Acreditada";
             }else{

@@ -79,12 +79,18 @@
 
 .contenedor-actividad-caracteristicas {
     width: 80%;
-    padding-top: 8px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: justify;
+    border: 1px solid black;
+}
+
+.contenedor-actividad-caracteristicas h5{
+    width: 100%;
+    background-color: aqua;
+    text-align: center;
 }
 
 .contenedor-actividad-boton {
@@ -129,7 +135,7 @@
 }
 
 video{
-    width: 500px;
+    height: 300px;
 }
 
 .contenedor-actividades-titulo {
