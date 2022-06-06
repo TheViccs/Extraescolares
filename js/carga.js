@@ -65,7 +65,8 @@ function select_horarios(){
         url: path+"select_horarios_carga_complementaria_alumno_id.php",
         data: {"id_alumno":id_alumno},                           
         success: function(res){    
-            let horarios = JSON.parse(res);             
+            let horarios = JSON.parse(res);    
+            console.log(horarios);         
             horarios.forEach(horario => {
                 let dato = document.querySelector("#"+horario.dia+horario.id_grupo);
                 dato.textContent = moment(horario.hora_inicio,"HH:mm:ss").format("HH:mm").toString() + " - " + moment(horario.hora_fin,"HH:mm:ss").format("HH:mm").toString();

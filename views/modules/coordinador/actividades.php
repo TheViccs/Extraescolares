@@ -335,10 +335,9 @@ body {
         "label_desc_actividad input_desc_actividad input_desc_actividad input_desc_actividad input_desc_actividad input_desc_actividad input_desc_actividad input_desc_actividad"
         "label_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad"
         "label_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad"
-        "label_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad" 
-        "label_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad"
+        "label_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad label_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad" 
         "label_video_actividad label_video_actividad input_video_actividad input_video_actividad input_video_actividad input_video_actividad input_video_actividad input_video_actividad"
-        "label_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad btn_padre_actividad"
+        "label_actPAdre_actividad label_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad btn_padre_actividad"
         ;
 
 }
@@ -467,7 +466,7 @@ body {
     display: grid;
     height: auto;
     flex-shrink: 0;
-    width: auto;
+    width: 80%;
     border: 1px solid black;
     border-radius: 5px;
     min-height: 20%;
@@ -566,6 +565,24 @@ ul.navega li {
     text-align: center;
 }
 
+
+.contenedor_semanas_descripcion{
+    display: flex;
+    flex-direction: column;
+    color: red;
+    font-style: italic;
+    
+    
+    
+}
+
+.descripcion_insercion_correo{
+    font-size: 11px !important;
+    margin: 0 !important;
+    
+
+}
+
 </style>
 
 <body>
@@ -610,7 +627,7 @@ ul.navega li {
                     </div>
                 
 
-                    <center><div class="cuadro1">
+                    <div class="cuadro1">
             
                     <input id="input_id_actividad" type="text" hidden />
                     <input id="input_id_programa" type="text" value=<?php echo $_SESSION['id_programa']?> hidden />
@@ -632,9 +649,9 @@ ul.navega li {
                     <textarea class="input7 form-control" id="input_competencia_actividad" placeholder="Competencia" type="text" required></textarea>
                     <label class="label8">Beneficios</label>
                     <textarea class="input8 form-control" id="input_beneficios_actividad" placeholder="Beneficios" type="text" required></textarea>
-                    <label class="label16">Inicio</label>
+                    <label class="label16">Fecha Inicio</label>
                     <input class="input16 form-control" id="input_fechainicio_actividad" type="date" placeholder="Inicio de la actividad">
-                    <label class="label17">Fin</label>
+                    <label class="label17">Fecha Fin</label>
                     <input class="input17 form-control " id="input_fechafin_actividad" type="date" placeholder="Fin de la actividad">
                     <label class="label_video_actividad">Video de Actividad</label>
                     <input class="input_video_actividad" id="input_video_actividad" type="file" accept="video/mp4,video/x-m4v,video/*"/>
@@ -643,7 +660,7 @@ ul.navega li {
                     <button class="btn btn-success" id="btn_insert_update_actividad" onclick="insert_actividad()">Guardar Actividad</button>
                     <button class="btn btn-danger cancelar" onclick="borrar_datos_input_actividad()">Cancelar</button>
                 </div>
-            </div></center>
+            </div>
 
             <div data-content id="materialNecesario">
                 
@@ -651,7 +668,7 @@ ul.navega li {
                         <center><h2 class="titulo">Material Necesario</h2></center>
                     </div>
                 
-                <center>
+                
                 <div class="cuadro2">
 
                     <button class="btn_Agregar btn btn-primary" id="add_Material" data-bs-target="">Agregar Material</button>
@@ -659,19 +676,19 @@ ul.navega li {
                     <input id="input_id_material" type="text" hidden />
             
                     <div class="cuadro_material_necesario" >
-                        <center>    
+                   
                             <ul style="list-style:none;" id="listaElemento">
                                 <li >
                                     <div class="cuadro8">
                                         <label class='label9'>Material</label>
                                         <input class="input9 form-control input_material_actividad"  id="input_material_actividad" placeholder="Material" type="text" required>
                                         <label class="label19">Cantidad</label>
-                                        <input class="input19 form-control input_cantidad_material" id="input_cantidad_material" type="number" value="0">
+                                        <input class="input19 form-control input_cantidad_material" id="input_cantidad_material" type="number" placeholder="Cantidad">
                                         <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material">Eliminar Material</button>
                                     </div> 
                                 </li>
                             </ul>
-                        </center>   
+                        
                     </div>
                 </div>
                 <div class="botones2">
@@ -679,7 +696,7 @@ ul.navega li {
                     <button class="btn btn-danger cancelar" onclick="borrar_materiales_actividad()">Cancelar</button>
                 </div>
             </div>
-            </center>
+            
 
             <div data-content id="materialNecesarioEstu">
                 
@@ -687,33 +704,33 @@ ul.navega li {
                         <center><h2 class="titulo">Material Por Parte Del Estudiante</h2></center>
                     </div>
                 
-                    <center>
+                    
                 <div class="cuadro3">
                     <label class="lable_Agregar">Agregar nuevo matetial</label>
                     <button class="btn_Agregar btn btn-primary" id="add_Material_alumnos" data-bs-target="">Agregar Material</button>
                     <input id="input_id_material_alumno" type="text" hidden />
             
                     <div class="cuadro_material_necesario" >
-                        <center>    
+                          
                             <ul style="list-style:none;" id="listaElementoAlumno">
                                 <li >
                                     <div class="cuadro8">
                                         <label class='label9'>Material</label>
                                         <input class="input9 form-control input_material_alumno_actividad"  id="input_material_alumno_actividad" placeholder="Material" type="text" required></input>
                                         <label class="label19">Cantidad</label>
-                                        <input class="input19 form-control input_cantidad_alumno_material" id="input_cantidad_alumno_material" type="number" value="0">
+                                        <input class="input19 form-control input_cantidad_alumno_material" id="input_cantidad_alumno_material" type="number" placeholder="Cantidad">
                                         <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material_alumno">Eliminar Material</button>
                                     </div> 
                                 </li>
                             </ul>
-                        </center>   
+                           
                     </div>
                 </div>
                 <div class="botones2">
                     <button class="btn btn-success" onclick="insertar_material_alumno()">Guardar Material</button>
                     <button class="btn btn-danger cancelar" onclick="borrar_materiales_alumno()">Cancelar</button>
                 </div>
-            </div></center>
+            </div>
 
             <div data-content id="temas">
             
@@ -721,14 +738,14 @@ ul.navega li {
                     <center><h2 class="titulo">Temas</h2></center>
                 </div>
             
-                <center>
+                
             <div class="cuadro9">
                 <label class="lable_Agregar">Agregar Tema</label>
                 <button class="btn_Agregar btn btn-primary" id="add_Temas" data-bs-target="">Agregar Material</button>
                 <input id="input_id_tema" type="text" hidden />
             
                 <div class="cuadro_temas">
-                    <center>
+                    
                         <ul style="list-style:none;" id="listaElementoTemas">
                             <li>
                                 <div class="cuadro7" style="margin-top:10px;">
@@ -737,12 +754,11 @@ ul.navega li {
                                     <input class="input11 form-control input_temNombre_activida" id="input_temNombre_activida" type="text" placeholder="Nombre">
 
                                     <label class="label12">Duración</label>
-                                    <input class="input12 form-control input_temSemanas_activida" id="input_temSemanas_activida" type="number" placeholder="Semanas de Duración">
-
-                                    <!-- <div class="contenedor_input_correo_departamento contenedor_correo_descripcion">
-                                        <input class="input12 form-control input_temSemanas_activida" id="input_temSemanas_activida" type="number" placeholder="Semanas de Duración">
-                                        <p class="descripcion_insercion_correo">Solo agregue el nombre de usuario</p>
-                                    </div> -->
+                                    
+                                    <div class="contenedor_input_correo_departamento contenedor_semanas_descripcion input12">
+                                        <input class=" form-control input_temSemanas_activida" id="input_temSemanas_activida" type="number" placeholder="Semanas de Duración">
+                                        <p class="descripcion_insercion_correo">Numero de Semanas</p>
+                                    </div> 
 
 
                                     <label class="label13">Descripción</label>
@@ -751,7 +767,7 @@ ul.navega li {
                                 </div>
                             </li>
                         </ul>
-                    </center>
+                    
                 </div>   
                 
 
@@ -761,20 +777,20 @@ ul.navega li {
                     <button class="btn btn-danger cancelar" onclick="borrar_temas()">Cancelar</button>
                 </div> 
 
-            </div></center>
+            </div>
                 <div data-content id="criterrios">
                     
                         <div class="cabecera">
                             <center><h2 class="titulo">Criterios de Evaluación</h2></center>
                         </div>
-                        <center>  
+                         
                 <div class="cuadro5">
-                    <label class="lable_Agregar">Agregar Criterioss</label>
+                    <label class="lable_Agregar">Agregar Criterios</label>
                     <button class="btn_Agregar btn btn-primary" id="add_Criterio" data-bs-target="">Agregar Material</button>
                     <input id="input_id_criterios" type="text" hidden />
 
                         <div class="cuadro_criterios">
-                            <center>
+                            
                                 <ul style="list-style:none;" id="listaElementoCriterios">
                                     <li>
                                         <div class="cuadro10">
@@ -786,7 +802,7 @@ ul.navega li {
                                         </div>
                                     </li>
                                 </ul>
-                            </center>
+                            
                         </div>
                 </div>
                 <div class="botones2">
@@ -794,7 +810,7 @@ ul.navega li {
                     <button class="btn btn-danger cancelar" onclick="borrar_criterios_evaluacion()">Cancelar</button>
                 </div>
             </div>
-            </center>
+            
         </div> <!--container-->
 
         <div class="modal fade" id="modal_borrar_actividad" tabindex="-1" aria-labelledby="modal_borrar_actividad_label"

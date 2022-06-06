@@ -63,6 +63,8 @@
 .contenedor_correo_descripcion{
     display: flex;
     flex-direction: column;
+    color: red;
+    font-style: italic;
 }
 
 .descripcion_insercion_correo{
