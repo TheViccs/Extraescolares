@@ -226,7 +226,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
             justify-content: center;
             align-items: center;
             width: 100%;
-            height: 60px;
+            height: 70px;
         }
 
         .tabla-carga-alumno tbody {
@@ -237,6 +237,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
         .tabla-carga-alumno tbody th{
             font-size: 15px;
             font-weight: 400;
+            text-align: center;
+            padding: 5px;
         }
 
         .periodo{
@@ -247,7 +249,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
             border: 1px solid black;
             border-radius: 10px;
             margin-bottom: 20px;
-            padding: 5px;
+            padding: 4px;
         }
 
         .periodo *{

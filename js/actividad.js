@@ -24,12 +24,6 @@ boton.addEventListener("click", function () {
     $( "#listaElementoTemas" ).append( "<li> <div class='cuadro7' style='margin-top:10px;'> <input id='input_id_temas' type='text' hidden /> <label class='label11'>Tema</label> <input class='input11 form-control input_temNombre_activida' id='input_temNombre_activida' type='text' placeholder='Nombre'> <label class='label12'>Duración</label> <div class='contenedor_input_correo_departamento contenedor_semanas_descripcion input12'><input class='form-control input_temSemanas_activida' id='input_temSemanas_activida' type='number' placeholder='Semanas de Duración'> <p class='descripcion_insercion_correo'>Numero de Semanas</p> </div> <label class='label13'>Descripción</label> <textarea class='input13 form-control input_temDescripcion_actividad' id='input_temDescripcion_actividad' placeholder='Descripción' type='text' required></textarea> <button class='btn_Eliminar btn-danger cancelar' onclick='eliminar(this)' id='Eliminar_Tema'>Eliminar Material</button></div> </li>" );
 }, false);
 
-//Agregar Criterio
-var boton = document.getElementById("add_Criterio");
-boton.addEventListener("click", function () {
-    $( "#listaElementoCriterios" ).append( "<li> <div class='cuadro10' style='margin-top: 10px;'> <label class='abel14'>Nombre</label> <input class='input14 form-control input_criterioevalNombre_activida' id='input_criterioevalNombre_activida' type='text' placeholder='Nombre'> <label class='label15'>Descripción</label> <textarea class='input15 input_criterioevaldes_actividad' id='input_criterioevaldes_actividad' placeholder='Descripción' type='text' required></textarea> <button class='btn_Eliminar btn-danger cancelar' onclick='eliminar(this)' id='Eliminar_Material'>Eliminar Material</button> </div> </li>");
-}, false);
-
 //Eliminar cuadros
 function eliminar(obj){
     $(obj).parent().parent().remove();
@@ -344,7 +338,7 @@ function insertar_temas(){
                 content.forEach(c => {
                     c.classList.remove('active')
                 })
-                const t = document.querySelector("#criterrios");
+                const t = document.querySelector("#tapPrincipal");
                 t.classList.add('active')
             }
         });
@@ -358,48 +352,11 @@ function borrar_temas(){
     $( "#listaElementoTemas" ).append( "<li> <div class= 'cuadro7' style='margin-top: 10px;'> <input id='input_id_temas' type='text' hidden /> <label class='label11'>Tema</label> <input class='input11 form-control input_temNombre_activida' id='input_temNombre_activida' type='text' placeholder='Nombre'> <label class='label12'>Duración</label> <input class='input12 input_temSemanas_activida' id='input_temSemanas_activida' type='number' placeholder='Semanas de Duración'> <label class='label13'>Descripción</label> <textarea class='input13 input_temDescripcion_actividad' id='input_temDescripcion_actividad' placeholder='Descripción' type='text' required></textarea> <button class='btn8 btn-danger cancelar' onclick='eliminar(this)' id='Eliminar_Tema'>Eliminar Material</button> </div> </li>" );
 }
 
-
-function insertar_criterios_evaluacion(){
-    let id_actividad = $("#input_id_actividad").val();
-    let nombre_criterios = document.querySelectorAll(".input_criterioevalNombre_activida");
-    let descripciones = document.querySelectorAll(".input_criterioevaldes_actividad");
-    let array_criterios = [];
-    for (let index = 0; index < nombre_criterios.length; index++) {
-        array_criterios.push([nombre_criterios[index].value, descripciones[index].value]);    
-    }
-    let criterios_vacios = false;
-    array_criterios.forEach(criterio => criterio.includes("") ? criterios_vacios=true : null);
-    if(!criterios_vacios && id_actividad.length!==0){
-        $.ajax({
-            type: "POST",
-            url: path+"insert_criterio_evaluacion.php",  
-            data: {"id_actividad": id_actividad, "criterios_evaluacion": JSON.stringify(array_criterios)} ,                         
-            success: function(res){
-                mostrar_alerta(1);
-                borrar_criterios_evaluacion();
-                content.forEach(c => {
-                    c.classList.remove('active')
-                })
-                const t = document.querySelector("#principal");
-                t.classList.add('active')
-            }
-        });
-    }else{
-        mostrar_alerta(2);
-    }
-}
-
-function borrar_criterios_evaluacion(){
-    $( "#listaElementoCriterios" ).html("");
-    $( "#listaElementoCriterios" ).append( "<li> <div class='cuadro10' style='margin-top: 10px;'> <label class='abel14'>Nombre</label> <input class='input14 form-control input_criterioevalNombre_activida' id='input_criterioevalNombre_activida' type='text' placeholder='Nombre'> <label class='label15'>Descripción</label> <textarea class='input15 input_criterioevaldes_actividad' id='input_criterioevaldes_actividad' placeholder='Descripción' type='text' required></textarea> <button class='btn_Eliminar btn-danger cancelar' onclick='eliminar(this)' id='Eliminar_Material'>Eliminar Material</button> </div> </li>");
-}
-
 function select_actividad_id(id_actividad){
     select_actividad(id_actividad);
     select_materiales_actividad(id_actividad);
     select_materiales_alumno(id_actividad);
     select_temas(id_actividad);
-    select_criterios_evaluacion(id_actividad);
 }
 
 function select_actividad(id_actividad){
@@ -470,21 +427,6 @@ function select_temas(id_actividad){
             $( "#listaElementoTemas" ).html("");
             temas.forEach(tema => {
                 $( "#listaElementoTemas" ).append( "<li> <div class= 'cuadro7' style='margin-top: 10px;'> <input id='input_id_temas' type='text' hidden /> <label class='label11'>Tema</label> <input class='input11 form-control input_temNombre_activida' id='input_temNombre_activida' type='text' placeholder='Nombre' value='"+tema.nombre+"'> <label class='label12'>Duración</label> <input class='input12 input_temSemanas_activida' id='input_temSemanas_activida' type='number' placeholder='Semanas de Duración' value='"+tema.semanas+"'> <label class='label13'>Descripción</label> <textarea class='input13 input_temDescripcion_actividad' id='input_temDescripcion_actividad' placeholder='Descripción' type='text' required>"+tema.descripcion+"</textarea> <button class='btn8 btn-danger cancelar' onclick='eliminar(this)' id='Eliminar_Tema'>Eliminar Material</button> </div> </li>" );
-            });
-        }
-    });
-}
-
-function select_criterios_evaluacion(id_actividad){
-    $.ajax({
-        type: "POST",
-        data: {"id_actividad": id_actividad},
-        url: path+"select_criterios_evaluacion.php",                           
-        success: function(res){    
-            let criterios = JSON.parse(res);
-            $( "#listaElementoCriterios" ).html("");
-            criterios.forEach(criterio => {
-                $( "#listaElementoCriterios" ).append( "<li> <div class='cuadro10' style='margin-top: 10px;'> <label class='abel14'>Nombre</label> <input class='input14 form-control input_criterioevalNombre_activida' id='input_criterioevalNombre_activida' type='text' placeholder='Nombre' value='"+criterio.nombre+"'> <label class='label15'>Descripción</label> <textarea class='input15 input_criterioevaldes_actividad' id='input_criterioevaldes_actividad' placeholder='Descripción' type='text' required>"+criterio.descripcion+"</textarea> <button class='btn_Eliminar btn-danger cancelar' onclick='eliminar(this)' id='Eliminar_Material'>Eliminar Material</button> </div> </li>");
             });
         }
     });

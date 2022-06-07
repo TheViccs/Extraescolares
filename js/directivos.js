@@ -173,7 +173,7 @@ function generar_pdf(id_directivo){
             pdf.setProperties({
                 title: "Tabla directivo "+directivo.nombre
             });
-            let texto = "directivo "+directivo.nombre;
+            let texto = "Directivo "+directivo.nombre;
             let x = (pdf.internal.pageSize.width/2) - (pdf.getTextWidth(texto)/2)
             pdf.text(texto,x,15);
             pdf.autoTable({
