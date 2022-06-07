@@ -85,10 +85,10 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
     }
 
     .contenedor_inputs_insercion {
-        grid-template-columns: repeat(9, .3fr);
+        grid-template-columns: repeat(6, .3fr);
         grid-template-areas:
-            "label_nombre_directivo input_nombre_directivo input_nombre_directivo label_apellidop_directivo input_apellidop_directivo input_apellidop_directivo label_apellidoM_directivo input_apellidoM_directivo input_apellidoM_directivo"
-            "label_clave_directivo input_clave_directivo label_email_directivo input_email_directivo input_email_directivo input_email_directivo label_sexo_directivo input_sexo_directivo input_sexo_directivo"
+            "label_nombre_directivo input_nombre_directivo label_apellidop_directivo input_apellidop_directivo label_apellidoM_directivo input_apellidoM_directivo"
+            "label_clave_directivo input_clave_directivo label_email_directivo input_email_directivo label_sexo_directivo input_sexo_directivo"
         ;
     }
 </style>

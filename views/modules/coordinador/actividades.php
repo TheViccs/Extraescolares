@@ -354,12 +354,10 @@ body {
     min-height: 20%;
     min-width: fit-content;
     grid-gap: 2rem;
-    grid-template-columns: repeat(8, .3fr);
+    grid-template-columns: repeat(6, .3fr);
     grid-template-areas:
-        "cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material" 
-        "label_Agregar_Elemento label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
-
-        ;
+        "cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material" 
+        "label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento";
 }
 
 
@@ -396,10 +394,10 @@ body {
     min-height: 20%;
     min-width: fit-content;
     grid-gap: 2rem;
-    grid-template-columns: repeat(8, .3fr);
+    grid-template-columns: repeat(7, .3fr);
     grid-template-areas:
-        "label_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad label_cantidad_material input_cantidad_material input_cantidad_material btn_Eliminar_Elemento btn_Eliminar_Elemento"
-        "label_Agregar_Elemento label_Agregar_Elemento label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
+        "label_materialdado_actividad input_materialdado_actividad input_materialdado_actividad label_cantidad_material input_cantidad_material input_cantidad_material btn_Eliminar_Elemento "
+        "label_Agregar_Elemento label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
 
         ;
 
@@ -672,7 +670,7 @@ ul.navega li {
                 <div class="cuadro2">
 
                     <button class="btn_Agregar btn btn-primary" id="add_Material" data-bs-target="">Agregar Material</button>
-                    <label class="lable_Agregar">Agregar nuevo matetial</label>
+                    <label class="lable_Agregar">Agregar matetial</label>
                     <input id="input_id_material" type="text" hidden />
             
                     <div class="cuadro_material_necesario" >
