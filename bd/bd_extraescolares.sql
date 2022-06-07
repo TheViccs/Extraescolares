@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 06-06-2022 a las 16:21:26
+-- Tiempo de generación: 07-06-2022 a las 19:10:32
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -28,7 +28,7 @@ DELIMITER $$
 -- Procedimientos
 --
 DROP PROCEDURE IF EXISTS `sp_calificar_alumno`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_calificar_alumno` (IN `d_id_alumno` INT, IN `d_id_grupo` INT, IN `d_calificacion_numerica` INT, IN `d_acreditacion` TINYINT(1), IN `d_desempeño` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_calificar_alumno` (IN `d_id_alumno` INT, IN `d_id_grupo` INT, IN `d_calificacion_numerica` FLOAT, IN `d_acreditacion` TINYINT(1), IN `d_desempeño` VARCHAR(25))   BEGIN
 START TRANSACTION;
 UPDATE detalles_inscripcion SET calificacion_numerica=d_calificacion_numerica, acreditacion=d_acreditacion, desempeño=d_desempeño WHERE id_alumno=d_id_alumno AND id_grupo=d_id_grupo AND id_periodo=periodo_actual();
 COMMIT;
@@ -122,6 +122,13 @@ DELETE FROM detalles_inscripcion WHERE id_alumno=d_id_alumno AND id_grupo=d_id_g
 SET @carga = (SELECT id_carga FROM carga_complementaria WHERE id_alumno=d_id_alumno AND id_periodo=periodo_actual());
 DELETE FROM carga_actividad WHERE id_carga=@carga AND id_actividad=d_id_actividad;
 DELETE FROM carga_grupo WHERE id_carga=@carga AND id_grupo=d_id_grupo;
+COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_delete_directivo`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_directivo` (IN `d_id_directivo` INT)   BEGIN
+START TRANSACTION;
+UPDATE directivo SET visible=0 WHERE directivo.id_directivo=d_id_directivo;
 COMMIT;
 END$$
 
@@ -563,7 +570,12 @@ END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_directivos`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_directivos` ()   BEGIN
-SELECT * FROM directivo;
+SELECT * FROM directivo WHERE directivo.visible=1;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_directivo_id`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_directivo_id` (IN `d_id_directivo` INT)   BEGIN
+SELECT * FROM directivo WHERE directivo.id_directivo=d_id_directivo;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_grupos`$$
@@ -740,6 +752,13 @@ START TRANSACTION;
         INSERT INTO departamento_responsable(id_departamento,id_responsable,fecha_inicio) VALUES (d_id_departamento,r_id,NOW());
     END IF; 
     COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_update_directivo`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_directivo` (IN `d_id_directivo` INT, IN `d_clave` VARCHAR(12), IN `d_nombre` VARCHAR(150), IN `d_apellido_p` VARCHAR(50), IN `d_apellido_m` VARCHAR(50), IN `d_correo` VARCHAR(150), IN `d_sexo` VARCHAR(1))   BEGIN
+START TRANSACTION;
+UPDATE directivo SET clave=d_clave, nombre=d_nombre, apellido_p=d_apellido_p, apellido_m=d_apellido_m, correo=d_correo, sexo=d_sexo WHERE id_directivo=d_id_directivo;
+COMMIT;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_update_grupo`$$
@@ -1061,13 +1080,13 @@ CREATE TABLE `criterio` (
 --
 
 INSERT INTO `criterio` (`id_criterio`, `nombre`, `descripcion`) VALUES
-(1, 'Criterio 1', 'Ejemplo Criterio 1'),
-(2, 'Criterio 2', 'Ejemplo Criterio 2'),
-(3, 'Criterio 3', 'Ejemplo Criterio 3'),
-(4, 'Criterio 4', 'Ejemplo Criterio 4'),
-(5, 'Criterio 5', 'Ejemplo Criterio 5'),
-(6, 'Criterio 6', 'Ejemplo Criterio 6'),
-(7, 'Criterio 7', 'Ejemplo Criterio 7');
+(1, 'Criterio 1', 'Cumple en tiempo y forma con las actividades recomendadas alcanzando los objetivos'),
+(2, 'Criterio 2', 'Trabaja en equipo y se adapta a nuevas situaciones'),
+(3, 'Criterio 3', 'Muestra liderazgo en las actividades encomendadas'),
+(4, 'Criterio 4', 'Organiza su tiempo y trabaja de manera proactiva'),
+(5, 'Criterio 5', 'Interpreta la realidad y se sensibiliza aportando soluciones a la problemática con la actividad complementaria'),
+(6, 'Criterio 6', 'Realiza sugenrencias innovadoras para beneficio o mejora del programa en el que participa'),
+(7, 'Criterio 7', 'Tiene iniciativa para ayudar en las actividades encomendadas y muestra espíritu de servicio');
 
 -- --------------------------------------------------------
 
@@ -1093,8 +1112,8 @@ INSERT INTO `criterio_alumno` (`desempeño`, `id_alumno`, `id_criterio`, `id_gru
 (4, 1, 3, 1),
 (4, 1, 4, 1),
 (4, 1, 5, 1),
-(4, 1, 6, 1),
-(4, 1, 7, 1);
+(3, 1, 6, 1),
+(3, 1, 7, 1);
 
 -- --------------------------------------------------------
 
@@ -1248,8 +1267,8 @@ INSERT INTO `departamento_responsable` (`id_departamento`, `id_responsable`, `fe
 
 DROP TABLE IF EXISTS `detalles_inscripcion`;
 CREATE TABLE `detalles_inscripcion` (
-  `calificacion_numerica` int(11) NOT NULL DEFAULT 0,
-  `desempeño` int(11) NOT NULL DEFAULT 1,
+  `calificacion_numerica` float NOT NULL DEFAULT 0,
+  `desempeño` varchar(25) NOT NULL DEFAULT '1',
   `acreditacion` tinyint(1) NOT NULL DEFAULT 0,
   `constancia` tinyint(1) NOT NULL DEFAULT 1,
   `id_alumno` int(11) DEFAULT NULL,
@@ -1263,9 +1282,9 @@ CREATE TABLE `detalles_inscripcion` (
 --
 
 INSERT INTO `detalles_inscripcion` (`calificacion_numerica`, `desempeño`, `acreditacion`, `constancia`, `id_alumno`, `id_grupo`, `id_actividad`, `id_periodo`) VALUES
-(10, 4, 1, 1, 1, 1, 1, 1),
-(0, 1, 0, 1, 1, 6, 2, 1),
-(0, 1, 0, 1, 2, 8, 3, 1);
+(3.71, 'Excelente', 1, 1, 1, 1, 1, 1),
+(0, '1', 0, 1, 1, 6, 2, 1),
+(0, '1', 0, 1, 2, 8, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -1292,7 +1311,7 @@ CREATE TABLE `directivo` (
 --
 
 INSERT INTO `directivo` (`id_directivo`, `clave`, `nombre`, `apellido_p`, `apellido_m`, `correo`, `contraseña`, `sexo`, `foto`, `visible`) VALUES
-(3, '342', 'prueba1', 'prueba1', 'prueba1', 'prueba1@colima.tecnm.mx', 'directivo1', 'M', NULL, 1);
+(3, '234', 'prueba', 'prueba', 'prueba', 'prueba@colima.tecnm.mx', 'directivo1', 'M', NULL, 1);
 
 -- --------------------------------------------------------
 
