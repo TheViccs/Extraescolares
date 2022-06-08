@@ -85,6 +85,20 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "instructor") {
         width: 8%;
     }
 
+    .label_desempeño{
+        text-align: center;
+        width: 18%;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .input_desempeño{
+        width: 20%;
+        margin-right: 20px;
+    }
+
     .label_acreditacion{
         text-align: center;
         width: 10%;
@@ -188,7 +202,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "instructor") {
             </div>
             <div class="inputs_calificacion">
                 <label class="label_calificacion_numerica">Calificación numérica</label>
-                <input class="input_calificacion_numerica" type="number" min="0" max="10" id="calificacion_numerica_alumno"/>
+                <input class="input_calificacion_numerica" type="number" id="calificacion_numerica_alumno" disabled/>
+                <label class="label_desempeño">Desempeño</label>
+                <input class="input_desempeño" type="text" id="desempeño_alumno" disabled/>
                 <label class="label_acreditacion">Acreditar</label>
                 <input class="input_acreditacion" type="checkbox" id="boolean_acreditado_alumno" value="1"/>
             </div>
