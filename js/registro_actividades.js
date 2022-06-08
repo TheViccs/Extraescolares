@@ -35,7 +35,6 @@ function crear_programas(programas) {
 
 
 function crear_actividades(actividades) {
-    console.log(actividades);
     actividades.forEach(actividad => {
         let programa = document.querySelector("#programa" + actividad.id_programa);
         let divContenedor = document.createElement("div");
