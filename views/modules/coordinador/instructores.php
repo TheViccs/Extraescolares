@@ -74,10 +74,10 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
     }
 
     .contenedor_inputs_insercion {
-        grid-template-columns: repeat(9, .3fr);
+        grid-template-columns: repeat(6, .3fr);
         grid-template-areas:
-            "label_nombre_instructor input_nombre_instructor input_nombre_instructor label_apellidop_instructor input_apellidop_instructor input_apellidop_instructor label_apellidoM_instructor input_apellidoM_instructor input_apellidoM_instructor"
-            "label_email_instructor input_email_instructor input_email_instructor input_email_instructor label_sexo_instructor input_sexo_instructor input_sexo_instructor . ."
+            "label_nombre_instructor input_nombre_instructor label_apellidop_instructor input_apellidop_instructor label_apellidoM_instructor input_apellidoM_instructor"
+            "label_email_instructor input_email_instructor input_email_instructor label_sexo_instructor input_sexo_instructor ."
         ;
     }
 </style>

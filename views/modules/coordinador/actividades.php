@@ -19,8 +19,463 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
 
 </head>
 <style>
-    * {
-        font-size: 1rem;
+* {
+    font-size: 1rem;
+}
+
+html {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.botones2 {
+    display: flex;
+    width: 80%;
+    height: 20%;
+    align-items: center;
+    justify-content: end;
+    min-height: 60px;
+    min-width: fit-content;
+
+}
+
+.cabecera {
+    display: flex;
+    margin-top: 2%;
+    justify-content: center;
+    height: 15%;
+    width: 100%;
+    min-height: 60px;
+    min-width: fit-content;
+}
+
+.cabecera a {
+    height: 100%;
+    margin-left: auto;
+    margin-right: 5%;
+    justify-self: end;
+}
+
+.cancelar {
+    margin-left: 2%;
+}
+
+.contenedor-inputs2 {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-height: fit-content;
+    width: 100%;
+}
+
+.contenedor-inputs3 {
+    display: flex;
+    width: 50%;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    min-height: fit-content;
+}
+
+.contenedor-tabla {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2%;
+    width: 80%;
+}
+
+.dataTable {
+    overflow-x: auto !important;
+}
+
+.dataTables_wrapper{
+    overflow-x: auto;
+}
+
+.contenido2 {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: fit-content;
+}
+
+/*PRIMER CUADRO*/
+.label1 {
+    grid-area: label_nombre_actividad;
+    text-align: center;
+}
+
+.input1 {
+    grid-area: input_nombre_actividad;
+}
+
+.label2 {
+    grid-area: label_creAct_actividad;
+    text-align: center;
+}
+
+.input2 {
+    grid-area: input_creAct_actividad;
+}
+
+.label3 {
+    grid-area: label_actPAdre_actividad;
+    text-align: center;
+}
+
+.input3 {
+    grid-area: input_actPAdre_actividad;
+}
+
+.label4 {
+    grid-area: label_capMAx_actividad;
+    text-align: center;
+}
+
+.input4 {
+    grid-area: input_capMAx_actividad;
+}
+
+.label5 {
+    grid-area: label_capmini_actividad;
+    text-align: center;
+}
+
+.input5 {
+    grid-area: input_capmini_actividad;
+}
+
+.label6 {
+    grid-area: label_desc_actividad;
+    text-align: center;
+}
+
+.input6 {
+    grid-area: input_desc_actividad;
+}
+
+.label7 {
+    grid-area: label_compe_actividad;
+    text-align: center;
+}
+
+.input7 {
+    grid-area: input_compe_actividad;
+}
+
+.label8 {
+    grid-area: label_bene_actividad;
+    text-align: center;
+}
+
+.input8 {
+    grid-area: input_bene_actividad;
+}
+
+.label9 {
+    grid-area: label_materialdado_actividad;
+    text-align: center;
+}
+
+.input9 {
+    grid-area: input_materialdado_actividad;
+}
+
+.label10 {
+    grid-area: label_matealu_actividad;
+    text-align: center;
+}
+
+.input10 {
+    grid-area: input_matealu_actividad;
+}
+
+.label11 {
+    grid-area: label_temNombre_actividad;
+    text-align: center;
+}
+
+.input11 {
+    grid-area: input_temNombre_actividad;
+
+}
+
+.label12 {
+    grid-area: label_temsema_actividad;
+    text-align: center;
+}
+
+.input12 {
+    grid-area: input_temsema_actividad;
+
+}
+
+.label13 {
+    grid-area: label_temdes_actividad;
+    text-align: center;
+}
+
+.input13 {
+    grid-area: input_temsdes_actividad;
+
+}
+
+.label14 {
+    grid-area: label_cenombre_actividad;
+    text-align: center;
+}
+
+.input14 {
+    grid-area: input_cenombre_actividad;
+
+}
+
+.label15 {
+    grid-area: label_cedes_actividad;
+    text-align: center;
+}
+
+.input15 {
+    grid-area: input_cedes_actividad;
+
+}
+
+.label16 {
+    grid-area: label_feini_actividad;
+    text-align: center;
+}
+
+.input16 {
+    grid-area: input_feini_actividad;
+
+}
+
+.label17 {
+    grid-area: label_fefin_actividad;
+    text-align: center;
+}
+
+.input17 {
+    grid-area: input_fefin_actividad;
+
+}
+
+.label19 {
+    grid-area: label_cantidad_material;
+    text-align: center;
+}
+
+.input19 {
+    grid-area: input_cantidad_material;
+
+}
+
+.lable_Agregar {
+    grid-area: label_Agregar_Elemento;
+    text-align: center;
+}
+
+.btn1 {
+    grid-area: btn_padre_actividad;
+}
+
+.btn_Agregar {
+    grid-area: btn_Agregar_Elemento;
+}
+
+.btn_Eliminar {
+    grid-area: btn_Eliminar_Elemento;
+}
+
+.cuadro_material_necesario {
+    grid-area: cuadro_material;
+}
+
+.cuadro_temas {
+    grid-area: cuadro_tema;
+}
+
+.cuadro_criterios{
+    grid-area: cuadro_criteriosE;
+}
+
+.label_video_actividad{
+    grid-area: label_video_actividad;
+}
+
+.input_video_actividad{
+    grid-area: input_video_actividad;
+}
+
+.cuadro1 {
+    padding: 1rem;
+    display: grid;
+    height: auto;
+    flex-shrink: 0;
+    width: 80%;
+    border: 1px solid black;
+    border-radius: 5px;
+    min-height: 20%;
+    min-width: fit-content;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(8, .3fr);
+    grid-template-areas:
+
+        /*PRIMER CUADRO*/
+        "label_nombre_actividad input_nombre_actividad input_nombre_actividad input_nombre_actividad label_creAct_actividad input_creAct_actividad input_creAct_actividad input_creAct_actividad"
+        "label_capmini_actividad input_capmini_actividad input_capmini_actividad input_capmini_actividad label_capMAx_actividad input_capMAx_actividad input_capMAx_actividad  input_capMAx_actividad"
+        "label_desc_actividad input_desc_actividad input_desc_actividad input_desc_actividad input_desc_actividad input_desc_actividad input_desc_actividad input_desc_actividad"
+        "label_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad input_bene_actividad"
+        "label_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad input_compe_actividad"
+        "label_feini_actividad input_feini_actividad input_feini_actividad input_feini_actividad label_fefin_actividad input_fefin_actividad input_fefin_actividad input_fefin_actividad" 
+        "label_video_actividad label_video_actividad input_video_actividad input_video_actividad input_video_actividad input_video_actividad input_video_actividad input_video_actividad"
+        "label_actPAdre_actividad label_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad input_actPAdre_actividad btn_padre_actividad"
+        ;
+
+}
+
+.cuadro2 {
+
+    padding: 1rem;
+    display: grid;
+    height: auto;
+    flex-shrink: 0;
+    width: auto;
+    border: 1px solid black;
+    border-radius: 5px;
+    min-height: 20%;
+    min-width: fit-content;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(6, .3fr);
+    grid-template-areas:
+        "cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material" 
+        "label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento";
+}
+
+
+.cuadro3 {
+    padding: 1rem;
+    
+    display: grid;
+    height: auto;
+    flex-shrink: 0;
+    width: 80%;
+    border: 1px solid black;
+    border-radius: 5px;
+    min-height: 20%;
+    min-width: fit-content;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(8, .3fr);
+    grid-template-areas:
+
+        "cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material"
+        "label_Agregar_Elemento label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
+
+        ;
+
+}
+
+.cuadro4 {
+    padding: 1rem;
+    display: grid;
+    height: auto;
+    flex-shrink: 0;
+    width: 80%;
+    border: 1px solid black;
+    border-radius: 5px;
+    min-height: 20%;
+    min-width: fit-content;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(7, .3fr);
+    grid-template-areas:
+        "label_materialdado_actividad input_materialdado_actividad input_materialdado_actividad label_cantidad_material input_cantidad_material input_cantidad_material btn_Eliminar_Elemento "
+        "label_Agregar_Elemento label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
+
+        ;
+
+}
+
+.cuadro5 {
+    padding: 1rem;
+    display: grid;
+    height: auto;
+    flex-shrink: 0;
+    width: 80%;
+    border: 1px solid black;
+    border-radius: 5px;
+    min-height: 20%;
+    min-width: fit-content;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(8, .3fr);
+    grid-template-areas:
+
+    "cuadro_criteriosE cuadro_criteriosE cuadro_criteriosE cuadro_criteriosE cuadro_criteriosE cuadro_criteriosE cuadro_criteriosE cuadro_criteriosE"
+    "label_Agregar_Elemento label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
+
+    ;
+
+}
+
+.cuadro7 {
+    padding: 1rem;
+    display: grid;
+    height: auto;
+    flex-shrink: 0;
+    width: auto;
+    border: 1px solid black;
+    border-radius: 5px;
+    min-height: 80%;
+    min-width: fit-content;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(8, .3fr);
+    grid-template-areas:
+        "label_temNombre_actividad input_temNombre_actividad input_temNombre_actividad input_temNombre_actividad label_temsema_actividad input_temsema_actividad input_temsema_actividad input_temsema_actividad  "
+        "label_temdes_actividad label_temdes_actividad input_temsdes_actividad input_temsdes_actividad input_temsdes_actividad input_temsdes_actividad input_temsdes_actividad input_temsdes_actividad"
+        "btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento btn_Eliminar_Elemento"
+        ;
+}
+
+.cuadro8 {
+    padding: 1rem;
+    display: grid;
+    height: 60%;
+    flex-shrink: 0;
+    width: 60%;
+    border: 1px solid black;
+    border-radius: 5px;
+    min-height: 20%;
+    min-width: fit-content;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(10, .3fr);
+    grid-template-areas:
+        "label_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad label_cantidad_material input_cantidad_material input_cantidad_material btn_Eliminar_Elemento  btn_Eliminar_Elemento";
+}
+
+.cuadro9 {
+    padding: 1rem;
+    display: grid;
+    height: auto;
+    flex-shrink: 0;
+    width: 80%;
+    border: 1px solid black;
+    border-radius: 5px;
+    min-height: 20%;
+    min-width: fit-content;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(8, .3fr);
+    grid-template-areas:
+
+        "cuadro_tema cuadro_tema cuadro_tema cuadro_tema cuadro_tema cuadro_tema cuadro_tema cuadro_tema"
+        "label_Agregar_Elemento label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
+;
     }
 
     html {
@@ -354,10 +809,10 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
         min-height: 20%;
         min-width: fit-content;
         grid-gap: 2rem;
-        grid-template-columns: repeat(8, .3fr);
+        grid-template-columns: repeat(7, .3fr);
         grid-template-areas:
-            "cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material"
-            "label_Agregar_Elemento label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
+            "cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material cuadro_material"
+            "label_Agregar_Elemento label_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento btn_Agregar_Elemento"
 
         ;
     }
@@ -365,7 +820,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
 
     .cuadro3 {
         padding: 1rem;
-
         display: grid;
         height: auto;
         flex-shrink: 0;
@@ -456,9 +910,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
         min-height: 20%;
         min-width: fit-content;
         grid-gap: 2rem;
-        grid-template-columns: repeat(10, .3fr);
+        grid-template-columns: repeat(7, .3fr);
         grid-template-areas:
-            "label_materialdado_actividad input_materialdado_actividad input_materialdado_actividad input_materialdado_actividad label_cantidad_material input_cantidad_material input_cantidad_material btn_Eliminar_Elemento  btn_Eliminar_Elemento";
+            "label_materialdado_actividad input_materialdado_actividad input_materialdado_actividad label_cantidad_material input_cantidad_material input_cantidad_material btn_Eliminar_Elemento";
     }
 
     .cuadro9 {
@@ -676,7 +1130,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
                 <div class="cuadro2">
 
                     <button class="btn_Agregar btn btn-primary" id="add_Material" data-bs-target="">Agregar Material</button>
-                    <label class="lable_Agregar">Agregar nuevo matetial</label>
+                    <label class="lable_Agregar">Agregar matetial</label>
                     <input id="input_id_material" type="text" hidden />
 
                     <div class="cuadro_material_necesario">
@@ -688,7 +1142,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
                                     <input class="input9 form-control input_material_actividad" id="input_material_actividad" placeholder="Material" type="text" required>
                                     <label class="label19">Cantidad</label>
                                     <input class="input19 form-control input_cantidad_material" id="input_cantidad_material" type="number" placeholder="Cantidad">
-                                    <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material">Eliminar Material</button>
+                                    <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material">Eliminar</button>
                                 </div>
                             </li>
                         </ul>
@@ -725,7 +1179,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
                                     <input class="input9 form-control input_material_alumno_actividad" id="input_material_alumno_actividad" placeholder="Material" type="text" required></input>
                                     <label class="label19">Cantidad</label>
                                     <input class="input19 form-control input_cantidad_alumno_material" id="input_cantidad_alumno_material" type="number" placeholder="Cantidad">
-                                    <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material_alumno">Eliminar Material</button>
+                                    <button class="btn_Eliminar btn-danger cancelar" onclick='eliminar(this)' id="Eliminar_Material_alumno">Eliminar</button>
                                 </div>
                             </li>
                         </ul>
