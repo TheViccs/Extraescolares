@@ -29,7 +29,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "directivo") {
             <div class="menu">
                 <ul class="contenedor_menu">
                     <li>
-                        <a href=""><img class="icono" src="https://cdn-icons-png.flaticon.com/512/944/944053.png" /><span>Reportes</span></a>
+                        <a href="./reportes.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/944/944053.png" /><span>Reportes</span></a>
                     </li>
                     
                 </ul>

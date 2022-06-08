@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 07-06-2022 a las 19:10:32
+-- Tiempo de generación: 08-06-2022 a las 21:53:36
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -699,6 +699,31 @@ END$$
 DROP PROCEDURE IF EXISTS `sp_select_temas`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_temas` (IN `a_id_actividad` INT)   BEGIN
 SELECT * FROM tema WHERE id_actividad=a_id_actividad;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_total_inscripciones`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_total_inscripciones` ()   BEGIN
+SELECT COUNT(*) as total_inscripciones FROM detalles_inscripcion WHERE detalles_inscripcion.id_periodo=periodo_actual();
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_total_inscripciones_actividad`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_total_inscripciones_actividad` ()   BEGIN
+SELECT actividad.nombre,COUNT(*) as total FROM detalles_inscripcion JOIN actividad ON detalles_inscripcion.id_actividad=actividad.id_actividad WHERE detalles_inscripcion.id_periodo=periodo_actual() GROUP BY detalles_inscripcion.id_actividad ORDER BY total DESC;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_total_inscripciones_carrera`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_total_inscripciones_carrera` ()   BEGIN
+SELECT alumno.carrera as nombre,COUNT(*) as total FROM detalles_inscripcion JOIN alumno ON detalles_inscripcion.id_alumno=alumno.id_alumno WHERE detalles_inscripcion.id_periodo=periodo_actual() GROUP BY alumno.carrera ORDER BY total DESC;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_total_inscripciones_programa`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_total_inscripciones_programa` ()   BEGIN
+SELECT programa.nombre, COUNT(*) as total FROM detalles_inscripcion JOIN actividad ON detalles_inscripcion.id_actividad=actividad.id_actividad JOIN programa ON actividad.id_programa=programa.id_programa WHERE detalles_inscripcion.id_periodo=periodo_actual() GROUP BY programa.id_programa ORDER BY total DESC;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_total_inscripciones_semestre`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_total_inscripciones_semestre` ()   BEGIN
+SELECT alumno.semestre as nombre,COUNT(*) as total FROM detalles_inscripcion JOIN alumno ON detalles_inscripcion.id_alumno=alumno.id_alumno WHERE detalles_inscripcion.id_periodo=periodo_actual() GROUP BY alumno.semestre ORDER BY total DESC;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_update_actividad`$$
