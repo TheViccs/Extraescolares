@@ -48,7 +48,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "instructor") {
 
     </div>
 
-    <script src="../../../js/alumnos.js"></script>
+    <script src="../../../js/alumnos_instructor.js"></script>
 
 </body>
 

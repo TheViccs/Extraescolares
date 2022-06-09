@@ -320,7 +320,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
         </div>
     </div>
 
-    <script src="../../../js/grupos.js"></script>
+    <script src="../../../js/grupos_coordinador.js"></script>
 
 </body>
 

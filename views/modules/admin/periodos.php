@@ -95,7 +95,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
         <?php include "../../../views/layout/footer.php" ?>
     </div>
 
-    <script src="../../../js/periodos.js"></script>
+    <script src="../../../js/periodos_admin.js"></script>
 
 </body>
 

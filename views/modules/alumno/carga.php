@@ -369,7 +369,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
 
     </div>
 
-    <script src="../../../js/carga.js"></script>
+    <script src="../../../js/carga_alumno.js"></script>
 
 </body>
 

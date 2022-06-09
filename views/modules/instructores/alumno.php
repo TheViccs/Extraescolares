@@ -218,7 +218,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "instructor") {
 
     </div>
 
-    <script src="../../../js/calificar_alumno.js"></script>
+    <script src="../../../js/calificar_alumno_instructor.js"></script>
 
 </body>
 

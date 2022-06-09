@@ -41,7 +41,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['Tipo']!="responsable"){
             <?php include "../../../views/layout/footer.php" ?>
         </div>
 
-        <script src="../../../js/programas_responsables.js"></script>
+        <script src="../../../js/programas_responsable.js"></script>
 
     </body>
 

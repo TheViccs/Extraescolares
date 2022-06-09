@@ -16,9 +16,6 @@
     .contenedor_inputs_insercion {
         align-content: center;
         grid-template-columns: repeat(9, .3fr);
-        grid-template-areas:
-        
-        ;
     }
 </style>
 

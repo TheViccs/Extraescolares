@@ -214,7 +214,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "responsable") {
             </div>
         </div>
     </div>
-    <script src="../../../js/coordinadores.js"></script>
+    <script src="../../../js/coordinadores_responsable.js"></script>
 
 </body>
 

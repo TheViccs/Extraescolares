@@ -183,7 +183,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
         </div>
     </div>
 
-    <script src="../../../js/responsables.js"></script>
+    <script src="../../../js/responsables_admin.js"></script>
 
 </body>
 

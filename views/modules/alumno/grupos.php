@@ -69,7 +69,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
         </div>
     </div>
 
-    <script src="../../../js/registro_actividades.js"></script>
+    <script src="../../../js/registro_actividades_alumno.js"></script>
 
 </body>
 

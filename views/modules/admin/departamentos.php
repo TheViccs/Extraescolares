@@ -238,7 +238,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
         </div>
     </div>
 
-    <script src="../../../js/departamentos.js"></script>
+    <script src="../../../js/departamentos_admin.js"></script>
 
 </body>
 

@@ -86,7 +86,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "directivo") {
         <?php include "../../../views/layout/footer.php" ?>
     </div>
 
-    <script src="../../../js/reportes.js"></script>
+    <script src="../../../js/reportes_directivos.js"></script>
 
 </body>
 

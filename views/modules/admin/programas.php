@@ -175,7 +175,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
     </div>
 
     <script src="../../../lib/multiselect/js/jquery.multi-select.js"></script>
-    <script src="../../../js/programas.js"></script>
+    <script src="../../../js/programas_admin.js"></script>
 
 </body>
 

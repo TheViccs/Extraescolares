@@ -197,7 +197,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
         </div>
     </div>
 
-    <script src="../../../js/instructores.js"></script>
+    <script src="../../../js/instructores_coordinador.js"></script>
 
 </body>
 

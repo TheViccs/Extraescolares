@@ -142,7 +142,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
         </div>
     </div>
 
-    <script src="../../../js/horarios.js"></script>
+    <script src="../../../js/horarios_coordinador.js"></script>
 
 </body>
 

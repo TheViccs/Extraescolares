@@ -350,7 +350,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
 
     </div>
 
-    <script src="../../../js/kardex.js"></script>
+    <script src="../../../js/kardex_alumno.js"></script>
 
 </body>
 

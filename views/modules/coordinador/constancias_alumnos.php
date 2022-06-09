@@ -10,16 +10,17 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport">
     <title>SiGAC</title>
-
-    <!-- IMPORTS -->
     <?php include "../../../views/layout/imports.php" ?>
-
 </head>
+<style>
+
+</style>
 
 <body>
-    <div class="contenedor_principal_insercion">
 
+    <div class="contenedor_principal_insercion">
         <!-- HEADER -->
         <?php include "../../../views/layout/header.php" ?>
 
@@ -29,22 +30,25 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
         <!-- CABECERA -->
         <div class="cabecera">
             <h1 class="titulo">Generar Constancias</h1>
-            <a href="./coordinador.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
+            <a href="./constancias.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
         </div>
 
-        <input id="input_id_programa" type="text" value=<?php echo $_SESSION['id_programa'] ?> hidden />
-        
+        <input id="id_actividad" value="<?php if (!empty($_GET)) {
+                                            echo $_GET["grupo"];
+                                            } ?>" hidden/>
+
+        <!-- TABLA CONTENIDO -->
         <div class="contenedor_tabla_insercion">
-            <table id="tabla_actividades"></table>
+            <table id="tabla_alumnos"></table>
         </div>
-                
 
         <!-- FOOTER -->
         <?php include "../../../views/layout/footer.php" ?>
+
     </div>
 
-</body>
+    <script src="../../../js/grupos_coordinador_constancias.js"></script>
 
-<script src="../../../js/actividades_coordinador_constancias.js"></script>
+</body>
 
 </html>

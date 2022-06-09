@@ -1274,7 +1274,7 @@ body {
         </div>
         <?php include "../../../views/layout/footer.php" ?>
     </div>
-    <script src="../../../js/actividad.js"></script>
+    <script src="../../../js/actividad_coordinador.js"></script>
 
 </body>
 
