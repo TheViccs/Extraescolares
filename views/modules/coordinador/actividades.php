@@ -19,21 +19,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
 
 </head>
 <style>
-* {
-    font-size: 1rem;
-}
-
-html {
-    height: 100%;
-    width: 100%;
-}
-
-body {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-}
 
 .botones2 {
     display: flex;
@@ -82,21 +67,6 @@ body {
     justify-content: space-around;
     align-items: center;
     min-height: fit-content;
-}
-
-.contenedor-tabla {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 2%;
-    width: 80%;
-}
-
-.dataTable {
-    overflow-x: auto !important;
-}
-
-.dataTables_wrapper{
-    overflow-x: auto;
 }
 
 .contenido2 {
@@ -478,18 +448,6 @@ body {
 ;
     }
 
-    html {
-        height: 100%;
-        width: 100%;
-    }
-
-    body {
-        height: 100%;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
     .botones2 {
         display: flex;
         width: 80%;
@@ -499,27 +457,6 @@ body {
         min-height: 60px;
         min-width: fit-content;
 
-    }
-
-    .cabecera {
-        display: flex;
-        margin-top: 2%;
-        justify-content: center;
-        height: 15%;
-        width: 100%;
-        min-height: 60px;
-        min-width: fit-content;
-    }
-
-    .cabecera a {
-        height: 100%;
-        margin-left: auto;
-        margin-right: 5%;
-        justify-self: end;
-    }
-
-    .cancelar {
-        margin-left: 2%;
     }
 
     .contenedor-inputs2 {
@@ -537,21 +474,6 @@ body {
         justify-content: space-around;
         align-items: center;
         min-height: fit-content;
-    }
-
-    .contenedor-tabla {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 2%;
-        width: 80%;
-    }
-
-    .dataTable {
-        overflow-x: auto !important;
-    }
-
-    .dataTables_wrapper {
-        overflow-x: auto;
     }
 
     .contenido2 {
@@ -954,25 +876,6 @@ body {
 
     }
 
-    .flecha {
-        width: 10%;
-        height: 100%;
-        min-width: 30px;
-        max-height: 30px;
-    }
-
-    .footer {
-        width: auto;
-        min-width: fit-content;
-        margin-top: auto;
-        justify-self: end;
-    }
-
-    .header {
-        width: auto;
-        min-width: fit-content;
-    }
-
     input {
         height: 2rem;
     }
@@ -1026,16 +929,13 @@ body {
         color: red;
         font-style: italic;
 
-
-
     }
 
     .descripcion_insercion_correo {
         font-size: 11px !important;
         margin: 0 !important;
-
-
     }
+
 </style>
 
 <body>

@@ -1,7 +1,5 @@
 $(document).ready(function() {$('#listaElemento input[type="text"]').val('');})
 
-console.log("Entra");
-
 //Agregar Material Dado por la escuela
 var boton = document.getElementById("add_Material");
 boton.addEventListener("click", function () {
@@ -59,12 +57,9 @@ $('#tabla_actividad').DataTable({
     scrollY: true,
     columns: [
         { data: "nombre", title: 'Nombre' },
-        { data: "descripcion", title: 'Descripcion'},
-        { data: "competencia", title: 'Competencia' },
         { data: "creditos", title: 'Creditos' },
-        { data: "beneficios", title: 'Beneficios' },
-        { data: "capMin", title: 'CapMin' },
-        { data: "capMax", title: 'CapMax' },
+        { data: "capMin", title: 'Capacidad Mínima' },
+        { data: "capMax", title: 'Capacidad Máxima' },
         { data: "inicio", title: 'Inicio' },
         { data: "fin", title: 'Fin' },
         { data: "botoneditar", title: 'Editar' },
@@ -73,7 +68,7 @@ $('#tabla_actividad').DataTable({
         { data: "botongrupos", title: 'Gestionar Grupos' }
     ],
     "columnDefs": [
-        { "orderable": false, "targets": [9, 10, 11, 12] },
+        { "orderable": false, "targets": [6, 7, 8, 9] },
     ],
     lengthChange: false,
     language: {
@@ -118,7 +113,7 @@ function agregar_actividades_tabla(actividades){
     let tabla = $("#tabla_actividad").DataTable();
     tabla.rows().remove().draw();
     for(let actividad of actividades){
-        tabla.row.add({"nombre":actividad.nombre, "descripcion":actividad.descripcion,"competencia":actividad.competencia ,"creditos":actividad.creditos_otorga,"beneficios":actividad.beneficios,"capMin":actividad.capacidad_min,"capMax":actividad.capacidad_max,"inicio":actividad.fecha_inicio,"fin":actividad.fecha_fin,"botoneditar":"<button id='botoneditar"+ actividad.id_actividad+"'class='btn btn-primary'> Editar </button>", "botonborrar": "<button id='botonborrar"+actividad.id_actividad+"'class='btn btn-danger' >Borrar</button>", "botonimprimir":"<button id='botonimprimir"+actividad.id_actividad+"' class= 'btn btn-dark'>Imprimir</button>","botongrupos": "<button id='botongrupos"+actividad.id_actividad+"' class= 'btn btn-dark'>Gestionar Grupos</button>"}).draw();
+        tabla.row.add({"nombre":actividad.nombre, "creditos":actividad.creditos_otorga, "capMin":actividad.capacidad_min,"capMax":actividad.capacidad_max,"inicio":actividad.fecha_inicio,"fin":actividad.fecha_fin,"botoneditar":"<button id='botoneditar"+ actividad.id_actividad+"'class='btn btn-primary'> Editar </button>", "botonborrar": "<button id='botonborrar"+actividad.id_actividad+"'class='btn btn-danger' >Borrar</button>", "botonimprimir":"<button id='botonimprimir"+actividad.id_actividad+"' class= 'btn btn-dark'>Imprimir</button>","botongrupos": "<button id='botongrupos"+actividad.id_actividad+"' class= 'btn btn-dark'>Gestionar Grupos</button>"}).draw();
         $("#botoneditar"+actividad.id_actividad).on( "click", function(){select_actividad_id(actividad.id_actividad)});
         $("#botonborrar"+actividad.id_actividad).on( "click", function(){mostrar_modal_borrar_actividad(actividad.id_actividad, actividad.nombre, actividad.descripcion, actividad.competencia, actividad.creditos_otorga, actividad.beneficios,actividad.capacidad_min,actividad.capacidad_max,actividad.fecha_inicio,actividad.fecha_fin)});
         $("#botonimprimir"+actividad.id_actividad).on( "click", function(){generar_pdf(actividad.id_actividad)});
