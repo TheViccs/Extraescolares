@@ -54,17 +54,23 @@ function cambiar_calificacion_numerica(){
 
 //CREACION DE LOS RADIO BUTTONS PARA CADA CRITERIO
 function crear_criterios(criterios){
+    //OBTIENE EL CONTENEDOR DONDE IRAN LOS RADIO BUTTONS
     let contenedor_criterios = document.getElementById("contenedor_criterios");
     contenedor_criterios.innerHTML = "";
+    //POR CADA CRITERIO
     criterios.forEach(criterio => {
+        //CREA UN DIV QUE CONTENERA UN CRITERIO
         let divContendorCriterio = document.createElement("div");
         divContendorCriterio.classList.add("contenedor_criterio");
         divContendorCriterio.id = criterio.id_criterio;
+        //CREA UN PARRAFO PARA LA DESCRIPCION
         let divDescripcionCriterio = document.createElement("p");
         divDescripcionCriterio.classList.add("descripcion_criterio");
         divDescripcionCriterio.textContent = criterio.descripcion;
+        //CREA UN DIV PARA LOS RADIO BUTTONS
         let divContenedorCalificaciones = document.createElement("div");
         divContenedorCalificaciones.classList.add("contenedor_radio_calificacion");
+        //CREA LOS RADIO BUTTONS Y LES PONE EL EVENTO DE CAMBIO
         let radio1 = document.createElement("input");
         radio1.type = "radio";
         radio1.name = criterio.id_criterio;
@@ -90,6 +96,7 @@ function crear_criterios(criterios){
         radio5.name = criterio.id_criterio;
         radio5.value = "4";
         radio5.addEventListener("change",() => cambiar_calificacion_numerica(criterios)); 
+        //LOS AGREGA A LOS COMPONENTES PADRE
         divContenedorCalificaciones.append(radio1);
         divContenedorCalificaciones.append("Insuficiente");
         divContenedorCalificaciones.append(radio2);
