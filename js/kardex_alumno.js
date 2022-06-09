@@ -16,18 +16,25 @@ function select_periodo(){
 }
 select_periodo();
 
+//PONE USUARIO EN LA BARRA DE ARRIBA DEL KARDEX
 function poner_usuario(){
     let usuario = $("#correo_alumno").val().substring(0,$("#correo_alumno").val().indexOf("@"));
     $("#alumno").text(usuario); 
 }
 poner_usuario();
 
+//CREA EL KARDEX DEL ALUMNO
 function crear_kardex(kardex){
+    //OBTIENE EL BODY DE LA TABLA DEL KARDEX
     let contenedor_kardex = document.querySelector("#tbody_actividades_kardex");
     contenedor_kardex.innerHTML = "";
+    //POR CADA ACTIVIDAD
     kardex.forEach(actividad => {
         let estatus = "";
+        //CREA UNA FILA
         let tr = document.createElement("tr");
+        //LA CUAL SI NO SE HA TERMINADO LA ACTIVIDAD Y EL ALUMNO YA ESTA ACREDITADO LO MUESTRA EN VERDE Y COMO ACREDITADA
+        //SI NO ESTA ACREDITADO SE VERA EN AMARILLO Y CURSANDO
         if(moment(actividad.fecha_fin_actividades) > moment()){
             if(actividad.acreditacion==="1"){
                 tr.classList.add("acreditada")
@@ -37,6 +44,8 @@ function crear_kardex(kardex){
                 estatus = "Cursando";
             }        
         }else{
+            //EN CASO DE QUE SE HAYA TERMINADO LA ACTIVIDAD Y ESTE ACREDITADA SE MOSTRARA VERDE Y COMO ACREDITADA
+            //SI NO EN ROJA Y COMO NO ACREDITADA
             if(actividad.acreditacion==="1"){
                 tr.classList.add("acreditada")
                 estatus = "Acreditada";
@@ -46,18 +55,19 @@ function crear_kardex(kardex){
             }
 
         }
+        //SE CREA UNA COLUMNA CON EL NOMBRE DE LA ACTIVIDAD Y LOS CREDITOS QUE OTORGA
         let thactividad = document.createElement("th");
         thactividad.textContent = "["+actividad.creditos_otorga+"] "+actividad.nombre;
-    
+        //COLUMNA CON EL NOMBRE DEL PERIODO DONDE SE CURSO
         let thperiodo = document.createElement("th");
         thperiodo.textContent = actividad.nombre_periodo;
-
+        //COLUMNA CON LA CALIFICACION
         let thcalificacion = document.createElement("th");
         thcalificacion.textContent = actividad.calificacion_numerica;
-
+        //COLUMNA CON EL ESTATUS (ACREDITADA, CURSANDO, NO ACREDITADA)
         let thestatus = document.createElement("th");
         thestatus.textContent = estatus;
-
+        //SE AGREGAN A LOS COMPONENTES PADRE
         tr.append(thactividad);
         tr.append(thperiodo);
         tr.append(thcalificacion);

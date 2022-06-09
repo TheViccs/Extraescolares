@@ -1,4 +1,6 @@
+//CREACION DE LA TABLA DE COORDINADORES
 function mostrar_coordinadores_tabla(){
+    //EN CASO DE QUE NO TENGA UN PROGRAMA PARA ASIGNAR
     if($("#input_id_programa_asignar").val()===""){
         $('#tabla_coordinadores').DataTable({
             pageLength: 20,
@@ -37,6 +39,7 @@ function mostrar_coordinadores_tabla(){
             },
         });
     }else{
+        //EN CASO DE QUE SI TENGA UN PROGRAMA PARA ASIGNAR SE LE AGREGA EL BOTON DE ASIGNAR
         $('#tabla_coordinadores').DataTable({
             pageLength: 20,
             caseInsen: false,

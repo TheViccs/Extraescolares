@@ -238,6 +238,7 @@ function insert_instructor(){
     }
 }
 
+//BORRA LOS INPUTS DE INSTRUCTOR
 function borrar_datos_input_instructor(){
     $("#input_nombre_instructor_grupo_modal").val("");
     $("#input_apellido_p_instructor_grupo_modal").val("");
@@ -248,6 +249,7 @@ function borrar_datos_input_instructor(){
     $("#input_fecha_fin_instructor_grupo_modal").val("");
 }
 
+//NOS LLEVA A LA VENTANA PARA GESTIONAR HORARIOS CON UN ID DEL GRUPO
 function gestionar_horarios(id_grupo){
     window.location.href = "../../../views/modules/coordinador/horarios.php?grupo="+id_grupo;
 }
@@ -272,6 +274,7 @@ function select_grupo_id(id_grupo){
     });
 }
 
+//INSERT DE GRUPO
 function insert_grupo(){    
     let id_actividad = $("#input_id_actividad").val();      
     let nombre = $("#input_nombre_grupo").val();
@@ -300,6 +303,7 @@ function insert_grupo(){
     });
 }
 
+//BORRA DATOS DE INPUTS DE GRUPO
 function borrar_datos_input_grupo(){
     $("#input_id_grupo").val("");                
     $("#input_nombre_grupo").val("");
@@ -311,6 +315,7 @@ function borrar_datos_input_grupo(){
     $("#boton_insert_update_grupo").attr("onclick","insert_grupo()");
 }
 
+//UPDATE A GRUPO
 function update_grupo(){    
     let id_grupo = $("#input_id_grupo").val();      
     let nombre = $("#input_nombre_grupo").val();
@@ -369,6 +374,7 @@ function borrar_grupo(){
     })
 }
 
+//IMPRIME PDF CON DATOS DEL GRUPO
 function generar_pdf(id_grupo){
     $.ajax({
         type: "POST",

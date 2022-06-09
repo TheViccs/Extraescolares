@@ -1,3 +1,4 @@
+//CREACION DE LA TABLA DE DIRECTIVOS
 $('#tabla-directivos').DataTable({
     pageLength: 20,
     caseInsen: false,
@@ -36,6 +37,8 @@ $('#tabla-directivos').DataTable({
     },
 });
 
+
+//SELECT DE DIRECTIVOS
 function select_directivos(){
     $.ajax({
         type: "GET",
@@ -49,7 +52,7 @@ function select_directivos(){
 select_directivos();
 
 
-//AGREGA directivos A DATATABLE
+//AGREGA DIRECTIVOS A DATATABLE
 function agregar_directivos_tabla(directivos){
     let tabla = $("#tabla-directivos").DataTable();
     tabla.rows().remove().draw();
@@ -71,7 +74,7 @@ function mostrar_modal_borrar_directivo(id_directivo,clave,nombre, sexo, correo)
     $("#modal-directivo").modal("show");
 }
 
-//INSERTAR directivo
+//INSERTAR DIRECTIVO
 function insert_directivo(){
     let clave = $("#input_clave_directivo").val();
     let nombre = $("#input_nombre_directivo").val();
@@ -100,7 +103,7 @@ function insert_directivo(){
     }
 }
 
-//UPDATE A directivo
+//UPDATE A DIRECTIVO
 function update_directivo(){
     let id_directivo = $("#input_id_directivo").val();
     let clave = $("#input_clave_directivo").val();
@@ -140,7 +143,7 @@ function borrar_datos_input_directivo(){
     $("#boton_insert_update_directivo").attr("onclick","insert_directivo()");
 }
 
-//BORRAR directivo
+//BORRAR DIRECTIVO
 function borrar_directivo(){
     let id_directivo= $("#input_id_directivo_borrar").val();
     $.ajax({
@@ -188,7 +191,7 @@ function generar_pdf(id_directivo){
 }
 
 
-//SELECT DE directivo POR ID
+//SELECT DE DIRECTIVO POR ID
 function select_directivo_id(id_directivo){
     $.ajax({
         type: "POST",

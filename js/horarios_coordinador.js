@@ -36,7 +36,7 @@ $('#tabla_horarios').DataTable({
     },
 });
 
-
+//SELECT DE HORARIOS DE UN GRUPO
 function select_horarios(){
     let id_grupo = $("#input_id_grupo").val();
     $.ajax({
@@ -89,6 +89,7 @@ function insert_horario(){
     }
 }
 
+//BORRAR DATOS DE LOS INPUTS DE HORARIO
 function borrar_datos_input_horario(){
     $("#select_dia_grupo").val("O");
     $("#input_hora_inicio_grupo").val("");
@@ -139,6 +140,7 @@ function update_horario(){
     }
 }
 
+//MUESTRA EL MODAL PARA BORRAR UN HORARIO
 function mostrar_modal_borrar_horario(id_horario,dia,hora_incio,hora_fin){
     $("#p_dia_horario").text("Día: "+dia);
     $("#p_hora_inicio_horario").text("Hora de Inicio: "+hora_incio);
@@ -147,7 +149,7 @@ function mostrar_modal_borrar_horario(id_horario,dia,hora_incio,hora_fin){
     $("#modal_borrar_horario").modal("show");
 }
 
-//BORRAR INSTRUCTOR
+//BORRAR HORARIO
 function borrar_horario(){
     let id_horario= $("#input_id_horario_borrar").val();
     $.ajax({

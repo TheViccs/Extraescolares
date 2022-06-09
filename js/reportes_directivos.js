@@ -1,3 +1,4 @@
+//CREACION DE DATATABLE DE LSO REPORTES
 $('#tabla_reporte').DataTable({
     pageLength: 20,
     caseInsen: false,
@@ -31,6 +32,16 @@ $('#tabla_reporte').DataTable({
     },
 });
 
+//AGREGA DATOS AL DATATABLE
+function agregar_datos_tabla(datos){
+    let tabla = $("#tabla_reporte").DataTable();
+    tabla.rows().remove().draw();
+    for(let dato of datos){
+        tabla.row.add({"nombre":dato.nombre,"total":dato.total}).draw();
+    }
+}
+
+//SELECT DEL TOTAL DE INSCRIPCIONES EN EL PERIODO
 function select_total_inscripciones(){
     $.ajax({
         type: "GET",
@@ -44,6 +55,7 @@ function select_total_inscripciones(){
 }
 select_total_inscripciones();
 
+//SELECT DEL TOTAL DE INSCRICIONES EN CADA PROGRAMA DEL PERIODO
 function select_total_inscripciones_programa(){
     $.ajax({
         type: "POST",
@@ -55,14 +67,7 @@ function select_total_inscripciones_programa(){
     });
 }
 
-function agregar_datos_tabla(datos){
-    let tabla = $("#tabla_reporte").DataTable();
-    tabla.rows().remove().draw();
-    for(let dato of datos){
-        tabla.row.add({"nombre":dato.nombre,"total":dato.total}).draw();
-    }
-}
-
+//SELECT DE TOTAL DE INSCRIPCIONES POR ACTIVIDAD DEL PERIODO
 function select_total_inscripciones_actividad(){
     $.ajax({
         type: "POST",
@@ -74,6 +79,7 @@ function select_total_inscripciones_actividad(){
     });
 }
 
+//SELECT DEL TOTAL DE INSCRIPCIONES POR CARRERA DEL PERIODO
 function select_total_inscripciones_carrera(){
     $.ajax({
         type: "POST",
@@ -85,6 +91,7 @@ function select_total_inscripciones_carrera(){
     });
 }
 
+//SELECT DEL TOTAL DE INSCRIPCIONES POR SEMESTRE DEL PERIODO
 function select_total_inscripciones_semestre(){
     $.ajax({
         type: "POST",
@@ -96,3 +103,4 @@ function select_total_inscripciones_semestre(){
     });
 }
 select_total_inscripciones_programa();
+

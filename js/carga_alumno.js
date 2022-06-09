@@ -1,17 +1,25 @@
+//AGREGA LAS ACTIVIDADES DEL ALUMNO A LA TABLA DE CARGA
 function agregar_actividades(carga){
+    //OBTIENE EL BODY DE LA TABLA DE CARGA
     let tabla = document.querySelector("#tbody_actividades_carga_complementaria");
     tabla.innerHTML = "";
+    //POR CADA ACTIVIDAD
     carga.forEach(actividad => {
+        //SE CREA UNA FILA
         let tr = document.createElement("tr");
-
+        //CON UNA COLUMNA PARA EL NOMBRE DE LA ACTIVIDAD
         let thactividad = document.createElement("th");
         thactividad.textContent = actividad.nombre_actividad;
+        //UNA COLUMNA PARA EL NOMBRE DEL GRUPO
         let thgrupo = document.createElement("th");
         thgrupo.textContent = actividad.nombre;
+        //UNA COLUMNA PARA EL NOMBRE DEL INSTRUCTOR
         let thinstructor = document.createElement("th");
         thinstructor.textContent = actividad.nombre_instructor+" "+actividad.apellido_p+" "+actividad.apellido_m;
         let thlugar = document.createElement("th");
+        //UNA COLUMNA PARA EL NOMBRE DEL LUGAR
         thlugar.textContent = actividad.nombre_lugar;
+        //UNA COLUMNA PARA CADA DIA DE LA SEMANA
         let thlunes = document.createElement("th");
         thlunes.id = "Lunes"+actividad.id_grupo;
         let thmartes = document.createElement("th");
@@ -24,6 +32,7 @@ function agregar_actividades(carga){
         thviernes.id = "Viernes"+actividad.id_grupo;
         let thsabado = document.createElement("th");
         thsabado.id = "Sábado"+actividad.id_grupo;
+        //SE AGREGA A LOS COMPONENTES PADRE
         tr.append(thactividad);
         tr.append(thgrupo);
         tr.append(thinstructor);

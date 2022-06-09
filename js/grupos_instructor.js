@@ -1,3 +1,4 @@
+//CREACION DE DATATABLE DE GRUPOS
 $('#tabla_grupos').DataTable({
     pageLength: 20,
     caseInsen: false,
@@ -34,6 +35,7 @@ $('#tabla_grupos').DataTable({
     },
 });
 
+//SELECT DE GRUPOS
 function select_grupos(){
     let id_instructor = $("#id_instructor").val();
     $.ajax({
@@ -48,6 +50,7 @@ function select_grupos(){
 }
 select_grupos();
 
+//AGREGA LOS GRUPOS AL DATATABLE
 function agregar_grupos_tabla(grupos){
     let tabla = $("#tabla_grupos").DataTable();
     tabla.rows().remove().draw();
@@ -57,8 +60,7 @@ function agregar_grupos_tabla(grupos){
     }
 }
 
+//NOS MANDA A LA VENTANA PARA VER LOS ALUMNOS CON EL ID DE UN GRUPO
 function calificar_grupo(id_grupo){
-    
     window.location.href = "../../../views/modules/instructores/alumnos.php?grupo="+id_grupo;
-
 }

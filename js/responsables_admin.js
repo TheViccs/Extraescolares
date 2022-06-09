@@ -1,3 +1,4 @@
+//CREACION DE DATATABLE DE RESPONSABLES
 $('#tabla-responsables').DataTable({
     pageLength: 20,
     caseInsen: false,
@@ -36,6 +37,7 @@ $('#tabla-responsables').DataTable({
     },
 });
 
+//SELECT DE RESPONSABLES
 function select_responsables(){
     $.ajax({
         type: "GET",
@@ -47,7 +49,6 @@ function select_responsables(){
     });
 }
 select_responsables();
-
 
 //AGREGA DEPARTAMENTOS A DATATABLE
 function agregar_responsables_tabla(responsables){
@@ -70,7 +71,6 @@ function mostrar_modal_borrar_responsable(id_responsable, clave, nombre, sexo,co
     $("#p_correo_resposable").text("Correo: "+correo);
     $("#input_id_responsable_borrar").val(id_responsable);
 }
-
 
 //INSERTAR RESPONSABLE
 function insert_responsable(){
@@ -187,7 +187,6 @@ function generar_pdf(id_responsable){
         }
     });
 }
-
 
 //SELECT DE RESPONSABLE POR ID
 function select_responsable_id(id_responsable){

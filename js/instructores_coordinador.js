@@ -1,3 +1,4 @@
+//CRWACION DE DATATABLE DE INSTRUCTORES
 $('#tabla-instructores').DataTable({
     pageLength: 20,
     caseInsen: false,
@@ -35,6 +36,7 @@ $('#tabla-instructores').DataTable({
     },
 });
 
+//SELECT DE INSTRUCTORES DEL DEPARTAMENTO
 function select_instructores(){
     let id_departamento = $("#input_id_departamento").val();
     $.ajax({
@@ -213,7 +215,7 @@ function generar_pdf(id_instructor){
 }
 
 
-//SELECT DE instructor POR ID
+//SELECT DE INSTRUCTOR POR ID
 function select_instructor_id(id_instructor){
     $.ajax({
         type: "POST",

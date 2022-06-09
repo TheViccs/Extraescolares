@@ -1,3 +1,4 @@
+//SELECT DE LOS CRITERIOS
 function select_criterios(){
     $.ajax({
         type: "GET",
@@ -10,10 +11,13 @@ function select_criterios(){
 }
 select_criterios();
 
-function cambiar_calificacion_numerica(a){
+//FUNCION RADIO BUTTON AL CAMBIAR SELECCION
+function cambiar_calificacion_numerica(){
+    //OBTIENEN TODOS LOS CRITERIOS Y LOS METE EN UN ARRAY
     let criterios = document.getElementsByClassName("contenedor_criterio");
     criterios = [].slice.call(criterios);
     let promedio = 0;
+    //SUMA LAS CALIFICACIONES QUE SE VAN AGREGANDO
     let calificaciones = criterios.map(criterio => {
         if(document.querySelector("input[name='"+criterio.id+"']:checked")!==null){
             promedio += parseInt(document.querySelector("input[name='"+criterio.id+"']:checked").value) 
@@ -22,10 +26,12 @@ function cambiar_calificacion_numerica(a){
             return null
         }
     });
+    //SE CALCULA EL PROMEDIO
     promedio/=calificaciones.length;
     promedio = promedio.toFixed(2);
     let desempeño = "";
     document.getElementById("calificacion_numerica_alumno").value = promedio;
+    //SE CALCULA EL DESEMPEÑO
     switch(true){
         case promedio >= 3.5:
             desempeño = "Excelente"
@@ -46,6 +52,7 @@ function cambiar_calificacion_numerica(a){
     document.getElementById("desempeño_alumno").value = desempeño;
 }
 
+//CREACION DE LOS RADIO BUTTONS PARA CADA CRITERIO
 function crear_criterios(criterios){
     let contenedor_criterios = document.getElementById("contenedor_criterios");
     contenedor_criterios.innerHTML = "";
@@ -103,11 +110,14 @@ function crear_criterios(criterios){
 
 }
 
+//AL DAR CLICK EN EL BOTON GUARDAR ACTIVA LA FUNCION Y CHECA QUE NO HAYA CAMPOS VACIOS 
 function calificar_alumno(){
     let id_alumno = $("#id_alumno").val();
     let id_grupo = $("#id_grupo").val();
+    //OBTIENEN LOS CRITERIOS Y LOS PONE EN UN ARRAY
     let criterios = document.getElementsByClassName("contenedor_criterio");
     criterios = [].slice.call(criterios);
+    //PONE LAS CALIFICACIONES EN OTRO ARRAY
     let calificaciones = criterios.map(criterio => {
         if(document.querySelector("input[name='"+criterio.id+"']:checked")!==null){
             return [criterio.id,parseInt(document.querySelector("input[name='"+criterio.id+"']:checked").value)]
@@ -118,20 +128,22 @@ function calificar_alumno(){
     let calificacion_numerica = document.getElementById("calificacion_numerica_alumno").value;
     let desempeño = document.getElementById("desempeño_alumno").value;
     let acreditado = document.getElementById("boolean_acreditado_alumno").checked;
+    //CHECA QUE NO HAYA NULLS
     if(calificaciones.includes(null) || calificacion_numerica.length===0 || desempeño.length===0){
         mostrar_alerta(2)
     }else{
         let valor_acreditado = 0;
         if(acreditado){
             valor_acreditado = 1;
-        } 
+        }
+        //SI NO HAY NULLS MANDA EL INSERT A LA BASE DE DATOS
         insert_calificacion_alumno(id_alumno,id_grupo,calificaciones, calificacion_numerica, valor_acreditado, desempeño);
     }
 }
 
 
+//HACE INSERCION DE LAS CALIFICACIONES A LA BASE DE DATOS
 function insert_calificacion_alumno(id_alumno, id_grupo,calificaciones, calificacion_numerica, valor_acreditado, desempeño){
-    console.log(calificaciones);
     $.ajax({
         type: "POST",
         url: path+"calificar_alumno.php",
@@ -146,7 +158,7 @@ function insert_calificacion_alumno(id_alumno, id_grupo,calificaciones, califica
     });
 }
 
-
+//EN CASO DE QUE EL ALUMNO YA HAYA SIDO CALIFICADO OBTIENE LOS VALORES QUE YA TIENE EN LOS CRITERIOS
 function select_criterios_alumno(){
     let id_alumno = $("#id_alumno").val();
     let id_grupo = $("#id_grupo").val();
@@ -163,7 +175,7 @@ function select_criterios_alumno(){
     });
 }
 
-
+//EN CASO DE QUE EL ALUMNO YA HAYA SIDO CALIFICADO OBTIENE LOS VALORES QUE YA TIENE EN LA CALIFICACION NUMERICA, DESEMPEÑO Y ACREDITACION
 function select_calificacion_alumno(){
     let id_alumno = $("#id_alumno").val();
     let id_grupo = $("#id_grupo").val();

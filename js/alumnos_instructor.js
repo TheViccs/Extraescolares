@@ -1,3 +1,4 @@
+//CREA DATATABLE EN LA TABLA ALUMNOS
 $('#tabla_alumnos').DataTable({
     pageLength: 20,
     caseInsen: false,
@@ -33,6 +34,7 @@ $('#tabla_alumnos').DataTable({
     },
 });
 
+//SELECT DE LOS ALUMNOS EN GRUPO
 function select_alumnos(){
     let id_grupo = $("#id_grupo").val();
     $.ajax({
@@ -47,6 +49,7 @@ function select_alumnos(){
 }
 select_alumnos();
 
+//AGREGA LAS FILAS DE ALUMNOS AL DATATABLE
 function agregar_alumnos_tabla(alumnos){
     let tabla = $("#tabla_alumnos").DataTable();
     tabla.rows().remove().draw();
@@ -56,8 +59,7 @@ function agregar_alumnos_tabla(alumnos){
     }
 }
 
+//CAMBIA DE VENTANA MANDANDO EL ID DEL ALUMNO Y DEL GRUPO
 function calificar_alumno(id_alumno){
-    
     window.location.href = "../../../views/modules/instructores/alumno.php?alumno="+id_alumno+"&grupo="+$("#id_grupo").val();
-
 }

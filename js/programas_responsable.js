@@ -1,3 +1,4 @@
+//AGREGA DATATABLE A LA TABLA PROGRAMAS
 $('#tabla_programas').DataTable({
     pageLength: 20,
     caseInsen: false,
