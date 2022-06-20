@@ -64,6 +64,9 @@ function crear_kardex(kardex){
         //COLUMNA CON LA CALIFICACION
         let thcalificacion = document.createElement("th");
         thcalificacion.textContent = actividad.calificacion_numerica;
+        //COLUMNA CON LA CALIFICACION
+        let thdesempeño = document.createElement("th");
+        thdesempeño.textContent = actividad.desempeño;
         //COLUMNA CON EL ESTATUS (ACREDITADA, CURSANDO, NO ACREDITADA)
         let thestatus = document.createElement("th");
         thestatus.textContent = estatus;
@@ -71,6 +74,7 @@ function crear_kardex(kardex){
         tr.append(thactividad);
         tr.append(thperiodo);
         tr.append(thcalificacion);
+        tr.append(thdesempeño);
         tr.append(thestatus);
         contenedor_kardex.append(tr);
     });

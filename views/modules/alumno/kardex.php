@@ -332,6 +332,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
                                         Calificación
                                     </th>
                                     <th>
+                                        Desempeño
+                                    </th>
+                                    <th>
                                         Estatus
                                     </th>
                                 </tr>

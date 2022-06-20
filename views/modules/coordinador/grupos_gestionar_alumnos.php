@@ -29,17 +29,17 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
 
         <!-- CABECERA -->
         <div class="cabecera">
-            <h1 class="titulo">Generar Constancias</h1>
-            <a href="./constancias.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
+            <h1 class="titulo">Gestionar Alumnos de Actividad</h1>
+            <a href="./actividades_gestionar_alumnos.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
         </div>
 
-        <input id="id_grupo" value="<?php if (!empty($_GET)) {
-                                            echo $_GET["grupo"];
+        <input id="id_actividad" value="<?php if (!empty($_GET)) {
+                                            echo $_GET["actividad"];
                                             } ?>" hidden/>
 
         <!-- TABLA CONTENIDO -->
         <div class="contenedor_tabla_insercion">
-            <table id="tabla_alumnos"></table>
+            <table id="tabla_grupos"></table>
         </div>
 
         <!-- FOOTER -->
@@ -47,7 +47,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
 
     </div>
 
-    <script src="../../../js/alumnos_coordinador_constancias.js"></script>
+    <script src="../../../js/coordinador_grupos.js"></script>
 
 </body>
 

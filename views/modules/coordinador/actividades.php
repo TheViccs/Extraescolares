@@ -918,7 +918,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
     }
 
     .container {
-        width: 80%;
+        width: 100%;
         text-align: center;
     }
 
@@ -954,23 +954,18 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
 
 
         <div class="menu cabecera">
-            <p data-taget="#principal" id="tapPrincipal">Principal</p>
-            <p data-taget="#agregarActividad">Agregar Actividad</p>
-            <p data-taget="#materialNecesario">Material Necesario</p>
-            <p data-taget="#materialNecesarioEstu">Material Estudiante</p>
-            <p data-taget="#temas">Temas</p>
+            <p data-target="#principal" id="tapPrincipal">Principal</p>
+            <p data-target="#agregarActividad">Agregar Actividad</p>
+            <p data-target="#materialNecesario">Material Necesario</p>
+            <p data-target="#materialNecesarioEstu">Material Estudiante</p>
+            <p data-target="#temas">Temas</p>
         </div>
 
 
         <div class="container">
             <div data-content id="principal">
-                <div class="contenedor-tabla content-table">
-
-                    <center>
-                        <table id="tabla_actividad"></table>
-                    </center>
-
-
+                <div class="contenedor_tabla_insercion">
+                    <table id="tabla_actividad"></table>
                 </div>
             </div>
 

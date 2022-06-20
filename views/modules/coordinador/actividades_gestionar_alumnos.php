@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
+    header('Location: ../../layout/login/index.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,14 +16,6 @@
     <?php include "../../../views/layout/imports.php" ?>
 
 </head>
-<style>
-
-    
-    .contenedor_inputs_insercion {
-        align-content: center;
-        grid-template-columns: repeat(9, .3fr);
-    }
-</style>
 
 <body>
     <div class="contenedor_principal_insercion">
@@ -30,36 +28,23 @@
 
         <!-- CABECERA -->
         <div class="cabecera">
-            <h1 class="titulo">Agregar Alumno</h1>
-            <a href="http://localhost/Extraescolares/views/modules/coordinador/coordinador.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
+            <h1 class="titulo">Gestionar Alumnos de Actividad</h1>
+            <a href="./coordinador.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
         </div>
 
+        <input id="input_id_programa" type="text" value=<?php echo $_SESSION['id_programa'] ?> hidden />
         
         <div class="contenedor_tabla_insercion">
-            <table id="tabla_listaEspera"></table>
+            <table id="tabla_actividades"></table>
         </div>
-        
-        <!-- FORMULARIO PARA INSERCIÓN -->
-        <!-- <div class="contenedor_inputs_insercion">
-
-            
-
-        </div> -->
-
-        
-
-        
+                
 
         <!-- FOOTER -->
         <?php include "../../../views/layout/footer.php" ?>
     </div>
 
-    
-    
-
-    <script src="../../../js/horarios.js"></script>
-
 </body>
-<script src="../../../js/Liesta_Espera.js"></script>
+
+<script src="../../../js/coordinador_actividades.js"></script>
 
 </html>

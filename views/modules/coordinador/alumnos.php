@@ -1,26 +1,27 @@
-<?php
-session_start();
-if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
-    header('Location: ../../layout/login/index.php');
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport">
     <title>SiGAC</title>
+
+    <!-- IMPORTS -->
     <?php include "../../../views/layout/imports.php" ?>
+
 </head>
 <style>
 
+    
+    .contenedor_inputs_insercion {
+        align-content: center;
+        grid-template-columns: repeat(9, .3fr);
+    }
 </style>
 
 <body>
-
     <div class="contenedor_principal_insercion">
+
         <!-- HEADER -->
         <?php include "../../../views/layout/header.php" ?>
 
@@ -29,26 +30,31 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
 
         <!-- CABECERA -->
         <div class="cabecera">
-            <h1 class="titulo">Generar Constancias</h1>
-            <a href="./constancias.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
+            <h1 class="titulo">Agregar Alumno</h1>
+            <a href="http://localhost/Extraescolares/views/modules/coordinador/coordinador.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
         </div>
 
-        <input id="id_grupo" value="<?php if (!empty($_GET)) {
-                                            echo $_GET["grupo"];
-                                            } ?>" hidden/>
-
-        <!-- TABLA CONTENIDO -->
+        
         <div class="contenedor_tabla_insercion">
             <table id="tabla_alumnos"></table>
         </div>
+        
+        <!-- FORMULARIO PARA INSERCIÓN -->
+        <!-- <div class="contenedor_inputs_insercion">
+
+            
+
+        </div> -->
+
+        
+
+        
 
         <!-- FOOTER -->
         <?php include "../../../views/layout/footer.php" ?>
-
     </div>
 
-    <script src="../../../js/alumnos_coordinador_constancias.js"></script>
-
 </body>
+<script src="../../../js/coordinador_alumnos.js"></script>
 
 </html>

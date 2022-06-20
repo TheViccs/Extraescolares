@@ -39,10 +39,10 @@ function cambiar_calificacion_numerica(){
         case promedio >= 3.0 && promedio < 3.5:
             desempeño = "Notable"
             break;
-        case promedio >= 2.5 && promedio < 3:
+        case promedio >= 2.0 && promedio < 3:
             desempeño = "Bueno"
             break;
-        case promedio >= 2.0 && promedio < 2.5:
+        case promedio >= 1.0 && promedio < 2.0:
             desempeño = "Suficiente"
             break;
         default:

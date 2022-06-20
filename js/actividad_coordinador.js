@@ -54,7 +54,6 @@ tagets.forEach(taget =>{
 $('#tabla_actividad').DataTable({
     pageLength: 20,
     caseInsen: false,
-    scrollY: true,
     columns: [
         { data: "nombre", title: 'Nombre' },
         { data: "creditos", title: 'Creditos' },
@@ -321,7 +320,7 @@ function insertar_temas(){
         array_temas.push([nombre_temas[index].value, descripcion_temas[index].value, duracion_temas[index].value]);    
     }
     let tema_vacio = false;
-    array_temas.forEach(tema => tema.includes("") ? tema_vacio=true : null);
+    array_temas.forEach(tema => (tema[0]==="" || tema[2]==="") ? tema_vacio=true : null);
     if(!tema_vacio && id_actividad.length!==0 && duracion_temas.length!==0){
         $.ajax({
             type: "POST",

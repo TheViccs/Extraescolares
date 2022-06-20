@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 08-06-2022 a las 21:53:36
+-- Tiempo de generación: 20-06-2022 a las 03:21:34
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -110,18 +110,14 @@ START TRANSACTION;
     COMMIT;
 END$$
 
-DROP PROCEDURE IF EXISTS `sp_delete_detalle_inscripcion`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_detalle_inscripcion` (IN `d_id_alumno` INT, IN `d_id_grupo` INT, IN `d_id_actividad` INT)   BEGIN
-
-END$$
-
-DROP PROCEDURE IF EXISTS `sp_delete_detelles_inscripcion`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_detelles_inscripcion` (IN `d_id_alumno` INT, IN `d_id_grupo` INT, IN `d_id_actividad` INT)   BEGIN
+DROP PROCEDURE IF EXISTS `sp_delete_detalles_inscripcion`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_detalles_inscripcion` (IN `d_id_alumno` INT, IN `d_id_grupo` INT, IN `d_id_actividad` INT)   BEGIN
 START TRANSACTION;
 DELETE FROM detalles_inscripcion WHERE id_alumno=d_id_alumno AND id_grupo=d_id_grupo AND id_actividad=d_id_actividad AND id_periodo=periodo_actual();
 SET @carga = (SELECT id_carga FROM carga_complementaria WHERE id_alumno=d_id_alumno AND id_periodo=periodo_actual());
 DELETE FROM carga_actividad WHERE id_carga=@carga AND id_actividad=d_id_actividad;
 DELETE FROM carga_grupo WHERE id_carga=@carga AND id_grupo=d_id_grupo;
+UPDATE grupo SET grupo.total_inscripciones=grupo.total_inscripciones-1 WHERE grupo.id_grupo=d_id_grupo;
 COMMIT;
 END$$
 
@@ -329,6 +325,40 @@ END IF;
 COMMIT;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_insert_detalle_inscripcion_alumno_coordinador`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_detalle_inscripcion_alumno_coordinador` (IN `d_id_alumno` INT, IN `d_id_grupo` INT, IN `d_id_actividad` INT)   BEGIN
+START TRANSACTION;
+/*Ver capacidad actual grupo*/
+SET @inscripciones_actuales_grupo = (SELECT total_inscripciones FROM grupo WHERE id_grupo=d_id_grupo);
+SET @capacidad_max_grupo = (SELECT capacidad_max FROM grupo WHERE id_grupo=d_id_grupo);
+/*Ver si el alumo ya tienen 5 creditos o 2 creditos en un programa*/
+SET @numero_creditos_alumno = (SELECT creditos_totales FROM alumno WHERE id_alumno=d_id_alumno);
+SET @programa = (SELECT id_programa FROM actividad WHERE id_actividad=d_id_actividad);
+SET @acreditaciones_en_programa_alumno = (SELECT COUNT(*) FROM detalles_inscripcion JOIN actividad ON detalles_inscripcion.id_actividad=actividad.id_actividad WHERE id_alumno=d_id_alumno AND id_programa=@programa AND acreditacion=1);
+SET @inscripciones_en_actividad = (SELECT COUNT(*) FROM detalles_inscripcion WHERE id_actividad=d_id_actividad AND id_alumno=d_id_alumno);
+SET @constancia = 0;
+IF((@numero_creditos_alumno < 5) AND (@acreditaciones_en_programa_alumno < 2)) THEN
+	SET @constancia = 1;
+END IF;
+/*INSERCION*/
+IF ((@inscripciones_actuales_grupo < @capacidad_max_grupo) AND (@inscripciones_en_actividad < 1)) THEN
+	INSERT INTO detalles_inscripcion (constancia, id_alumno, id_grupo, id_actividad, id_periodo) VALUES (@constancia, d_id_alumno, d_id_grupo, d_id_actividad, periodo_actual());
+    UPDATE grupo SET grupo.total_inscripciones = grupo.total_inscripciones + 1 WHERE grupo.id_grupo = d_id_grupo;
+    IF 1 > (SELECT COUNT(*) FROM carga_complementaria WHERE id_alumno=d_id_alumno AND id_periodo=periodo_actual()) THEN
+    	INSERT INTO carga_complementaria (id_alumno, id_periodo) VALUES (d_id_alumno, periodo_actual());
+    END IF;
+    SET @carga = (SELECT id_carga FROM carga_complementaria WHERE id_alumno=d_id_alumno AND id_periodo=periodo_actual());
+    INSERT INTO carga_grupo(id_carga, id_grupo) VALUES (@carga,d_id_grupo);
+    INSERT INTO carga_actividad (id_carga, id_actividad) VALUES (@carga, d_id_actividad);
+    SET @mensaje = "INSERTADO";
+    SELECT @mensaje as mensaje;
+ELSE 
+ 	SET @mensaje = "HUBO UN ERROR";
+	SELECT @mensaje as mensaje;
+END IF;
+COMMIT;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_insert_directivo`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_directivo` (IN `d_clave` VARCHAR(12), IN `d_nombre` VARCHAR(150), IN `d_apellido_p` VARCHAR(50), IN `d_apellido_m` VARCHAR(50), IN `d_correo` VARCHAR(150), IN `d_sexo` VARCHAR(1))   BEGIN
 INSERT INTO directivo (clave,nombre,apellido_p,apellido_m,correo,sexo) VALUES (d_clave,d_nombre,d_apellido_p,d_apellido_m,d_correo,d_sexo);
@@ -467,7 +497,7 @@ END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_actividades_acreditadas_alumno_id`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_actividades_acreditadas_alumno_id` (IN `d_id_alumno` INT)   BEGIN
-SELECT COUNT(*) as actividades_acreditadas FROM detalles_inscripcion WHERE id_alumno=1 AND acreditacion=1;
+SELECT COUNT(*) as actividades_acreditadas FROM detalles_inscripcion WHERE id_alumno=d_id_alumno AND acreditacion=1;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_actividades_programa_id`$$
@@ -488,6 +518,15 @@ END$$
 DROP PROCEDURE IF EXISTS `sp_select_alumnos`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_alumnos` ()   BEGIN
 SELECT * FROM alumno WHERE visible = 1;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_select_alumnos_acreditados_grupo_id`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_alumnos_acreditados_grupo_id` (IN `d_id_grupo` INT)   BEGIN
+SET @nombre_responsable = (SELECT CONCAT(responsable.nombre," ",responsable.apellido_p," ",responsable.apellido_m) as nombre_completo_responsable FROM grupo JOIN actividad ON grupo.id_actividad=actividad.id_actividad JOIN periodo_actividad ON actividad.id_actividad=periodo_actividad.id_actividad JOIN departamento_programa ON actividad.id_programa=departamento_programa.id_programa JOIN departamento_responsable ON departamento_programa.id_departamento=departamento_responsable.id_departamento JOIN periodo ON periodo_actividad.id_periodo=periodo.id_periodo JOIN responsable ON departamento_responsable.id_responsable=responsable.id_responsable JOIN departamento ON departamento_responsable.id_departamento=departamento.id_departamento WHERE grupo.id_grupo=1 AND (departamento_responsable.fecha_inicio<=periodo.fecha_inicio_actividades AND (departamento_responsable.fecha_fin>=periodo.fecha_fin_actividades || departamento_responsable.fecha_fin IS NULL)));
+
+SET @nombre_departamento = (SELECT departamento.nombre as nombre_departamento FROM grupo JOIN actividad ON grupo.id_actividad=actividad.id_actividad JOIN periodo_actividad ON actividad.id_actividad=periodo_actividad.id_actividad JOIN departamento_programa ON actividad.id_programa=departamento_programa.id_programa JOIN departamento_responsable ON departamento_programa.id_departamento=departamento_responsable.id_departamento JOIN periodo ON periodo_actividad.id_periodo=periodo.id_periodo JOIN responsable ON departamento_responsable.id_responsable=responsable.id_responsable JOIN departamento ON departamento_responsable.id_departamento=departamento.id_departamento WHERE grupo.id_grupo=1 AND (departamento_responsable.fecha_inicio<=periodo.fecha_inicio_actividades AND (departamento_responsable.fecha_fin>=periodo.fecha_fin_actividades || departamento_responsable.fecha_fin IS NULL)));
+
+SELECT alumno.*, detalles_inscripcion.*,periodo.nombre as nombre_periodo, actividad.creditos_otorga as creditos_actividad, @nombre_responsable as nombre_responsable, @nombre_departamento as nombre_departamento FROM alumno JOIN detalles_inscripcion ON alumno.id_alumno=detalles_inscripcion.id_alumno JOIN periodo ON detalles_inscripcion.id_periodo=periodo.id_periodo JOIN actividad ON actividad.id_actividad=detalles_inscripcion.id_actividad where detalles_inscripcion.id_grupo=d_id_grupo AND detalles_inscripcion.id_periodo=periodo_actual() AND detalles_inscripcion.acreditacion=1;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_select_alumnos_actividad`$$
@@ -1293,7 +1332,7 @@ INSERT INTO `departamento_responsable` (`id_departamento`, `id_responsable`, `fe
 DROP TABLE IF EXISTS `detalles_inscripcion`;
 CREATE TABLE `detalles_inscripcion` (
   `calificacion_numerica` float NOT NULL DEFAULT 0,
-  `desempeño` varchar(25) NOT NULL DEFAULT '1',
+  `desempeño` varchar(25) DEFAULT NULL,
   `acreditacion` tinyint(1) NOT NULL DEFAULT 0,
   `constancia` tinyint(1) NOT NULL DEFAULT 1,
   `id_alumno` int(11) DEFAULT NULL,
@@ -1307,9 +1346,9 @@ CREATE TABLE `detalles_inscripcion` (
 --
 
 INSERT INTO `detalles_inscripcion` (`calificacion_numerica`, `desempeño`, `acreditacion`, `constancia`, `id_alumno`, `id_grupo`, `id_actividad`, `id_periodo`) VALUES
-(3.71, 'Excelente', 1, 1, 1, 1, 1, 1),
-(0, '1', 0, 1, 1, 6, 2, 1),
-(0, '1', 0, 1, 2, 8, 3, 1);
+(0, NULL, 0, 1, 1, 6, 2, 1),
+(0, NULL, 0, 1, 2, 8, 3, 1),
+(0, NULL, 0, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
