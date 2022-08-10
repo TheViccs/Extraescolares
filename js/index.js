@@ -43,7 +43,7 @@ function mostrar_alerta(tipo){
     let contenedorAlertas = document.getElementById("alertas");
     let alertas = contenedorAlertas.children;
     for(let alerta of alertas){
-        $(alerta).delay(1500).slideUp(100, function() {
+        $(alerta).delay(3000).slideUp(100, function() {
             $(this).alert('close');
         });
     }

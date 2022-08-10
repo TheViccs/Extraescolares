@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 20-06-2022 a las 03:21:34
+-- Tiempo de generación: 10-08-2022 a las 21:00:06
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -239,7 +239,27 @@ START TRANSACTION;
 END$$
 
 DROP PROCEDURE IF EXISTS `sp_insert_coordinador_programa`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_coordinador_programa` (IN `c_id` INT, IN `p_id` INT, IN `c_fecha_inicio` DATE)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_coordinador_programa` (IN `c_id` INT, IN `p_id` INT, IN `d_id` INT, IN `c_fecha_inicio` DATE)   BEGIN
+START TRANSACTION;
+	#Checa si hay un coordinador vigente en el programa de ese departamento
+    IF 0 <> (SELECT COUNT(*) FROM coordinador_programa JOIN departamento_coordinador ON departamento_coordinador.id_coordinador=coordinador_programa.id_coordinador WHERE coordinador_programa.id_programa=p_id AND departamento_coordinador.id_departamento=d_id AND coordinador_programa.fecha_fin IS NULL) THEN
+    	#Checar si el coordinador es el mismo coordinador que ya está
+        IF 0 = (SELECT COUNT(*) FROM coordinador_programa JOIN departamento_coordinador ON departamento_coordinador.id_coordinador=coordinador_programa.id_coordinador WHERE coordinador_programa.id_programa=p_id AND departamento_coordinador.id_departamento=d_id AND coordinador_programa.id_coordinador=c_id AND coordinador_programa.fecha_fin IS NULL) THEN
+        	UPDATE coordinador_programa SET fecha_fin=NOW() WHERE ((coordinador_programa.id_coordinador) IN (SELECT coordinador_programa.id_coordinador FROM coordinador_programa JOIN departamento_coordinador ON departamento_coordinador.id_coordinador=coordinador_programa.id_coordinador WHERE coordinador_programa.id_programa=p_id AND departamento_coordinador.id_departamento=d_id AND coordinador_programa.fecha_fin IS NULL));
+    		INSERT INTO coordinador_programa (id_coordinador,id_programa,fecha_inicio) VALUES (c_id,p_id,c_fecha_inicio);
+        ELSE
+            UPDATE coordinador_programa SET fecha_inicio=c_fecha_inicio WHERE id_coordinador=c_id AND id_programa=p_id AND fecha_fin is NULL;
+            UPDATE departamento_programa SET departamento_programa.contraseña='coordinador1' WHERE departamento_programa.id_programa=p_id;
+    	END IF;
+    ELSE
+    	INSERT INTO coordinador_programa (id_coordinador,id_programa,fecha_inicio) VALUES (c_id,p_id,c_fecha_inicio);
+        UPDATE departamento_programa SET departamento_programa.contraseña='coordinador1' WHERE departamento_programa.id_programa=p_id;
+    END IF;
+    COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `sp_insert_coordinador_programa3`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_coordinador_programa3` (IN `c_id` INT, IN `p_id` INT, IN `c_fecha_inicio` DATE)   BEGIN
 START TRANSACTION;
     IF 0 <> (SELECT COUNT(*) FROM coordinador_programa WHERE id_programa=p_id AND fecha_fin IS NULL) THEN
     	IF 0 = (SELECT COUNT(*) FROM coordinador_programa WHERE id_coordinador=c_id AND id_programa=p_id AND fecha_fin IS NULL) THEN
@@ -715,7 +735,7 @@ CREATE TEMPORARY TABLE coordinadores_actuales(
     id_programa INT
 );
 
-INSERT INTO coordinadores_actuales (id_coordinador,id_programa) SELECT id_coordinador, id_programa FROM coordinador_programa WHERE fecha_fin IS NULL;
+INSERT INTO coordinadores_actuales (id_coordinador,id_programa) SELECT coordinador_programa.id_coordinador, coordinador_programa.id_programa FROM coordinador_programa JOIN departamento_coordinador ON departamento_coordinador.id_coordinador = coordinador_programa.id_coordinador WHERE departamento_coordinador.id_departamento=d_id_departamento AND coordinador_programa.fecha_fin IS NULL;
 	
 SELECT programa.id_programa,programa.clave,programa.nombre,programa.descripcion,programa.observaciones, departamento.id_departamento, coordinadores_actuales.id_coordinador FROM departamento JOIN departamento_programa ON departamento.id_departamento=departamento_programa.id_departamento JOIN programa ON departamento_programa.id_programa=programa.id_programa LEFT JOIN coordinadores_actuales ON programa.id_programa=coordinadores_actuales.id_programa WHERE departamento.id_departamento=d_id_departamento AND programa.visible=1;
 END$$
@@ -907,11 +927,9 @@ CREATE TABLE `actividad` (
 --
 
 INSERT INTO `actividad` (`id_actividad`, `nombre`, `descripcion`, `competencia`, `creditos_otorga`, `beneficios`, `video`, `capacidad_min`, `capacidad_max`, `fecha_inicio`, `fecha_fin`, `actividad_padre`, `visible`, `id_programa`) VALUES
-(1, 'Futbol Soccer', 'Actividad fisica deportiva que implica la practica y desarrollo de destrezas motrices, asi como las habilidades socio-afectivas, como la coperacion, comunicaci ón y trabajo en equipo, favoreciendo la ', 'Desarrollar habilidades físicas, técnicas y psicológicas a través de la practica de futbol soccer ', 1, 'Pendiente', '../../../assets/videos/1654110192.5251-intro 5 segundos.mp4', 20, 40, '2022-09-05', '2022-12-12', NULL, 1, 1),
-(2, 'Dibujo y pintura (Básico)', 'Pendiente', 'Pendiente', 1, 'Pendiente', NULL, 15, 30, '2022-09-05', '2022-12-12', NULL, 1, 2),
-(3, 'Dibujo y pintura (Intermedio)', 'Pendiente', 'Pendiente', 1, 'Pendiente', NULL, 15, 30, '2022-09-05', '2022-12-12', NULL, 1, 2),
-(5, 'Escolta', NULL, NULL, 1, NULL, NULL, 6, 20, '2022-06-15', '2022-06-30', NULL, 1, 3),
-(6, 'Escolta2', NULL, NULL, 1, NULL, NULL, 6, 20, '2022-06-15', '2022-06-29', NULL, 1, 3);
+(1, 'Futbol Soccer', 'Actividad física deportiva que implica la práctica y desarrollo de destrezas motrices, así como las habilidades socio afectivas como la cooperación, comunicación y trabajo en equipo, favoreciendo a la formación integral del alumno.', 'Desarrollar las habilidades físicas, técnicas y psicológicas a través de la práctica del fútbol soccer, favoreciendo a la formación integral del estudiante, y fomentando hábitos de vida saludable, como la actividad física, la sana alimentación y descanso.', 1, NULL, '../../../assets/videos/1660139821.7424-1654112649.96-intro 5 segundos.mp4', 25, 40, '2022-09-05', '2022-12-03', NULL, 1, 1),
+(2, 'Voleibol', 'EN EL TALLER DE VOLEIBOL SE TRABAJARA LA ENSEÑANZA DE LOS FUNDAMENTOS TECNICOS DEL VOLEIBOL QUE SON EL VOLEO LA RECEPCION EL SERVICIO ASI COMO LAS POSICIONES QUE DEBEN DE TENER DENTRO DE UN ENCUENTRO DE VOLEIBOL ASI COMO ALGUNOS DESPLAZAMIENTOS QUE DEBEN DE REALIZARSE DENTRO DE LA CANCHA.\r\n\r\nTAMBIEN SE TRABAJARA LA PREPARACION FISICA APLICADA AL VOLEIBOL ', 'QUE EL ESTUDIANTE APRENDA DE LA IMPORTANCIA DE TRABAJAR EN EQUIPO Y SE ENSEÑE A SER TOLERANTE CON SUS COMPAÑEROS DE GRUPO Y QUE LA DISCIPLINA APLICADA DENTRO DEL VOLEIBOL LE PUEDA APLICAR DENTRO DE SU VIDA COTIDIANA (TRABAJO ESCUALA CASA )', 1, NULL, NULL, 25, 40, '2022-09-05', '2022-12-03', NULL, 1, 1),
+(3, 'Guitarra', 'El taller de guitarra ofrece una actividad artística complementaria a la formación profesional en donde se practicará la teoría con ayuda de canciones populares del gusto del estudiante. ', 'Que el estudiante aprenda a tocar la guitarra utilizando las bases teóricas y prácticas de la música con el objetivo de complementar su formación profesional con una actividad artística que ayude a su equilibrio emocional.', 1, NULL, NULL, 25, 40, '2022-09-05', '2022-12-03', NULL, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -993,7 +1011,8 @@ CREATE TABLE `alumno` (
 
 INSERT INTO `alumno` (`id_alumno`, `nombre`, `apellido_p`, `apellido_m`, `correo`, `contraseña`, `semestre`, `carrera`, `creditos_totales`, `estatura`, `peso`, `tipo_sangre`, `talla`, `telefono`, `alergias`, `enfermedades`, `foto`, `visible`) VALUES
 (1, 'José Ricardo', 'Baeza', 'Candor', '17460069@colima.tecnm.mx', 'alumno1', 10, 'Ing. en Sistemas Computacionales', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(2, 'Victor Hugo', 'Del Rio', 'Ramos', '17460066@colima.tecnm.mx', 'alumno1', 10, 'Ing. en Sistemas Computacionales', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+(2, 'Victor Hugo', 'Del Rio', 'Ramos', '17460067@colima.tecnm.mx', 'alumno1', 10, 'Ing. en Sistemas Computacionales', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(3, 'Marco Antonio', 'Eleno', 'Tovar', '17460060@colima.tecnm.mx', 'alumno1', 10, 'Ing. en Sistemas Computacionales', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1012,7 +1031,8 @@ CREATE TABLE `caracteristica` (
 --
 
 INSERT INTO `caracteristica` (`id_caracteristica`, `nombre`) VALUES
-(2, 'Pendiente');
+(1, 'Recreativo'),
+(2, 'Selectivo');
 
 -- --------------------------------------------------------
 
@@ -1032,8 +1052,7 @@ CREATE TABLE `carga_actividad` (
 
 INSERT INTO `carga_actividad` (`id_carga`, `id_actividad`) VALUES
 (1, 1),
-(1, 2),
-(2, 3);
+(1, 3);
 
 -- --------------------------------------------------------
 
@@ -1053,8 +1072,7 @@ CREATE TABLE `carga_complementaria` (
 --
 
 INSERT INTO `carga_complementaria` (`id_carga`, `id_alumno`, `id_periodo`) VALUES
-(1, 1, 1),
-(2, 2, 1);
+(1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1074,8 +1092,7 @@ CREATE TABLE `carga_grupo` (
 
 INSERT INTO `carga_grupo` (`id_carga`, `id_grupo`) VALUES
 (1, 1),
-(1, 6),
-(2, 8);
+(1, 12);
 
 -- --------------------------------------------------------
 
@@ -1099,9 +1116,12 @@ CREATE TABLE `coordinador` (
 --
 
 INSERT INTO `coordinador` (`id_coordinador`, `clave`, `nombre`, `apellido_p`, `apellido_m`, `sexo`, `foto`) VALUES
-(1, '190', 'Ariel', 'Lira', 'Obando', 'M', NULL),
-(2, '210', 'Benjamín', 'Medina', 'Ventura', 'M', NULL),
-(3, '232', 'Hugo Gerardo', 'Castrejón', 'Cerro', 'M', NULL);
+(1, '230', 'Hugo Gerardo', 'Castrejón', 'Cerro', 'M', NULL),
+(2, '305', 'Benjamín', 'Medina', 'Ventura', 'M', NULL),
+(3, '190', 'Ariel', 'Lira', 'Obando', 'M', NULL),
+(4, '220', 'Martha Cecilia', 'Ramírez', 'Guzmán', 'F', NULL),
+(5, '104', 'Juan', 'García', 'Virgen', 'M', NULL),
+(6, '100', 'Olimpo', 'Lua', 'Madrigal', 'M', NULL);
 
 -- --------------------------------------------------------
 
@@ -1122,9 +1142,13 @@ CREATE TABLE `coordinador_programa` (
 --
 
 INSERT INTO `coordinador_programa` (`id_coordinador`, `id_programa`, `fecha_inicio`, `fecha_fin`) VALUES
-(1, 3, '2022-08-15', NULL),
-(2, 2, '2022-08-15', NULL),
-(3, 1, '2022-08-15', NULL);
+(1, 1, '2022-08-01', NULL),
+(2, 2, '2022-08-01', NULL),
+(3, 3, '2022-08-01', NULL),
+(4, 4, '2022-08-22', NULL),
+(5, 5, '2022-08-23', '2022-08-10'),
+(5, 5, '2022-08-22', NULL),
+(6, 5, '2022-08-22', NULL);
 
 -- --------------------------------------------------------
 
@@ -1166,19 +1190,6 @@ CREATE TABLE `criterio_alumno` (
   `id_grupo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `criterio_alumno`
---
-
-INSERT INTO `criterio_alumno` (`desempeño`, `id_alumno`, `id_criterio`, `id_grupo`) VALUES
-(4, 1, 1, 1),
-(4, 1, 2, 1),
-(4, 1, 3, 1),
-(4, 1, 4, 1),
-(4, 1, 5, 1),
-(3, 1, 6, 1),
-(3, 1, 7, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -1192,20 +1203,6 @@ CREATE TABLE `criterio_evaluacion` (
   `descripcion` varchar(1000) DEFAULT NULL,
   `id_actividad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `criterio_evaluacion`
---
-
-INSERT INTO `criterio_evaluacion` (`id_criterio`, `nombre`, `descripcion`, `id_actividad`) VALUES
-(1, 'asistencia', 'prediente', 1),
-(2, 'participacion en torneo', 'prediente', 1),
-(3, 'Asistencia', 'Pendiente', 2),
-(4, 'Participación en clase', 'Pendiente', 2),
-(5, 'Presentación de obras', 'Pendiente', 2),
-(6, 'Asistencia', 'Pendiente', 3),
-(7, 'Participación en clase', 'Pendiente', 3),
-(8, 'Presentación de obras', 'Pendiente', 3);
 
 -- --------------------------------------------------------
 
@@ -1230,7 +1227,10 @@ CREATE TABLE `departamento` (
 --
 
 INSERT INTO `departamento` (`id_departamento`, `clave`, `nombre`, `ubicacion`, `extension`, `correo`, `contraseña`, `visible`) VALUES
-(1, 'DEXT', 'Departamento de Actividades Extraescolares', 'Edificio R', '098', 'formacion.integral@colima.tecnm.mx', 'responsable1', 1);
+(1, 'DAE', 'Departamento de Actividades Extraescolares', 'Edificio Q', '108,308', 'formacion.integral@colima.tecnm.mx', 'responsable1', 1),
+(2, 'DDA', 'Departamento de Desarrollo Académico', 'Edificio A', '118,318', 'dacademico@colima.tecnm.mx', 'responsable1', 1),
+(3, 'DSC', 'Departamento de Sistemas y Computación', 'Edificio R', '112,212', 'sistemas@colima.tecnm.mx', 'responsable1', 1),
+(4, 'DEE', 'Departamento de Ingeniería Eléctrica y Electrónica', 'Edificio k', '116,216', 'mecatronica@colima.tecnm.mx', 'responsable1', 1);
 
 -- --------------------------------------------------------
 
@@ -1252,9 +1252,12 @@ CREATE TABLE `departamento_coordinador` (
 --
 
 INSERT INTO `departamento_coordinador` (`id_departamento`, `id_coordinador`, `fecha_inicio`, `fecha_fin`, `visible`) VALUES
-(1, 1, '2022-05-26', NULL, 1),
-(1, 2, '2022-05-26', NULL, 1),
-(1, 3, '2022-05-26', NULL, 1);
+(1, 1, '2022-08-10', NULL, 1),
+(1, 2, '2022-08-10', NULL, 1),
+(1, 3, '2022-08-10', NULL, 1),
+(2, 4, '2022-08-10', NULL, 1),
+(3, 5, '2022-08-10', NULL, 1),
+(4, 6, '2022-08-10', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1276,8 +1279,9 @@ CREATE TABLE `departamento_instructor` (
 --
 
 INSERT INTO `departamento_instructor` (`id_departamento`, `id_instructor`, `fecha_inicio`, `fecha_fin`, `visible`) VALUES
-(1, 1, '2022-09-05', '2022-12-12', 1),
-(1, 2, '2022-09-05', '2022-12-12', 1);
+(1, 1, '2022-09-05', '2022-12-03', 1),
+(1, 2, '2022-09-05', '2022-12-03', 1),
+(1, 3, '2022-09-05', '2022-12-03', 1);
 
 -- --------------------------------------------------------
 
@@ -1300,7 +1304,10 @@ CREATE TABLE `departamento_programa` (
 INSERT INTO `departamento_programa` (`id_departamento`, `id_programa`, `correo`, `contraseña`) VALUES
 (1, 1, 'coordinacion.deportiva@colima.tecnm.mx', 'coordinador1'),
 (1, 2, 'coordinacion.cultural@colima.tecnm.mx', 'coordinador1'),
-(1, 3, 'coordinacion.civica@colima.tecnm.mx', 'coordinador1');
+(1, 3, 'coordinacion.civico@colima.tecnm.mx', 'coordinador1'),
+(2, 4, 'coordinacion.tutoria@colima.tecnm.mx', 'coordinador1'),
+(3, 5, 'coordinacion.capacitacionsistemas@colima.tecnm.mx', 'coordinador1'),
+(4, 5, 'coordinacion.capacitacionmecatronica@colima.tecnm.mx', 'coordinador1');
 
 -- --------------------------------------------------------
 
@@ -1321,7 +1328,10 @@ CREATE TABLE `departamento_responsable` (
 --
 
 INSERT INTO `departamento_responsable` (`id_departamento`, `id_responsable`, `fecha_inicio`, `fecha_fin`) VALUES
-(1, 1, '2022-05-26', NULL);
+(1, 1, '2022-08-10', NULL),
+(2, 2, '2022-08-10', NULL),
+(3, 3, '2022-08-10', NULL),
+(4, 4, '2022-08-10', NULL);
 
 -- --------------------------------------------------------
 
@@ -1346,9 +1356,8 @@ CREATE TABLE `detalles_inscripcion` (
 --
 
 INSERT INTO `detalles_inscripcion` (`calificacion_numerica`, `desempeño`, `acreditacion`, `constancia`, `id_alumno`, `id_grupo`, `id_actividad`, `id_periodo`) VALUES
-(0, NULL, 0, 1, 1, 6, 2, 1),
-(0, NULL, 0, 1, 2, 8, 3, 1),
-(0, NULL, 0, 1, 1, 1, 1, 1);
+(3, 'Notable', 1, 1, 1, 1, 1, 1),
+(0, NULL, 0, 1, 1, 12, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -1375,7 +1384,7 @@ CREATE TABLE `directivo` (
 --
 
 INSERT INTO `directivo` (`id_directivo`, `clave`, `nombre`, `apellido_p`, `apellido_m`, `correo`, `contraseña`, `sexo`, `foto`, `visible`) VALUES
-(3, '234', 'prueba', 'prueba', 'prueba', 'prueba@colima.tecnm.mx', 'directivo1', 'M', NULL, 1);
+(1, '350', 'Pedro Itzvan', 'Silva', 'Medina', 'psilva@colima.tecnm.mx', 'directivo1', 'M', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1414,14 +1423,19 @@ CREATE TABLE `grupo` (
 --
 
 INSERT INTO `grupo` (`id_grupo`, `nombre`, `capacidad_max`, `capacidad_min`, `total_inscripciones`, `visible`, `id_actividad`, `id_lugar`, `id_caracteristica`, `id_instructor`) VALUES
-(1, 'A', 40, 20, 1, 1, 1, 1, 2, 1),
-(2, 'B', 40, 20, 0, 1, 1, 1, 2, 1),
-(3, 'C', 40, 20, 0, 1, 1, 1, 2, 1),
-(4, 'D', 40, 20, 0, 1, 1, 1, 2, 1),
-(5, 'A', 30, 15, 0, 1, 2, 2, 2, 2),
-(6, 'B', 30, 15, 1, 1, 2, 2, 2, 2),
-(7, 'C', 30, 15, 0, 1, 2, 2, 2, 2),
-(8, 'A', 30, 15, 1, 1, 3, 2, 2, 2);
+(1, 'A', 40, 25, 1, 1, 1, 1, 1, 1),
+(2, 'B', 40, 25, 0, 1, 1, 1, 1, 1),
+(3, 'C', 40, 25, 0, 1, 1, 1, 1, 1),
+(4, 'D', 40, 25, 0, 1, 1, 1, 1, 1),
+(5, 'A', 30, 20, 0, 1, 1, 1, 2, 1),
+(6, 'A', 40, 25, 0, 1, 2, 2, 1, 2),
+(7, 'B', 40, 25, 0, 1, 2, 2, 1, 2),
+(8, 'C', 40, 25, 0, 1, 2, 2, 1, 2),
+(9, 'A', 24, 15, 0, 1, 2, 2, 2, 2),
+(10, 'D', 40, 25, 0, 1, 2, 2, 1, 2),
+(11, 'A', 40, 25, 0, 1, 3, 3, 1, 3),
+(12, 'B', 40, 25, 1, 1, 3, 3, 1, 3),
+(13, 'A', 40, 25, 0, 1, 3, 3, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -1447,7 +1461,12 @@ INSERT INTO `grupo_horario` (`id_grupo`, `id_horario`) VALUES
 (5, 6),
 (6, 7),
 (7, 8),
-(8, 9);
+(8, 9),
+(10, 10),
+(9, 11),
+(11, 12),
+(12, 13),
+(13, 14);
 
 -- --------------------------------------------------------
 
@@ -1469,13 +1488,18 @@ CREATE TABLE `horario` (
 
 INSERT INTO `horario` (`id_horario`, `dia`, `hora_inicio`, `hora_fin`) VALUES
 (1, 'Martes', '17:00:00', '19:00:00'),
-(3, 'Jueves', '17:00:00', '19:00:00'),
-(4, 'Sábado', '08:00:00', '10:00:00'),
-(5, 'Sábado', '10:00:00', '12:00:00'),
-(6, 'Lunes', '16:00:00', '18:00:00'),
-(7, 'Martes', '16:00:00', '18:00:00'),
-(8, 'Jueves', '16:00:00', '18:00:00'),
-(9, 'Viernes', '16:00:00', '18:00:00');
+(3, 'Miércoles', '08:00:00', '10:00:00'),
+(4, 'Miércoles', '10:00:00', '12:00:00'),
+(5, 'Jueves', '17:00:00', '19:00:00'),
+(6, 'Sábado', '08:00:00', '10:00:00'),
+(7, 'Lunes', '16:00:00', '18:00:00'),
+(8, 'Lunes', '18:00:00', '20:00:00'),
+(9, 'Martes', '08:00:00', '10:00:00'),
+(10, 'Martes', '10:00:00', '12:00:00'),
+(11, 'Sábado', '08:00:00', '10:00:00'),
+(12, 'Lunes', '10:00:00', '12:00:00'),
+(13, 'Lunes', '13:00:00', '15:00:00'),
+(14, 'Sábado', '12:00:00', '14:00:00');
 
 -- --------------------------------------------------------
 
@@ -1501,8 +1525,9 @@ CREATE TABLE `instructor` (
 --
 
 INSERT INTO `instructor` (`id_instructor`, `nombre`, `apellido_m`, `apellido_p`, `sexo`, `correo`, `contraseña`, `foto`, `visible`) VALUES
-(1, 'Benjamin', 'Ventura', 'Medina', 'M', 'benjamin.medina@colima.tecnm.mx', 'instructor1', NULL, 1),
-(2, 'Efraín', 'Ponce', 'Díaz', 'M', 'efrain.diaz@colima.tecnm.mx', 'instructor1', NULL, 1);
+(1, 'Benjamín', 'Ventura', 'Medina', 'M', 'bmedina@colima.tecnm.mx', 'instructor1', NULL, 1),
+(2, 'Luis Enrique', 'Ochoa', 'Vega', 'M', 'lvega@colima.tecnm.mx', 'instructor1', NULL, 1),
+(3, 'Saúl Arcturus', 'Bautista', 'Vega', 'M', 'avega@colima.tecnm.mx', 'instructor1', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1525,8 +1550,9 @@ CREATE TABLE `lugar` (
 --
 
 INSERT INTO `lugar` (`id_lugar`, `nombre`, `capacidad_max`, `observaciones`, `foto_1`, `foto_2`) VALUES
-(1, 'Cancha de futbol', 240, NULL, NULL, NULL),
-(2, 'Plaza Cultural', 30, 'Pendiente', NULL, NULL);
+(1, 'Cancha de Futbol', 50, NULL, NULL, NULL),
+(2, 'CECUM', 50, NULL, NULL, NULL),
+(3, 'Plaza Cultural', 40, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1550,18 +1576,19 @@ INSERT INTO `material_actividad` (`id_material_actividad`, `nombre`, `cantidad`,
 (1, 'Balones', 20, 1),
 (2, 'Conos', 40, 1),
 (3, 'Estacas', 20, 1),
-(4, 'casacas', 20, 1),
+(4, 'Casacas', 20, 1),
 (5, 'Porterias pequeñas', 16, 1),
-(6, 'platos', 40, 1),
-(7, 'vallas', 20, 1),
-(8, 'Mesas de trabajo', 30, 2),
-(9, 'Brochas de 5 pulgadas', 2, 2),
-(10, 'Galón pintura vinilica blanca', 1, 2),
-(11, 'sillas', 30, 2),
-(12, 'Mesas de trabajo', 30, 3),
-(13, 'Brochas de 5 pulgadas', 2, 3),
-(14, 'Galón pintura vinilica blanca', 1, 3),
-(15, 'sillas', 30, 3);
+(6, 'Platos', 40, 1),
+(7, 'Vallas', 20, 1),
+(8, 'Balones', 20, 2),
+(9, 'Red', 2, 2),
+(10, 'Conos', 20, 2),
+(11, 'Silbato', 1, 2),
+(12, 'Aros', 20, 2),
+(13, 'Balonera', 1, 2),
+(14, 'Pizarrón', 1, 3),
+(15, 'Cañon', 1, 3),
+(16, 'Sillas', 40, 3);
 
 -- --------------------------------------------------------
 
@@ -1582,13 +1609,13 @@ CREATE TABLE `material_alumno` (
 --
 
 INSERT INTO `material_alumno` (`id_material_alumno`, `nombre`, `cantidad`, `id_actividad`) VALUES
-(1, 'Zapatos de futbol', 1, 1),
+(1, 'Playera', 1, 1),
 (2, 'Short', 1, 1),
-(3, 'Playera deportiva', 1, 1),
-(4, 'Espinilleras', 2, 1),
-(5, 'calcetas', 2, 1),
-(6, 'Brochas de 5 pulgadas', 1, 2),
-(7, 'Brochas de 5 pulgadas', 1, 3);
+(3, 'Zapatos', 1, 1),
+(4, 'Ropa deportiva', 1, 2),
+(5, 'Guitarra', 1, 3),
+(6, 'Plumilla', 1, 3),
+(7, 'Celular', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -1609,7 +1636,7 @@ CREATE TABLE `periodo` (
 --
 
 INSERT INTO `periodo` (`id_periodo`, `nombre`, `fecha_inicio_actividades`, `fecha_fin_actividades`) VALUES
-(1, 'Ago-Dic 2022', '2022-08-22', '2022-12-26');
+(1, 'Ago-Dic 2022', '2022-08-22', '2022-12-16');
 
 -- --------------------------------------------------------
 
@@ -1630,9 +1657,7 @@ CREATE TABLE `periodo_actividad` (
 INSERT INTO `periodo_actividad` (`id_periodo`, `id_actividad`) VALUES
 (1, 1),
 (1, 2),
-(1, 3),
-(1, 5),
-(1, 6);
+(1, 3);
 
 -- --------------------------------------------------------
 
@@ -1657,7 +1682,9 @@ CREATE TABLE `programa` (
 INSERT INTO `programa` (`id_programa`, `clave`, `nombre`, `descripcion`, `observaciones`, `visible`) VALUES
 (1, 'PDEP', 'Programa Deportivo', NULL, NULL, 1),
 (2, 'PCUL', 'Programa Cultural', NULL, NULL, 1),
-(3, 'PCIV', 'Programa Cívico', NULL, NULL, 1);
+(3, 'PCIV', 'Programa Cívico', NULL, NULL, 1),
+(4, 'PTUT', 'Programa Tutorías', NULL, NULL, 1),
+(5, 'PCAP', 'Programa de Capacitación', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1683,7 +1710,10 @@ CREATE TABLE `responsable` (
 --
 
 INSERT INTO `responsable` (`id_responsable`, `clave`, `nombre`, `apellido_p`, `apellido_m`, `sexo`, `correo`, `foto`, `visible`) VALUES
-(1, '190', 'Ariel', 'Lira', 'Obando', 'M', 'alira@colima.tecnm.mx', NULL, 1);
+(1, '190', 'Ariel', 'Lira', 'Obando', 'M', 'alira@colima.tecnm.mx', NULL, 1),
+(2, '220', 'Martha Cecilia', 'Ramírez', 'Guzmán', 'F', 'mramirez@colima.tecnm.mx', NULL, 1),
+(3, '180', 'María Elena', 'Martínez', 'Durán', 'F', 'mmartinez@colima.tecnm.mx', NULL, 1),
+(4, '150', 'José de Jesús', 'Fonseca', 'Vázquez', 'M', 'jfonseca@colima.tecnm.mx', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1705,18 +1735,18 @@ CREATE TABLE `tema` (
 --
 
 INSERT INTO `tema` (`id_tema`, `nombre`, `descripcion`, `semanas`, `id_actividad`) VALUES
-(1, 'Movilidad general y especifica para futbol', 'prediente', 1, 1),
-(2, 'Fundamento tectnicos (pase,resepcion,conducción)', 'prediente', 2, 1),
-(3, 'Acondicionamiento Fisico', 'prediente', 1, 1),
-(4, 'Mini futbol (3 vs 3, 4 vs 4, 5 vs 5)', 'prediente', 1, 1),
-(5, 'Rondas', 'prediente', 1, 1),
-(6, 'Juegos de posicion', 'prediente', 1, 1),
-(7, 'Situacion estaticas', 'prediente', 1, 1),
-(8, 'espacio reducudo', 'prediente', 1, 1),
-(9, 'fuerza por situaciones tacticas de juego', 'prediente', 1, 1),
-(10, 'Partidos condicionados', 'prediente', 2, 1),
-(11, 'Dibujo a mano alzada', 'Pendiente', 1, 2),
-(12, 'Dibujo a mano alzada', 'Pendiente', 1, 3);
+(1, 'Movilidad general y específica', '', 1, 1),
+(2, 'Fundamentos técnicos (pase, recepción, conducción)', '', 3, 1),
+(3, 'Acondicionamiento físico', '', 9, 1),
+(4, 'Voleo', '', 3, 2),
+(5, 'Recepción', '', 3, 2),
+(6, 'Servicio', '', 3, 2),
+(7, 'Desplazamiento', '', 2, 2),
+(8, 'Posiciones dentro de la cancha', '', 2, 2),
+(9, 'Antecedentes y partes de la guitarra', '', 1, 3),
+(10, 'Notas musicales y afinación', '', 1, 3),
+(11, 'Teoría musical baica', '', 1, 3),
+(12, 'Ejercicios de digitalización básicos', '', 5, 3);
 
 --
 -- Índices para tablas volcadas
@@ -1968,7 +1998,7 @@ ALTER TABLE `tema`
 -- AUTO_INCREMENT de la tabla `actividad`
 --
 ALTER TABLE `actividad`
-  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `administrador`
@@ -1980,7 +2010,7 @@ ALTER TABLE `administrador`
 -- AUTO_INCREMENT de la tabla `alumno`
 --
 ALTER TABLE `alumno`
-  MODIFY `id_alumno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_alumno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `caracteristica`
@@ -1992,13 +2022,13 @@ ALTER TABLE `caracteristica`
 -- AUTO_INCREMENT de la tabla `carga_complementaria`
 --
 ALTER TABLE `carga_complementaria`
-  MODIFY `id_carga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_carga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `coordinador`
 --
 ALTER TABLE `coordinador`
-  MODIFY `id_coordinador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_coordinador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `criterio`
@@ -2010,19 +2040,19 @@ ALTER TABLE `criterio`
 -- AUTO_INCREMENT de la tabla `criterio_evaluacion`
 --
 ALTER TABLE `criterio_evaluacion`
-  MODIFY `id_criterio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_criterio` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `departamento`
 --
 ALTER TABLE `departamento`
-  MODIFY `id_departamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_departamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `directivo`
 --
 ALTER TABLE `directivo`
-  MODIFY `id_directivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_directivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `evidencia`
@@ -2034,31 +2064,31 @@ ALTER TABLE `evidencia`
 -- AUTO_INCREMENT de la tabla `grupo`
 --
 ALTER TABLE `grupo`
-  MODIFY `id_grupo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_grupo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `horario`
 --
 ALTER TABLE `horario`
-  MODIFY `id_horario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_horario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `instructor`
 --
 ALTER TABLE `instructor`
-  MODIFY `id_instructor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_instructor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `lugar`
 --
 ALTER TABLE `lugar`
-  MODIFY `id_lugar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_lugar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `material_actividad`
 --
 ALTER TABLE `material_actividad`
-  MODIFY `id_material_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_material_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `material_alumno`
@@ -2082,7 +2112,7 @@ ALTER TABLE `programa`
 -- AUTO_INCREMENT de la tabla `responsable`
 --
 ALTER TABLE `responsable`
-  MODIFY `id_responsable` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_responsable` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tema`

@@ -1,10 +1,9 @@
-
-
 function compara(){
     var p1 = document.getElementById('psw1');
     var p2 = document.getElementById('psw2');
 
-    if(p1.value == p2.value){
+    if(p1.value === p2.value){
+
         modal();
         borrar_datos_input_psw();
     }else{

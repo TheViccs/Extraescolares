@@ -63,14 +63,14 @@ function select_grupos(){
         url: path+"select_grupo_actividad_id.php",                           
         success: function(res){    
             let grupos = JSON.parse(res);             
-            agregar_grupos_tabla(grupos);
+            agregar_grupos_tabla(grupos, id_actividad);
         }
     });
 }
 select_grupos();
 
 //AGREGA GRUPOS A DATATABLE
-function agregar_grupos_tabla(grupos){
+function agregar_grupos_tabla(grupos, id_actividad){
     let tabla = $("#tabla_grupos").DataTable();
     tabla.rows().remove().draw();
     for(let grupo of grupos){
@@ -78,7 +78,7 @@ function agregar_grupos_tabla(grupos){
         $("#botoneditargrupo"+grupo.id_grupo).on( "click", function(){select_grupo_id(grupo.id_grupo)});
         $("#botonborrargrupo"+grupo.id_grupo).on( "click", function(){mostrar_modal_borrar_departamento(grupo.id_grupo,grupo.nombre, grupo.nombre_caracteristica, grupo.total_inscripciones,grupo.nombre_instructor+" "+grupo.apellido_p+" "+grupo.apellido_m,grupo.nombre_lugar)});
         $("#botonimprimirgrupo"+grupo.id_grupo).on( "click", function(){generar_pdf(grupo.id_grupo)});
-        $("#botonagregarhorario"+grupo.id_grupo).on( "click", function(){gestionar_horarios(grupo.id_grupo)});
+        $("#botonagregarhorario"+grupo.id_grupo).on( "click", function(){gestionar_horarios(grupo.id_grupo, id_actividad)});
     }
 }
 
@@ -262,8 +262,8 @@ function borrar_datos_input_instructor(){
 }
 
 //NOS LLEVA A LA VENTANA PARA GESTIONAR HORARIOS CON UN ID DEL GRUPO
-function gestionar_horarios(id_grupo){
-    window.location.href = "../../../views/modules/coordinador/horarios.php?grupo="+id_grupo;
+function gestionar_horarios(id_grupo, id_actividad){
+    window.location.href = "../../../views/modules/coordinador/horarios.php?actividad="+id_actividad+"&grupo="+id_grupo;
 }
 
 //SELECT DE GRUPO POR ID

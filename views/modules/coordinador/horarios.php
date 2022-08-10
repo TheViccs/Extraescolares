@@ -70,19 +70,25 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
         <!-- ALERTAS -->
         <?php include "../../../views/layout/alertas.php" ?>
 
+        <input id="input_id_horario" type="text" hidden />
+        <input id="input_id_grupo" type="text" value="<?php if (!empty($_GET)) {
+                                                                echo $_GET["grupo"];
+                                                            } ?>" hidden />
+        <input id="input_id_actividad" type="text" value="<?php if (!empty($_GET)) {
+                                                                    echo $_GET["actividad"];
+                                                                } ?>" hidden />
+
         <!-- CABECERA -->
         <div class="cabecera">
             <h1 class="titulo">Gestionar Horarios</h1>
-            <a href="http://localhost/Extraescolares/views/modules/coordinador/coordinador.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
+            <a href="http://localhost/Extraescolares/views/modules/coordinador/grupos.php?actividad=<?php if (!empty($_GET)) {
+                                                                    echo $_GET["actividad"];
+                                                                } ?>"><img class="flecha" src="../../.././assets/img/back.png"></a>
         </div>
 
         <!-- FORMULARIO PARA INSERCIÓN -->
         <div class="contenedor_inputs_insercion">
 
-            <input id="input_id_horario" type="text" hidden />
-            <input id="input_id_grupo" type="text" value="<?php if (!empty($_GET)) {
-                                                                echo $_GET["grupo"];
-                                                            } ?>" hidden />
             <label class="label_dia_grupo">Día</label>
             <select class="input_dia_grupo" id="select_dia_grupo">
                 <option value="O" disabled selected>Elige...</option>
@@ -92,6 +98,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
                 <option value="Jueves">Jueves</option>
                 <option value="Viernes">Viernes</option>
                 <option value="Sábado">Sábado</option>
+                <option value="Domingo">Domingo</option>
             </select>
 
             <label class="label_hora_inicio_grupo">Hora de Inicio</label>

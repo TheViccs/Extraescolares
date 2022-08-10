@@ -121,7 +121,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
         <!-- CABECERA -->
         <div class="cabecera">
             <h1 class="titulo">Gestionar grupos</h1>
-            <a href="http://localhost/Extraescolares/views/modules/coordinador/coordinador.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
+            <a href="http://localhost/Extraescolares/views/modules/coordinador/actividades.php"><img class="flecha" src="../../.././assets/img/back.png"></a>
         </div>
 
         <!-- FORMULARIO PARA INSERCIÓN -->

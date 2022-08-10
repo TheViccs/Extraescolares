@@ -305,12 +305,14 @@ function mostrar_modal_asignar_coordinador(id_coordinador, clave, nombre, sexo) 
 function asignar_responsable() {
     let id_coordinador = $("#input_asignar_id_coordinador").val();
     let id_programa = $("#input_id_programa_asignar").val();
+    let id_departamento = $("#input_id_departamento").val();
     let fecha_inicio = $("#input_fecha_inicio_coordinador_programa").val();
-    if (id_coordinador.length !== 0 && id_programa.length !== 0 && fecha_inicio.length !== 0) {
+    
+    if (id_coordinador.length !== 0 && id_programa.length !== 0 && id_departamento.length !== 0 && fecha_inicio.length !== 0) {
         $.ajax({
             type: "POST",
             url: path + "insert_coordinador_programa.php",
-            data: { "id_coordinador": id_coordinador, "id_programa": id_programa, "fecha_inicio": fecha_inicio },
+            data: { "id_coordinador": id_coordinador, "id_programa": id_programa, "fecha_inicio": fecha_inicio, "id_departamento": id_departamento },
             success: function (res) {
                 $("#modal_asignar_coordinador").modal("hide");
                 if (res === "1") {
