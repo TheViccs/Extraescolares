@@ -19,6 +19,18 @@ $('#tabla_grupos').DataTable({
     "columnDefs": [
         { "orderable": false, "targets": [7,8,9,10] },
     ],
+    dom:'Bfrtip' ,
+    buttons: [
+        { 
+            extend: "excelHtml5",
+            text: "Exportar a Excel",
+            exportOptions: {
+                columns: [0,1,2,3,4,5,6]
+            },
+            filename: "Grupos",
+            title: "Grupos"
+        }
+    ],
     lengthChange: false,
     language: {
         "decimal": "",

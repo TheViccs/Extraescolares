@@ -83,6 +83,18 @@ $('#tabla_departamentos').DataTable({
     "columnDefs": [
         { "orderable": false, "targets": [5,6,7] },
     ],
+    dom:'Bfrtip' ,
+    buttons: [
+        { 
+            extend: "excelHtml5",
+            text: "Exportar a Excel",
+            exportOptions: {
+                columns: [0,1,2,3,4]
+            },
+            filename: "Departamentos",
+            title: "Departamentos"
+        }
+    ],
     lengthChange: false,
     language: {
         "decimal": "",

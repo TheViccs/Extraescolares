@@ -44,6 +44,13 @@
     grid-gap: 2rem;
 }
 
+.botones_agregar_cancelar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: auto;
+}
+
 .contenedor_principal_insercion{
     height: 100%;
     display: flex;

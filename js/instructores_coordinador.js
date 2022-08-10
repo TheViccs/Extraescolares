@@ -13,6 +13,18 @@ $('#tabla-instructores').DataTable({
     "columnDefs": [
         { "orderable": false, "targets": [3,4,5] },
     ],
+    dom:'Bfrtip' ,
+    buttons: [
+        { 
+            extend: "excelHtml5",
+            text: "Exportar a Excel",
+            exportOptions: {
+                columns: [0,1,2]
+            },
+            filename: "Instructores",
+            title: "Instructores"
+        }
+    ],
     lengthChange: false,
     language: {
         "decimal": "",

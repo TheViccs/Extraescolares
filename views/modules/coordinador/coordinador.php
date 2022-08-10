@@ -32,13 +32,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "coordinador") {
                         <a href="./actividades.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/4850/4850929.png" /><span>Gestionar Actividades</span></a>
                     </li>
                     <li>
-                        <a href="./instructores.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/3410/3410674.png" /><span>Gestionar Instructores</span></a>
+                        <a href="./constancias.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/1358/1358533.png" /><span>Generar Constancias</span></a>
                     </li>
                     <li>
                         <a href="./actividades_gestionar_alumnos.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/3809/3809622.png" /><span>Gestionar Alumnos</span></a>
                     </li>
                     <li>
-                        <a href="./constancias.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/1358/1358533.png" /><span>Generar Constancias</span></a>
+                        <a href="./instructores.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/3410/3410674.png" /><span>Gestionar Instructores</span></a>
                     </li>
                 </ul>
             </div>

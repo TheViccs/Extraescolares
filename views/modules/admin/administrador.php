@@ -30,16 +30,16 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
                         <a href="./periodos.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/2370/2370264.png" /><span>Gestionar Periodos</span></a>
                     </li>
                     <li>
-                        <a href="./departamentos.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/921/921296.png" /><span>Gestionar Unidades Responsables</span></a>
-                    </li>
-                    <li>
-                        <a href="./responsables.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/4395/4395348.png" /><span>Gestionar Responsables</span></a>
-                    </li>
-                    <li>
                         <a href="./programas.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/1032/1032432.png" /><span>Gestionar Programas</span></a>
                     </li>
                     <li>
                         <a href="./directivos.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/2666/2666404.png" /><span>Gestionar Directivos</span></a>
+                    </li>
+                    <li>
+                        <a href="./departamentos.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/921/921296.png" /><span>Gestionar Unidades Responsables</span></a>
+                    </li>
+                    <li>
+                        <a href="./responsables.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/4395/4395348.png" /><span>Gestionar Responsables</span></a>
                     </li>
                 </ul>
             </div>

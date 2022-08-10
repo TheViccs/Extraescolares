@@ -13,6 +13,18 @@ $('#tabla_horarios').DataTable({
     "columnDefs": [
         { "orderable": false, "targets": [3,4] },
     ],
+    dom:'Bfrtip' ,
+    buttons: [
+        { 
+            extend: "excelHtml5",
+            text: "Exportar a Excel",
+            exportOptions: {
+                columns: [0,1,2]
+            },
+            filename: "Horarios",
+            title: "Horarios"
+        }
+    ],
     lengthChange: false,
     language: {
         "decimal": "",

@@ -111,8 +111,11 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "administrador") {
 
         <!-- BOTONES INSERCION -->
         <div class="contenedor_botones_insercion">
-            <button class="btn btn-success" id="boton_insert_update_programa" onclick="insert_programa()">Guardar</button>
-            <button class="btn btn-danger cancelar" onclick="borrar_datos_input_programa()">Cancelar</button>
+            <button class="btn btn-primary" id="boton_redirect_unidades_responsables" onclick="go_to_unidades_responsables()">Agregar Unidad Responsable</button>
+            <div class="botones_agregar_cancelar">
+                <button class="btn btn-success" id="boton_insert_update_programa" onclick="insert_programa()">Guardar</button>
+                <button class="btn btn-danger cancelar" onclick="borrar_datos_input_programa()">Cancelar</button>
+            </div>
         </div>
 
         <!-- TABLA CONTENIDO -->

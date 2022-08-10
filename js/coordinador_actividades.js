@@ -13,6 +13,18 @@ $('#tabla_actividades').DataTable({
     "columnDefs": [
         { "orderable": false, "targets": [4] },
     ],
+    dom:'Bfrtip' ,
+    buttons: [
+        { 
+            extend: "excelHtml5",
+            text: "Exportar a Excel",
+            exportOptions: {
+                columns: [0,1,2,3]
+            },
+            filename: "Actividades",
+            title: "Actividades"
+        }
+    ],
     lengthChange: false,
     language: {
         "decimal": "",

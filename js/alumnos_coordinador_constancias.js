@@ -11,6 +11,18 @@ $('#tabla_alumnos').DataTable({
     "columnDefs": [
         { "orderable": false, "targets": [3] },
     ],
+    dom:'Bfrtip' ,
+    buttons: [
+        { 
+            extend: "excelHtml5",
+            text: "Exportar a Excel",
+            exportOptions: {
+                columns: [0,1,2]
+            },
+            filename: "Alumnos",
+            title: "Alumnos"
+        }
+    ],
     lengthChange: false,
     language: {
         "decimal": "",

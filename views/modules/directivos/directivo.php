@@ -30,8 +30,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "directivo") {
                 <ul class="contenedor_menu">
                     <li>
                         <a href="./reportes.php"><img class="icono" src="https://cdn-icons-png.flaticon.com/512/944/944053.png" /><span>Reportes</span></a>
-                    </li>
-                    
+                    </li>        
                 </ul>
             </div>
         </div>

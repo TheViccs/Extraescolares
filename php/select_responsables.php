@@ -1,6 +1,6 @@
 <?php
-
 include('conexion.php');
+
 $sql=("CALL sp_select_responsables()");
 $result = mysqli_query($conn,$sql);
 if($result){

@@ -12,6 +12,18 @@ $('#tabla_programas').DataTable({
     "columnDefs": [
         { "orderable": false, "targets": [4] },
     ],
+    dom:'Bfrtip' ,
+    buttons: [
+        { 
+            extend: "excelHtml5",
+            text: "Exportar a Excel",
+            exportOptions: {
+                columns: [0,1,2,3]
+            },
+            filename: "Programas",
+            title: "Programas"
+        }
+    ],
     lengthChange: false,
     language: {
         "decimal": "",

@@ -2,6 +2,18 @@
 $('#tabla-responsables').DataTable({
     pageLength: 20,
     caseInsen: false,
+    dom:'Bfrtip' ,
+    buttons: [
+        { 
+            extend: "excelHtml5",
+            text: "Exportar a Excel",
+            exportOptions: {
+                columns: [0,1,2,3]
+            },
+            filename: "Responsables",
+            title: "Responsables"
+        }
+    ],
     columns: [
         {data: "clave", title: 'Clave'},
         {data: "nombre", title: 'Nombre'},
@@ -79,7 +91,6 @@ function insert_responsable(){
     let apellido_p = $("#input_apellido_p_responsable").val();
     let apellido_m = $("#input_apellido_m_responsable").val();
     let sexo = $("#select_sexo_responsable").val();
-    console.log(sexo);
     let correo = $("#input_correo_responsable").val();
     if(clave.length !== 0 && nombre.length !== 0 && apellido_p.length !== 0 && apellido_m.length !== 0 && correo.length !== 0 && sexo!==null){
         $.ajax({

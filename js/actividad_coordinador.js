@@ -30,7 +30,7 @@ function eliminar(obj){
 
 
 
-const tagets = document.querySelectorAll('[data-taget]');
+const tagets = document.querySelectorAll('[data-target]');
 const content = document.querySelectorAll('[data-content]');
 
 $( document ).ready(function() {
@@ -38,14 +38,13 @@ $( document ).ready(function() {
   });
 
 tagets.forEach(taget =>{
-    taget.addEventListener('click',() => {
+    taget.addEventListener('click',(e) => {
+        console.log(content)
         content.forEach(c => {
             c.classList.remove('active')
         })
-        const t = document.querySelector(taget.dataset.taget);
+        const t = document.querySelector(e.currentTarget.dataset.target)
         t.classList.add('active')
-
-
     })
 })
 
@@ -68,6 +67,18 @@ $('#tabla_actividad').DataTable({
     ],
     "columnDefs": [
         { "orderable": false, "targets": [6, 7, 8, 9] },
+    ],
+    dom:'Bfrtip' ,
+    buttons: [
+        { 
+            extend: "excelHtml5",
+            text: "Exportar a Excel",
+            exportOptions: {
+                columns: [0,1,2,3,4,5]
+            },
+            filename: "Actividades",
+            title: "Actividades"
+        }
     ],
     lengthChange: false,
     language: {

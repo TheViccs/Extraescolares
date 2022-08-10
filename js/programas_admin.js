@@ -40,6 +40,18 @@ $('#tabla_programas').DataTable({
     "columnDefs": [
         { "orderable": false, "targets": [3,4,5] },
     ],
+    dom:'Bfrtip' ,
+    buttons: [
+        { 
+            extend: "excelHtml5",
+            text: "Exportar a Excel",
+            exportOptions: {
+                columns: [0,1,2,3]
+            },
+            filename: "Programas",
+            title: "Programas"
+        }
+    ],
     lengthChange: false,
     language: {
         "decimal": "",
@@ -366,4 +378,8 @@ function generar_pdf(id_programa){
             window.open(URL.createObjectURL(blob));          
         }
     });
+}
+
+function go_to_unidades_responsables(){
+    window.location.href='../admin/departamentos.php'
 }
