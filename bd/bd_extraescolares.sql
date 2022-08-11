@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 10-08-2022 a las 21:00:06
+-- Tiempo de generación: 11-08-2022 a las 05:16:51
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -1046,14 +1046,6 @@ CREATE TABLE `carga_actividad` (
   `id_actividad` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `carga_actividad`
---
-
-INSERT INTO `carga_actividad` (`id_carga`, `id_actividad`) VALUES
-(1, 1),
-(1, 3);
-
 -- --------------------------------------------------------
 
 --
@@ -1067,13 +1059,6 @@ CREATE TABLE `carga_complementaria` (
   `id_periodo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `carga_complementaria`
---
-
-INSERT INTO `carga_complementaria` (`id_carga`, `id_alumno`, `id_periodo`) VALUES
-(1, 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -1085,14 +1070,6 @@ CREATE TABLE `carga_grupo` (
   `id_carga` int(11) DEFAULT NULL,
   `id_grupo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `carga_grupo`
---
-
-INSERT INTO `carga_grupo` (`id_carga`, `id_grupo`) VALUES
-(1, 1),
-(1, 12);
 
 -- --------------------------------------------------------
 
@@ -1351,14 +1328,6 @@ CREATE TABLE `detalles_inscripcion` (
   `id_periodo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `detalles_inscripcion`
---
-
-INSERT INTO `detalles_inscripcion` (`calificacion_numerica`, `desempeño`, `acreditacion`, `constancia`, `id_alumno`, `id_grupo`, `id_actividad`, `id_periodo`) VALUES
-(3, 'Notable', 1, 1, 1, 1, 1, 1),
-(0, NULL, 0, 1, 1, 12, 3, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -1423,7 +1392,7 @@ CREATE TABLE `grupo` (
 --
 
 INSERT INTO `grupo` (`id_grupo`, `nombre`, `capacidad_max`, `capacidad_min`, `total_inscripciones`, `visible`, `id_actividad`, `id_lugar`, `id_caracteristica`, `id_instructor`) VALUES
-(1, 'A', 40, 25, 1, 1, 1, 1, 1, 1),
+(1, 'A', 40, 25, 0, 1, 1, 1, 1, 1),
 (2, 'B', 40, 25, 0, 1, 1, 1, 1, 1),
 (3, 'C', 40, 25, 0, 1, 1, 1, 1, 1),
 (4, 'D', 40, 25, 0, 1, 1, 1, 1, 1),
@@ -1434,7 +1403,7 @@ INSERT INTO `grupo` (`id_grupo`, `nombre`, `capacidad_max`, `capacidad_min`, `to
 (9, 'A', 24, 15, 0, 1, 2, 2, 2, 2),
 (10, 'D', 40, 25, 0, 1, 2, 2, 1, 2),
 (11, 'A', 40, 25, 0, 1, 3, 3, 1, 3),
-(12, 'B', 40, 25, 1, 1, 3, 3, 1, 3),
+(12, 'B', 40, 25, 0, 1, 3, 3, 1, 3),
 (13, 'A', 40, 25, 0, 1, 3, 3, 2, 3);
 
 -- --------------------------------------------------------
@@ -1839,7 +1808,7 @@ ALTER TABLE `criterio`
 -- Indices de la tabla `criterio_alumno`
 --
 ALTER TABLE `criterio_alumno`
-  ADD UNIQUE KEY `id_alumno` (`id_alumno`,`id_grupo`,`id_criterio`),
+  ADD UNIQUE KEY `id_alumno` (`id_alumno`,`id_grupo`,`id_criterio`) USING BTREE,
   ADD KEY `id_criterio` (`id_criterio`),
   ADD KEY `id_grupo` (`id_grupo`);
 
@@ -2172,7 +2141,7 @@ ALTER TABLE `coordinador_programa`
 --
 ALTER TABLE `criterio_alumno`
   ADD CONSTRAINT `criterio_alumno_ibfk_1` FOREIGN KEY (`id_alumno`) REFERENCES `alumno` (`id_alumno`),
-  ADD CONSTRAINT `criterio_alumno_ibfk_2` FOREIGN KEY (`id_criterio`) REFERENCES `criterio_evaluacion` (`id_criterio`),
+  ADD CONSTRAINT `criterio_alumno_ibfk_2` FOREIGN KEY (`id_criterio`) REFERENCES `criterio` (`id_criterio`),
   ADD CONSTRAINT `criterio_alumno_ibfk_3` FOREIGN KEY (`id_grupo`) REFERENCES `grupo` (`id_grupo`);
 
 --

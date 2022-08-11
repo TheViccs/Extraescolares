@@ -50,6 +50,11 @@ function cambiar_calificacion_numerica(){
             break;
     }
     document.getElementById("desempeño_alumno").value = desempeño;
+    if(promedio >= 1){
+        document.getElementById("boolean_acreditado_alumno").checked = true;
+    }else{
+        document.getElementById("boolean_acreditado_alumno").checked = false;
+    }
 }
 
 //CREACION DE LOS RADIO BUTTONS PARA CADA CRITERIO
@@ -127,7 +132,7 @@ function calificar_alumno(){
     //PONE LAS CALIFICACIONES EN OTRO ARRAY
     let calificaciones = criterios.map(criterio => {
         if(document.querySelector("input[name='"+criterio.id+"']:checked")!==null){
-            return [criterio.id,parseInt(document.querySelector("input[name='"+criterio.id+"']:checked").value)]
+            return [parseInt(criterio.id),parseInt(document.querySelector("input[name='"+criterio.id+"']:checked").value)]
         }else{
             return null
         }
@@ -143,9 +148,11 @@ function calificar_alumno(){
         if(acreditado){
             valor_acreditado = 1;
         }
+        console.log(calificaciones)
         //SI NO HAY NULLS MANDA EL INSERT A LA BASE DE DATOS
         insert_calificacion_alumno(id_alumno,id_grupo,calificaciones, calificacion_numerica, valor_acreditado, desempeño);
     }
+
 }
 
 
@@ -156,6 +163,7 @@ function insert_calificacion_alumno(id_alumno, id_grupo,calificaciones, califica
         url: path+"calificar_alumno.php",
         data: {"id_alumno":id_alumno, "id_grupo":id_grupo, "criterios":JSON.stringify(calificaciones),"calificacion_numerica":calificacion_numerica, "acreditado":valor_acreditado, "desempeño":desempeño},                           
         success: function(res){
+            console.log(res);
             if(Number.isInteger(parseInt(JSON.parse(res)))){
                 mostrar_alerta(1);
             }else{

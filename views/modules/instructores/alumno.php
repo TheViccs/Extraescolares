@@ -205,8 +205,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "instructor") {
                 <input class="input_calificacion_numerica" type="number" id="calificacion_numerica_alumno" disabled/>
                 <label class="label_desempeño">Desempeño</label>
                 <input class="input_desempeño" type="text" id="desempeño_alumno" disabled/>
-                <label class="label_acreditacion">Acreditar</label>
-                <input class="input_acreditacion" type="checkbox" id="boolean_acreditado_alumno" value="1"/>
+                <label class="label_acreditacion">Acreditado</label>
+                <input class="input_acreditacion" type="checkbox" id="boolean_acreditado_alumno" value="1" checked="false" disabled/>
             </div>
             <div class="contenedor_boton_calificar">
                 <button class="btn btn-success" onclick="calificar_alumno()">Guardar</button>
