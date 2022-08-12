@@ -131,7 +131,8 @@ function subir_constacia(id_alumno, id_grupo){
         success: function(res){
             console.log(res)
             let success = JSON.parse(res)
-            if(success ===   "1"){
+            console.log(success)
+            if(success === 1){
                 mostrar_alerta(1);
             }else{
                 mostrar_alerta(3);
