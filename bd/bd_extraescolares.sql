@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 11-08-2022 a las 05:16:51
+-- Tiempo de generación: 12-08-2022 a las 19:38:42
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.4.29
 
@@ -785,6 +785,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_select_total_inscripciones_semes
 SELECT alumno.semestre as nombre,COUNT(*) as total FROM detalles_inscripcion JOIN alumno ON detalles_inscripcion.id_alumno=alumno.id_alumno WHERE detalles_inscripcion.id_periodo=periodo_actual() GROUP BY alumno.semestre ORDER BY total DESC;
 END$$
 
+DROP PROCEDURE IF EXISTS `sp_subir_constancia`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_subir_constancia` (IN `a_id_alumno` INT, IN `a_id_grupo` INT, IN `url` VARCHAR(300))   BEGIN
+START TRANSACTION;
+UPDATE detalles_inscripcion SET detalles_inscripcion.url_constancia=url WHERE detalles_inscripcion.id_alumno=a_id_alumno AND detalles_inscripcion.id_grupo=a_id_grupo; 
+COMMIT;
+END$$
+
 DROP PROCEDURE IF EXISTS `sp_update_actividad`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_actividad` (IN `a_nombre` VARCHAR(200), IN `a_descripcion` VARCHAR(1000), IN `a_competencia` VARCHAR(1000), IN `a_creditos_otorga` INT, IN `a_beneficios` VARCHAR(1000), IN `a_capacidad_min` INT, IN `a_capacidad_max` INT, IN `a_fecha_inicio` DATE, IN `a_fecha_fin` DATE, IN `a_id_actividad` INT, IN `a_actividad_padre` INT, IN `a_video` VARCHAR(200))   BEGIN
 START TRANSACTION;
@@ -1046,6 +1053,14 @@ CREATE TABLE `carga_actividad` (
   `id_actividad` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `carga_actividad`
+--
+
+INSERT INTO `carga_actividad` (`id_carga`, `id_actividad`) VALUES
+(2, 1),
+(2, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -1059,6 +1074,13 @@ CREATE TABLE `carga_complementaria` (
   `id_periodo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `carga_complementaria`
+--
+
+INSERT INTO `carga_complementaria` (`id_carga`, `id_alumno`, `id_periodo`) VALUES
+(2, 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -1070,6 +1092,14 @@ CREATE TABLE `carga_grupo` (
   `id_carga` int(11) DEFAULT NULL,
   `id_grupo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `carga_grupo`
+--
+
+INSERT INTO `carga_grupo` (`id_carga`, `id_grupo`) VALUES
+(2, 1),
+(2, 11);
 
 -- --------------------------------------------------------
 
@@ -1166,6 +1196,19 @@ CREATE TABLE `criterio_alumno` (
   `id_criterio` int(11) DEFAULT NULL,
   `id_grupo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `criterio_alumno`
+--
+
+INSERT INTO `criterio_alumno` (`desempeño`, `id_alumno`, `id_criterio`, `id_grupo`) VALUES
+(4, 1, 1, 1),
+(3, 1, 2, 1),
+(3, 1, 3, 1),
+(3, 1, 4, 1),
+(3, 1, 5, 1),
+(3, 1, 6, 1),
+(3, 1, 7, 1);
 
 -- --------------------------------------------------------
 
@@ -1322,11 +1365,20 @@ CREATE TABLE `detalles_inscripcion` (
   `desempeño` varchar(25) DEFAULT NULL,
   `acreditacion` tinyint(1) NOT NULL DEFAULT 0,
   `constancia` tinyint(1) NOT NULL DEFAULT 1,
+  `url_constancia` varchar(300) DEFAULT NULL,
   `id_alumno` int(11) DEFAULT NULL,
   `id_grupo` int(11) DEFAULT NULL,
   `id_actividad` int(11) DEFAULT NULL,
   `id_periodo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `detalles_inscripcion`
+--
+
+INSERT INTO `detalles_inscripcion` (`calificacion_numerica`, `desempeño`, `acreditacion`, `constancia`, `url_constancia`, `id_alumno`, `id_grupo`, `id_actividad`, `id_periodo`) VALUES
+(3.14, 'Notable', 1, 1, '../../../assets/constancias/1660325884.8453-cv.pdf', 1, 1, 1, 1),
+(0, NULL, 0, 1, NULL, 1, 11, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -1392,7 +1444,7 @@ CREATE TABLE `grupo` (
 --
 
 INSERT INTO `grupo` (`id_grupo`, `nombre`, `capacidad_max`, `capacidad_min`, `total_inscripciones`, `visible`, `id_actividad`, `id_lugar`, `id_caracteristica`, `id_instructor`) VALUES
-(1, 'A', 40, 25, 0, 1, 1, 1, 1, 1),
+(1, 'A', 40, 25, 1, 1, 1, 1, 1, 1),
 (2, 'B', 40, 25, 0, 1, 1, 1, 1, 1),
 (3, 'C', 40, 25, 0, 1, 1, 1, 1, 1),
 (4, 'D', 40, 25, 0, 1, 1, 1, 1, 1),
@@ -1402,7 +1454,7 @@ INSERT INTO `grupo` (`id_grupo`, `nombre`, `capacidad_max`, `capacidad_min`, `to
 (8, 'C', 40, 25, 0, 1, 2, 2, 1, 2),
 (9, 'A', 24, 15, 0, 1, 2, 2, 2, 2),
 (10, 'D', 40, 25, 0, 1, 2, 2, 1, 2),
-(11, 'A', 40, 25, 0, 1, 3, 3, 1, 3),
+(11, 'A', 40, 25, 1, 1, 3, 3, 1, 3),
 (12, 'B', 40, 25, 0, 1, 3, 3, 1, 3),
 (13, 'A', 40, 25, 0, 1, 3, 3, 2, 3);
 
@@ -1991,7 +2043,7 @@ ALTER TABLE `caracteristica`
 -- AUTO_INCREMENT de la tabla `carga_complementaria`
 --
 ALTER TABLE `carga_complementaria`
-  MODIFY `id_carga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_carga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `coordinador`

@@ -296,6 +296,10 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
             background: transparent;
         }
 
+        .tabla-carga-alumno th{
+            w
+        }
+
     </style>
 </head>
 
