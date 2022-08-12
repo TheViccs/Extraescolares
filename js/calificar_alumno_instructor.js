@@ -55,6 +55,7 @@ function cambiar_calificacion_numerica(){
     }else{
         document.getElementById("boolean_acreditado_alumno").checked = false;
     }
+    console.log(document.getElementById("boolean_acreditado_alumno").checked)
 }
 
 //CREACION DE LOS RADIO BUTTONS PARA CADA CRITERIO
@@ -148,7 +149,6 @@ function calificar_alumno(){
         if(acreditado){
             valor_acreditado = 1;
         }
-        console.log(calificaciones)
         //SI NO HAY NULLS MANDA EL INSERT A LA BASE DE DATOS
         insert_calificacion_alumno(id_alumno,id_grupo,calificaciones, calificacion_numerica, valor_acreditado, desempeño);
     }
@@ -163,7 +163,6 @@ function insert_calificacion_alumno(id_alumno, id_grupo,calificaciones, califica
         url: path+"calificar_alumno.php",
         data: {"id_alumno":id_alumno, "id_grupo":id_grupo, "criterios":JSON.stringify(calificaciones),"calificacion_numerica":calificacion_numerica, "acreditado":valor_acreditado, "desempeño":desempeño},                           
         success: function(res){
-            console.log(res);
             if(Number.isInteger(parseInt(JSON.parse(res)))){
                 mostrar_alerta(1);
             }else{

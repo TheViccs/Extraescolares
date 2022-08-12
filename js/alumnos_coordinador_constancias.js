@@ -54,19 +54,20 @@ function select_alumnos() {
         url: path + "select_alumnos_acreditados_grupo_id.php",
         success: function (res) {
             let alumnos = JSON.parse(res);
-            agregar_alumnos_tabla(alumnos);
+            agregar_alumnos_tabla(alumnos, id_grupo);
         }
     });
 }
 select_alumnos();
 
 
-function agregar_alumnos_tabla(alumnos) {
+function agregar_alumnos_tabla(alumnos, id_grupo) {
     let tabla = $("#tabla_alumnos").DataTable();
     tabla.rows().remove().draw();
     for (let alumno of alumnos) {
-        tabla.row.add({ "nombre": alumno.nombre + " " + alumno.apellido_p + " " + alumno.apellido_m, "carrera": alumno.carrera, "semestre": alumno.semestre, "botonimprimirconstancia": "<button id='botonimprimirconstancia" + alumno.id_alumno + "' class= 'btn btn-dark'>Imprimir Constancia</button>" }).draw();
+        tabla.row.add({ "nombre": alumno.nombre + " " + alumno.apellido_p + " " + alumno.apellido_m, "carrera": alumno.carrera, "semestre": alumno.semestre, "botonimprimirconstancia": "<button id='botonimprimirconstancia" + alumno.id_alumno + "' class= 'btn btn-dark'>Imprimir Constancia</button><label class='label-constancia btn btn-dark' for='botonsubirconstancia" + alumno.id_alumno + "'>Subir Constancia</label><input type='file' id='botonsubirconstancia" + alumno.id_alumno + "' class= 'btn-constancia'/>" }).draw();
         $("#botonimprimirconstancia" + alumno.id_alumno).on("click", function () { imprimir_constancias(alumno) });
+        $("#botonsubirconstancia" + alumno.id_alumno).on("change", function () { subir_constacia(alumno.id_alumno, id_grupo) });
     }
 }
 
@@ -113,4 +114,28 @@ function imprimir_constancias(alumno) {
 
     let blob = pdf.output("blob");
     window.open(URL.createObjectURL(blob));
+}
+
+function subir_constacia(id_alumno, id_grupo){
+    let constancia = $("#botonsubirconstancia"+id_alumno)[0].files[0];
+    let form_data = new FormData();
+    form_data.append("id_alumno",id_alumno);
+    form_data.append("id_grupo",id_grupo);
+    form_data.append("constancia",constancia);
+    $.ajax({
+        type: "POST",
+        url: path+"insert_constancia.php",
+        data: form_data,
+        contentType: false,
+        processData:false,
+        success: function(res){
+            console.log(res)
+            let success = JSON.parse(res)
+            if(success ===   "1"){
+                mostrar_alerta(1);
+            }else{
+                mostrar_alerta(3);
+            }
+        }
+    });
 }

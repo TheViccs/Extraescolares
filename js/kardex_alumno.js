@@ -70,12 +70,25 @@ function crear_kardex(kardex){
         //COLUMNA CON EL ESTATUS (ACREDITADA, CURSANDO, NO ACREDITADA)
         let thestatus = document.createElement("th");
         thestatus.textContent = estatus;
+        //COLUMNA PARA DESCARGAR CONSTANCIA (ACREDITADA, CURSANDO, NO ACREDITADA)
+        let thconstancia = document.createElement("th");
+        let thbtnconstancia = document.createElement("a");
+        if(actividad.url_constancia !== null){
+            thbtnconstancia.classList.add("btn");
+            thbtnconstancia.classList.add("btn-dark");
+            thbtnconstancia.classList.add("btn-constancia");
+            thbtnconstancia.textContent = "✏︎"
+            thbtnconstancia.href = actividad.url_constancia;
+            thbtnconstancia.target = "_blank";
+        }
+        thconstancia.append(thbtnconstancia)
         //SE AGREGAN A LOS COMPONENTES PADRE
         tr.append(thactividad);
         tr.append(thperiodo);
         tr.append(thcalificacion);
         tr.append(thdesempeño);
         tr.append(thestatus);
+        tr.append(thconstancia);
         contenedor_kardex.append(tr);
     });
 }

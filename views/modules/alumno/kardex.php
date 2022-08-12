@@ -287,6 +287,15 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
             width: 30px;
         }
 
+        .btn-constancia{
+            aspect-ratio: 1;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: transparent;
+        }
+
     </style>
 </head>
 
@@ -336,6 +345,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['Tipo'] != "alumno") {
                                     </th>
                                     <th>
                                         Estatus
+                                    </th>
+                                    <th>
+                                        Constancia
                                     </th>
                                 </tr>
                             </thead>

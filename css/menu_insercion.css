@@ -85,3 +85,16 @@
     min-width: 30px;
     max-height: 30px;
 }
+
+.btn-constancia{
+    margin-left: 1rem !important;
+}
+
+input[type="file"]{
+    display: none;
+}
+
+.label-constancia{
+    margin-left: 1rem;
+    height: 38px;
+}

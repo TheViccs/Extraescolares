@@ -172,7 +172,6 @@ function insert_actividad(){
         }
         form_data.append("video",video);
         form_data.append("actividad_padre",actividad_padre);
-        console.log(form_data);
         $.ajax({
             type: "POST",
             url: path+"insert_actividad.php",
